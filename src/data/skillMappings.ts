@@ -1,7 +1,4 @@
-// src/data/structured/skillMappings.tsx
 // skill-to-technology mappings for project filtering
-
-// skill mappings for project filtering
 export const skillMappings: Record<string, string[]> = {
   // Languages
   'python': ['python'],

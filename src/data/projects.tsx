@@ -1,7 +1,4 @@
-
-// src/data/structured/projects.tsx
-// comprehensive project portfolio data w/ detailed descriptions
-import type { Project } from '~/types/projects';
+import type { Project } from '~/types';
 
 import { skillMappings } from './skillMappings';
 
@@ -22,7 +19,6 @@ export const projects: Project[] = [
     technologies: ["TypeScript", "Node.js", "Docker", "Docker Compose", "RCON", "AWS", "EC2", "SSM", "CloudWatch", "Discord.js"],
     imagePath: "/assets/projects/images/minecart.png",
     imageAlt: "Minecart Discord bot screenshot"
-    // repoUrl: "https://github.com/ggfincke/minecart"
   },
   {
     title: "Hopper",
@@ -362,7 +358,6 @@ export const projects: Project[] = [
       "Achieved grade of 98% average across all projects, demonstrating mastery of iOS development patterns, gesture handling, and advanced SwiftUI/UIKit integration"
     ],
     technologies: ["Swift", "SwiftUI", "UIKit", "MapKit", "Core Data", "JSON", "Custom Shapes", "Gesture Handling", "MVC/MVVM", "Xcode"]
-    // repoUrl: "https://github.com/ggfincke/CMPSC475_projects",
   }
 ];
 
@@ -390,7 +385,7 @@ export const getProjectsBySkill = (skillName: string): Project[] =>
   return projects.filter(project =>
   {
     // check if any of the project's technologies exactly match our search terms
-    return project.technologies.some(tech =>
+    return project.technologies.some((tech: string) =>
     {
       const normalizedTech = tech.toLowerCase();
       // Only exact matches, no substring matching
