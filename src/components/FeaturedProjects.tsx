@@ -7,8 +7,8 @@ import { getFeaturedProjects } from '~/data/projectFilters';
 // featured projects component
 export function FeaturedProjects() {
   const featuredTitles = ['Minecart', 'TrackBasket', 'SwimMate'];
-  const featured = getFeaturedProjects().filter((p) =>
-    featuredTitles.includes(p.title),
+  const featured = getFeaturedProjects().filter(p =>
+    featuredTitles.includes(p.title)
   );
 
   return (

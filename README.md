@@ -95,15 +95,15 @@ fincke.dev-v2/
 
 ### Setup
 
-1) Install dependencies:
+1. Install dependencies:
    ```bash
    npm install
    ```
-2) Start dev server:
+2. Start dev server:
    ```bash
    npm run dev
    ```
-3) Open http://localhost:5173
+3. Open http://localhost:5173
 
 ### Scripts
 
@@ -132,10 +132,10 @@ Hosted on Vercel (or any static host). Generate production build with `npm run b
 
 If you fork this for your own portfolio:
 
-1) Update data in [src/data/](src/data/)
-2) Replace assets in [public/assets/](public/assets/) and resume PDF
-3) Adjust CSS variables in [src/index.css](src/index.css)
-4) Modify TypeScript types in [src/types/](src/types/) as needed
+1. Update data in [src/data/](src/data/)
+2. Replace assets in [public/assets/](public/assets/) and resume PDF
+3. Adjust CSS variables in [src/index.css](src/index.css)
+4. Modify TypeScript types in [src/types/](src/types/) as needed
 
 ## Contributing
 
