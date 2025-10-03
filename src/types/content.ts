@@ -1,4 +1,6 @@
-// Content types for static site content
+// src/types/content.ts
+// content types for static site sections
+
 export interface AboutContent
 {
   heading: string;

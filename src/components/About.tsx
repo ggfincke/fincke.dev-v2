@@ -1,5 +1,9 @@
+// src/components/About.tsx
+// about section w/ bio & contact information
+
 import { ABOUT_CONTENT } from '../data/siteContent';
 
+// about component
 export function About()
 {
   return (

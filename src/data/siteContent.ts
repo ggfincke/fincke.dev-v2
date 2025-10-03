@@ -1,3 +1,6 @@
+// src/data/siteContent.ts
+// static content for hero, about, & navigation
+
 import type { NavLink, HeroContent, AboutContent } from '~/types';
 
 export const HERO_CONTENT: HeroContent = {

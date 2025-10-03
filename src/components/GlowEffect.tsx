@@ -1,3 +1,7 @@
+// src/components/GlowEffect.tsx
+// decorative radial glow effect
+
+// glow effect component
 export function GlowEffect()
 {
   return (

@@ -1,6 +1,8 @@
+// src/data/skills.ts
+// comprehensive skills data w/ category mappings
+
 import type { Skill, SkillCategory } from '~/types';
 
-// comprehensive skills data (matching resume)
 export const skills: Skill[] = [
   // Languages
   { name: 'Python', category: 'languages' },
@@ -115,7 +117,7 @@ export const skills: Skill[] = [
   { name: 'MVC/MVVM', category: 'specialized' },
 ];
 
-// generate skill categories for about section
+// * generate skill categories for about section
 export const getSkillCategories = (): Record<SkillCategory, string[]> =>
 {
   const categories: Record<SkillCategory, string[]> = {
@@ -139,8 +141,8 @@ export const getSkillCategories = (): Record<SkillCategory, string[]> =>
   return categories;
 };
 
-// get skills by category helper
-export const getSkillsByCategory = (category: SkillCategory): string[] => 
+// get skills by category
+export const getSkillsByCategory = (category: SkillCategory): string[] =>
 {
   return skills
     .filter(skill => skill.category === category)

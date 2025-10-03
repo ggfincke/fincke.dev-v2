@@ -1,8 +1,10 @@
+// src/data/projects.tsx
+// project portfolio data w/ filtering utilities
+
 import type { Project } from '~/types';
 
 import { skillMappings } from './skillMappings';
 
-// project portfolio data 
 export const projects: Project[] = [
   {
     title: 'Minecart',
@@ -481,7 +483,7 @@ export const getAllProjects = (): Project[] =>
   return projects;
 };
 
-// get projects by skill/technology
+// * get projects filtered by skill/technology
 // prettier-ignore
 export const getProjectsBySkill = (skillName: string): Project[] =>
 {
@@ -493,11 +495,10 @@ export const getProjectsBySkill = (skillName: string): Project[] =>
 
   return projects.filter(project =>
   {
-    // check if any of the project's technologies exactly match our search terms
+    // check if any project technologies match search terms
     return project.technologies.some((tech: string) =>
     {
       const normalizedTech = tech.toLowerCase();
-      // Only exact matches, no substring matching
       return skillSearchTerms.includes(normalizedTech);
     });
   });

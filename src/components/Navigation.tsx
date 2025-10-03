@@ -1,10 +1,15 @@
+// src/components/Navigation.tsx
+// main navigation w/ dropdown support & delayed hover
+
 import { useState, useRef, useEffect } from 'react';
 import { NAV_LINKS } from '../data/siteContent';
 
+// navigation component
 export function Navigation() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // cleanup timeout on unmount
   useEffect(() => {
     return () => {
       if (timeoutRef.current !== null) {
@@ -13,6 +18,7 @@ export function Navigation() {
     };
   }, []);
 
+  // handle delayed dropdown open
   const handleMouseEnter = (label: string) =>
   {
     if (timeoutRef.current)
@@ -25,6 +31,7 @@ export function Navigation() {
     }, 300);
   };
 
+  // handle dropdown close
   const handleMouseLeave = () =>
   {
     if (timeoutRef.current)
@@ -40,6 +47,7 @@ export function Navigation() {
       aria-label="Main navigation"
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+        {/* logo/home link */}
         <a
           href="#top"
           className="font-semibold tracking-wide text-[var(--color-text-light)]"
@@ -47,6 +55,7 @@ export function Navigation() {
         >
           gf
         </a>
+        {/* nav links w/ dropdown support */}
         <div className="flex items-center gap-6 text-sm">
           {NAV_LINKS.map((link) =>
           {

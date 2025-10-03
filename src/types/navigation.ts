@@ -1,4 +1,6 @@
-// Navigation types
+// src/types/navigation.ts
+// navigation types for nav links & dropdowns
+
 export interface DropdownItem
 {
   href: string;

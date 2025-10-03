@@ -1,5 +1,9 @@
+// src/components/Hero.tsx
+// hero section w/ name & tagline
+
 import { HERO_CONTENT } from '../data/siteContent';
 
+// hero component
 export function Hero()
 {
   return (

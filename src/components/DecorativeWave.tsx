@@ -1,3 +1,7 @@
+// src/components/DecorativeWave.tsx
+// decorative SVG wave w/ gradient
+
+// decorative wave component
 export function DecorativeWave()
 {
   return (

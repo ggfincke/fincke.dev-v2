@@ -1,4 +1,6 @@
-// Experience types
+// src/types/experience.ts
+// experience & skill types
+
 export interface Experience
 {
   id: string;
@@ -11,7 +13,6 @@ export interface Experience
   content: React.ReactNode;
 }
 
-// Skill types
 export type SkillCategory =
   | 'languages'
   | 'frontend'
