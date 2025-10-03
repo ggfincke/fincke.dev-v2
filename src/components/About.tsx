@@ -13,14 +13,9 @@ export function About() {
       >
         {ABOUT_CONTENT.heading}
       </h2>
-      {ABOUT_CONTENT.paragraphs.map((paragraph, index) => (
-        <p
-          key={index}
-          className="mt-3 text-sm leading-relaxed text-[var(--muted)]"
-        >
-          {paragraph}
-        </p>
-      ))}
+      <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
+        {ABOUT_CONTENT.paragraphs[0]}
+      </p>
       <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
         Would love to collaborate or chat! Reach me at{' '}
         <a

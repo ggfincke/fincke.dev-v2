@@ -6,7 +6,7 @@ export function DecorativeWave() {
   return (
     <div
       className="pointer-events-none absolute left-0 w-full"
-      style={{ top: '75vh' }}
+      style={{ top: 'calc(85vh - 20px)' }}
       aria-hidden="true"
     >
       <svg

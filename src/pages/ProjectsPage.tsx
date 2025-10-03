@@ -2,17 +2,14 @@
 // projects archive page w/ responsive table & card layouts
 
 import { Link } from 'react-router-dom';
-import { Navigation } from '~/components/Navigation';
 import { ProjectsTable } from '~/components/projects/ProjectsTable';
 
 // projects page component
 export function ProjectsPage() {
   return (
-    <div className="relative min-h-screen bg-[var(--bg)] text-[var(--muted)]">
-      <Navigation />
-
+    <div className="relative min-h-screen bg-[var(--bg)] text-[var(--muted)] overflow-y-auto">
       {/* page header w/ back link */}
-      <main id="top" className="mx-auto max-w-6xl px-4 pt-28 pb-24">
+      <main id="top" className="mx-auto max-w-7xl px-4 pt-12 pb-24">
         <header className="space-y-4">
           <Link
             to="/"

@@ -8,12 +8,6 @@
   --fg: #eeffff;
   --muted: #babed8;
   --border: #3e445d;
-
-  /* additional colors */
-  --color-accent: #ffcc00;
-  --color-input-bg: #1a1c25;
-  --color-sidebar: #292d3e;
-  --color-muted: #464b5d;
   --ring: rgba(128, 203, 196, 0.45);
   --accent-contrast: var(--bg);
 
@@ -32,9 +26,34 @@
   --status-live-bg: rgba(128, 203, 196, 0.15);
 }
 
+html,
 body {
   background: var(--bg);
   color: var(--muted);
+}
+
+/* custom scrollbar styles */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 4px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }
 
 @keyframes fadeIn {
