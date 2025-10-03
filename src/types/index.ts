@@ -4,4 +4,4 @@
 export type { NavLink } from './navigation';
 export type { AboutContent, HeroContent } from './content';
 export type { Experience, Skill, SkillCategory } from './experience';
-export type { Project, Collaborator } from './projects';
+export type { Project, Collaborator, ProjectStatus } from './projects';
