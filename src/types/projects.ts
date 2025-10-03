@@ -1,4 +1,6 @@
-// Project types (comprehensive)
+// src/types/projects.ts
+// project & collaborator types
+
 export interface Collaborator
 {
   name: string;
@@ -8,6 +10,7 @@ export interface Collaborator
 export interface Project
 {
   title: string;
+  tagline?: string;
   dateRange: string;
   status: 'live' | 'in-development' | 'paused' | 'complete' | 'experimental';
   madeFor: string;
