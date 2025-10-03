@@ -162,6 +162,12 @@ export function ProjectsTable()
                   {expanded && (
                     <div className="mt-2 border border-[var(--border)] rounded-lg p-4 bg-[var(--card)]/50">
                       <div className="space-y-4">
+                        {project.tagline && (
+                          <div className="text-base text-[var(--fg)]/80 italic">
+                            {project.tagline}
+                          </div>
+                        )}
+
                         <div className="flex items-center gap-4">
                           <StatusBadge status={project.status} />
                           <span className="text-[var(--muted)] text-sm italic">
@@ -315,6 +321,12 @@ export function ProjectsTable()
                   <td colSpan={7} className="p-0">
                     <div className="px-6 pb-8 bg-[var(--card)]/50 border-b border-[var(--border)] transition-all duration-300">
                       <div className="space-y-6 pt-6">
+                        {project.tagline && (
+                          <div className="text-base text-[var(--fg)]/80 italic">
+                            {project.tagline}
+                          </div>
+                        )}
+
                         <div className="flex items-center gap-4">
                           <StatusBadge status={project.status} />
                           <span className="text-[var(--muted)] text-sm italic">
