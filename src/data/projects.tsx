@@ -3,14 +3,14 @@
 
 import type { Project } from '~/types';
 
-import { skillMappings } from './skillMappings';
+import { skillMappings } from '~/data/skillMappings';
 
 export const projects: Project[] = [
   {
     title: 'Minecart',
     tagline:
       'Discord bot that boots, monitors, and admins Minecraft servers across Docker & AWS.',
-    dateRange: 'Present',
+    dateRange: 'September 2025 – Present',
     status: 'live',
     madeFor: 'Personal',
     featured: true,

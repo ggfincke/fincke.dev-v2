@@ -62,7 +62,7 @@ export function SkillTooltip({
       className="fixed z-50 bg-[var(--bg)] border border-[var(--border)] rounded-lg shadow-xl p-4 max-w-sm animate-fadeIn pointer-events-none"
       style={{ top: `${position.top}px`, left: `${position.left}px` }}
     >
-      <div className="text-sm font-medium text-[var(--color-text-secondary)] mb-3">
+      <div className="text-sm font-medium text-[var(--muted)] mb-3">
         Related Projects ({projects.length})
       </div>
       <div className="space-y-2">
@@ -75,7 +75,7 @@ export function SkillTooltip({
           </div>
         ))}
         {projects.length > MAX_VISIBLE_PROJECTS && (
-          <div className="text-sm text-[var(--color-text-secondary)] italic">
+          <div className="text-sm text-[var(--muted)] italic">
             +{projects.length - MAX_VISIBLE_PROJECTS} more
           </div>
         )}

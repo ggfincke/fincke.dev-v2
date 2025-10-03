@@ -4,7 +4,6 @@
 import { useMemo } from 'react';
 
 import { Collaborators } from '~/components/display/Collaborators';
-import { renderCollaborators } from '~/utils/renderCollaborators';
 import { ProjectLinks } from '~/components/display/ProjectLinks';
 import { SkillPill } from '~/components/display/SkillPill';
 import { StatusBadge } from '~/components/display/StatusBadge';
@@ -13,7 +12,6 @@ import { VersionBadge } from '~/components/display/VersionBadge';
 import { getAllProjects } from '~/data/projects';
 import { useExpandableRows } from '~/hooks/useExpandableRows';
 import { useTableResponsive } from '~/hooks/useTableResponsive';
-import type { Project } from '~/types';
 
 // determine live link label based on URL type
 const getLiveLabel = (url: string): string => {
@@ -78,19 +76,6 @@ const extractLatestMonth = (dateRange: string): number => {
   return latestMonth;
 };
 
-// format collaborators for display
-const formatCollaborators = (collaborators: Project['collaborators']) => {
-  if (!collaborators) {
-    return null;
-  }
-
-  return (
-    <div className="text-sm text-[var(--muted)]">
-      <Collaborators value={collaborators} />
-    </div>
-  );
-};
-
 // * projects table component w/ expandable rows
 export function ProjectsTable() {
   const projects = useMemo(() => getAllProjects(), []);
@@ -136,7 +121,7 @@ export function ProjectsTable() {
                         </div>
                         {project.collaborators && (
                           <div className="text-sm text-[var(--muted)]">
-                            with {renderCollaborators(project.collaborators)}
+                            with <Collaborators value={project.collaborators} />
                           </div>
                         )}
                       </div>
@@ -195,7 +180,7 @@ export function ProjectsTable() {
                               Collaborators
                             </h4>
                             <p className="text-[var(--muted)]">
-                              {renderCollaborators(project.collaborators)}
+                              <Collaborators value={project.collaborators} />
                             </p>
                           </div>
                         )}
@@ -329,7 +314,11 @@ export function ProjectsTable() {
                     <div className="font-semibold text-[var(--fg)] text-lg mb-1">
                       {project.title}
                     </div>
-                    {formatCollaborators(project.collaborators)}
+                    {project.collaborators && (
+                      <div className="text-sm text-[var(--muted)]">
+                        <Collaborators value={project.collaborators} />
+                      </div>
+                    )}
                   </td>
                   <td className="py-6 px-4 text-center">
                     <StatusCircle status={project.status} />
@@ -403,7 +392,7 @@ export function ProjectsTable() {
                               Collaborators
                             </h4>
                             <p className="text-[var(--muted)]">
-                              {renderCollaborators(project.collaborators)}
+                              <Collaborators value={project.collaborators} />
                             </p>
                           </div>
                         )}

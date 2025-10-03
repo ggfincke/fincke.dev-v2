@@ -16,7 +16,7 @@ export function ProjectsPage() {
         <header className="space-y-4">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-sm text-[var(--color-muted)] transition hover:text-[var(--fg)]"
+            className="inline-flex items-center gap-2 text-sm text-[var(--muted)] transition hover:text-[var(--fg)]"
           >
             <svg
               className="h-4 w-4"
@@ -48,7 +48,7 @@ export function ProjectsPage() {
           <ProjectsTable />
         </section>
 
-        <footer className="mt-16 text-center text-sm text-[var(--color-muted)]">
+        <footer className="mt-16 text-center text-sm text-[var(--muted)]">
           Private repositories available upon request
         </footer>
       </main>

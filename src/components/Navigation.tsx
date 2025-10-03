@@ -101,7 +101,7 @@ export function Navigation() {
                                 <div className="font-medium text-[var(--fg)]">
                                   {item.label}
                                 </div>
-                                <div className="text-xs text-[var(--color-muted)]">
+                                <div className="text-xs text-[var(--muted)]">
                                   {item.description}
                                 </div>
                               </Link>
@@ -119,7 +119,7 @@ export function Navigation() {
                               <div className="font-medium text-[var(--fg)]">
                                 {item.label}
                               </div>
-                              <div className="text-xs text-[var(--color-muted)]">
+                              <div className="text-xs text-[var(--muted)]">
                                 {item.description}
                               </div>
                             </a>

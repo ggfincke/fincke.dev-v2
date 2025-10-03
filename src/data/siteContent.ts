@@ -41,8 +41,4 @@ export const NAV_LINKS: NavLink[] = [
     href: '/projects',
     label: 'Projects',
   },
-  {
-    href: '/writings',
-    label: 'Writings',
-  },
 ];
