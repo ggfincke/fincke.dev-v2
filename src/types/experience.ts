@@ -1,16 +1,5 @@
 // src/types/experience.ts
-// experience & skill types
-
-export interface Experience {
-  id: string;
-  date: string;
-  title: string;
-  company: string;
-  companyUrl: string;
-  technologies: string[];
-  companyLogos: React.ReactNode;
-  content: React.ReactNode;
-}
+// skill types
 
 export type SkillCategory =
   | 'languages'

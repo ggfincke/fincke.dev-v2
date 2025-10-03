@@ -7,6 +7,8 @@ import { SkillTooltip } from '~/components/display/SkillTooltip';
 import { getProjectsBySkill } from '~/data/projects';
 import type { Project } from '~/types';
 
+const DEFAULT_HOVER_DELAY = 150; // milliseconds
+
 interface SkillPillProps {
   name: string;
   size?: 'xs' | 'sm' | 'md';
@@ -21,7 +23,7 @@ export function SkillPill({
   size = 'sm',
   className = '',
   showProjectsOnHover = false,
-  hoverDelay = 150,
+  hoverDelay = DEFAULT_HOVER_DELAY,
 }: SkillPillProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);

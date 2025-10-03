@@ -6,6 +6,10 @@ import { useEffect, useRef, useState } from 'react';
 import { StatusCircle } from '~/components/display/StatusCircle';
 import type { Project } from '~/types';
 
+const TOOLTIP_SPACING = 6; // pixels between tooltip and target
+const VIEWPORT_PADDING = 8; // pixels from viewport edge
+const MAX_VISIBLE_PROJECTS = 6;
+
 interface SkillTooltipProps {
   projects: Project[];
   isVisible: boolean;
@@ -30,21 +34,19 @@ export function SkillTooltip({
     const targetRect = targetRef.current.getBoundingClientRect();
     const tooltipRect = tooltipRef.current.getBoundingClientRect();
 
-    let top = targetRect.top - tooltipRect.height - 6;
+    let top = targetRect.top - tooltipRect.height - TOOLTIP_SPACING;
     let left = targetRect.left + targetRect.width / 2 - tooltipRect.width / 2;
 
-    const padding = 8;
-
-    if (top < padding) {
-      top = targetRect.bottom + 6;
+    if (top < VIEWPORT_PADDING) {
+      top = targetRect.bottom + TOOLTIP_SPACING;
     }
 
-    if (left < padding) {
-      left = padding;
+    if (left < VIEWPORT_PADDING) {
+      left = VIEWPORT_PADDING;
     }
 
-    if (left + tooltipRect.width > window.innerWidth - padding) {
-      left = window.innerWidth - tooltipRect.width - padding;
+    if (left + tooltipRect.width > window.innerWidth - VIEWPORT_PADDING) {
+      left = window.innerWidth - tooltipRect.width - VIEWPORT_PADDING;
     }
 
     setPosition({ top, left });
@@ -64,7 +66,7 @@ export function SkillTooltip({
         Related Projects ({projects.length})
       </div>
       <div className="space-y-2">
-        {projects.slice(0, 6).map(project => (
+        {projects.slice(0, MAX_VISIBLE_PROJECTS).map(project => (
           <div key={project.title} className="flex items-center gap-2">
             <StatusCircle status={project.status} size={18} />
             <span className="text-sm text-[var(--muted)] truncate">
@@ -72,9 +74,9 @@ export function SkillTooltip({
             </span>
           </div>
         ))}
-        {projects.length > 6 && (
+        {projects.length > MAX_VISIBLE_PROJECTS && (
           <div className="text-sm text-[var(--color-text-secondary)] italic">
-            +{projects.length - 6} more
+            +{projects.length - MAX_VISIBLE_PROJECTS} more
           </div>
         )}
       </div>

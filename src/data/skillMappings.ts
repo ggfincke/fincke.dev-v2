@@ -1,5 +1,5 @@
 // src/data/skillMappings.ts
-// skill-to-technology mappings for project filtering
+// skill-to-technology mappings w/ bidirectional semantic search
 
 export const skillMappings: Record<string, string[]> = {
   // Languages

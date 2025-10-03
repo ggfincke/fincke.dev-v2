@@ -470,34 +470,26 @@ export const projects: Project[] = [
 ];
 
 // get featured projects only
-// prettier-ignore
-export const getFeaturedProjects = (): Project[] =>
-{
+export const getFeaturedProjects = (): Project[] => {
   return projects.filter(project => project.featured);
 };
 
 // get all projects
-// prettier-ignore
-export const getAllProjects = (): Project[] =>
-{
+export const getAllProjects = (): Project[] => {
   return projects;
 };
 
-// * get projects filtered by skill/technology
-// prettier-ignore
-export const getProjectsBySkill = (skillName: string): Project[] =>
-{
+// * Get projects filtered by skill/technology
+export const getProjectsBySkill = (skillName: string): Project[] => {
   // normalize skill name for comparison
   const normalizedSkill = skillName.toLowerCase();
 
   // get exact matches for this skill using imported mappings
   const skillSearchTerms = skillMappings[normalizedSkill] || [normalizedSkill];
 
-  return projects.filter(project =>
-  {
+  return projects.filter(project => {
     // check if any project technologies match search terms
-    return project.technologies.some((tech: string) =>
-    {
+    return project.technologies.some((tech: string) => {
       const normalizedTech = tech.toLowerCase();
       return skillSearchTerms.includes(normalizedTech);
     });

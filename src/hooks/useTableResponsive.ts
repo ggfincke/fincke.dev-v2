@@ -30,6 +30,5 @@ export function useTableResponsive() {
   return {
     shouldShowCards,
     shouldShowTable,
-    tableVariant: shouldShowCards ? 'cards' : ('table' as const),
   };
 }

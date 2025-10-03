@@ -1,33 +1,22 @@
 // src/pages/ProjectsPage.tsx
 // projects archive page w/ responsive table & card layouts
 
-import { useEffect } from 'react';
-
+import { Link } from 'react-router-dom';
 import { Navigation } from '~/components/Navigation';
 import { ProjectsTable } from '~/components/projects/ProjectsTable';
 
 // projects page component
 export function ProjectsPage() {
-  // enable scrolling for projects page
-  useEffect(() => {
-    const originalOverflow = document.documentElement.style.overflow;
-    document.documentElement.style.overflow = 'auto';
-
-    return () => {
-      document.documentElement.style.overflow = originalOverflow;
-    };
-  }, []);
-
   return (
-    <div className="relative min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
+    <div className="relative min-h-screen bg-[var(--bg)] text-[var(--muted)]">
       <Navigation />
 
       {/* page header w/ back link */}
       <main id="top" className="mx-auto max-w-6xl px-4 pt-28 pb-24">
         <header className="space-y-4">
-          <a
-            href="/"
-            className="inline-flex items-center gap-2 text-sm text-[var(--color-text-secondary)] transition hover:text-[var(--color-text-light)]"
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-sm text-[var(--color-muted)] transition hover:text-[var(--fg)]"
           >
             <svg
               className="h-4 w-4"
@@ -43,12 +32,12 @@ export function ProjectsPage() {
               />
             </svg>
             Back
-          </a>
+          </Link>
           <div>
-            <h1 className="text-4xl font-bold text-[var(--color-text-light)] md:text-5xl">
+            <h1 className="text-4xl font-bold text-[var(--fg)] md:text-5xl">
               All Projects
             </h1>
-            <p className="mt-3 text-lg text-[var(--color-text)]">
+            <p className="mt-3 text-lg text-[var(--muted)]">
               A complete archive of things I have built.
             </p>
           </div>
@@ -59,12 +48,10 @@ export function ProjectsPage() {
           <ProjectsTable />
         </section>
 
-        <footer className="mt-16 text-center text-sm text-[var(--color-text-secondary)]">
+        <footer className="mt-16 text-center text-sm text-[var(--color-muted)]">
           Private repositories available upon request
         </footer>
       </main>
     </div>
   );
 }
-
-export default ProjectsPage;
