@@ -4,10 +4,21 @@
 import { useState, useRef, useEffect } from 'react';
 import { NAV_LINKS } from '../data/siteContent';
 
+const normalizePath = (pathname: string): string =>
+{
+  if (pathname === '/')
+  {
+    return pathname;
+  }
+
+  return pathname.replace(/\/$/, '') || '/';
+};
+
 // navigation component
 export function Navigation() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [currentPath, setCurrentPath] = useState<string>(() => normalizePath(window.location?.pathname ?? '/'));
 
   // cleanup timeout on unmount
   useEffect(() => {
@@ -15,6 +26,20 @@ export function Navigation() {
       if (timeoutRef.current !== null) {
         clearTimeout(timeoutRef.current);
       }
+    };
+  }, []);
+
+  useEffect(() =>
+  {
+    const handlePopState = () =>
+    {
+      setCurrentPath(normalizePath(window.location.pathname));
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () =>
+    {
+      window.removeEventListener('popstate', handlePopState);
     };
   }, []);
 
@@ -110,13 +135,17 @@ export function Navigation() {
               );
             }
 
+            const isInternal = Boolean(link.href && !link.external && link.href.startsWith('/'));
+            const isActive = isInternal && normalizePath(link.href!) === currentPath;
+
             return (
               <a
                 key={link.href}
                 href={link.href}
-                className="transition hover:text-[var(--color-text-light)]"
+                className={`transition hover:text-[var(--color-text-light)] ${isActive ? 'text-[var(--color-primary)]' : ''}`}
                 target={link.external ? '_blank' : undefined}
                 rel={link.external ? 'noopener noreferrer' : undefined}
+                aria-current={isActive ? 'page' : undefined}
               >
                 {link.label}
               </a>
