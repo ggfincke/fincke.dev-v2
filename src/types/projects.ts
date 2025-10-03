@@ -11,14 +11,12 @@ export type ProjectStatus =
   | 'experimental'
   | 'planned';
 
-export interface Collaborator
-{
+export interface Collaborator {
   name: string;
   url?: string;
 }
 
-export interface Project
-{
+export interface Project {
   title: string;
   tagline?: string;
   dateRange: string;

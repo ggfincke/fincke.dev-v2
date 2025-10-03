@@ -4,10 +4,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { NAV_LINKS } from '../data/siteContent';
 
-const normalizePath = (pathname: string): string =>
-{
-  if (pathname === '/')
-  {
+const normalizePath = (pathname: string): string => {
+  if (pathname === '/') {
     return pathname;
   }
 
@@ -18,7 +16,9 @@ const normalizePath = (pathname: string): string =>
 export function Navigation() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [currentPath, setCurrentPath] = useState<string>(() => normalizePath(window.location?.pathname ?? '/'));
+  const [currentPath, setCurrentPath] = useState<string>(() =>
+    normalizePath(window.location?.pathname ?? '/')
+  );
 
   // cleanup timeout on unmount
   useEffect(() => {
@@ -29,38 +29,30 @@ export function Navigation() {
     };
   }, []);
 
-  useEffect(() =>
-  {
-    const handlePopState = () =>
-    {
+  useEffect(() => {
+    const handlePopState = () => {
       setCurrentPath(normalizePath(window.location.pathname));
     };
 
     window.addEventListener('popstate', handlePopState);
-    return () =>
-    {
+    return () => {
       window.removeEventListener('popstate', handlePopState);
     };
   }, []);
 
   // handle delayed dropdown open
-  const handleMouseEnter = (label: string) =>
-  {
-    if (timeoutRef.current)
-    {
+  const handleMouseEnter = (label: string) => {
+    if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    timeoutRef.current = setTimeout(() =>
-    {
+    timeoutRef.current = setTimeout(() => {
       setActiveDropdown(label);
     }, 300);
   };
 
   // handle dropdown close
-  const handleMouseLeave = () =>
-  {
-    if (timeoutRef.current)
-    {
+  const handleMouseLeave = () => {
+    if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
     setActiveDropdown(null);
@@ -82,10 +74,8 @@ export function Navigation() {
         </a>
         {/* nav links w/ dropdown support */}
         <div className="flex items-center gap-6 text-sm">
-          {NAV_LINKS.map((link) =>
-          {
-            if (link.dropdown)
-            {
+          {NAV_LINKS.map(link => {
+            if (link.dropdown) {
               return (
                 <div
                   key={link.label}
@@ -112,13 +102,15 @@ export function Navigation() {
                   {activeDropdown === link.label && (
                     <div className="absolute left-1/2 top-full w-64 -translate-x-1/2 pt-2">
                       <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-background-alt)] py-2 shadow-lg">
-                        {link.dropdown.map((item) => (
+                        {link.dropdown.map(item => (
                           <a
                             key={item.href}
                             href={item.href}
                             className="block px-4 py-2 transition hover:bg-[var(--color-background)]"
                             target={item.external ? '_blank' : undefined}
-                            rel={item.external ? 'noopener noreferrer' : undefined}
+                            rel={
+                              item.external ? 'noopener noreferrer' : undefined
+                            }
                           >
                             <div className="font-medium text-[var(--color-text-light)]">
                               {item.label}
@@ -135,8 +127,11 @@ export function Navigation() {
               );
             }
 
-            const isInternal = Boolean(link.href && !link.external && link.href.startsWith('/'));
-            const isActive = isInternal && normalizePath(link.href!) === currentPath;
+            const isInternal = Boolean(
+              link.href && !link.external && link.href.startsWith('/')
+            );
+            const isActive =
+              isInternal && normalizePath(link.href!) === currentPath;
 
             return (
               <a

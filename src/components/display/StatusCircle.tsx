@@ -6,15 +6,13 @@ import type { CSSProperties } from 'react';
 import type { ProjectStatus } from '~/types';
 import { statusConfig } from '~/utils/statusConfig';
 
-interface StatusCircleProps
-{
+interface StatusCircleProps {
   status: ProjectStatus;
   size?: number;
 }
 
 // status circle component
-export function StatusCircle({ status, size = 32 }: StatusCircleProps)
-{
+export function StatusCircle({ status, size = 32 }: StatusCircleProps) {
   const statusDisplay = statusConfig[status];
 
   const style: CSSProperties = {

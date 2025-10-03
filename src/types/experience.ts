@@ -1,8 +1,7 @@
 // src/types/experience.ts
 // experience & skill types
 
-export interface Experience
-{
+export interface Experience {
   id: string;
   date: string;
   title: string;
@@ -23,8 +22,7 @@ export type SkillCategory =
   | 'tools'
   | 'specialized';
 
-export interface Skill
-{
+export interface Skill {
   name: string;
   category: SkillCategory;
   displayName?: string;

@@ -8,7 +8,11 @@ export const skills: Skill[] = [
   { name: 'Python', category: 'languages' },
   { name: 'Swift', category: 'languages' },
   { name: 'C', category: 'languages' },
-  { name: 'JavaScript', category: 'languages', displayName: 'JavaScript (ES6+)' },
+  {
+    name: 'JavaScript',
+    category: 'languages',
+    displayName: 'JavaScript (ES6+)',
+  },
   { name: 'TypeScript', category: 'languages' },
   { name: 'Java', category: 'languages' },
   { name: 'SQL', category: 'languages' },
@@ -54,9 +58,17 @@ export const skills: Skill[] = [
   { name: 'TensorFlow', category: 'ai-ml' },
   { name: 'Keras', category: 'ai-ml' },
   { name: 'scikit-learn', category: 'ai-ml' },
-  { name: 'HuggingFace', category: 'ai-ml', displayName: 'Hugging Face Transformers' },
+  {
+    name: 'HuggingFace',
+    category: 'ai-ml',
+    displayName: 'Hugging Face Transformers',
+  },
   { name: 'OpenAI', category: 'ai-ml', displayName: 'OpenAI API' },
-  { name: 'Anthropic Claude', category: 'ai-ml', displayName: 'Anthropic Claude API' },
+  {
+    name: 'Anthropic Claude',
+    category: 'ai-ml',
+    displayName: 'Anthropic Claude API',
+  },
   { name: 'Ollama', category: 'ai-ml' },
   { name: 'pandas', category: 'ai-ml' },
   { name: 'NumPy', category: 'ai-ml' },
@@ -70,7 +82,11 @@ export const skills: Skill[] = [
   { name: 'Random Fourier Features', category: 'ai-ml' },
 
   // DevOps & CI/CD
-  { name: 'GitHub Actions', category: 'tools', displayName: 'CI/CD (GitHub Actions)' },
+  {
+    name: 'GitHub Actions',
+    category: 'tools',
+    displayName: 'CI/CD (GitHub Actions)',
+  },
   { name: 'Docker', category: 'tools' },
   { name: 'Microservices', category: 'tools' },
 
@@ -102,10 +118,22 @@ export const skills: Skill[] = [
   { name: 'Git', category: 'tools' },
 
   // Specialized
-  { name: 'Selenium', category: 'specialized', displayName: 'Web scraping (Selenium, BeautifulSoup)' },
+  {
+    name: 'Selenium',
+    category: 'specialized',
+    displayName: 'Web scraping (Selenium, BeautifulSoup)',
+  },
   { name: 'BeautifulSoup', category: 'specialized' },
-  { name: 'Typer', category: 'specialized', displayName: 'CLI development (Typer)' },
-  { name: 'Discord.py', category: 'specialized', displayName: 'bots (Discord.py)' },
+  {
+    name: 'Typer',
+    category: 'specialized',
+    displayName: 'CLI development (Typer)',
+  },
+  {
+    name: 'Discord.py',
+    category: 'specialized',
+    displayName: 'bots (Discord.py)',
+  },
   { name: 'CAPTCHA solving', category: 'specialized' },
   { name: 'Data Analysis', category: 'specialized' },
   { name: 'CLI', category: 'specialized' },
@@ -118,8 +146,7 @@ export const skills: Skill[] = [
 ];
 
 // * generate skill categories for about section
-export const getSkillCategories = (): Record<SkillCategory, string[]> =>
-{
+export const getSkillCategories = (): Record<SkillCategory, string[]> => {
   const categories: Record<SkillCategory, string[]> = {
     languages: [],
     frontend: [],
@@ -128,7 +155,7 @@ export const getSkillCategories = (): Record<SkillCategory, string[]> =>
     mobile: [],
     'ai-ml': [],
     tools: [],
-    specialized: []
+    specialized: [],
   };
 
   skills.forEach(skill => {
@@ -142,8 +169,7 @@ export const getSkillCategories = (): Record<SkillCategory, string[]> =>
 };
 
 // get skills by category
-export const getSkillsByCategory = (category: SkillCategory): string[] =>
-{
+export const getSkillsByCategory = (category: SkillCategory): string[] => {
   return skills
     .filter(skill => skill.category === category)
     .map(skill => skill.displayName || skill.name);

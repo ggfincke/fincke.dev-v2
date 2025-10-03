@@ -3,7 +3,8 @@
 
 import { useMemo } from 'react';
 
-import { Collaborators, renderCollaborators } from '~/components/display/Collaborators';
+import { Collaborators } from '~/components/display/Collaborators';
+import { renderCollaborators } from '~/utils/renderCollaborators';
 import { ProjectLinks } from '~/components/display/ProjectLinks';
 import { SkillPill } from '~/components/display/SkillPill';
 import { StatusBadge } from '~/components/display/StatusBadge';
@@ -15,50 +16,61 @@ import { useTableResponsive } from '~/hooks/useTableResponsive';
 import type { Project } from '~/types';
 
 // determine live link label based on URL type
-const getLiveLabel = (url: string): string =>
-{
+const getLiveLabel = (url: string): string => {
   return url.toLowerCase().endsWith('.pdf') ? 'View Report' : 'View Live Site';
 };
 
 // extract latest year from date range string
-const extractLatestYear = (dateRange: string): number =>
-{
+const extractLatestYear = (dateRange: string): number => {
   const years = dateRange.match(/\d{4}/g);
-  if (!years)
-  {
+  if (!years) {
     return 0;
   }
-  return Math.max(...years.map((year) => Number.parseInt(year, 10)));
+  return Math.max(...years.map(year => Number.parseInt(year, 10)));
 };
 
 // extract latest month from date range string
-const extractLatestMonth = (dateRange: string): number =>
-{
-  const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+const extractLatestMonth = (dateRange: string): number => {
+  const months = [
+    'jan',
+    'feb',
+    'mar',
+    'apr',
+    'may',
+    'jun',
+    'jul',
+    'aug',
+    'sep',
+    'oct',
+    'nov',
+    'dec',
+  ];
   const lower = dateRange.toLowerCase();
-  const matches = lower.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\w*/g);
+  const matches = lower.match(
+    /\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\w*/g
+  );
 
-  if (!matches)
-  {
+  if (!matches) {
     return 0;
   }
 
   const latestYear = extractLatestYear(dateRange);
   let latestMonth = 0;
 
-  for (const match of matches)
-  {
-    const monthIndex = months.findIndex((month) => match.startsWith(month));
-    if (monthIndex === -1)
-    {
+  for (const match of matches) {
+    const monthIndex = months.findIndex(month => match.startsWith(month));
+    if (monthIndex === -1) {
       continue;
     }
 
     const monthPos = lower.indexOf(match);
     const yearPos = lower.indexOf(String(latestYear));
 
-    if (latestYear === 0 || Math.abs(monthPos - yearPos) < 50 || monthIndex > latestMonth)
-    {
+    if (
+      latestYear === 0 ||
+      Math.abs(monthPos - yearPos) < 50 ||
+      monthIndex > latestMonth
+    ) {
       latestMonth = monthIndex;
     }
   }
@@ -67,10 +79,8 @@ const extractLatestMonth = (dateRange: string): number =>
 };
 
 // format collaborators for display
-const formatCollaborators = (collaborators: Project['collaborators']) =>
-{
-  if (!collaborators)
-  {
+const formatCollaborators = (collaborators: Project['collaborators']) => {
+  if (!collaborators) {
     return null;
   }
 
@@ -82,22 +92,18 @@ const formatCollaborators = (collaborators: Project['collaborators']) =>
 };
 
 // * projects table component w/ expandable rows
-export function ProjectsTable()
-{
+export function ProjectsTable() {
   const projects = useMemo(() => getAllProjects(), []);
   const { shouldShowCards, shouldShowTable } = useTableResponsive();
   const { toggleRow, isExpanded } = useExpandableRows<number>();
 
   // sort projects by date (descending) to show newest first
-  const sortedProjects = useMemo(() =>
-  {
-    return [...projects].sort((a, b) =>
-    {
+  const sortedProjects = useMemo(() => {
+    return [...projects].sort((a, b) => {
       const yearA = extractLatestYear(a.dateRange);
       const yearB = extractLatestYear(b.dateRange);
 
-      if (yearA !== yearB)
-      {
+      if (yearA !== yearB) {
         return yearB - yearA;
       }
 
@@ -113,8 +119,7 @@ export function ProjectsTable()
       {shouldShowCards && (
         <div className="block md:hidden">
           <div className="space-y-4">
-            {sortedProjects.map((project, index) =>
-            {
+            {sortedProjects.map((project, index) => {
               const year = project.dateRange.match(/\d{4}/)?.[0] ?? 'TBD';
               const expanded = isExpanded(index);
 
@@ -139,7 +144,11 @@ export function ProjectsTable()
                         type="button"
                         onClick={() => toggleRow(index)}
                         className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors p-1 rounded hover:bg-[var(--card)] flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
-                        aria-label={expanded ? 'Collapse project details' : 'Expand project details'}
+                        aria-label={
+                          expanded
+                            ? 'Collapse project details'
+                            : 'Expand project details'
+                        }
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -182,7 +191,9 @@ export function ProjectsTable()
 
                         {project.collaborators && (
                           <div>
-                            <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">Collaborators</h4>
+                            <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">
+                              Collaborators
+                            </h4>
                             <p className="text-[var(--muted)]">
                               {renderCollaborators(project.collaborators)}
                             </p>
@@ -190,10 +201,15 @@ export function ProjectsTable()
                         )}
 
                         <div>
-                          <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">Description</h4>
+                          <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">
+                            Description
+                          </h4>
                           <ul className="list-disc pl-5 space-y-1">
                             {project.bulletPoints.map((point, pointIndex) => (
-                              <li key={pointIndex} className="text-[var(--muted)] text-sm">
+                              <li
+                                key={pointIndex}
+                                className="text-[var(--muted)] text-sm"
+                              >
                                 {point}
                               </li>
                             ))}
@@ -201,23 +217,36 @@ export function ProjectsTable()
                         </div>
 
                         <div>
-                          <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">Technologies</h4>
+                          <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">
+                            Technologies
+                          </h4>
                           <div className="flex flex-wrap gap-2">
-                            {project.technologies.map((tech) => (
-                              <SkillPill key={tech} name={tech} size="xs" showProjectsOnHover />
+                            {project.technologies.map(tech => (
+                              <SkillPill
+                                key={tech}
+                                name={tech}
+                                size="xs"
+                                showProjectsOnHover
+                              />
                             ))}
                           </div>
                         </div>
 
                         {(project.repoUrl || project.liveUrl) && (
                           <div>
-                            <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">Links</h4>
+                            <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">
+                              Links
+                            </h4>
                             <ProjectLinks
                               repoUrl={project.repoUrl}
                               liveUrl={project.liveUrl}
                               variant="button"
                               size="sm"
-                              liveLabel={project.liveUrl ? getLiveLabel(project.liveUrl) : undefined}
+                              liveLabel={
+                                project.liveUrl
+                                  ? getLiveLabel(project.liveUrl)
+                                  : undefined
+                              }
                             />
                           </div>
                         )}
@@ -236,17 +265,28 @@ export function ProjectsTable()
           <thead>
             <tr className="border-b border-[var(--border)]">
               <th className="text-left py-4 pl-6 pr-6 text-sm font-medium text-[var(--muted)] uppercase tracking-wider w-8" />
-              <th className="text-left py-4 pl-4 pr-4 w-[8%] text-sm font-medium text-[var(--muted)] uppercase tracking-wider">Year</th>
-              <th className="text-left py-4 pl-4 pr-2 w-[20%] text-sm font-medium text-[var(--muted)] uppercase tracking-wider">Project</th>
-              <th className="text-center py-4 px-4 w-[10%] text-sm font-medium text-[var(--muted)] uppercase tracking-wider">Status</th>
-              <th className="text-left py-4 pl-4 pr-4 w-[15%] text-sm font-medium text-[var(--muted)] uppercase tracking-wider">Made for</th>
-              <th className="text-left py-4 pl-4 pr-4 text-sm font-medium text-[var(--muted)] uppercase tracking-wider">Built with</th>
-              <th className="text-left py-4 pl-4 pr-4 w-[10%] text-sm font-medium text-[var(--muted)] uppercase tracking-wider">Link</th>
+              <th className="text-left py-4 pl-4 pr-4 w-[8%] text-sm font-medium text-[var(--muted)] uppercase tracking-wider">
+                Year
+              </th>
+              <th className="text-left py-4 pl-4 pr-2 w-[20%] text-sm font-medium text-[var(--muted)] uppercase tracking-wider">
+                Project
+              </th>
+              <th className="text-center py-4 px-4 w-[10%] text-sm font-medium text-[var(--muted)] uppercase tracking-wider">
+                Status
+              </th>
+              <th className="text-left py-4 pl-4 pr-4 w-[15%] text-sm font-medium text-[var(--muted)] uppercase tracking-wider">
+                Made for
+              </th>
+              <th className="text-left py-4 pl-4 pr-4 text-sm font-medium text-[var(--muted)] uppercase tracking-wider">
+                Built with
+              </th>
+              <th className="text-left py-4 pl-4 pr-4 w-[10%] text-sm font-medium text-[var(--muted)] uppercase tracking-wider">
+                Link
+              </th>
             </tr>
           </thead>
           <tbody>
-            {sortedProjects.flatMap((project, index) =>
-            {
+            {sortedProjects.flatMap((project, index) => {
               const year = project.dateRange.match(/\d{4}/)?.[0] ?? 'TBD';
               const expanded = isExpanded(index);
 
@@ -260,7 +300,11 @@ export function ProjectsTable()
                       type="button"
                       onClick={() => toggleRow(index)}
                       className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors p-1 rounded hover:bg-[var(--card)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
-                      aria-label={expanded ? 'Collapse project details' : 'Expand project details'}
+                      aria-label={
+                        expanded
+                          ? 'Collapse project details'
+                          : 'Expand project details'
+                      }
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -278,19 +322,30 @@ export function ProjectsTable()
                       </svg>
                     </button>
                   </td>
-                  <td className="py-6 pl-4 pr-4 text-[var(--muted)] font-mono text-sm">{year}</td>
+                  <td className="py-6 pl-4 pr-4 text-[var(--muted)] font-mono text-sm">
+                    {year}
+                  </td>
                   <td className="py-6 pl-4 pr-2">
-                    <div className="font-semibold text-[var(--fg)] text-lg mb-1">{project.title}</div>
+                    <div className="font-semibold text-[var(--fg)] text-lg mb-1">
+                      {project.title}
+                    </div>
                     {formatCollaborators(project.collaborators)}
                   </td>
                   <td className="py-6 px-4 text-center">
                     <StatusCircle status={project.status} />
                   </td>
-                  <td className="py-6 pl-4 pr-4 text-[var(--muted)]">{project.madeFor}</td>
+                  <td className="py-6 pl-4 pr-4 text-[var(--muted)]">
+                    {project.madeFor}
+                  </td>
                   <td className="py-6 pl-4 pr-4">
                     <div className="flex flex-wrap gap-2 items-center max-w-xs">
-                      {project.technologies.slice(0, 3).map((tech) => (
-                        <SkillPill key={tech} name={tech} size="xs" showProjectsOnHover />
+                      {project.technologies.slice(0, 3).map(tech => (
+                        <SkillPill
+                          key={tech}
+                          name={tech}
+                          size="xs"
+                          showProjectsOnHover
+                        />
                       ))}
                       {project.technologies.length > 3 && (
                         <span className="text-[var(--muted)] text-xs">
@@ -304,15 +359,18 @@ export function ProjectsTable()
                       repoUrl={project.repoUrl}
                       liveUrl={project.liveUrl}
                       variant="icon"
-                      liveLabel={project.liveUrl ? getLiveLabel(project.liveUrl) : undefined}
+                      liveLabel={
+                        project.liveUrl
+                          ? getLiveLabel(project.liveUrl)
+                          : undefined
+                      }
                       className="flex space-x-4"
                     />
                   </td>
                 </tr>
               );
 
-              if (!expanded)
-              {
+              if (!expanded) {
                 return [mainRow];
               }
 
@@ -341,7 +399,9 @@ export function ProjectsTable()
 
                         {project.collaborators && (
                           <div>
-                            <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">Collaborators</h4>
+                            <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">
+                              Collaborators
+                            </h4>
                             <p className="text-[var(--muted)]">
                               {renderCollaborators(project.collaborators)}
                             </p>
@@ -350,10 +410,15 @@ export function ProjectsTable()
 
                         <div className="flex flex-col lg:flex-row lg:items-center gap-8">
                           <div className="flex-1">
-                            <h4 className="text-sm font-semibold text-[var(--accent)] mb-3">Description</h4>
+                            <h4 className="text-sm font-semibold text-[var(--accent)] mb-3">
+                              Description
+                            </h4>
                             <ul className="list-disc pl-5 space-y-2">
                               {project.bulletPoints.map((point, pointIndex) => (
-                                <li key={pointIndex} className="text-[var(--muted)]">
+                                <li
+                                  key={pointIndex}
+                                  className="text-[var(--muted)]"
+                                >
                                   {point}
                                 </li>
                               ))}
@@ -365,7 +430,10 @@ export function ProjectsTable()
                               <div className="rounded-lg p-4 w-full group relative hover:shadow-lg transition-all duration-300">
                                 <img
                                   src={project.imagePath}
-                                  alt={project.imageAlt ?? `${project.title} screenshot`}
+                                  alt={
+                                    project.imageAlt ??
+                                    `${project.title} screenshot`
+                                  }
                                   className="w-full h-full rounded-lg object-contain transition-all duration-300 group-hover:scale-105 group-hover:z-50"
                                   loading="lazy"
                                 />
@@ -375,23 +443,36 @@ export function ProjectsTable()
                         </div>
 
                         <div>
-                          <h4 className="text-sm font-semibold text-[var(--accent)] mb-3">Technologies</h4>
+                          <h4 className="text-sm font-semibold text-[var(--accent)] mb-3">
+                            Technologies
+                          </h4>
                           <div className="flex flex-wrap gap-x-3 gap-y-2">
-                            {project.technologies.map((tech) => (
-                              <SkillPill key={tech} name={tech} size="md" showProjectsOnHover />
+                            {project.technologies.map(tech => (
+                              <SkillPill
+                                key={tech}
+                                name={tech}
+                                size="md"
+                                showProjectsOnHover
+                              />
                             ))}
                           </div>
                         </div>
 
                         {(project.repoUrl || project.liveUrl) && (
                           <div>
-                            <h4 className="text-sm font-semibold text-[var(--accent)] mb-3">Links</h4>
+                            <h4 className="text-sm font-semibold text-[var(--accent)] mb-3">
+                              Links
+                            </h4>
                             <ProjectLinks
                               repoUrl={project.repoUrl}
                               liveUrl={project.liveUrl}
                               variant="button"
                               size="md"
-                              liveLabel={project.liveUrl ? getLiveLabel(project.liveUrl) : undefined}
+                              liveLabel={
+                                project.liveUrl
+                                  ? getLiveLabel(project.liveUrl)
+                                  : undefined
+                              }
                               className="flex flex-wrap gap-4"
                             />
                           </div>

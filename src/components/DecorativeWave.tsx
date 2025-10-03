@@ -2,8 +2,7 @@
 // decorative SVG wave w/ gradient
 
 // decorative wave component
-export function DecorativeWave()
-{
+export function DecorativeWave() {
   return (
     <div
       className="pointer-events-none absolute left-0 w-full"

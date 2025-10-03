@@ -6,14 +6,12 @@ import type { CSSProperties } from 'react';
 import type { ProjectStatus } from '~/types';
 import { statusConfig } from '~/utils/statusConfig';
 
-interface StatusBadgeProps
-{
+interface StatusBadgeProps {
   status: ProjectStatus;
 }
 
 // status badge component
-export function StatusBadge({ status }: StatusBadgeProps)
-{
+export function StatusBadge({ status }: StatusBadgeProps) {
   const statusDisplay = statusConfig[status];
 
   const style = {
@@ -22,7 +20,10 @@ export function StatusBadge({ status }: StatusBadgeProps)
   } satisfies CSSProperties;
 
   return (
-    <span className="inline-flex items-center whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium" style={style}>
+    <span
+      className="inline-flex items-center whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium"
+      style={style}
+    >
       {statusDisplay.icon} {statusDisplay.label}
     </span>
   );

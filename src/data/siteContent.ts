@@ -5,7 +5,8 @@ import type { NavLink, HeroContent, AboutContent } from '~/types';
 
 export const HERO_CONTENT: HeroContent = {
   name: 'Garrett Fincke',
-  tagline: 'Full-stack developer specializing in clean code, scalable systems, and modern web/mobile architecture',
+  tagline:
+    'Full-stack developer specializing in clean code, scalable systems, and modern web/mobile architecture',
 };
 
 export const ABOUT_CONTENT: AboutContent = {

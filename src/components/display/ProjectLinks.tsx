@@ -5,8 +5,7 @@ import { getButtonClasses } from '~/utils/classNames';
 
 export type ProjectLinksVariant = 'icon' | 'button';
 
-interface ProjectLinksProps
-{
+interface ProjectLinksProps {
   repoUrl?: string;
   liveUrl?: string;
   variant?: ProjectLinksVariant;
@@ -16,8 +15,7 @@ interface ProjectLinksProps
 }
 
 // github icon component
-function GitHubIcon({ size, className }: { size: number; className?: string })
-{
+function GitHubIcon({ size, className }: { size: number; className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -37,8 +35,13 @@ function GitHubIcon({ size, className }: { size: number; className?: string })
 }
 
 // external link icon component
-function ExternalLinkIcon({ size, className }: { size: number; className?: string })
-{
+function ExternalLinkIcon({
+  size,
+  className,
+}: {
+  size: number;
+  className?: string;
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -67,15 +70,12 @@ export function ProjectLinks({
   size = 'sm',
   liveLabel,
   className,
-}: ProjectLinksProps)
-{
-  if (!repoUrl && !liveUrl)
-  {
+}: ProjectLinksProps) {
+  if (!repoUrl && !liveUrl) {
     return null;
   }
 
-  if (variant === 'button')
-  {
+  if (variant === 'button') {
     return (
       <div className={className ?? 'flex flex-wrap gap-2'}>
         {repoUrl && (

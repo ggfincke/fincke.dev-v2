@@ -8,8 +8,7 @@ import { GlowEffect } from './components/GlowEffect';
 import { DecorativeWave } from './components/DecorativeWave';
 
 // main app component
-function App()
-{
+function App() {
   return (
     <div className="relative h-screen overflow-hidden bg-[var(--color-background)] text-[var(--color-text)]">
       <Navigation />

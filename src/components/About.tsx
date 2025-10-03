@@ -4,8 +4,7 @@
 import { ABOUT_CONTENT } from '../data/siteContent';
 
 // about component
-export function About()
-{
+export function About() {
   return (
     <section aria-labelledby="about-heading">
       <h2
@@ -15,7 +14,10 @@ export function About()
         {ABOUT_CONTENT.heading}
       </h2>
       {ABOUT_CONTENT.paragraphs.map((paragraph, index) => (
-        <p key={index} className="mt-3 text-sm leading-relaxed text-[var(--color-text)]">
+        <p
+          key={index}
+          className="mt-3 text-sm leading-relaxed text-[var(--color-text)]"
+        >
           {paragraph}
         </p>
       ))}

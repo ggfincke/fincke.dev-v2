@@ -2,8 +2,7 @@
 // decorative radial glow effect
 
 // glow effect component
-export function GlowEffect()
-{
+export function GlowEffect() {
   return (
     <div
       className="pointer-events-none absolute left-1/2 top-[42vh] -z-10 h-72 w-[60rem] -translate-x-1/2 rounded-full"

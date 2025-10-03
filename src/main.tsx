@@ -7,10 +7,8 @@ import './index.css';
 import App from './App.tsx';
 import ProjectsPage from './pages/ProjectsPage.tsx';
 
-const normalizePathname = (pathname: string): string =>
-{
-  if (pathname === '/')
-  {
+const normalizePathname = (pathname: string): string => {
+  if (pathname === '/') {
     return pathname;
   }
 

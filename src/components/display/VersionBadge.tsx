@@ -3,59 +3,47 @@
 
 import { useEffect, useState } from 'react';
 
-interface GitHubRelease
-{
+interface GitHubRelease {
   tag_name: string;
 }
 
-interface VersionBadgeProps
-{
+interface VersionBadgeProps {
   repoUrl: string;
 }
 
 // version badge component
-export function VersionBadge({ repoUrl }: VersionBadgeProps)
-{
+export function VersionBadge({ repoUrl }: VersionBadgeProps) {
   const [version, setVersion] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   // fetch latest release from GitHub API
-  useEffect(() =>
-  {
+  useEffect(() => {
     let isMounted = true;
 
-    const fetchLatestVersion = async () =>
-    {
-      try
-      {
-        const match = repoUrl.match(/github\.com\/([^\/]+)\/([^\/]+)/);
-        if (!match)
-        {
+    const fetchLatestVersion = async () => {
+      try {
+        const match = repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/);
+        if (!match) {
           return;
         }
 
         const [, owner, repo] = match;
-        const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/latest`);
+        const response = await fetch(
+          `https://api.github.com/repos/${owner}/${repo}/releases/latest`
+        );
 
-        if (!isMounted)
-        {
+        if (!isMounted) {
           return;
         }
 
-        if (response.ok)
-        {
+        if (response.ok) {
           const release: GitHubRelease = await response.json();
           setVersion(release.tag_name);
         }
-      }
-      catch
-      {
+      } catch {
         // swallow errors; badge is optional
-      }
-      finally
-      {
-        if (isMounted)
-        {
+      } finally {
+        if (isMounted) {
           setLoading(false);
         }
       }
@@ -63,16 +51,18 @@ export function VersionBadge({ repoUrl }: VersionBadgeProps)
 
     fetchLatestVersion();
 
-    return () =>
-    {
+    return () => {
       isMounted = false;
     };
   }, [repoUrl]);
 
-  if (loading || !version)
-  {
+  if (loading || !version) {
     return null;
   }
 
-  return <span className="font-semibold text-base text-[var(--accent)] not-italic">{version} • </span>;
+  return (
+    <span className="font-semibold text-base text-[var(--accent)] not-italic">
+      {version} •{' '}
+    </span>
+  );
 }

@@ -6,24 +6,24 @@ import { useEffect, useRef, useState } from 'react';
 import { StatusCircle } from '~/components/display/StatusCircle';
 import type { Project } from '~/types';
 
-interface SkillTooltipProps
-{
+interface SkillTooltipProps {
   projects: Project[];
   isVisible: boolean;
   targetRef: React.RefObject<HTMLElement | null>;
 }
 
 // skill tooltip component
-export function SkillTooltip({ projects, isVisible, targetRef }: SkillTooltipProps)
-{
+export function SkillTooltip({
+  projects,
+  isVisible,
+  targetRef,
+}: SkillTooltipProps) {
   const tooltipRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
   // calculate tooltip position based on target element
-  useEffect(() =>
-  {
-    if (!isVisible || !targetRef.current || !tooltipRef.current)
-    {
+  useEffect(() => {
+    if (!isVisible || !targetRef.current || !tooltipRef.current) {
       return;
     }
 
@@ -35,26 +35,22 @@ export function SkillTooltip({ projects, isVisible, targetRef }: SkillTooltipPro
 
     const padding = 8;
 
-    if (top < padding)
-    {
+    if (top < padding) {
       top = targetRect.bottom + 6;
     }
 
-    if (left < padding)
-    {
+    if (left < padding) {
       left = padding;
     }
 
-    if (left + tooltipRect.width > window.innerWidth - padding)
-    {
+    if (left + tooltipRect.width > window.innerWidth - padding) {
       left = window.innerWidth - tooltipRect.width - padding;
     }
 
     setPosition({ top, left });
   }, [isVisible, projects.length, targetRef]);
 
-  if (!isVisible || projects.length === 0)
-  {
+  if (!isVisible || projects.length === 0) {
     return null;
   }
 
@@ -68,10 +64,12 @@ export function SkillTooltip({ projects, isVisible, targetRef }: SkillTooltipPro
         Related Projects ({projects.length})
       </div>
       <div className="space-y-2">
-        {projects.slice(0, 6).map((project) => (
+        {projects.slice(0, 6).map(project => (
           <div key={project.title} className="flex items-center gap-2">
             <StatusCircle status={project.status} size={18} />
-            <span className="text-sm text-[var(--muted)] truncate">{project.title}</span>
+            <span className="text-sm text-[var(--muted)] truncate">
+              {project.title}
+            </span>
           </div>
         ))}
         {projects.length > 6 && (

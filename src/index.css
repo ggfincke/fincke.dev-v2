@@ -1,7 +1,6 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-:root
-{
+:root {
   --color-primary: #80cbc4;
   --color-background: #0f111a;
   --color-background-alt: #090b10;
@@ -38,33 +37,27 @@
   --status-live-bg: rgba(128, 203, 196, 0.15);
 }
 
-body
-{
+body {
   background: var(--color-background);
   color: var(--color-text);
 }
 
-html
-{
+html {
   overflow: hidden;
 }
 
-@keyframes fadeIn
-{
-  from
-  {
+@keyframes fadeIn {
+  from {
     opacity: 0;
     transform: translateY(4px);
   }
 
-  to
-  {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.animate-fadeIn
-{
+.animate-fadeIn {
   animation: fadeIn 0.2s ease-in-out forwards;
 }

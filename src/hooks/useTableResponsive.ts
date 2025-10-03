@@ -6,25 +6,20 @@ import { useEffect, useState } from 'react';
 const TABLE_BREAKPOINT = 768; // tailwind md
 
 // * custom hook for responsive table/card layout switching
-export function useTableResponsive()
-{
-  const [width, setWidth] = useState<number>(() =>
-  {
+export function useTableResponsive() {
+  const [width, setWidth] = useState<number>(() => {
     return typeof window === 'undefined' ? TABLE_BREAKPOINT : window.innerWidth;
   });
 
   // listen for window resize events
-  useEffect(() =>
-  {
-    const handleResize = () =>
-    {
+  useEffect(() => {
+    const handleResize = () => {
       setWidth(window.innerWidth);
     };
 
     window.addEventListener('resize', handleResize, { passive: true });
 
-    return () =>
-    {
+    return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
@@ -35,6 +30,6 @@ export function useTableResponsive()
   return {
     shouldShowCards,
     shouldShowTable,
-    tableVariant: shouldShowCards ? 'cards' : 'table' as const,
+    tableVariant: shouldShowCards ? 'cards' : ('table' as const),
   };
 }

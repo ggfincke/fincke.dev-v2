@@ -7,8 +7,7 @@ import { SkillTooltip } from '~/components/display/SkillTooltip';
 import { getProjectsBySkill } from '~/data/projects';
 import type { Project } from '~/types';
 
-interface SkillPillProps
-{
+interface SkillPillProps {
   name: string;
   size?: 'xs' | 'sm' | 'md';
   className?: string;
@@ -23,8 +22,7 @@ export function SkillPill({
   className = '',
   showProjectsOnHover = false,
   hoverDelay = 150,
-}: SkillPillProps)
-{
+}: SkillPillProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [relatedProjects, setRelatedProjects] = useState<Project[]>([]);
@@ -32,32 +30,24 @@ export function SkillPill({
   const pillRef = useRef<HTMLSpanElement>(null);
 
   // manage tooltip visibility & related projects on hover
-  useEffect(() =>
-  {
-    if (showProjectsOnHover && isHovered)
-    {
+  useEffect(() => {
+    if (showProjectsOnHover && isHovered) {
       const projects = getProjectsBySkill(name);
       setRelatedProjects(projects);
 
-      hoverTimeoutRef.current = setTimeout(() =>
-      {
+      hoverTimeoutRef.current = setTimeout(() => {
         setShowTooltip(true);
       }, hoverDelay);
-    }
-    else
-    {
-      if (hoverTimeoutRef.current)
-      {
+    } else {
+      if (hoverTimeoutRef.current) {
         clearTimeout(hoverTimeoutRef.current);
         hoverTimeoutRef.current = null;
       }
       setShowTooltip(false);
     }
 
-    return () =>
-    {
-      if (hoverTimeoutRef.current)
-      {
+    return () => {
+      if (hoverTimeoutRef.current) {
         clearTimeout(hoverTimeoutRef.current);
         hoverTimeoutRef.current = null;
       }
@@ -75,22 +65,23 @@ export function SkillPill({
       <span
         ref={pillRef}
         className={`bg-[var(--card)] text-[var(--muted)] rounded-full inline-flex items-center justify-center whitespace-nowrap hover:bg-[var(--border)] transition-colors duration-200 ${showProjectsOnHover ? 'cursor-help hover:underline decoration-dotted underline-offset-2' : ''} ${sizeClasses[size]} ${className}`}
-        onMouseEnter={() =>
-        {
-          if (showProjectsOnHover)
-          {
+        onMouseEnter={() => {
+          if (showProjectsOnHover) {
             setIsHovered(true);
           }
         }}
-        onMouseLeave={() =>
-        {
+        onMouseLeave={() => {
           setIsHovered(false);
         }}
       >
         {name}
       </span>
       {showProjectsOnHover && (
-        <SkillTooltip projects={relatedProjects} isVisible={showTooltip} targetRef={pillRef} />
+        <SkillTooltip
+          projects={relatedProjects}
+          isVisible={showTooltip}
+          targetRef={pillRef}
+        />
       )}
     </>
   );

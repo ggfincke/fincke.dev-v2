@@ -4,8 +4,7 @@
 import { HERO_CONTENT } from '../data/siteContent';
 
 // hero component
-export function Hero()
-{
+export function Hero() {
   return (
     <div>
       <h1 className="text-4xl font-bold leading-tight text-[var(--color-text-light)] md:text-6xl">

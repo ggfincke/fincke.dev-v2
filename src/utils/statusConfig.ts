@@ -3,8 +3,7 @@
 
 import type { ProjectStatus } from '~/types';
 
-interface StatusConfig
-{
+interface StatusConfig {
   icon: string;
   label: string;
   colorVar: string;
@@ -18,31 +17,31 @@ export const statusConfig: Record<ProjectStatus, StatusConfig> = {
     colorVar: '--status-in-development',
     bgColorVar: '--status-in-development-bg',
   },
-  'complete': {
+  complete: {
     icon: '✅',
     label: 'Complete',
     colorVar: '--status-complete',
     bgColorVar: '--status-complete-bg',
   },
-  'paused': {
+  paused: {
     icon: '⏸',
     label: 'Paused',
     colorVar: '--status-paused',
     bgColorVar: '--status-paused-bg',
   },
-  'experimental': {
+  experimental: {
     icon: '🧪',
     label: 'Experimenting',
     colorVar: '--status-experimental',
     bgColorVar: '--status-experimental-bg',
   },
-  'planned': {
+  planned: {
     icon: '🕓',
     label: 'Planned',
     colorVar: '--status-planned',
     bgColorVar: '--status-planned-bg',
   },
-  'live': {
+  live: {
     icon: '🚀',
     label: 'Live',
     colorVar: '--status-live',
