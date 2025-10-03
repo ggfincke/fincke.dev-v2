@@ -2,23 +2,18 @@
 // main navigation w/ dropdown support & delayed hover
 
 import { useState, useRef, useEffect } from 'react';
-import { NAV_LINKS } from '../data/siteContent';
+import { Link, useLocation } from 'react-router-dom';
+import { NAV_LINKS } from '~/data/siteContent';
+import { normalizePath } from '~/utils/pathUtils';
 
-const normalizePath = (pathname: string): string => {
-  if (pathname === '/') {
-    return pathname;
-  }
-
-  return pathname.replace(/\/$/, '') || '/';
-};
+const DROPDOWN_HOVER_DELAY = 300; // milliseconds
 
 // navigation component
 export function Navigation() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [currentPath, setCurrentPath] = useState<string>(() =>
-    normalizePath(window.location?.pathname ?? '/')
-  );
+  const location = useLocation();
+  const currentPath = normalizePath(location.pathname);
 
   // cleanup timeout on unmount
   useEffect(() => {
@@ -29,17 +24,6 @@ export function Navigation() {
     };
   }, []);
 
-  useEffect(() => {
-    const handlePopState = () => {
-      setCurrentPath(normalizePath(window.location.pathname));
-    };
-
-    window.addEventListener('popstate', handlePopState);
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, []);
-
   // handle delayed dropdown open
   const handleMouseEnter = (label: string) => {
     if (timeoutRef.current) {
@@ -47,7 +31,7 @@ export function Navigation() {
     }
     timeoutRef.current = setTimeout(() => {
       setActiveDropdown(label);
-    }, 300);
+    }, DROPDOWN_HOVER_DELAY);
   };
 
   // handle dropdown close
@@ -60,14 +44,14 @@ export function Navigation() {
 
   return (
     <nav
-      className="fixed inset-x-0 top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-background-alt)]/80 backdrop-blur"
+      className="fixed inset-x-0 top-0 z-50 border-b border-[var(--border)] bg-[var(--card)]/80 backdrop-blur"
       aria-label="Main navigation"
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         {/* logo/home link */}
         <a
           href="#top"
-          className="font-semibold tracking-wide text-[var(--color-text-light)]"
+          className="font-semibold tracking-wide text-[var(--fg)]"
           aria-label="Go to top of page"
         >
           gf
@@ -83,7 +67,7 @@ export function Navigation() {
                   onMouseEnter={() => handleMouseEnter(link.label)}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <button className="flex items-center gap-1 transition hover:text-[var(--color-text-light)]">
+                  <button className="flex items-center gap-1 transition hover:text-[var(--fg)]">
                     {link.label}
                     <svg
                       className={`h-3 w-3 transition-transform duration-150 ${activeDropdown === link.label ? 'rotate-180' : ''}`}
@@ -101,25 +85,46 @@ export function Navigation() {
                   </button>
                   {activeDropdown === link.label && (
                     <div className="absolute left-1/2 top-full w-64 -translate-x-1/2 pt-2">
-                      <div className="rounded-md border border-[var(--color-border)] bg-[var(--color-background-alt)] py-2 shadow-lg">
-                        {link.dropdown.map(item => (
-                          <a
-                            key={item.href}
-                            href={item.href}
-                            className="block px-4 py-2 transition hover:bg-[var(--color-background)]"
-                            target={item.external ? '_blank' : undefined}
-                            rel={
-                              item.external ? 'noopener noreferrer' : undefined
-                            }
-                          >
-                            <div className="font-medium text-[var(--color-text-light)]">
-                              {item.label}
-                            </div>
-                            <div className="text-xs text-[var(--color-text-secondary)]">
-                              {item.description}
-                            </div>
-                          </a>
-                        ))}
+                      <div className="rounded-md border border-[var(--border)] bg-[var(--card)] py-2 shadow-lg">
+                        {link.dropdown.map(item => {
+                          const isItemInternal = Boolean(
+                            !item.external && item.href.startsWith('/')
+                          );
+
+                          if (isItemInternal) {
+                            return (
+                              <Link
+                                key={item.href}
+                                to={item.href}
+                                className="block px-4 py-2 transition hover:bg-[var(--bg)]"
+                              >
+                                <div className="font-medium text-[var(--fg)]">
+                                  {item.label}
+                                </div>
+                                <div className="text-xs text-[var(--color-muted)]">
+                                  {item.description}
+                                </div>
+                              </Link>
+                            );
+                          }
+
+                          return (
+                            <a
+                              key={item.href}
+                              href={item.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block px-4 py-2 transition hover:bg-[var(--bg)]"
+                            >
+                              <div className="font-medium text-[var(--fg)]">
+                                {item.label}
+                              </div>
+                              <div className="text-xs text-[var(--color-muted)]">
+                                {item.description}
+                              </div>
+                            </a>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
@@ -133,11 +138,24 @@ export function Navigation() {
             const isActive =
               isInternal && normalizePath(link.href!) === currentPath;
 
+            if (isInternal) {
+              return (
+                <Link
+                  key={link.href}
+                  to={link.href!}
+                  className={`transition hover:text-[var(--fg)] ${isActive ? 'text-[var(--accent)]' : ''}`}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {link.label}
+                </Link>
+              );
+            }
+
             return (
               <a
                 key={link.href}
                 href={link.href}
-                className={`transition hover:text-[var(--color-text-light)] ${isActive ? 'text-[var(--color-primary)]' : ''}`}
+                className={`transition hover:text-[var(--fg)] ${isActive ? 'text-[var(--accent)]' : ''}`}
                 target={link.external ? '_blank' : undefined}
                 rel={link.external ? 'noopener noreferrer' : undefined}
                 aria-current={isActive ? 'page' : undefined}

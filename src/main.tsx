@@ -1,26 +1,20 @@
 // src/main.tsx
-// application entry point w/ React StrictMode
+// application entry point w/ React StrictMode & routing
 
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './index.css';
-import App from './App.tsx';
-import ProjectsPage from './pages/ProjectsPage.tsx';
-
-const normalizePathname = (pathname: string): string => {
-  if (pathname === '/') {
-    return pathname;
-  }
-
-  return pathname.replace(/\/$/, '') || '/';
-};
-
-const currentPath = normalizePathname(window.location.pathname);
-
-const CurrentView = currentPath === '/projects' ? ProjectsPage : App;
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import '~/index.css';
+import App from '~/App';
+import { ProjectsPage } from '~/pages/ProjectsPage';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <CurrentView />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/projects" element={<ProjectsPage />} />
+      </Routes>
+    </BrowserRouter>
   </StrictMode>
 );
