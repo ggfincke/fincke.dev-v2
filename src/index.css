@@ -15,6 +15,27 @@
   /* helper aliases */
   --accent: var(--color-primary);
   --bg: var(--color-background);
+  --fg: var(--color-text-light);
+  --muted: var(--color-text);
+  --border: var(--color-border);
+  --card: var(--color-background-alt);
+  --ring: rgba(128, 203, 196, 0.45);
+  --accent-contrast: var(--color-background);
+  --color-text-secondary: var(--color-muted);
+
+  /* status colors for badges and indicators */
+  --status-in-development: #82aaff;
+  --status-in-development-bg: rgba(130, 170, 255, 0.15);
+  --status-complete: #c3e88d;
+  --status-complete-bg: rgba(195, 232, 141, 0.15);
+  --status-paused: #f78c6c;
+  --status-paused-bg: rgba(247, 140, 108, 0.15);
+  --status-experimental: #c792ea;
+  --status-experimental-bg: rgba(199, 146, 234, 0.15);
+  --status-planned: #ffcb6b;
+  --status-planned-bg: rgba(255, 203, 107, 0.15);
+  --status-live: #80cbc4;
+  --status-live-bg: rgba(128, 203, 196, 0.15);
 }
 
 body
@@ -26,4 +47,24 @@ body
 html
 {
   overflow: hidden;
+}
+
+@keyframes fadeIn
+{
+  from
+  {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to
+  {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn
+{
+  animation: fadeIn 0.2s ease-in-out forwards;
 }
