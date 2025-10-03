@@ -4,7 +4,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { SkillTooltip } from '~/components/display/SkillTooltip';
-import { getProjectsBySkill } from '~/data/projects';
+import { getProjectsBySkill } from '~/data/projectFilters';
 import type { Project } from '~/types';
 
 const DEFAULT_HOVER_DELAY = 150; // milliseconds

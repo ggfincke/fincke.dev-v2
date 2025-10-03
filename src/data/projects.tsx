@@ -1,9 +1,7 @@
 // src/data/projects.tsx
-// project portfolio data w/ filtering utilities
+// project portfolio data
 
 import type { Project } from '~/types';
-
-import { skillMappings } from '~/data/skillMappings';
 
 export const projects: Project[] = [
   {
@@ -161,12 +159,36 @@ export const projects: Project[] = [
     repoUrl: 'https://github.com/ggfincke/SwimMate',
   },
   {
+    title: 'How Pass@k is Used to Evaluate LLM Coding Performance',
+    tagline: 'Technical deep‑dive into the Pass@k metric for LLM evaluation.',
+    dateRange: 'Jan 2025',
+    status: 'complete',
+    madeFor: 'Personal',
+    featured: false,
+    bulletPoints: [
+      'Explains Pass@k metric used to evaluate code generation models like Codex and AlphaCode',
+      'Covers unbiased estimators to avoid repeated sampling during evaluation',
+      'Discusses sampling strategies (temperature, top‑p, top‑k) and their impact on model performance',
+      'Provides practical insights into benchmark design and evaluation methodologies',
+    ],
+    technologies: [
+      'Technical Writing',
+      'Machine Learning',
+      'LLM Evaluation',
+      'Codex',
+      'HumanEval',
+      'Statistical Methods',
+    ],
+    liveUrl:
+      'https://medium.com/@ggfincke/how-pass-k-is-used-to-evaluate-llm-coding-performance-296e5c4565bc',
+  },
+  {
     title: 'Portfolio Website',
     tagline: "The site you're on: fast, accessible, and CI‑driven.",
     dateRange: 'Mar 2025 - Present',
     status: 'live',
     madeFor: 'Personal',
-    featured: true,
+    featured: false,
     bulletPoints: [
       'Next.js + TypeScript + Tailwind; responsive UI with subtle motion',
       'Custom component system, accessibility and performance‑first design',
@@ -322,7 +344,7 @@ export const projects: Project[] = [
     dateRange: 'Sep 2024 - Dec 2024',
     status: 'complete',
     madeFor: 'Penn State',
-    featured: true,
+    featured: false,
     bulletPoints: [
       'React marketplace with live data integration and custom SQLite schema in BCNF',
       'Hand‑written SQL queries, filtering/search for sets & rarities, responsive UI (scored >100%)',
@@ -468,30 +490,3 @@ export const projects: Project[] = [
     ],
   },
 ];
-
-// get featured projects only
-export const getFeaturedProjects = (): Project[] => {
-  return projects.filter(project => project.featured);
-};
-
-// get all projects
-export const getAllProjects = (): Project[] => {
-  return projects;
-};
-
-// * Get projects filtered by skill/technology
-export const getProjectsBySkill = (skillName: string): Project[] => {
-  // normalize skill name for comparison
-  const normalizedSkill = skillName.toLowerCase();
-
-  // get exact matches for this skill using imported mappings
-  const skillSearchTerms = skillMappings[normalizedSkill] || [normalizedSkill];
-
-  return projects.filter(project => {
-    // check if any project technologies match search terms
-    return project.technologies.some((tech: string) => {
-      const normalizedTech = tech.toLowerCase();
-      return skillSearchTerms.includes(normalizedTech);
-    });
-  });
-};

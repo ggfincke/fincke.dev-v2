@@ -3,15 +3,15 @@
 
 import { useMemo } from 'react';
 
-import { Collaborators } from '~/components/display/Collaborators';
 import { ProjectLinks } from '~/components/display/ProjectLinks';
 import { SkillPill } from '~/components/display/SkillPill';
 import { StatusBadge } from '~/components/display/StatusBadge';
 import { StatusCircle } from '~/components/display/StatusCircle';
 import { VersionBadge } from '~/components/display/VersionBadge';
-import { getAllProjects } from '~/data/projects';
+import { getAllProjects } from '~/data/projectFilters';
 import { useExpandableRows } from '~/hooks/useExpandableRows';
 import { useTableResponsive } from '~/hooks/useTableResponsive';
+import { renderCollaborators } from '~/utils/renderCollaborators';
 
 // determine live link label based on URL type
 const getLiveLabel = (url: string): string => {
@@ -28,6 +28,9 @@ const extractLatestYear = (dateRange: string): number => {
 };
 
 // extract latest month from date range string
+// strategy: finds month closest to latest year in string
+// proximity check (<50 chars) handles "Sep 2024 - Present" cases
+// also handles cases where latest month chronologically should be used when multiple months are equidistant from year
 const extractLatestMonth = (dateRange: string): number => {
   const months = [
     'jan',
@@ -64,6 +67,10 @@ const extractLatestMonth = (dateRange: string): number => {
     const monthPos = lower.indexOf(match);
     const yearPos = lower.indexOf(String(latestYear));
 
+    // use this month if:
+    // - no year found (latestYear === 0), OR
+    // - month is within 50 chars of the latest year (likely associated), OR
+    // - this month is later in the year than current latestMonth
     if (
       latestYear === 0 ||
       Math.abs(monthPos - yearPos) < 50 ||
@@ -76,7 +83,7 @@ const extractLatestMonth = (dateRange: string): number => {
   return latestMonth;
 };
 
-// * projects table component w/ expandable rows
+// * Projects table component w/ expandable rows
 export function ProjectsTable() {
   const projects = useMemo(() => getAllProjects(), []);
   const { shouldShowCards, shouldShowTable } = useTableResponsive();
@@ -121,7 +128,7 @@ export function ProjectsTable() {
                         </div>
                         {project.collaborators && (
                           <div className="text-sm text-[var(--muted)]">
-                            with <Collaborators value={project.collaborators} />
+                            with {renderCollaborators(project.collaborators)}
                           </div>
                         )}
                       </div>
@@ -180,7 +187,7 @@ export function ProjectsTable() {
                               Collaborators
                             </h4>
                             <p className="text-[var(--muted)]">
-                              <Collaborators value={project.collaborators} />
+                              {renderCollaborators(project.collaborators)}
                             </p>
                           </div>
                         )}
@@ -316,7 +323,7 @@ export function ProjectsTable() {
                     </div>
                     {project.collaborators && (
                       <div className="text-sm text-[var(--muted)]">
-                        <Collaborators value={project.collaborators} />
+                        {renderCollaborators(project.collaborators)}
                       </div>
                     )}
                   </td>
@@ -327,7 +334,7 @@ export function ProjectsTable() {
                     {project.madeFor}
                   </td>
                   <td className="py-6 pl-4 pr-4">
-                    <div className="flex flex-wrap gap-2 items-center max-w-xs">
+                    <div className="flex flex-wrap gap-2 items-center max-w-md">
                       {project.technologies.slice(0, 3).map(tech => (
                         <SkillPill
                           key={tech}
@@ -392,7 +399,7 @@ export function ProjectsTable() {
                               Collaborators
                             </h4>
                             <p className="text-[var(--muted)]">
-                              <Collaborators value={project.collaborators} />
+                              {renderCollaborators(project.collaborators)}
                             </p>
                           </div>
                         )}
