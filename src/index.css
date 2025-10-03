@@ -1,26 +1,21 @@
 @import 'tailwindcss';
 
 :root {
-  --color-primary: #80cbc4;
-  --color-background: #0f111a;
-  --color-background-alt: #090b10;
-  --color-text: #babed8;
-  --color-text-light: #eeffff;
+  /* primary color variables */
+  --accent: #80cbc4;
+  --bg: #0f111a;
+  --card: #090b10;
+  --fg: #eeffff;
+  --muted: #babed8;
+  --border: #3e445d;
+
+  /* additional colors */
   --color-accent: #ffcc00;
-  --color-border: #3e445d;
   --color-input-bg: #1a1c25;
   --color-sidebar: #292d3e;
   --color-muted: #464b5d;
-  /* helper aliases */
-  --accent: var(--color-primary);
-  --bg: var(--color-background);
-  --fg: var(--color-text-light);
-  --muted: var(--color-text);
-  --border: var(--color-border);
-  --card: var(--color-background-alt);
   --ring: rgba(128, 203, 196, 0.45);
-  --accent-contrast: var(--color-background);
-  --color-text-secondary: var(--color-muted);
+  --accent-contrast: var(--bg);
 
   /* status colors for badges and indicators */
   --status-in-development: #82aaff;
@@ -38,12 +33,8 @@
 }
 
 body {
-  background: var(--color-background);
-  color: var(--color-text);
-}
-
-html {
-  overflow: hidden;
+  background: var(--bg);
+  color: var(--muted);
 }
 
 @keyframes fadeIn {

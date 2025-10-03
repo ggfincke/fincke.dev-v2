@@ -34,12 +34,8 @@ export function DecorativeWave() {
             y2="310.697"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0.1" stopColor="var(--color-primary)" />
-            <stop
-              offset="0.9"
-              stopColor="var(--color-background)"
-              stopOpacity="0.15"
-            />
+            <stop offset="0.1" stopColor="var(--accent)" />
+            <stop offset="0.9" stopColor="var(--bg)" stopOpacity="0.15" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_theme"
@@ -49,7 +45,7 @@ export function DecorativeWave() {
             y2="247.71"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="1" stopColor="var(--color-primary)" />
+            <stop offset="1" stopColor="var(--accent)" />
           </linearGradient>
         </defs>
       </svg>

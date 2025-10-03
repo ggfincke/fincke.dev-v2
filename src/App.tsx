@@ -1,16 +1,16 @@
 // src/App.tsx
 // main application component w/ layout & decorative effects
 
-import { Navigation } from './components/Navigation';
-import { Hero } from './components/Hero';
-import { About } from './components/About';
-import { GlowEffect } from './components/GlowEffect';
-import { DecorativeWave } from './components/DecorativeWave';
+import { Navigation } from '~/components/Navigation';
+import { Hero } from '~/components/Hero';
+import { About } from '~/components/About';
+import { GlowEffect } from '~/components/GlowEffect';
+import { DecorativeWave } from '~/components/DecorativeWave';
 
 // main app component
 function App() {
   return (
-    <div className="relative h-screen overflow-hidden bg-[var(--color-background)] text-[var(--color-text)]">
+    <div className="relative h-screen overflow-hidden bg-[var(--bg)] text-[var(--muted)]">
       <Navigation />
 
       {/* main content section */}

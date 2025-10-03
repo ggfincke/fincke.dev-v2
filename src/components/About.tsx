@@ -1,7 +1,7 @@
 // src/components/About.tsx
 // about section w/ bio & contact information
 
-import { ABOUT_CONTENT } from '../data/siteContent';
+import { ABOUT_CONTENT } from '~/data/siteContent';
 
 // about component
 export function About() {
@@ -9,22 +9,22 @@ export function About() {
     <section aria-labelledby="about-heading">
       <h2
         id="about-heading"
-        className="text-base font-semibold tracking-wide text-[var(--color-text-light)]"
+        className="text-base font-semibold tracking-wide text-[var(--fg)]"
       >
         {ABOUT_CONTENT.heading}
       </h2>
       {ABOUT_CONTENT.paragraphs.map((paragraph, index) => (
         <p
           key={index}
-          className="mt-3 text-sm leading-relaxed text-[var(--color-text)]"
+          className="mt-3 text-sm leading-relaxed text-[var(--muted)]"
         >
           {paragraph}
         </p>
       ))}
-      <p className="mt-3 text-sm leading-relaxed text-[var(--color-text)]">
+      <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
         Would love to collaborate or chat! Reach me at{' '}
         <a
-          className="underline decoration-[var(--color-muted)] underline-offset-4 hover:text-[var(--color-text-light)]"
+          className="underline decoration-[var(--color-muted)] underline-offset-4 hover:text-[var(--fg)]"
           href={`mailto:${ABOUT_CONTENT.email}`}
         >
           {ABOUT_CONTENT.email}
