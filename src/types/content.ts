@@ -11,3 +11,26 @@ export interface HeroContent {
   name: string;
   tagline: string;
 }
+
+export interface WorkExperience {
+  title: string;
+  company: string;
+  dateRange: string;
+  description: string;
+  technologies?: string[];
+  link?: string;
+}
+
+export interface SocialLink {
+  label: string;
+  url: string;
+  icon:
+    | 'email'
+    | 'github'
+    | 'linkedin'
+    | 'phone'
+    | 'medium'
+    | 'instagram'
+    | 'twitter'
+    | 'youtube';
+}

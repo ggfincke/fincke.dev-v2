@@ -1,7 +1,12 @@
 // src/data/siteContent.ts
 // static content for hero, about, & navigation
 
-import type { NavLink, HeroContent, AboutContent } from '~/types';
+import type {
+  HeroContent,
+  AboutContent,
+  WorkExperience,
+  SocialLink,
+} from '~/types';
 
 export const HERO_CONTENT: HeroContent = {
   name: 'Garrett Fincke',
@@ -19,26 +24,73 @@ export const ABOUT_CONTENT: AboutContent = {
   email: 'garrettfincke@gmail.com',
 };
 
-export const NAV_LINKS: NavLink[] = [
+export const WORK_EXPERIENCE: WorkExperience[] = [
   {
-    label: 'Resume',
-    dropdown: [
-      {
-        href: '/documents/resume-selected.pdf',
-        label: 'Selected',
-        description: 'My standard, go-to resume with my most relevant work.',
-        external: true,
-      },
-      {
-        href: '/documents/resume-master.pdf',
-        label: 'Master',
-        description: 'Literally everything I have ever done!',
-        external: true,
-      },
-    ],
+    title: 'Software Engineering Contractor',
+    company: 'Scale AI',
+    dateRange: 'May 2024 — Jul 2025',
+    description:
+      'Built internal tooling to evaluate LLM-generated code, automating compilation, execution, linting, and test orchestration to measure pass@k and correctness. Designed training/eval data pipelines with schema versioning and validation, and instrumented dashboards to track error rates and test failure modes.',
+    technologies: ['Python', 'TypeScript', 'Data Pipelines', 'LLM Evaluation'],
+    link: 'https://medium.com/@ggfincke/how-pass-k-is-used-to-evaluate-llm-coding-performance-296e5c4565bc',
+  },
+  // {
+  //   title: 'CMPSC 475 Learning Assistant (iOS / Applications Programming)',
+  //   company: 'Pennsylvania State University',
+  //   dateRange: 'Aug 2024 — Dec 2024',
+  //   description:
+  //     'Mentored students in iOS/mobile application development using Swift and SwiftUI. Collaborated with faculty to tailor instruction based on student progress and technical challenges.',
+  //   technologies: ['Swift', 'SwiftUI', 'iOS'],
+  // },
+  // {
+  //   title: 'Owner / Operator',
+  //   company: 'Pink Ocean Collectibles',
+  //   dateRange: 'Apr 2020 — Present',
+  //   description:
+  //     'Build and operate multi-channel storefront with 2000+ sales, $75k+ lifetime profit, and 100% positive feedback.',
+  //   technologies: [],
+  // },
+];
+
+export const SOCIAL_LINKS: SocialLink[] = [
+  {
+    label: 'Email',
+    url: 'mailto:garrettfincke@gmail.com',
+    icon: 'email',
   },
   {
-    href: '/projects',
-    label: 'Projects',
+    label: 'Phone',
+    url: 'tel:7247777186',
+    icon: 'phone',
+  },
+  {
+    label: 'GitHub',
+    url: 'https://github.com/ggfincke',
+    icon: 'github',
+  },
+  {
+    label: 'LinkedIn',
+    url: 'https://www.linkedin.com/in/garrett-fincke/',
+    icon: 'linkedin',
+  },
+  {
+    label: 'Medium',
+    url: 'https://medium.com/@ggfincke',
+    icon: 'medium',
+  },
+  {
+    label: 'Instagram',
+    url: 'https://instagram.com/ggfincke',
+    icon: 'instagram',
+  },
+  {
+    label: 'Twitter',
+    url: 'https://twitter.com/finckedev',
+    icon: 'twitter',
+  },
+  {
+    label: 'YouTube',
+    url: 'https://youtube.com/@tterrag456',
+    icon: 'youtube',
   },
 ];
