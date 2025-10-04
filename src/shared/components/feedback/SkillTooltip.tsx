@@ -6,8 +6,10 @@ import { useEffect, useRef, useState } from 'react';
 import { StatusCircle } from '~/shared/components/ui/StatusCircle';
 import type { Project } from '~/shared/types';
 
-const TOOLTIP_SPACING = 6; // pixels between tooltip and target
-const VIEWPORT_PADDING = 8; // pixels from viewport edge
+// space between tooltip & target element
+const TOOLTIP_SPACING = 6;
+// minimum gap from viewport edge
+const VIEWPORT_PADDING = 8;
 const MAX_VISIBLE_PROJECTS = 6;
 
 interface SkillTooltipProps {
@@ -25,7 +27,7 @@ export function SkillTooltip({
   const tooltipRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
-  // calculate tooltip position based on target element
+  // compute tooltip position w/ target metrics
   useEffect(() => {
     if (!isVisible || !targetRef.current || !tooltipRef.current) {
       return;

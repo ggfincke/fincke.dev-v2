@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 :root {
-  /* primary color variables */
+  /* primary color vars */
   --accent: #80cbc4;
   --bg: #0f111a;
   --card: #090b10;
@@ -11,7 +11,7 @@
   --ring: rgba(128, 203, 196, 0.45);
   --accent-contrast: var(--bg);
 
-  /* status colors for badges and indicators */
+  /* status colors for badges & indicators */
   --status-in-development: #82aaff;
   --status-in-development-bg: rgba(130, 170, 255, 0.15);
   --status-complete: #c3e88d;
@@ -32,7 +32,7 @@ body {
   color: var(--muted);
 }
 
-/* custom scrollbar styles */
+/* custom scrollbar styling */
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;

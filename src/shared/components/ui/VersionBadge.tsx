@@ -41,7 +41,7 @@ export function VersionBadge({ repoUrl }: VersionBadgeProps) {
           setVersion(release.tag_name);
         }
       } catch {
-        // swallow errors; badge is optional
+        // swallow errors since badge is optional
       } finally {
         if (isMounted) {
           setLoading(false);

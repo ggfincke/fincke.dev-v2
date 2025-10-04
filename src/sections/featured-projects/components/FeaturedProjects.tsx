@@ -2,6 +2,7 @@
 // featured projects highlight w/ link to full projects page
 
 import { Link } from 'react-router-dom';
+import { ArrowIcon } from '~/shared/components/ui/ArrowIcon';
 import { getFeaturedProjects } from '~/sections/projects-archive/content/projectFilters';
 import { FEATURED_PROJECT_TITLES } from '../content/featuredProjects';
 import { FeaturedProjectCard } from './FeaturedProjectCard';
@@ -27,19 +28,7 @@ export function FeaturedProjects() {
         className="inline-flex items-center gap-2 text-sm text-[var(--accent)] transition hover:text-[var(--fg)]"
       >
         View All Projects
-        <svg
-          className="h-4 w-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M17 8l4 4m0 0l-4 4m4-4H3"
-          />
-        </svg>
+        <ArrowIcon />
       </Link>
     </section>
   );

@@ -8,7 +8,7 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
 
-    /* Bundler mode */
+    /* bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
@@ -16,13 +16,13 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    /* Path aliases */
+    /* path aliases */
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
     },
 
-    /* Linting */
+    /* linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

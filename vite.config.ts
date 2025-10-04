@@ -7,7 +7,7 @@ import { dirname, resolve } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// https://vite.dev/config/
+// vite config docs
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {

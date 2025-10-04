@@ -2,7 +2,7 @@
 // skill-to-technology mappings w/ bidirectional semantic search
 
 export const skillMappings: Record<string, string[]> = {
-  // Languages
+  // languages
   python: ['python'],
   swift: ['swift'],
   c: ['c'],
@@ -14,7 +14,7 @@ export const skillMappings: Record<string, string[]> = {
   solidity: ['solidity'],
   verilog: ['verilog'],
 
-  // Frontend frameworks
+  // frontend frameworks
   react: ['react', 'next.js'],
   'next.js': ['next.js', 'react'],
   'tailwind css': ['tailwind css'],
@@ -23,7 +23,7 @@ export const skillMappings: Record<string, string[]> = {
   swiftui: ['swiftui'],
   uikit: ['uikit'],
 
-  // Backend frameworks
+  // backend frameworks
   'node.js': ['node.js'],
   django: ['django'],
   fastapi: ['fastapi'],
@@ -31,14 +31,14 @@ export const skillMappings: Record<string, string[]> = {
   'rest apis': ['rest apis'],
   'spring boot': ['spring boot'],
 
-  // Databases
+  // databases
   postgresql: ['postgresql'],
   sqlite: ['sqlite'],
   supabase: ['supabase'],
   firebase: ['firebase'],
   redis: ['redis'],
 
-  // Mobile platforms
+  // mobile platforms
   ios: ['ios', 'swiftui', 'uikit'],
   watchos: ['watchos'],
   healthkit: ['healthkit'],
@@ -72,7 +72,7 @@ export const skillMappings: Record<string, string[]> = {
   'random fourier features': ['random fourier features'],
   'machine learning': ['machine learning', 'scikit-learn', 'deep learning'],
 
-  // DevOps & Tools
+  // devops & tools
   'github actions': ['github actions'],
   'ci/cd (github actions)': ['github actions', 'ci/cd'],
   docker: ['docker'],
@@ -85,13 +85,13 @@ export const skillMappings: Record<string, string[]> = {
   'git hooks': ['git hooks'],
   'lighthouse ci': ['lighthouse ci'],
 
-  // Web3 & Blockchain
+  // web3 & blockchain
   'web3.js': ['web3.js'],
   metamask: ['metamask'],
   'blockchain development': ['solidity', 'ethereum', 'web3.js'],
   ethereum: ['ethereum', 'solidity', 'web3.js'],
 
-  // Systems & Architecture
+  // systems & architecture
   'operating systems': ['operating systems'],
   'computer architecture': ['computer architecture'],
   'storage systems': ['storage systems'],
@@ -101,12 +101,12 @@ export const skillMappings: Record<string, string[]> = {
   networking: ['networking'],
   caching: ['caching'],
 
-  // Hardware
+  // hardware
   fpga: ['fpga'],
   'xilinx vivado': ['xilinx vivado'],
   'digital design': ['digital design'],
 
-  // Specialized
+  // specialized
   selenium: ['selenium'],
   'web scraping (selenium, beautifulsoup)': [
     'selenium',

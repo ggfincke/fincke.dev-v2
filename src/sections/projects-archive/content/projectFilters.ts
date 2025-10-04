@@ -18,14 +18,14 @@ export const getAllProjects = (): Project[] => {
 
 // get projects filtered by skill/technology
 export const getProjectsBySkill = (skillName: string): Project[] => {
-  // normalize skill name for comparison
+  // normalize skill name for matching
   const normalizedSkill = skillName.toLowerCase();
 
-  // get exact matches for this skill using imported mappings
+  // pull canonical matches via skill mappings
   const skillSearchTerms = skillMappings[normalizedSkill] || [normalizedSkill];
 
   return projects.filter(project => {
-    // check if any project technologies match search terms
+    // confirm project technologies include any mapped term
     return project.technologies.some((tech: string) => {
       const normalizedTech = tech.toLowerCase();
       return skillSearchTerms.includes(normalizedTech);

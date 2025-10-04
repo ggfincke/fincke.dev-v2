@@ -1,6 +1,7 @@
 // src/sections/home/components/About.tsx
 // about section w/ bio & contact information
 
+import { InlineLink } from '~/shared/components/ui/InlineLink';
 import { ABOUT_CONTENT } from '../content/aboutContent';
 
 // about component
@@ -18,12 +19,9 @@ export function About() {
       </p>
       <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
         Would love to collaborate or chat! Reach me at{' '}
-        <a
-          className="underline decoration-[var(--muted)] underline-offset-4 hover:text-[var(--fg)]"
-          href={`mailto:${ABOUT_CONTENT.email}`}
-        >
+        <InlineLink href={`mailto:${ABOUT_CONTENT.email}`}>
           {ABOUT_CONTENT.email}
-        </a>
+        </InlineLink>
         .
       </p>
     </section>

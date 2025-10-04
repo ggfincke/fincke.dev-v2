@@ -7,7 +7,8 @@ import { SkillTooltip } from '~/shared/components/feedback/SkillTooltip';
 import { getProjectsBySkill } from '~/sections/projects-archive/content/projectFilters';
 import type { Project } from '~/shared/types';
 
-const DEFAULT_HOVER_DELAY = 150; // milliseconds
+// default hover delay in ms
+const DEFAULT_HOVER_DELAY = 150;
 
 interface SkillPillProps {
   name: string;

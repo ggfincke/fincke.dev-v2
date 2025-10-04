@@ -4,7 +4,7 @@
 import type { Skill, SkillCategory } from '~/shared/types';
 
 export const skills: Skill[] = [
-  // Languages
+  // languages
   { name: 'Python', category: 'languages' },
   { name: 'Swift', category: 'languages' },
   { name: 'C', category: 'languages' },
@@ -19,7 +19,7 @@ export const skills: Skill[] = [
   { name: 'Solidity', category: 'languages' },
   { name: 'Verilog', category: 'languages' },
 
-  // Frontend
+  // frontend
   { name: 'React', category: 'frontend' },
   { name: 'Next.js', category: 'frontend' },
   { name: 'Tailwind CSS', category: 'frontend' },
@@ -28,7 +28,7 @@ export const skills: Skill[] = [
   { name: 'SwiftUI', category: 'frontend' },
   { name: 'UIKit', category: 'frontend' },
 
-  // Backend & APIs
+  // backend & APIs
   { name: 'Node.js', category: 'backend' },
   { name: 'Django', category: 'backend' },
   { name: 'FastAPI', category: 'backend' },
@@ -36,14 +36,14 @@ export const skills: Skill[] = [
   { name: 'REST APIs', category: 'backend' },
   { name: 'Spring Boot', category: 'backend' },
 
-  // Databases & Caches
+  // databases & caches
   { name: 'PostgreSQL', category: 'database' },
   { name: 'SQLite', category: 'database' },
   { name: 'Supabase', category: 'database' },
   { name: 'Firebase', category: 'database' },
   { name: 'Redis', category: 'database' },
 
-  // Mobile (iOS & watchOS)
+  // mobile (iOS & watchOS)
   { name: 'iOS', category: 'mobile' },
   { name: 'watchOS', category: 'mobile' },
   { name: 'HealthKit', category: 'mobile' },
@@ -53,7 +53,7 @@ export const skills: Skill[] = [
   { name: 'Core Data', category: 'mobile' },
   { name: 'Swift Charts', category: 'mobile' },
 
-  // AI/ML & Data
+  // AI/ML & data
   { name: 'PyTorch', category: 'ai-ml' },
   { name: 'TensorFlow', category: 'ai-ml' },
   { name: 'Keras', category: 'ai-ml' },
@@ -81,7 +81,7 @@ export const skills: Skill[] = [
   { name: 'DenseNet', category: 'ai-ml' },
   { name: 'Random Fourier Features', category: 'ai-ml' },
 
-  // DevOps & CI/CD
+  // devops & CI/CD
   {
     name: 'GitHub Actions',
     category: 'tools',
@@ -90,12 +90,12 @@ export const skills: Skill[] = [
   { name: 'Docker', category: 'tools' },
   { name: 'Microservices', category: 'tools' },
 
-  // Web3 & Blockchain
+  // web3 & blockchain
   { name: 'Web3.js', category: 'specialized' },
   { name: 'MetaMask', category: 'specialized' },
   { name: 'blockchain development', category: 'specialized' },
 
-  // Systems & Architecture
+  // systems & architecture
   { name: 'Operating Systems', category: 'specialized' },
   { name: 'Computer Architecture', category: 'specialized' },
   { name: 'Storage Systems', category: 'specialized' },
@@ -105,19 +105,19 @@ export const skills: Skill[] = [
   { name: 'Networking', category: 'specialized' },
   { name: 'Caching', category: 'specialized' },
 
-  // Hardware & EDA
+  // hardware & EDA
   { name: 'FPGA', category: 'specialized' },
   { name: 'Xilinx Vivado', category: 'specialized' },
   { name: 'Digital Design', category: 'specialized' },
 
-  // Tools & Design
+  // tools & design
   { name: 'VS Code', category: 'tools' },
   { name: 'Xcode', category: 'tools' },
   { name: 'Figma', category: 'tools' },
   { name: 'LaTeX', category: 'tools' },
   { name: 'Git', category: 'tools' },
 
-  // Specialized
+  // specialized
   {
     name: 'Selenium',
     category: 'specialized',

@@ -66,7 +66,7 @@ export const projects: Project[] = [
       'Gradle',
       'Go',
     ],
-    // imagePath: "/assets/projects/images/hopper.png",
+    // todo restore hopper screenshot asset once export is ready
     imageAlt: 'Hopper inventory management system screenshot',
     repoUrl: 'https://github.com/ggfincke/hopper',
   },

@@ -11,9 +11,9 @@ export const extractLatestYear = (dateRange: string): number => {
 };
 
 // extract latest month from date range string
-// strategy: finds month closest to latest year in string
-// proximity check (<50 chars) handles "Sep 2024 - Present" cases
-// also handles cases where latest month chronologically should be used when multiple months are equidistant from year
+// strategy: find month closest to latest year in string
+// proximity check (<50 chars) handles Sep 2024 - Present cases
+// also prefer later month when multiple matches sit near that year
 export const extractLatestMonth = (dateRange: string): number => {
   const months = [
     'jan',
@@ -50,10 +50,7 @@ export const extractLatestMonth = (dateRange: string): number => {
     const monthPos = lower.indexOf(match);
     const yearPos = lower.indexOf(String(latestYear));
 
-    // use this month if:
-    // - no year found (latestYear === 0), OR
-    // - month is within 50 chars of the latest year (likely associated), OR
-    // - this month is later in the year than current latestMonth
+    // keep this month when no year found, month sits near latest year, or month outranks current pick
     if (
       latestYear === 0 ||
       Math.abs(monthPos - yearPos) < 50 ||
