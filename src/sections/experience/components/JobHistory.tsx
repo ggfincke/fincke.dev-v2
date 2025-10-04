@@ -2,48 +2,19 @@
 // brief job history w/ link to full resume
 
 import { WORK_EXPERIENCE } from '../content/experienceTimeline';
+import { JobCard } from './JobCard';
 
 // job history component
 export function JobHistory() {
   return (
-    <section className="space-y-8">
-      {WORK_EXPERIENCE.map((job, index) => (
-        <div key={index} className="group relative">
-          <div className="mb-2 flex items-baseline justify-between gap-2">
-            <h3 className="text-sm font-medium text-[var(--fg)]">
-              {job.link ? (
-                <a
-                  href={job.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-[var(--accent)] transition"
-                >
-                  {job.company}
-                </a>
-              ) : (
-                job.company
-              )}
-            </h3>
-            <span className="text-xs text-[var(--muted)]">{job.dateRange}</span>
-          </div>
-          <div className="mb-1 text-sm text-[var(--muted)]">{job.title}</div>
-          <p className="text-sm leading-relaxed text-[var(--muted)]">
-            {job.description}
-          </p>
-          {job.technologies && job.technologies.length > 0 && (
-            <div className="mt-2 flex flex-wrap gap-2">
-              {job.technologies.map((tech, techIndex) => (
-                <span
-                  key={techIndex}
-                  className="rounded-full bg-[var(--accent)]/10 px-2 py-1 text-xs text-[var(--accent)]"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
+    <section className="space-y-6 lg">
+      <ol className="space-y-6 sm:space-y-8 group/list">
+        {WORK_EXPERIENCE.map((job, index) => (
+          <li key={index}>
+            <JobCard job={job} />
+          </li>
+        ))}
+      </ol>
 
       <a
         href="/documents/resume-selected.pdf"
