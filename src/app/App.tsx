@@ -17,14 +17,14 @@ function App() {
       <main id="top" className="relative mx-auto max-w-7xl px-4 py-12">
         <div className="grid gap-16 lg:grid-cols-2 lg:items-center lg:gap-20">
           {/* left column: hero + about + social */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             <Hero />
             <About />
             <SocialLinks />
           </div>
 
           {/* right column: job history + featured projects */}
-          <div className="space-y-12 pt-11">
+          <div className="space-y-6 pt-11">
             <JobHistory />
             <FeaturedProjects />
           </div>

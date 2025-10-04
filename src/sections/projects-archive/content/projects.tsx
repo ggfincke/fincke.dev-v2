@@ -128,7 +128,6 @@ export const projects: Project[] = [
       'Swift',
     ],
     repoUrl: 'https://github.com/ggfincke/BoltHackathon',
-    liveUrl: 'https://bolt-hackathon-five.vercel.app',
   },
   {
     title: 'SwimMate',
