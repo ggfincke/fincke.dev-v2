@@ -13,7 +13,7 @@ export function ProjectsArchivePage() {
         <header className="space-y-4">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-sm text-[var(--muted)] transition hover:text-[var(--fg)]"
+            className="inline-flex items-center gap-2 text-sm text-[var(--red)] transition hover:text-[var(--white)]"
           >
             <svg
               className="h-4 w-4"
@@ -31,7 +31,7 @@ export function ProjectsArchivePage() {
             Back
           </Link>
           <div>
-            <h1 className="text-4xl font-bold text-[var(--fg)] md:text-5xl">
+            <h1 className="text-4xl font-bold text-[var(--cyan)] md:text-5xl">
               All Projects
             </h1>
             <p className="mt-3 text-lg text-[var(--muted)]">

@@ -1,16 +1,18 @@
 // src/sections/featured-projects/components/FeaturedProjectHeader.tsx
+// project title w/ external link icon
 
 interface FeaturedProjectHeaderProps {
   title: string;
   hasLink?: boolean;
 }
 
+// featured project header component
 export function FeaturedProjectHeader({
   title,
   hasLink,
 }: FeaturedProjectHeaderProps) {
   return (
-    <h3 className="text-sm font-medium text-[var(--fg)]">
+    <h3 className="text-sm font-medium text-[var(--white)]">
       {title}
       {hasLink && (
         <svg

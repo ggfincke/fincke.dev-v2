@@ -107,7 +107,9 @@ export function ProjectExpandedDetails({
           >
             Technologies
           </h4>
-          <div className={`flex flex-wrap ${isMobile ? 'gap-2' : 'gap-x-3 gap-y-2'}`}>
+          <div
+            className={`flex flex-wrap ${isMobile ? 'gap-2' : 'gap-x-3 gap-y-2'}`}
+          >
             {project.technologies.map(tech => (
               <SkillPill
                 key={tech}

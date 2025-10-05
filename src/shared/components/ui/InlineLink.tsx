@@ -13,7 +13,7 @@ interface InlineLinkProps {
 export function InlineLink({
   href,
   children,
-  className = 'underline decoration-[var(--muted)] underline-offset-4 hover:text-[var(--fg)]',
+  className = 'text-[var(--red)] underline decoration-[var(--red)]/40 underline-offset-4 transition hover:text-[var(--white)] hover:decoration-[var(--white)]/40',
 }: InlineLinkProps) {
   return (
     <a className={className} href={href}>

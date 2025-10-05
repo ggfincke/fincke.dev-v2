@@ -19,7 +19,7 @@ export function JobCard({ job }: JobCardProps) {
       <div className="relative z-10">
         <JobCompanyHeader company={job.company} dateRange={job.dateRange} />
 
-        <div className="mb-1 text-sm text-[var(--muted)]">{job.title}</div>
+        <div className="mb-1 text-sm text-[var(--yellow)]">{job.title}</div>
 
         <p className="text-sm leading-relaxed text-[var(--muted)]">
           {job.description}

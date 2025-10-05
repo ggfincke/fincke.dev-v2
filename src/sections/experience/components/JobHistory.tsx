@@ -20,7 +20,7 @@ export function JobHistory() {
         href="/documents/resume-selected.pdf"
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 text-sm text-[var(--accent)] transition hover:text-[var(--fg)]"
+        className="inline-flex items-center gap-2 text-sm text-[var(--red)] transition hover:text-[var(--white)]"
       >
         View Full Resume
         <svg

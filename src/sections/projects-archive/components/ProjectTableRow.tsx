@@ -15,6 +15,7 @@ interface ProjectTableRowProps {
   getLiveLabel: (url: string) => string;
 }
 
+// project table row component
 export function ProjectTableRow({
   project,
   expanded,
@@ -28,11 +29,11 @@ export function ProjectTableRow({
       <td className="py-6 pl-6 pr-2">
         <ExpandToggle expanded={expanded} onToggle={onToggle} />
       </td>
-      <td className="py-6 pl-4 pr-4 text-[var(--muted)] font-mono text-sm">
+      <td className="py-6 pl-4 pr-4 text-[var(--comments)] font-mono text-sm">
         {year}
       </td>
       <td className="py-6 pl-4 pr-2">
-        <div className="font-semibold text-[var(--fg)] text-lg mb-1">
+        <div className="font-semibold text-[var(--white)] text-lg mb-1">
           {project.title}
         </div>
         {project.collaborators && (
@@ -48,12 +49,7 @@ export function ProjectTableRow({
       <td className="py-6 pl-4 pr-4">
         <div className="flex flex-wrap gap-2 items-center max-w-md">
           {project.technologies.slice(0, 3).map(tech => (
-            <SkillPill
-              key={tech}
-              name={tech}
-              size="xs"
-              showProjectsOnHover
-            />
+            <SkillPill key={tech} name={tech} size="xs" showProjectsOnHover />
           ))}
           {project.technologies.length > 3 && (
             <span className="text-[var(--muted)] text-xs">
