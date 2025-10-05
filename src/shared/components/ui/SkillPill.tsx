@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SkillTooltip } from '~/shared/components/feedback/SkillTooltip';
 import { getProjectsBySkill } from '~/sections/projects-archive/content/projectFilters';
 import type { Project } from '~/shared/types';
+import { getTechColor, getTechBgColor } from '~/shared/utils/techColors';
 
 // default hover delay in ms
 const DEFAULT_HOVER_DELAY = 150;
@@ -63,11 +64,18 @@ export function SkillPill({
     md: 'px-3 py-1 text-sm',
   } as const;
 
+  const textColor = getTechColor(name);
+  const bgColor = getTechBgColor(name);
+
   return (
     <>
       <span
         ref={pillRef}
-        className={`bg-[var(--card)] text-[var(--muted)] rounded-full inline-flex items-center justify-center whitespace-nowrap hover:bg-[var(--border)] transition-colors duration-200 ${showProjectsOnHover ? 'cursor-help hover:underline decoration-dotted underline-offset-2' : ''} ${sizeClasses[size]} ${className}`}
+        style={{
+          color: textColor,
+          backgroundColor: bgColor,
+        }}
+        className={`rounded-full inline-flex items-center justify-center whitespace-nowrap transition-all duration-200 ${showProjectsOnHover ? 'cursor-help hover:underline decoration-dotted underline-offset-2 hover:brightness-125' : 'hover:brightness-125'} ${sizeClasses[size]} ${className}`}
         onMouseEnter={() => {
           if (showProjectsOnHover) {
             setIsHovered(true);
