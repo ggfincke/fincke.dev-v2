@@ -11,6 +11,19 @@
   --ring: rgba(128, 203, 196, 0.45);
   --accent-contrast: var(--bg);
 
+  /* semantic text colors from Material Theme Ocean HC */
+  --white: #ffffff;
+  --cyan: #89ddff;
+  --orange: #f78c6c;
+  --yellow: #ffcb6b;
+  --green: #c3e88d;
+  --blue: #82aaff;
+  --purple: #c792ea;
+  --red: #f07178;
+  --pink: #ff9cac;
+  --violet: #bb80b3;
+  --comments: #464b5d;
+
   /* status colors for badges & indicators */
   --status-in-development: #82aaff;
   --status-in-development-bg: rgba(130, 170, 255, 0.15);
