@@ -112,6 +112,10 @@ const TECH_COLOR_MAP: TechColorMap = {
   CLI: 'backend',
   Figma: 'backend',
   Xcode: 'backend',
+  Vite: 'backend',
+  'React Router': 'backend',
+  ESLint: 'backend',
+  Prettier: 'backend',
 
   // Hardware/FPGA
   FPGA: 'backend',

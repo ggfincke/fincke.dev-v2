@@ -21,7 +21,7 @@ export function FeaturedProjectTechnologies({
         <SkillPill key={techIndex} name={tech} size="sm" />
       ))}
       {technologies.length > 4 && (
-        <span className="text-xs text-[var(--muted)]">
+        <span className="inline-flex items-center text-xs text-[var(--muted)]">
           +{technologies.length - 4} more
         </span>
       )}
