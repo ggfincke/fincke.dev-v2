@@ -7,10 +7,17 @@ import { JobCard } from './JobCard';
 // job history component
 export function JobHistory() {
   return (
-    <section className="space-y-6 lg">
+    <section
+      className="animate-slide-in-right space-y-6 opacity-0 lg"
+      style={{ animationDelay: '0.2s' }}
+    >
       <ol className="space-y-6 sm:space-y-8 group/list">
         {WORK_EXPERIENCE.map((job, index) => (
-          <li key={index}>
+          <li
+            key={index}
+            className="animate-slide-in-up opacity-0"
+            style={{ animationDelay: `${0.4 + index * 0.1}s` }}
+          >
             <JobCard job={job} />
           </li>
         ))}

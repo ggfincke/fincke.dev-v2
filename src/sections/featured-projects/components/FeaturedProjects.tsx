@@ -14,10 +14,17 @@ export function FeaturedProjects() {
   );
 
   return (
-    <section className="space-y-6 lg:space-y-8">
+    <section
+      className="animate-slide-in-right space-y-6 opacity-0 lg:space-y-8"
+      style={{ animationDelay: '0.4s' }}
+    >
       <ol className="space-y-6 sm:space-y-8 group/list">
         {featured.map((project, index) => (
-          <li key={index}>
+          <li
+            key={index}
+            className="animate-slide-in-up opacity-0"
+            style={{ animationDelay: `${0.6 + index * 0.1}s` }}
+          >
             <FeaturedProjectCard project={project} />
           </li>
         ))}

@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2025-10-07
+
+### Added
+- Staggered slide-in animations for page sections and list items
+- Respect for `prefers-reduced-motion` accessibility setting
+
+### Changed
+- Hero, About, and SocialLinks animate from left on page load
+- JobHistory and FeaturedProjects sections animate from right with staggered item reveals
+- Updated collaborator text to include "with" prefix in ProjectTableRow
+
 ## [2.1.0] - 2025-10-05
 
 ### Added

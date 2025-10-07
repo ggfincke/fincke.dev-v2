@@ -87,7 +87,11 @@ const iconMap = {
 // social links component
 export function SocialLinks() {
   return (
-    <nav aria-label="Social media links" className="flex gap-4">
+    <nav
+      aria-label="Social media links"
+      className="animate-slide-in-left flex gap-4 opacity-0"
+      style={{ animationDelay: '0.5s' }}
+    >
       {SOCIAL_LINKS.map((link: SocialLink) => {
         const Icon = iconMap[link.icon];
         return (

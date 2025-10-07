@@ -38,7 +38,7 @@ export function ProjectTableRow({
         </div>
         {project.collaborators && (
           <div className="text-sm text-[var(--muted)]">
-            {renderCollaborators(project.collaborators)}
+            with {renderCollaborators(project.collaborators)}
           </div>
         )}
       </td>

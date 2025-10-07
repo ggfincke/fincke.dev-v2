@@ -56,7 +56,11 @@ function highlightText(text: string) {
 // about component
 export function About() {
   return (
-    <section aria-labelledby="about-heading">
+    <section
+      aria-labelledby="about-heading"
+      className="animate-slide-in-left opacity-0"
+      style={{ animationDelay: '0.3s' }}
+    >
       <h2
         id="about-heading"
         className="text-base font-semibold tracking-wide text-[var(--cyan)]"

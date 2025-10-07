@@ -158,30 +158,6 @@ export const projects: Project[] = [
     repoUrl: 'https://github.com/ggfincke/SwimMate',
   },
   {
-    title: 'How Pass@k is Used to Evaluate LLM Coding Performance',
-    tagline: 'Technical deep‑dive into the Pass@k metric for LLM evaluation.',
-    dateRange: 'Jan 2025',
-    status: 'complete',
-    madeFor: 'Personal',
-    featured: false,
-    bulletPoints: [
-      'Explains Pass@k metric used to evaluate code generation models like Codex and AlphaCode',
-      'Covers unbiased estimators to avoid repeated sampling during evaluation',
-      'Discusses sampling strategies (temperature, top‑p, top‑k) and their impact on model performance',
-      'Provides practical insights into benchmark design and evaluation methodologies',
-    ],
-    technologies: [
-      'Technical Writing',
-      'Machine Learning',
-      'LLM Evaluation',
-      'Codex',
-      'HumanEval',
-      'Statistical Methods',
-    ],
-    liveUrl:
-      'https://medium.com/@ggfincke/how-pass-k-is-used-to-evaluate-llm-coding-performance-296e5c4565bc',
-  },
-  {
     title: 'Portfolio Website',
     tagline: "The site you're on: fast, accessible, and CI‑driven.",
     dateRange: 'Mar 2025 - Present',
