@@ -18,7 +18,6 @@ const TECH_COLOR_MAP: TechColorMap = {
   Swift: 'language',
   Java: 'language',
   Go: 'language',
-  Typescript: 'language',
   C: 'language',
   'C/C++': 'language',
   Solidity: 'language',
@@ -67,6 +66,11 @@ const TECH_COLOR_MAP: TechColorMap = {
 
   // AI/ML Libraries
   Ollama: 'framework',
+
+  // VS Code & Testing
+  'VS Code Extension API': 'framework',
+  minimatch: 'framework',
+  Mocha: 'framework',
 
   // ========================================
   // BACKEND/INFRASTRUCTURE (purple) - DevOps, DBs, Tools

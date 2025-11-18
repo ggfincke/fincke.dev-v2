@@ -71,6 +71,30 @@ export const projects: Project[] = [
     repoUrl: 'https://github.com/ggfincke/hopper',
   },
   {
+    title: 'Reactive Themes',
+    tagline:
+      'Context-aware VS Code extension that automatically switches editor themes based on user-defined rules.',
+    dateRange: 'November 2025 – Present',
+    status: 'in-development',
+    madeFor: 'Personal',
+    featured: false,
+    bulletPoints: [
+      'Implement rule engine using minimatch-based glob matching to apply themes by language, file path, and workspace context, with explicit overlap detection and precedence rules',
+      'Built ThemeManager with configurable debounced theme switching to avoid flicker and excessive theme churn as files change',
+      'Designed typed configuration layer with theme validation against installed themes, rule helpers, and safe parsing of reactiveThemes.rules / reactiveThemes.defaultTheme settings',
+      'Added command palette flows for creating, managing, and cleaning up rules, including inline validation and clear summaries of the resulting theme behavior',
+      'Wrote comprehensive test suite (rule engine, theme manager, overlap detection) and wired extension metadata to support reliable publishing and iteration',
+    ],
+    technologies: [
+      'TypeScript',
+      'Node.js',
+      'VS Code Extension API',
+      'minimatch',
+      'Mocha',
+    ],
+    repoUrl: 'https://github.com/ggfincke/reactive-themes',
+  },
+  {
     title: 'Loom',
     tagline: 'AI résumé‑tailoring CLI that preserves DOCX/LaTeX formatting.',
     dateRange: 'Aug 2025 – Present',
@@ -117,7 +141,7 @@ export const projects: Project[] = [
     imagePath: '/assets/projects/images/trackbasket.png',
     imageAlt: 'TrackBasket app screenshot',
     technologies: [
-      'Typescript',
+      'TypeScript',
       'Python',
       'Supabase',
       'Next.js',
