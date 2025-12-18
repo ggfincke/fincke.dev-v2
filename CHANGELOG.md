@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2025-12-17
+
+### Added
+
+- `Reactive Themes` VS Code extension project entry plus new skill mappings for the extension stack (VS Code API, minimatch, Mocha)
+- `useMediaQuery` hook powering ultra-wide layouts so 4K users see an extra featured project card and expanded job history
+
+### Changed
+
+- Consolidated site content into `src/content/*` with barrel exports for home, experience, projects, and skills; updated selectors and imports to use the shared content hub
+- Refined About section copy and refreshed both resume PDFs to reflect the latest personal details
+- Updated featured project imagery with hover depth/glow and normalized project/technology labeling (TrackBasket tagline, TypeScript pill)
+
 ## [2.3.0] - 2025-10-07
 
 ### Added
