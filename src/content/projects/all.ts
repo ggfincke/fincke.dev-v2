@@ -1,4 +1,4 @@
-// src/sections/projects-archive/content/projects.tsx
+// src/content/projects/all.ts
 // project portfolio data
 
 import type { Project } from '~/shared/types';

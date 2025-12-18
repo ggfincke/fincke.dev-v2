@@ -1,4 +1,4 @@
-// src/sections/home/content/socialLinks.ts
+// src/content/home/socialLinks.ts
 // social media links data
 
 import type { SocialLink } from '~/shared/types';

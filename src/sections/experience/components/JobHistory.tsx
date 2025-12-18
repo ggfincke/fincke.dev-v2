@@ -1,9 +1,9 @@
 // src/sections/experience/components/JobHistory.tsx
 // brief job history w/ link to full resume
 
-import { WORK_EXPERIENCE } from '../content/experienceTimeline';
-import { JobCard } from './JobCard';
 import { useMediaQuery } from '~/shared/hooks/useMediaQuery';
+import { WORK_EXPERIENCE } from '~/content/experience';
+import { JobCard } from './JobCard';
 
 // job history component
 export function JobHistory() {

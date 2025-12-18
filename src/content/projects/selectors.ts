@@ -1,9 +1,9 @@
-// src/sections/projects-archive/content/projectFilters.ts
+// src/content/projects/selectors.ts
 // filtering utilities for project data
 
 import type { Project } from '~/shared/types';
 
-import { projects } from './projects';
+import { projects } from './all';
 import { skillMappings } from './skillMappings';
 
 // get featured projects

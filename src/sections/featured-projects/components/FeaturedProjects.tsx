@@ -2,14 +2,15 @@
 // featured projects highlight w/ link to full projects page
 
 import { Link } from 'react-router-dom';
-import { ArrowIcon } from '~/shared/components/ui/ArrowIcon';
-import { getFeaturedProjects } from '~/sections/projects-archive/content/projectFilters';
+
 import {
   FEATURED_PROJECT_TITLES,
   WIDE_FEATURED_PROJECT_TITLES,
-} from '../content/featuredProjects';
-import { FeaturedProjectCard } from './FeaturedProjectCard';
+  getFeaturedProjects,
+} from '~/content/projects';
+import { ArrowIcon } from '~/shared/components/ui/ArrowIcon';
 import { useMediaQuery } from '~/shared/hooks/useMediaQuery';
+import { FeaturedProjectCard } from './FeaturedProjectCard';
 
 // featured projects component
 export function FeaturedProjects() {

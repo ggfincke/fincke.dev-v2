@@ -1,4 +1,4 @@
-// src/sections/home/content/heroContent.ts
+// src/content/home/hero.ts
 // hero section content
 
 import type { HeroContent } from '~/shared/types';

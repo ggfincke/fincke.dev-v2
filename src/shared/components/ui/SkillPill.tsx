@@ -4,9 +4,9 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { SkillTooltip } from '~/shared/components/feedback/SkillTooltip';
-import { getProjectsBySkill } from '~/sections/projects-archive/content/projectFilters';
 import type { Project } from '~/shared/types';
 import { getTechColor, getTechBgColor } from '~/shared/utils/techColors';
+import { getProjectsBySkill } from '~/content/projects';
 
 // default hover delay in ms
 const DEFAULT_HOVER_DELAY = 150;

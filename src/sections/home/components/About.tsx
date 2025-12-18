@@ -1,8 +1,8 @@
 // src/sections/home/components/About.tsx
 // about section w/ bio & contact information
 
+import { ABOUT_CONTENT } from '~/content/home';
 import { InlineLink } from '~/shared/components/ui/InlineLink';
-import { ABOUT_CONTENT } from '../content/aboutContent';
 
 // highlight specific keywords with color
 function highlightText(text: string) {

@@ -1,4 +1,4 @@
-// src/sections/experience/content/experienceTimeline.ts
+// src/content/experience/workExperience.ts
 // work experience timeline data
 
 import type { WorkExperience } from '~/shared/types';

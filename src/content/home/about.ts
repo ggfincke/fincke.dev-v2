@@ -1,4 +1,4 @@
-// src/sections/home/content/aboutContent.ts
+// src/content/home/about.ts
 // about section content
 
 import type { AboutContent } from '~/shared/types';

@@ -1,4 +1,4 @@
-// src/sections/featured-projects/content/featuredProjects.ts
+// src/content/projects/featured.ts
 // featured projects data
 
 export const FEATURED_PROJECT_TITLES = ['Loom', 'TrackBasket', 'SwimMate'];
