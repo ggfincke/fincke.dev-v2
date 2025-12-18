@@ -1,18 +1,24 @@
 // src/sections/experience/components/JobHistory.tsx
 // brief job history w/ link to full resume
 
-import { WORK_EXPERIENCE } from '../content/experienceTimeline';
+import { useMediaQuery } from '~/shared/hooks/useMediaQuery';
+import { WORK_EXPERIENCE } from '~/content/experience';
 import { JobCard } from './JobCard';
 
 // job history component
 export function JobHistory() {
+  const showExpandedExperience = useMediaQuery('(min-width: 1920px)');
+  const visibleJobs = WORK_EXPERIENCE.filter(job =>
+    job.visibility === 'wide' ? showExpandedExperience : true
+  );
+
   return (
     <section
-      className="animate-slide-in-right space-y-6 opacity-0 lg"
+      className="animate-slide-in-right space-y-6 opacity-0"
       style={{ animationDelay: '0.2s' }}
     >
       <ol className="space-y-6 sm:space-y-8 group/list">
-        {WORK_EXPERIENCE.map((job, index) => (
+        {visibleJobs.map((job, index) => (
           <li
             key={index}
             className="animate-slide-in-up opacity-0"

@@ -3,13 +3,13 @@
 
 import { useMemo } from 'react';
 
-import { getAllProjects } from '../content/projectFilters';
 import { useExpandableRows } from '../hooks/useExpandableRows';
 import { useTableResponsive } from '../hooks/useTableResponsive';
 import { extractLatestYear, extractLatestMonth } from '../utils/projectSort';
 import { ProjectMobileCard } from './ProjectMobileCard';
 import { ProjectTableRow } from './ProjectTableRow';
 import { ProjectExpandedDetails } from './ProjectExpandedDetails';
+import { getAllProjects } from '~/content/projects';
 
 // determine live link label based on URL type
 const getLiveLabel = (url: string): string => {

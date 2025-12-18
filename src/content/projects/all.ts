@@ -1,4 +1,4 @@
-// src/sections/projects-archive/content/projects.tsx
+// src/content/projects/all.ts
 // project portfolio data
 
 import type { Project } from '~/shared/types';
@@ -6,8 +6,7 @@ import type { Project } from '~/shared/types';
 export const projects: Project[] = [
   {
     title: 'Minecart',
-    tagline:
-      'Discord bot that boots, monitors, and admins Minecraft servers across Docker & AWS.',
+    tagline: 'Discord bot that boots, monitors, and admins Minecraft servers.',
     dateRange: 'September 2025 – Present',
     status: 'live',
     madeFor: 'Personal',
@@ -124,8 +123,7 @@ export const projects: Project[] = [
   },
   {
     title: 'TrackBasket',
-    tagline:
-      'AI‑assisted price tracking for 30k+ products across major retailers.',
+    tagline: 'AI‑assisted price tracking for 30k+ products across retailers.',
     dateRange: 'May 2025 - Present',
     status: 'live',
     madeFor: 'Bolt Hackathon',
@@ -155,8 +153,7 @@ export const projects: Project[] = [
   },
   {
     title: 'SwimMate',
-    tagline:
-      'Native iOS/watchOS swim tracker with Apple Watch metrics and Swift Charts.',
+    tagline: 'Native iOS/watchOS swimming workout tracker.',
     dateRange: 'Feb 2024 - Jun 2024, May 2025 - Present',
     status: 'in-development',
     madeFor: 'Penn State',

@@ -1,4 +1,4 @@
-// src/sections/projects-archive/content/skillMappings.ts
+// src/content/projects/skillMappings.ts
 // skill-to-technology mappings w/ bidirectional semantic search
 
 export const skillMappings: Record<string, string[]> = {

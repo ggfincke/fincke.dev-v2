@@ -5,7 +5,7 @@ import type { SimpleIcon } from 'simple-icons';
 import { siGithub, siInstagram, siMedium, siX, siYoutube } from 'simple-icons';
 
 import type { SocialLink } from '~/shared/types';
-import { SOCIAL_LINKS } from '../content/socialLinks';
+import { SOCIAL_LINKS } from '~/content/home';
 
 // icon components
 function EmailIcon() {

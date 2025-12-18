@@ -1,7 +1,7 @@
 // src/sections/home/components/Hero.tsx
 // hero section w/ name & tagline
 
-import { HERO_CONTENT } from '../content/heroContent';
+import { HERO_CONTENT } from '~/content/home';
 
 // hero component
 export function Hero() {

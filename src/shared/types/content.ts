@@ -19,6 +19,7 @@ export interface WorkExperience {
   description: string;
   technologies?: string[];
   link?: string;
+  visibility?: 'default' | 'wide';
 }
 
 export interface SocialLink {

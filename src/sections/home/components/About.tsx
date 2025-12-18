@@ -1,8 +1,8 @@
 // src/sections/home/components/About.tsx
 // about section w/ bio & contact information
 
+import { ABOUT_CONTENT } from '~/content/home';
 import { InlineLink } from '~/shared/components/ui/InlineLink';
-import { ABOUT_CONTENT } from '../content/aboutContent';
 
 // highlight specific keywords with color
 function highlightText(text: string) {
@@ -67,12 +67,15 @@ export function About() {
       >
         {ABOUT_CONTENT.heading}
       </h2>
-      <p
-        className="mt-3 text-sm leading-relaxed text-[var(--muted)]"
-        dangerouslySetInnerHTML={{
-          __html: highlightText(ABOUT_CONTENT.paragraphs[0]),
-        }}
-      />
+      {ABOUT_CONTENT.paragraphs.slice(0, 2).map((text, index) => (
+        <p
+          key={index}
+          className="mt-3 text-sm leading-relaxed text-[var(--muted)]"
+          dangerouslySetInnerHTML={{
+            __html: highlightText(text),
+          }}
+        />
+      ))}
       <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
         Would love to collaborate or chat! Reach me at{' '}
         <InlineLink href={`mailto:${ABOUT_CONTENT.email}`}>

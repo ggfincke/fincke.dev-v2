@@ -1,4 +1,4 @@
-// src/content/skills.ts
+// src/content/skills/index.ts
 // comprehensive skills data w/ category mappings
 
 import type { Skill, SkillCategory } from '~/shared/types';
