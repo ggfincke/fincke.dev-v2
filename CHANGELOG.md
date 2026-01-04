@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.1] - 2026-01-04
+
+### Added
+
+- New projects: `MDX Preview for VS Code`, `OpenCode to ccusage`, `Reactive Workbench`, and `SwimMate v2` (full-stack with Django + PostgreSQL + pgvector + iOS/watchOS)
+- Project images: `swimmatev2.png`, `vsc-mdx.png`, `vsc-mdx-ex.gif`
+- Resume LaTeX source (`master.tex`)
+
+### Changed
+
+- Featured projects now showcase SwimMate v2
+- Expanded tech color system from 4 to 6 categories (language, framework, infra, data, tooling, platform)
+- Updated resume PDF and project descriptions
+
 ## [2.4.0] - 2025-12-17
 
 ### Added

@@ -1,0 +1,44 @@
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+build
+.vite
+
+# Lockfiles
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
+
+# Cache directories
+.cache
+.eslintcache
+
+# IDE directories
+.vscode
+.idea
+
+# Git
+.git
+
+# Generated files
+*.min.js
+*.min.css
+
+# Public assets (images, fonts, etc.)
+public/assets
+
+# Documentation that should preserve formatting
+CHANGELOG.md
+
+# LaTeX files
+*.tex
+*.pdf

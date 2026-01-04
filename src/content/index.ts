@@ -7,11 +7,7 @@ export * as projectContent from './projects';
 export * as skillContent from './skills';
 
 // convenient re-exports for common imports
-export {
-  HERO_CONTENT,
-  ABOUT_CONTENT,
-  SOCIAL_LINKS,
-} from './home';
+export { HERO_CONTENT, ABOUT_CONTENT, SOCIAL_LINKS } from './home';
 export { WORK_EXPERIENCE } from './experience';
 export {
   projects,

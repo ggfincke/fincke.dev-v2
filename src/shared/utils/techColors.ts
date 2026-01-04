@@ -1,17 +1,20 @@
 // src/shared/utils/techColors.ts
 // color mapping for technology pills based on Material Theme Ocean HC
 
-export type TechCategory = 'language' | 'framework' | 'backend' | 'ai';
+export type TechCategory =
+  | 'language'
+  | 'framework'
+  | 'infra'
+  | 'data'
+  | 'tooling'
+  | 'platform';
 
 interface TechColorMap {
   [key: string]: TechCategory;
 }
 
-// mapping of technologies to their semantic categories
 const TECH_COLOR_MAP: TechColorMap = {
-  // ========================================
-  // LANGUAGES (green) - Programming Languages
-  // ========================================
+  // Languages
   Python: 'language',
   TypeScript: 'language',
   JavaScript: 'language',
@@ -24,207 +27,190 @@ const TECH_COLOR_MAP: TechColorMap = {
   Verilog: 'language',
   SQL: 'language',
 
-  // ========================================
-  // FRAMEWORKS/LIBRARIES (blue) - UI, Data, APIs
-  // ========================================
-  // Web Frameworks
+  // Frameworks & runtime libraries
   React: 'framework',
   'Next.js': 'framework',
   'Tailwind CSS': 'framework',
   Django: 'framework',
+  'Django REST Framework': 'framework',
+  'React Router': 'framework',
 
-  // Python Libraries
-  Typer: 'framework',
-  pandas: 'framework',
-  matplotlib: 'framework',
-  seaborn: 'framework',
-  Transformers: 'framework',
-  HuggingFace: 'framework',
-  BeautifulSoup: 'framework',
-  APScheduler: 'framework',
-
-  // Java/Spring
   'Spring Boot': 'framework',
   'Spring Data JPA': 'framework',
+  Actuator: 'framework',
 
-  // iOS/Apple
   SwiftUI: 'framework',
   UIKit: 'framework',
   MapKit: 'framework',
   'Core Data': 'framework',
   'Swift Charts': 'framework',
   WatchConnectivity: 'framework',
-  iOS: 'framework',
+  HealthKit: 'framework',
+  WatchKit: 'framework',
 
-  // Discord/Chat
   'Discord.js': 'framework',
   'Discord.py': 'framework',
 
-  // Blockchain/Web3
   'Web3.js': 'framework',
-  MetaMask: 'framework',
 
-  // AI/ML Libraries
-  Ollama: 'framework',
+  'Custom Shapes': 'framework',
+  'Gesture Handling': 'framework',
+  'MVC/MVVM': 'framework',
 
-  // VS Code & Testing
-  'VS Code Extension API': 'framework',
-  minimatch: 'framework',
-  Mocha: 'framework',
+  // Tooling (dev/build/test/docs/render/IDE)
+  Vite: 'tooling',
+  'VS Code Extension API': 'tooling',
+  CLI: 'tooling',
+  minimatch: 'tooling',
+  ESLint: 'tooling',
+  Prettier: 'tooling',
+  Mocha: 'tooling',
+  Selenium: 'tooling',
+  Gradle: 'tooling',
+  Flyway: 'tooling',
+  'GitHub Actions': 'tooling',
+  'CI/CD': 'tooling',
+  Figma: 'tooling',
+  Xcode: 'tooling',
 
-  // ========================================
-  // BACKEND/INFRASTRUCTURE (purple) - DevOps, DBs, Tools
-  // ========================================
-  // Containers & Orchestration
-  Docker: 'backend',
-  'Docker Compose': 'backend',
+  MDX: 'tooling',
+  Shiki: 'tooling',
+  KaTeX: 'tooling',
+  Mermaid: 'tooling',
 
-  // Cloud Providers
-  AWS: 'backend',
-  EC2: 'backend',
-  SSM: 'backend',
-  CloudWatch: 'backend',
-  Supabase: 'backend',
+  Typer: 'tooling',
+  Rich: 'tooling',
 
-  // Databases
-  PostgreSQL: 'backend',
-  SQLite: 'backend',
-  Redis: 'backend',
-  H2: 'backend',
+  DOCX: 'tooling',
+  LaTeX: 'tooling',
+  Typst: 'tooling',
+  JSON: 'tooling',
+  'Technical Writing': 'tooling',
 
-  // Database Tools
-  Flyway: 'backend',
+  MetaMask: 'tooling',
+  'Xilinx Vivado': 'tooling',
 
-  // CI/CD & DevOps
-  'GitHub Actions': 'backend',
-  'CI/CD': 'backend',
+  // Infra (cloud/db/containers/server-side components)
+  Docker: 'infra',
+  'Docker Compose': 'infra',
 
-  // Testing & Automation
-  Selenium: 'backend',
-  Celery: 'backend',
+  AWS: 'infra',
+  EC2: 'infra',
+  SSM: 'infra',
+  CloudWatch: 'infra',
+  S3: 'infra',
+  Supabase: 'infra',
 
-  // Java/Spring Infrastructure
-  'Spring Security': 'backend',
-  'Spring Batch': 'backend',
-  Actuator: 'backend',
-  Gradle: 'backend',
+  PostgreSQL: 'infra',
+  pgvector: 'infra',
+  SQLite: 'infra',
+  Redis: 'infra',
+  H2: 'infra',
 
-  // Protocols & APIs
-  RCON: 'backend',
+  Celery: 'infra',
+  APScheduler: 'infra',
+  'Spring Batch': 'infra',
+  'Spring Security': 'infra',
+  JWT: 'infra',
+  RCON: 'infra',
 
-  // Development Tools
-  CLI: 'backend',
-  Figma: 'backend',
-  Xcode: 'backend',
-  Vite: 'backend',
-  'React Router': 'backend',
-  ESLint: 'backend',
-  Prettier: 'backend',
+  // Platform (OS/runtime/platforms + systems fundamentals + hardware platforms)
+  iOS: 'platform',
+  watchOS: 'platform',
+  'Node.js': 'platform',
 
-  // Hardware/FPGA
-  FPGA: 'backend',
-  'Xilinx Vivado': 'backend',
+  Ethereum: 'platform',
 
-  // Apple Platforms
-  HealthKit: 'backend',
-  WatchKit: 'backend',
-  watchOS: 'backend',
+  FPGA: 'platform',
 
-  // Blockchain
-  Ethereum: 'backend',
+  'Systems Programming': 'platform',
+  'Operating Systems': 'platform',
+  'Memory Management': 'platform',
+  Threading: 'platform',
+  'Storage Systems': 'platform',
+  Networking: 'platform',
+  Caching: 'platform',
+  'Cache Hierarchies': 'platform',
+  'Branch Prediction': 'platform',
+  'Digital Design': 'platform',
+  SimpleScalar: 'platform',
+  'Performance Analysis': 'platform',
 
-  // Runtime Environments
-  'Node.js': 'backend',
+  // Data / AI / ML
+  'Machine Learning': 'data',
+  'Deep Learning': 'data',
+  'LLM Evaluation': 'data',
+  'Data Pipelines': 'data',
+  'Data Analysis': 'data',
+  'Web Scraping': 'data',
 
-  // ========================================
-  // AI/DATA/ACADEMIC (yellow) - ML, Data Science, Research
-  // ========================================
-  // AI/ML Services
-  'LLM Evaluation': 'ai',
-  'Data Pipelines': 'ai',
-  'Anthropic Claude': 'ai',
-  OpenAI: 'ai',
-  'Machine Learning': 'ai',
-  'Deep Learning': 'ai',
+  OpenAI: 'data',
+  Anthropic: 'data',
+  'Anthropic Claude': 'data',
+  Gemini: 'data',
+  Mistral: 'data',
+  Codex: 'data',
+  HumanEval: 'data',
 
-  // Data Science Libraries
-  NumPy: 'ai',
-  'scikit-learn': 'ai',
-  TensorFlow: 'ai',
-  Keras: 'ai',
-  Jupyter: 'ai',
+  'LM Studio': 'data',
+  Ollama: 'data',
 
-  // ML Models & Architectures
-  CNN: 'ai',
-  ResNet: 'ai',
-  DenseNet: 'ai',
-  'Random Fourier Features': 'ai',
+  NumPy: 'data',
+  pandas: 'data',
+  matplotlib: 'data',
+  seaborn: 'data',
+  'scikit-learn': 'data',
+  TensorFlow: 'data',
+  Keras: 'data',
+  Jupyter: 'data',
+  Transformers: 'data',
+  HuggingFace: 'data',
+  BeautifulSoup: 'data',
 
-  // Research & Documentation
-  'Technical Writing': 'ai',
-  Codex: 'ai',
-  HumanEval: 'ai',
-  'Statistical Methods': 'ai',
-
-  // Data Formats & Processing
-  DOCX: 'ai',
-  LaTeX: 'ai',
-  JSON: 'ai',
-
-  // Analysis & Methodologies
-  'Web Scraping': 'ai',
-  'Data Analysis': 'ai',
-  'Performance Analysis': 'ai',
-
-  // Academic Concepts
-  'Systems Programming': 'ai',
-  'Operating Systems': 'ai',
-  'Memory Management': 'ai',
-  Threading: 'ai',
-  'Storage Systems': 'ai',
-  Networking: 'ai',
-  Caching: 'ai',
-  'Cache Hierarchies': 'ai',
-  'Branch Prediction': 'ai',
-  'Digital Design': 'ai',
-  SimpleScalar: 'ai',
-  'Custom Shapes': 'ai',
-  'Gesture Handling': 'ai',
-  'MVC/MVVM': 'ai',
+  CNN: 'data',
+  ResNet: 'data',
+  DenseNet: 'data',
+  'Random Fourier Features': 'data',
+  'Statistical Methods': 'data',
 };
 
-// get CSS variable for a given tech category
-export function getTechColor(tech: string): string {
-  const category = TECH_COLOR_MAP[tech];
-
-  switch (category) {
-    case 'language':
-      return 'var(--green)';
-    case 'framework':
-      return 'var(--blue)';
-    case 'backend':
-      return 'var(--purple)';
-    case 'ai':
-      return 'var(--yellow)';
-    default:
-      return 'var(--muted)'; // fallback for unmapped technologies
-  }
+function normalizeTech(tech: string): string {
+  return tech.trim().toLowerCase();
 }
 
-// get background color (with opacity) for a given tech category
-export function getTechBgColor(tech: string): string {
-  const category = TECH_COLOR_MAP[tech];
+const NORMALIZED_TECH_MAP: TechColorMap = Object.fromEntries(
+  Object.entries(TECH_COLOR_MAP).map(([key, value]) => [
+    normalizeTech(key),
+    value,
+  ])
+);
 
-  switch (category) {
-    case 'language':
-      return 'rgba(195, 232, 141, 0.15)';
-    case 'framework':
-      return 'rgba(130, 170, 255, 0.15)';
-    case 'backend':
-      return 'rgba(199, 146, 234, 0.15)';
-    case 'ai':
-      return 'rgba(255, 203, 107, 0.15)';
-    default:
-      return 'var(--card)'; // fallback
-  }
+const CATEGORY_COLOR_VAR: Record<TechCategory, string> = {
+  language: 'var(--green)',
+  framework: 'var(--blue)',
+  infra: 'var(--purple)',
+  data: 'var(--yellow)',
+  tooling: 'var(--orange)',
+  platform: 'var(--cyan)',
+};
+
+const CATEGORY_BG: Record<TechCategory, string> = {
+  language: 'rgba(195, 232, 141, 0.15)',
+  framework: 'rgba(130, 170, 255, 0.15)',
+  infra: 'rgba(199, 146, 234, 0.15)',
+  data: 'rgba(255, 203, 107, 0.15)',
+  tooling: 'rgba(247, 140, 108, 0.15)',
+  platform: 'rgba(137, 221, 255, 0.15)',
+};
+
+export function getTechColor(tech: string): string {
+  const category = NORMALIZED_TECH_MAP[normalizeTech(tech)];
+  if (!category) return 'var(--muted)';
+  return CATEGORY_COLOR_VAR[category] ?? 'var(--muted)';
+}
+
+export function getTechBgColor(tech: string): string {
+  const category = NORMALIZED_TECH_MAP[normalizeTech(tech)];
+  if (!category) return 'var(--card)';
+  return CATEGORY_BG[category] ?? 'var(--card)';
 }
