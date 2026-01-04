@@ -1,0 +1,447 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{ragged2e}
+\usepackage{array}
+\usepackage{titlesec}
+\usepackage{setspace}
+\setstretch{1.0}
+\emergencystretch=3em
+\pagestyle{empty}
+
+% ---- Optimized CV formatting helpers ----
+\newcommand{\name}[1]{\begingroup\centering{\LARGE\bfseries #1\par}\endgroup\vspace{-2pt}}
+\newcommand{\tagline}[1]{\begingroup\centering #1\par\endgroup\vspace{-1pt}}
+\newcommand{\contact}[1]{\begingroup\centering #1\par\endgroup}
+\newcommand{\sectionhead}[1]{\vspace{0.4em}\noindent{\large\bfseries #1}\vspace{0.15em}\hrule\vspace{0.4em}}
+\newcommand{\daterange}[1]{\hfill {\small #1}}
+\newcommand{\role}[1]{\emph{#1}}
+\newenvironment{tightitemize}{\begin{itemize}[leftmargin=1.5em,topsep=0pt,itemsep=1pt,parsep=0pt,partopsep=0pt]}{\end{itemize}}
+
+% ---- Document ----
+
+\begin{document}
+
+\name{Garrett G. Fincke}
+\tagline{Full-stack developer specializing in clean code, scalable systems, and modern web/mobile architecture}
+\contact{\href{mailto:garrettfincke@gmail.com}{garrettfincke@gmail.com} \textbar{} 724-777-7186 \textbar{} \href{https://fincke.dev}{fincke.dev} \textbar{} \href{https://github.com/ggfincke}{github.com/ggfincke} \textbar{} \href{https://www.linkedin.com/in/garrett-fincke}{linkedin.com/in/garrett-fincke}}
+
+% ===== EDUCATION =====
+\sectionhead{Education}
+\noindent\textbf{The Pennsylvania State University} \daterange{Aug 2021 -- Dec 2024}\\
+\emph{Bachelor of Science in Computer Science} \daterange{\emph{University Park, PA}}
+
+\vspace{0.3em}
+\noindent\textbf{South Fayette High School} \daterange{Aug 2017 -- Jun 2021}\\
+\emph{High School Diploma} \daterange{\emph{McDonald, PA}}
+
+% ===== EXPERIENCE =====
+\sectionhead{Experience}
+
+\vspace{0.3em}
+\noindent\textbf{Labelbox (via Alignerr)} \daterange{Mar 2025 -- Present}\\
+% \role{Python Infrastructure Engineer -- Model Evaluation (contract, project-based)} \daterange{\emph{Remote}}
+\role{Python Software Engineer -- AI Workflows (contract)} \daterange{\emph{Remote}}
+\begin{tightitemize}
+  \item Produced high-signal preference data for Claude Code (Anthropic) by comparing Model A vs Model B outputs across repo-based coding tasks and multi-turn workflows
+  \item Scored outputs against rubric axes (correctness, clarity, modularity, robustness, documentation) and authored concise PR-style rationales to guide training/evaluation
+  \item Validated model changes against practical ship criteria (tests, lint, style, edge cases) and flagged ambiguous specs/prompt issues to improve annotation consistency
+  \item Curated and packaged OSS repos for evaluation (baseline commit capture, runnable setup verification, submission metadata, final diffs/patch artifacts)
+\end{tightitemize}
+
+\noindent\textbf{Scale AI} \daterange{May 2024 -- Jul 2025}\\
+\role{Software Engineer (contract, part-time)} \daterange{\emph{Remote}}
+\begin{tightitemize}
+  \item Built internal tooling and harnesses to evaluate LLM-generated code for top-tier technology clients
+  \item Automated compilation, execution, linting, and test orchestration to measure pass@k and correctness
+  \item Designed training/eval data pipelines (schema versioning, validation, deterministic sampling) to replace manual review with scripted checks
+  \item Instrumented quality metrics and dashboards (syntax/style error rates, failure modes) and partnered with research/eng to triage regressions
+  \item Enforced ingest-time data quality (normalization, deduplication, constraint checks) to improve dataset reliability and iteration speed
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{Pink Ocean Collectibles} \daterange{Apr 2020 -- Present}\\
+\role{Owner / Operator} \daterange{\emph{Online Ecommerce}}
+\begin{tightitemize}
+  \item Build and operate multi-channel storefront with 2000+ sales, \$75k+ lifetime profit, and 100\% positive feedback
+  \item Develop comprehensive automation suite including listing pipelines (Hopper + marketplace APIs for eBay, TCGPlayer, Facebook Marketplace, StockX), dynamic pricing tools based on market trends, and analytics dashboard for performance tracking
+  \item Source diverse product inventory including refurbished modern technology (iPhones, Game Boys/GameCubes, vintage PCs), Pokemon cards, comic books, and collectible books from estate sales, thrift stores, auctions, online marketplaces, and wholesale suppliers
+  \item Repair and mod consumer electronics (e.g., iPhones, Game Boys/GameCubes, vintage PCs) and sell restored units through storefront
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{Pennsylvania State University} \daterange{Aug 2024 -- Dec 2024}\\
+\role{CMPSC 475 Learning Assistant (iOS / Applications Programming)} \daterange{\emph{University Park, PA}}
+\begin{tightitemize}
+  \item Mentored students in iOS/mobile application development using Swift and SwiftUI, emphasizing clean code practices and sound design patterns
+  \item Reviewed and debugged student code, enhancing their understanding of application programming concepts and code quality standards
+  \item Collaborated with faculty to tailor instruction based on student progress and technical challenges with focus on strong coding fundamentals
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{Chipotle Mexican Grill} \daterange{Oct 2022 -- May 2024}\\
+\role{Crew Member} \daterange{\emph{Bridgeville, PA and State College, PA}}
+\begin{tightitemize}
+  \item Prepared and cooked food while maintaining strict adherence to food safety standards and quality control
+  \item Washed dishes, cleaned prep stations, and ensured cleanliness of store with attention to operational efficiency
+  \item Served customers on the line with focus on speed, accuracy, and hospitality during high-volume periods
+  \item Worked collaboratively with coworkers and managers to maintain smooth operations during peak hours and busy periods
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{Scott Township Swimming Pool} \daterange{May 2022 -- Aug 2022}\\
+\role{Pool Manager} \daterange{\emph{Carnegie, PA}}
+\begin{tightitemize}
+  \item Oversaw daily pool operations to ensure safe, fun, and welcoming environment for all patrons with focus on safety protocol compliance
+  \item Trained and mentored junior lifeguards on Red Cross and Scott Pool safety protocols, developing leadership and training skills
+  \item Coordinated and executed community events and holiday celebrations at the pool, demonstrating project management abilities
+  \item Enforced safety regulations and responded to incidents with professionalism, composure, and adherence to emergency procedures
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{Scott Township Swimming Pool} \daterange{Jun 2019 -- Aug 2021}\\
+\role{Lifeguard} \daterange{\emph{Carnegie, PA}}
+\begin{tightitemize}
+  \item Monitored pool activity and enforced safety rules in alignment with Red Cross and Scott Pool protocols for patron safety
+  \item Maintained cleanliness and presentation of pool area and surrounding park grounds with attention to detail and public service
+  \item Taught group and private swim lessons to individuals of varying ages and skill levels, developing instructional and communication skills
+  \item Collaborated with fellow lifeguards to ensure safe and fun environment for all patrons during summer seasons
+\end{tightitemize}
+
+% ===== PROJECTS =====
+\sectionhead{Projects}
+\noindent\textbf{SwimMate v2} | \emph{Swift, SwiftUI, watchOS, HealthKit, WatchConnectivity, Swift Charts, Django REST, PostgreSQL (pgvector), OpenAI API}\\
+Full-stack swimming platform with native iOS/watchOS apps, HealthKit sync, and AI-powered workout generation.
+\begin{tightitemize}
+  \item Built Django REST API with JWT auth, OpenAPI docs, and PostgreSQL + pgvector for semantic search and workout library retrieval
+  \item Implemented RAG-based workout generation using embeddings and LLM calls to personalize plans and surface curated sets
+  \item Developed SwiftUI iOS/watchOS apps with HealthKit workout capture, Apple Watch live metrics, and Swift Charts analytics
+  \item Added actor-based networking with token refresh, background sync, and offline-first workout tracking with secure Keychain storage
+  \item Created structured workout builder and paginated swim set library with iOS-to-watch sync via WatchConnectivity
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{Reactive Workbench} | \emph{TypeScript, Node.js, VS Code Extension API}\\
+Context-aware VS Code automation that adapts themes, panels, layouts, and editor features based on workspace state.
+\begin{tightitemize}
+  \item Built rule engine with first-match-wins evaluation, overlap detection, and mode bundles for predictable, reusable automation
+  \item Implemented 15+ action types (themes, panels, layout, notifications, tasks/commands, profiles) and 17+ condition types (file patterns, language, debug/test state, Git branch, time of day, diagnostics)
+  \item Added diagnostics tooling to lint and test rules, explain the active rule, and surface overlap warnings with analytics/history
+  \item Ensured safe, reversible changes by applying all actions through VS Code APIs with optional safe mode
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{Portfolio Website v2} | \emph{React, TypeScript, Vite, Tailwind CSS 4.0, React Router v7, ESLint, Prettier}\\
+Modern portfolio website rebuild with section-based architecture and content-driven development patterns.
+\begin{tightitemize}
+  \item Architect section-based modular system isolating features into dedicated directories (home, experience, featured-projects, projects-archive) with consistent internal structure for components, content, hooks, and utilities
+  \item Implement content-driven development pattern separating type definitions (\texttt{src/shared/types/}), actual content (\texttt{content/} directories), and presentation components for maintainable, non-developer-friendly content updates
+  \item Build comprehensive shared resource system with reusable UI components (SkillPill, StatusBadge, StatusCircle, VersionBadge), centralized type definitions with barrel exports, and cross-cutting utilities
+  \item Configure modern TypeScript setup with project references (\texttt{tsconfig.app.json}, \texttt{tsconfig.node.json}), verbatim module syntax, and strict type checking; enforce consistent type imports via ESLint
+  \item Design custom color system with CSS variables (accent, bg, card, fg, muted, border, ring) and 6-status badge variants (live, in-development, paused, complete, experimental, planned) with centralized configuration
+  \item Establish developer experience standards including \texttt{\textasciitilde/} path aliases across Vite and TypeScript configs, zero-config Tailwind 4.0 via Vite plugin, named exports pattern, and staggered slide-in animations with accessibility support
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{MDX Preview for VS Code} | \emph{TypeScript, React 18, MDX 3, VS Code Extension API, Shiki, KaTeX}\\
+Live MDX/Markdown preview extension with React component rendering and rich documentation features.
+\begin{tightitemize}
+  \item Built live preview pipeline with debounced updates and bidirectional scroll sync for \texttt{.mdx}, \texttt{.md}, and TSX previews
+  \item Implemented Safe vs Trusted modes with workspace trust and script execution gating for secure component rendering
+  \item Added MDX 3 support with React 18, Shiki syntax highlighting, Mermaid diagrams, GitHub alert callouts, and KaTeX math
+  \item Delivered configuration-driven UX (TOC, frontmatter display, white background override) and command palette actions for preview control
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{OpenCode to ccusage} | \emph{TypeScript, Node.js, OpenCode CLI, ccusage}\\
+CLI tool that exports OpenCode sessions to ccusage-compatible JSONL and generates combined usage reports.
+\begin{tightitemize}
+  \item Converted OpenCode session data into ccusage JSONL with per-project or per-directory grouping
+  \item Built report workflow that merges OpenCode and Claude Code usage data for unified metrics
+  \item Added export controls (since date, dry run, custom output dir, overwrite) and verbose progress logging
+  \item Exposed clear CLI commands (\texttt{report}, \texttt{export}, \texttt{advanced}) with pass-through flags to ccusage
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{Minecart} | \emph{TypeScript, Node.js, Docker, Docker Compose, RCON, AWS (EC2, SSM, CloudWatch, S3)}\\
+Discord bot for managing Minecraft servers across local Docker and AWS EC2 with multi-tenant support.
+\begin{tightitemize}
+  \item Built interactive Discord dashboards (buttons, modals, select menus) for status, start/stop/restart, logs, backups, and configuration
+  \item Implemented provider abstraction for local Docker and AWS EC2 with runtime switching, health checks, and live status via RCON and mcstatus.io
+  \item Added scheduling and automation for idle shutdown, scheduled start/stop windows, crash recovery, and automated backups with retention
+  \item Shipped multi-tenant controls: multi-server registration, role-based permissions (view/operate/admin/owner), channel bindings, and guild defaults
+  \item Delivered world and content management (multiple worlds, staging worlds, blue-green cutovers, Modrinth mods, resource packs, version switching)
+  \item Added monitoring and governance: performance metrics, audit logs, maintenance mode, usage metering/quotas, and optional S3 storage
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{Hopper} | \emph{Java, Spring Boot, Spring Security, JWT, Go, PostgreSQL, Flyway, H2, Spring Data JPA, Spring Batch, Gradle}\\
+Hybrid microservices inventory management system for e-commerce with Java/Spring Boot orchestration and Go marketplace connector.
+\begin{tightitemize}
+  \item Architect hybrid microservices system with Java/Spring Boot orchestration layer and standalone Go marketplace connector service for platform integrations
+  \item Design 11-entity domain model (User, Role, Platform, PlatformFee, PlatformCredential, Product, Listing, Order, OrderItem, Buyer, OrderAddress) with comprehensive service layer, RESTful controllers, and repository pattern
+  \item Build JWT authentication system with access/refresh tokens, role-based authorization (ADMIN, USER, API\_CLIENT), secure token rotation, and comprehensive storage guidelines
+  \item Implement AES-GCM-256 credential encryption with PBKDF2 key derivation (100k iterations), encryption metadata storage for versioning, and key rotation support via CredentialEncryptionService
+  \item Create normalized PostgreSQL schema with 13 Flyway migrations, foreign keys, composite unique constraints (platform + external\_order\_id), and performance indexes
+  \item Develop Go marketplace connector microservice with OpenAPI 3.1 specification (391 lines), RESTful endpoints for listings/orders, idempotency support, error taxonomy, and sample fixtures
+  \item Implement Spring Batch integration with background jobs for order import and marketplace synchronization with MarketplaceClient interface abstraction
+  \item Build comprehensive testing suite with 27+ test files including integration tests, contract validation, and Bruno HTTP collection for API testing
+  \item Design order state machine (pending→confirmed→paid→processing→shipped→delivered) with transition validation, business rule enforcement, stock management, and insufficient stock handling
+  \item Configure multi-profile deployment (dev/test/prod) with H2 development database, PostgreSQL production schema, and environment-based security configuration
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{Loom} | \emph{Python, Typer, Rich, OpenAI, Anthropic, Gemini, Mistral, Ollama, LM Studio, DOCX, LaTeX, Typst, JSON}\\
+AI-powered resume tailoring CLI with structured edits, diff review, and versioned workflows.
+\begin{tightitemize}
+  \item Built Typer-based command suite (sectionize, tailor, generate, apply) with configurable defaults and themed help UI
+  \item Implemented structured JSON edit pipeline with interactive diff resolution, risk/on-error policies, and format-preserving DOCX/LaTeX/Typst handling
+  \item Integrated multi-provider AI (OpenAI, Anthropic, Gemini, Mistral, Ollama, LM Studio) with model selection and response caching
+  \item Added snapshot-based version management with restore and comparison tooling for safe iteration
+  \item Shipped ATS compatibility checks, bulk job processing with comparison matrices, and exports to txt/pdf/html
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{TrackBasket} | \emph{TypeScript, Python, Supabase, Next.js, React, OpenAI, PostgreSQL, Docker, Swift}\\
+Price tracking platform monitoring 30k+ products across major retailers with AI-powered features.
+\begin{tightitemize}
+  \item Develop chat-to-basket feature using OpenAI API that converts natural language into structured baskets using Supabase data integration
+  \item Implement advanced web crawling system with CAPTCHA solving, anti-bot countermeasures, intelligent rate limiting, and data normalization pipeline
+  \item Create comprehensive backend infrastructure with Edge Functions, PostgreSQL fuzzy search, UPC matching, and real-time notifications
+  \item Build AI-powered product matching with intelligent alternatives and cross-retailer price correlation for comprehensive UPC lookup
+  \item Engineer sophisticated notification system with granular user preferences for price drops, availability changes, and product updates
+  \item Develop responsive basket management with collaborative sharing, real-time price history charts, and smart product recommendations
+  \item Build for Bolt Hackathon with live deployment showcasing full-stack development and AI integration capabilities
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{SwimMate} | \emph{Swift, SwiftUI, HealthKit, WatchKit, Swift Charts, WatchConnectivity}\\
+Native iOS/watchOS app for swimmers with comprehensive tracking and Apple Watch integration.
+\begin{tightitemize}
+  \item Develop comprehensive swimming app for tracking, finding, and saving workouts with progress visualization over time
+  \item Build custom components using HealthKit and SwiftUI for workout entry, lap timing, and charting performance trends with Swift Charts
+  \item Connect iOS app to Apple Watch for real-time workout data tracking, sending premade workouts, and displaying rich metrics
+  \item Implement goal-based workouts for distance, time, or calories with real-time progress tracking and pace monitoring
+  \item Create full-featured app supporting offline workout tracking, cross-device sync via WatchConnectivity, custom workout builder, workout history with detailed analytics, and data export/sharing capabilities
+  \item Design Apple Watch interface displaying real-time metrics including pace, heart rate, laps, SWOLF, and calories burned
+  \item Support both pool and open-water swims with GPS distance tracking and comprehensive HealthKit integration
+  \item Achieved grade of 100\% on original submission, demonstrating excellence in iOS/watchOS development and app architecture
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{Portfolio Website} | \emph{Next.js, TypeScript, Tailwind CSS, React, Node.js, Git, GitHub Actions, CI/CD, Lighthouse CI, ESLint, Figma}\\
+Personal portfolio website showcasing modern web development and design skills.
+\begin{tightitemize}
+  \item Build responsive portfolio website with Next.js, React, and TypeScript using modern development practices
+  \item Implement modern, responsive design with animations and transitions using Tailwind CSS for optimal user experience
+  \item Create custom component system for UI consistency and maintainable codebase architecture
+  \item Design with accessibility and performance optimization in mind, following web standards and best practices
+  \item Configure continuous deployment with Vercel for automated builds and seamless updates
+  \item Use Figma to design, prototype, and iterate on website layout and custom logo design
+  \item Automated CI/CD and release workflow with automated prereleases/tags, Lighthouse CI checks, and consistent tooling
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{InStock} | \emph{Python, Django, PostgreSQL, Selenium, Redis, Celery, React, Swift, Discord.py}\\
+High-performance price \& stock tracking system; foundation project that evolved into TrackBasket.
+\begin{tightitemize}
+  \item Designed optimized tracking system for speed, frequency, and accuracy in detecting restocks and price changes on high-velocity products
+  \item Created custom database schema using Django’s ORM \& PostgreSQL for efficient data storage, retrieval, and scalable performance
+  \item Engineered microservices architecture in Django with Redis and Celery for predictable, scalable, and reliable performance
+  \item Built comprehensive RESTful API endpoints for data retrieval \& user management serving React frontend \& Swift mobile app
+  \item Integrated Discord bot functionality via Discord.py for real-time notifications and user interaction
+  \item Project laid groundwork for evolution into TrackBasket, expanding into full-featured price-tracking platform with enhanced capabilities
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{Deep Learning Architecture Comparison \& Analysis for CIFAR-10} | \emph{Python, TensorFlow, Keras, NumPy, pandas, matplotlib, seaborn, scikit-learn, Deep Learning, CNN, ResNet, DenseNet, LaTeX, Random Fourier Features}\\
+Comprehensive deep learning study benchmarking four approaches on CIFAR-10 dataset.
+\begin{tightitemize}
+  \item Benchmarked four approaches on CIFAR-10 dataset (60k images): baseline CNN, ResNet50, DenseNet121, and Random Feature Model (RFM) with 5{,}000 Random Fourier Features
+  \item DenseNet121 achieved top test accuracy at 74\%, outperforming baseline CNN (69\%), RFM (51.6\%), and ResNet50 (47\%)
+  \item Engineered ResNet-inspired CNN with residual blocks, data augmentation, dropout, and L2 regularization
+  \item Documented optimization challenges and remedies throughout model development process
+  \item Built lightweight RFM pipeline (StandardScaler $\rightarrow$ RBFSampler $\rightarrow$ LogisticRegression) with performance logging at 10 checkpoints
+  \item Generated confusion matrices, full metric suite (accuracy, precision, recall, F1, log-loss), and detailed loss/accuracy curves; proposed future work including hybrid CNN-RFM ensemble, advanced ResNet scheduling, and larger datasets
+  \item Achieved grade of 100\% on this comprehensive report and implementation, demonstrating mastery of deep learning architectures and analysis
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{TCGhub} | \emph{React, SQL, Python, SQLite, Node.js}\\
+Trading card marketplace platform replicating tcgplayer.com functionality.
+\begin{tightitemize}
+  \item Developed React-based trading card marketplace with live data integration, essentially replicating tcgplayer.com functionality
+  \item Customized complex database schema in BCNF (Boyce-Codd Normal Form) and hand-wrote all SQL queries to local SQLite database
+  \item Implemented comprehensive filtering and search functionality for card sets, rarities, and marketplace features
+  \item Styled with modern CSS to create clean, responsive UI with intuitive user experience and professional appearance
+  \item Achieved grade of over 100\% on this project, demonstrating mastery of database design and full-stack development
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{Computer Architecture Projects} | \emph{C/C++, SimpleScalar, Python, Cache Hierarchies, Branch Prediction, Performance Analysis}\\
+Two comprehensive projects exploring architecture design and branch prediction analysis.
+\begin{tightitemize}
+  \item Built heuristic-driven framework on SimpleScalar to explore multi-dimensional cache/memory configurations across benchmarks; automated validation, configuration generation, and evaluation to identify high-performance and energy-efficient designs
+  \item Implemented and compared branch predictors — static, one-bit, two-bit saturating, bimodal, gshare, and hybrid with chooser — including update logic and measurement of prediction accuracy/misprediction rates on traces
+  \item Produced detailed reports outlining configuration trade-offs, predictor performance, and recommendations grounded in quantitative analysis
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{Traditional Machine Learning Methods Exploration for MNIST} | \emph{Python, scikit-learn, NumPy, pandas, matplotlib, seaborn, Machine Learning, LaTeX}\\
+Comprehensive ML analysis implementing and comparing KNN, Logistic Regression, and SVM.
+\begin{tightitemize}
+  \item Implemented and compared KNN (94.4\% accuracy), Logistic Regression (91.1\%), and SVM with RBF kernel (95.3\%) on 10k-image MNIST subset
+  \item Applied rigorous preprocessing pipeline: random sampling, normalization to [0,1], flattening to 784-D vectors, stratified 80/20 train-test split
+  \item Performed hyperparameter tuning (k=3 for KNN, C=1 and RBF kernel for SVM) using grid search cross-validation with comprehensive evaluation
+  \item Executed unsupervised learning using K-Means (k=10) with PCA dimensionality reduction and examined elbow method and silhouette scores
+  \item Discussed computational constraints (high-dimensional SVM training) and proposed CNNs as future work to approach state-of-the-art accuracy
+  \item Achieved grade of 100\% on report and implementation, showcasing excellence in traditional machine learning methods and statistical analysis
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{COVID-19 Case Surveillance Analysis} | \emph{Python, Machine Learning, pandas, NumPy, scikit-learn, matplotlib, seaborn, Jupyter}\\
+Comprehensive data science project analyzing large-scale public health data.
+\begin{tightitemize}
+  \item Completed end-to-end data science projects using Python ecosystem including pandas, NumPy, matplotlib, seaborn, and scikit-learn
+  \item Implemented machine learning models including linear regression, logistic regression, SVM, KNN, and decision trees with comprehensive evaluation
+  \item Collaborated on COVID-19 case surveillance analysis for final project using large-scale public health data with preprocessing and visualization
+  \item Mastered statistical analysis, model validation, hyperparameter tuning, and cross-validation techniques for robust model development
+  \item Achieved grade of 100\% on final project, demonstrating excellence in collaborative data science and statistical modeling
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{BetterBettor} | \emph{Solidity, Next.js, Ethereum, Web3.js, MetaMask, React}\\
+Decentralized sports betting platform using Ethereum smart contracts.
+\begin{tightitemize}
+  \item Built decentralized sports betting platform using Ethereum smart contracts for transparent, trustless wagering system
+  \item Developed modern React/Next.js frontend with Web3 integration for seamless blockchain interaction and user experience
+  \item Implemented comprehensive betting system with customizable odds, automated payouts, and user wallet integration via MetaMask
+  \item Created responsive design supporting multiple sports categories with real-time betting interface and intuitive user navigation
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{OPTIMUS} | \emph{Python, Transformers, Discord.py, HuggingFace, APScheduler}\\
+Fine-tuned Discord chatbot using Microsoft's GODEL-v1.1 model for contextual conversation generation.
+\begin{tightitemize}
+  \item Built fine-tuned Discord chatbot using Microsoft’s GODEL-v1.1 model for advanced contextual conversation generation
+  \item Integrated HuggingFace Transformers to run local inference with custom-trained seq2seq model for personalized responses
+  \item Created rich Discord interactions including emote reactions, user-specific triggers, and dynamic status updates for enhanced user engagement
+  \item Designed `Free Rein` and `Puppeteer Mode` features to control bot behavior based on real-time message context and user preferences
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{iOS Application Development Projects} | \emph{Swift, SwiftUI, UIKit, MapKit, Core Data, JSON, Custom Shapes, Gesture Handling, MVC/MVVM, Xcode}\\
+Five comprehensive projects demonstrating advanced iOS development skills.
+\begin{tightitemize}
+  \item Built LionSpell word puzzle game with custom polygon shapes, multi-language preferences, hints system, and New York Times-style UI design
+  \item Developed Pentominoes puzzle game implementing drag gestures, 3D rotation animations, JSON data parsing, and automated solve/reset functionality
+  \item Created Campus mapping applications using both SwiftUI Map and UIKit MKMapView with user location tracking, route planning, turn-by-turn directions, and annotation clustering
+  \item Designed Pok'edex catalog app featuring card-based UI, type filtering, capture/release persistence, evolutionary chains, and comprehensive data management
+  \item Achieved grade of 98\% average across all projects, demonstrating mastery of iOS development patterns, gesture handling, and advanced SwiftUI/UIKit integration
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{Memory Management \& Threading in C} | \emph{C, Systems Programming, Operating Systems, Memory Management, Threading}\\
+Three comprehensive projects implementing advanced systems programming concepts.
+\begin{tightitemize}
+  \item Developed memory management simulator implementing FIFO, LRU, and optimal page replacement algorithms with demand paging system
+  \item Built custom thread scheduler with cooperative and preemptive scheduling, round-robin and priority-based algorithms, and mutex synchronization
+  \item Extended minimalist OS kernel with new system calls, process management features, and kernel-level debugging tools for enhanced functionality
+  \item Achieved grade of 100\% average on all assignments with comprehensive testing, validation, and thorough documentation
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{MIPS Processor} | \emph{Verilog, FPGA, Digital Design, Xilinx Vivado}\\
+Complete single-cycle MIPS processor implementation in Verilog HDL.
+\begin{tightitemize}
+  \item Implemented complete single-cycle MIPS processor in Verilog HDL with 32-bit architecture and Harvard memory organization
+  \item Built comprehensive instruction set support including arithmetic, logical, memory, branch, and jump instructions with full functionality
+  \item Designed modular architecture with separate components for ALU, control unit, register file, and memory systems for optimal performance
+  \item Achieved grade of 100\% with thorough testing and validation of all processor components and comprehensive instruction type coverage
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{JBOD Storage System with Caching \& Network Communication} | \emph{C, Systems Programming, Storage Systems, Networking, Caching}\\
+Complete JBOD storage system with block-level operations and distributed architecture.
+\begin{tightitemize}
+  \item Implemented complete JBOD (Just a Bunch of Disks) storage system with block-level operations across multiple disks for scalable storage
+  \item Built high-performance caching layer using LFU (Least Frequently Used) replacement policy with dynamic cache management for optimal performance
+  \item Developed distributed storage system with TCP/IP client-server architecture and robust network communication protocols
+  \item Achieved grade of 100\% on all assignments with comprehensive testing, validation, and thorough system integration verification
+\end{tightitemize}
+
+\vspace{0.3em}
+\noindent\textbf{USBAP} | \emph{Python, Web Scraping, Data Analysis, BeautifulSoup}\\
+Experimental web scraping project for sports betting data extraction and analysis.
+\begin{tightitemize}
+  \item Developed comprehensive web scraping tools for extracting sports betting data from major platforms including DraftKings and FanDuel
+  \item Built automated data collection system using Python with BeautifulSoup for parsing complex HTML structures and dynamic content
+  \item Implemented data extraction for multiple betting markets including moneylines, spreads, and totals across various sports categories
+  \item Created foundation for sports betting analytics and arbitrage opportunity detection with automated data processing pipeline
+\end{tightitemize}
+
+% ===== TECHNICAL SKILLS =====
+\sectionhead{Technical Skills}
+\noindent\textbf{Languages:} Python, Swift, JavaScript/TypeScript, Java, Kotlin, C, C++, SQL, Solidity, Verilog
+
+\noindent\textbf{Frontend \& Mobile:} React, Next.js, SwiftUI, UIKit, MapKit, WatchKit, Swift Charts, Tailwind CSS, HealthKit, Core Data, Web3.js
+
+\noindent\textbf{Backend \& Data:} Django, Node.js, Spring Boot, Spring Security, FastAPI, PostgreSQL, Redis, SQLite, Supabase, Celery, Flyway, REST APIs
+
+\noindent\textbf{AI/ML:} OpenAI/Anthropic APIs, PyTorch, TensorFlow, Keras, scikit-learn, HuggingFace, pandas, NumPy, matplotlib, Jupyter
+
+\noindent\textbf{Cloud \& DevOps:} AWS (EC2, SSM, CloudWatch), Docker, Docker Compose, GitHub Actions, CI/CD, Vercel, Selenium
+
+\noindent\textbf{Tools:} VS Code, Xcode, Figma, \LaTeX{}, Git, Gradle, Discord.py, BeautifulSoup, Typer, ESLint
+
+% ===== ACTIVITIES =====
+\sectionhead{Activities \& Interests}
+\begin{tightitemize}
+  \item Endurance sports — Ironman 70.3 finisher (Summer 2024); ongoing swim/run training and structured race prep
+  \item Cycling — training component for triathlon; enjoys exploring local bike trails and endurance rides
+  \item Swimming — pool \& open water; technique/metrics nerd; dogfooding SwimMate features on real workouts
+  \begin{tightitemize}
+    \item Consistent swimmer of 16 years specializing in distance freestyle
+    \item 2x SFHS Swim Team Captain (elected)
+    \item Over 1 million meters, 2000 hours in pool logged since 2018
+  \end{tightitemize}
+  \item Running — local 5K/10K/HM races; enjoys tempo/interval work and course planning
+  \item Strength training \& mobility work — complements endurance training; focus on injury prevention and performance enhancement
+  \item Open-source contributions \& hackathons — active in developer community; enjoys collaborative coding and rapid prototyping
+  \item Photography — captures travel moments and outdoor adventures; pairs well with exploration and design sensibility
+  \item Journaling — weekly reflection and goal tracking; personal knowledge base for ideas \& projects
+  \item Music production — compose \& mix instrumentals; experiment with sound design and arranging
+  \item Video games — systems/strategy and indie titles; interest in game design and UX
+  \item Travel — hike-friendly, budget-conscious trips; itinerary building and exploring local food/culture
+\end{tightitemize}
+
+% ===== COURSES =====
+\sectionhead{Courses}
+\small
+\begin{tabular}{p{0.49\textwidth} p{0.49\textwidth}}
+ANTH 140 -- Anth of Alcohol & EGEE 101 -- Energy and Envirnmnt \\
+CAS 100B -- Effective Speech & ENGL 15 -- Rhetoric and Comp \\
+CMPEN 270 -- Digital Design & ENGL 202C -- Technical Writing \\
+CMPEN 331 -- Comp Org and Design & ENGL 229 -- Digital Studies \\
+CMPEN 431 -- Intro Comput Arch & GAME 160N -- Video Game Culture \\
+CMPSC 111 -- Logic Comp Sci & GER 2 -- Elem German II \\
+CMPSC 131 -- PROG \& COMP I & KINES 61 -- Fit Thry\&Practice \\
+CMPSC 132 -- PROG \& COMP II & MATH 140 -- CALC ANLY GEOM I \\
+CMPSC 221 -- Oop With Web & MATH 141 -- CALC ANLY GEOM II \\
+CMPSC 263 -- Blockchain and Modern Web Dev & MATH 220 -- Matrices \\
+CMPSC 311 -- Intro Sys Progmg & MATH 230 -- Calc/Vector Anly \\
+CMPSC 360 -- Discrete Math/Cs & MATH 319 -- Elem. Mathematical Statistics \\
+CMPSC 431W -- Database Mgmt Syst & MATH 441 -- Matrix Algebra \\
+CMPSC 461 -- Prog Lang Concepts & MATH 451 -- Numer Computations \\
+CMPSC 464 -- Intro Theory Comp & MATH 452 -- Deep Learning Algorithms \\
+CMPSC 465 -- Data Struc and Algor & MATH 486 -- Math Thy of Games \\
+CMPSC 466 -- Intro to Quantum Computation & MUSIC 8 -- Rud of Mus \\
+CMPSC 473 -- Operating Sys & PHYS 211 -- Mechanics \\
+CMPSC 475 -- App Programming & PHYS 212 -- Elect. and Mag. \\
+COMM 150N -- Cinema Art & PSYCH 100 -- Intro Psychology \\
+CYBER 100S -- COMPSYS LIT & STAT 318 -- Elem Probability \\
+ECON 102 -- Microeconomic Analysis & STAT 319 -- Elem. Mathematical Statistics \\
+\end{tabular}
+\normalsize
+\end{document}
