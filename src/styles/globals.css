@@ -145,3 +145,10 @@ body {
     transform: none;
   }
 }
+
+/* hide decorative wave on short viewports where it overlaps content */
+@media (max-height: 900px) {
+  .decorative-wave {
+    display: none !important;
+  }
+}

@@ -5,7 +5,7 @@
 export function DecorativeWave() {
   return (
     <div
-      className="pointer-events-none absolute left-0 hidden w-full lg:block"
+      className="decorative-wave pointer-events-none absolute left-0 hidden w-full lg:block"
       style={{ top: 'calc(85vh - 20px)' }}
       aria-hidden="true"
     >
