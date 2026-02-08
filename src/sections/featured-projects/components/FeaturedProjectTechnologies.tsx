@@ -16,12 +16,12 @@ export function FeaturedProjectTechnologies({
   }
 
   return (
-    <div className="mt-2 flex flex-wrap gap-2">
+    <div className="mt-2 flex flex-wrap gap-2 lg:flex-nowrap">
       {technologies.slice(0, 4).map((tech, techIndex) => (
         <SkillPill key={techIndex} name={tech} size="sm" />
       ))}
       {technologies.length > 4 && (
-        <span className="inline-flex items-center text-xs text-[var(--muted)]">
+        <span className="inline-flex shrink-0 items-center whitespace-nowrap text-xs text-[var(--muted)]">
           +{technologies.length - 4} more
         </span>
       )}

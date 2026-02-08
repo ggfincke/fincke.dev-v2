@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.4] - 2026-02-08
+
+### Changed
+
+- Flattened `JobHistory` and `FeaturedProjects` from `<section>`/`<ol>` wrappers into fragment children for tighter layout control
+- Bumped ultra-wide breakpoint from 1920px to 2560px (with min-height 1400px guard for JobHistory)
+- Constrained `<main>` max-width to 1400px at 2560px+ viewports
+- Tightened right-column spacing at 1728px+ breakpoint
+- Featured project image restyled: larger container, `object-contain` fit, brightness hover instead of transform
+- Tech pills prevent wrapping on `lg+` with `shrink-0` overflow badge
+
 ## [2.4.3] - 2026-02-08
 
 ### Added
