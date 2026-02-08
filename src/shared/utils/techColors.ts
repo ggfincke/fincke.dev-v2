@@ -48,6 +48,7 @@ const TECH_COLOR_MAP: TechColorMap = {
   HealthKit: 'framework',
   WatchKit: 'framework',
 
+  Comlink: 'framework',
   'Discord.js': 'framework',
   'Discord.py': 'framework',
 
@@ -59,6 +60,8 @@ const TECH_COLOR_MAP: TechColorMap = {
 
   // Tooling (dev/build/test/docs/render/IDE)
   Vite: 'tooling',
+  esbuild: 'tooling',
+  Vitest: 'tooling',
   'VS Code Extension API': 'tooling',
   CLI: 'tooling',
   minimatch: 'tooling',
