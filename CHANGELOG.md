@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.2] - 2026-02-08
+
+### Added
+
+- `ExternalLink` type and `additionalLinks` field on `Project` for arbitrary external links beyond repo/live
+- `ProjectLinks` component renders additional link buttons (button variant) and icon links (icon variant)
+- VS Code Marketplace label detection in `getLiveLabel` for marketplace URLs
+
+### Changed
+
+- `ProjectExpandedDetails` and `ProjectTableRow` now pass `additionalLinks` to `ProjectLinks`
+
 ## [2.4.1] - 2026-01-04
 
 ### Added

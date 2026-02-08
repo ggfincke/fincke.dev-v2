@@ -16,6 +16,11 @@ export interface Collaborator {
   url?: string;
 }
 
+export interface ExternalLink {
+  url: string;
+  label: string;
+}
+
 export interface Project {
   title: string;
   tagline?: string;
@@ -29,5 +34,6 @@ export interface Project {
   imageAlt?: string;
   repoUrl?: string;
   liveUrl?: string;
+  additionalLinks?: ExternalLink[];
   collaborators?: Collaborator[];
 }
