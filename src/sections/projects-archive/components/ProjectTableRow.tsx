@@ -62,6 +62,7 @@ export function ProjectTableRow({
         <ProjectLinks
           repoUrl={project.repoUrl}
           liveUrl={project.liveUrl}
+          additionalLinks={project.additionalLinks}
           variant="icon"
           liveLabel={
             project.liveUrl ? getLiveLabel(project.liveUrl) : undefined

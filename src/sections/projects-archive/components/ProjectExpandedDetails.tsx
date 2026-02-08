@@ -121,7 +121,9 @@ export function ProjectExpandedDetails({
           </div>
         </div>
 
-        {(project.repoUrl || project.liveUrl) && (
+        {(project.repoUrl ||
+          project.liveUrl ||
+          (project.additionalLinks && project.additionalLinks.length > 0)) && (
           <div>
             <h4
               className={`text-sm font-semibold text-[var(--accent)] ${isMobile ? 'mb-2' : 'mb-3'}`}
@@ -131,6 +133,7 @@ export function ProjectExpandedDetails({
             <ProjectLinks
               repoUrl={project.repoUrl}
               liveUrl={project.liveUrl}
+              additionalLinks={project.additionalLinks}
               variant="button"
               size={isMobile ? 'sm' : 'md'}
               liveLabel={

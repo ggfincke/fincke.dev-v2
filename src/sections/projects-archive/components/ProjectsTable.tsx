@@ -13,7 +13,11 @@ import { getAllProjects } from '~/content/projects';
 
 // determine live link label based on URL type
 const getLiveLabel = (url: string): string => {
-  return url.toLowerCase().endsWith('.pdf') ? 'View Report' : 'View Live Site';
+  const lower = url.toLowerCase();
+  if (lower.endsWith('.pdf')) return 'View Report';
+  if (lower.includes('marketplace.visualstudio.com'))
+    return 'VS Code Marketplace';
+  return 'View Live Site';
 };
 
 // * Projects table component w/ expandable rows
