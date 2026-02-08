@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.3] - 2026-02-08
+
+### Added
+
+- New skill mappings and tech colors for esbuild, Vitest, and Comlink
+
+### Changed
+
+- Rewrote MDX Preview project description, technologies, and bullet points to reflect current feature set
+- Promoted MDX Preview to featured projects list (replaces TrackBasket)
+- Added VS Code Marketplace and Open VSX links to MDX Preview via `additionalLinks`
+- Updated MDX Preview screenshots (`vsc-mdx.png`, `vsc-mdx-ex.gif`)
+
 ## [2.4.2] - 2026-02-08
 
 ### Added
