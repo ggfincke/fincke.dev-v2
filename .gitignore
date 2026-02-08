@@ -23,6 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
+# Screenshots & reports
+screenshots/
+reports/
+
 # AI stuff
 claude/
 CLAUDE.md

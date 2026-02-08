@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.5] - 2026-02-08
+
+### Added
+
+- Dev scripts: `screenshots` (Playwright), `check-links` (crawl + validate), `validate-assets` (image audit), `lighthouse` (performance report)
+- npm script entries for all dev scripts plus `analyze` (vite-bundle-visualizer)
+- Dev dependencies: playwright, lighthouse, chrome-launcher, tsx, vite-bundle-visualizer, tslib
+- `.gitignore` entries for `screenshots/` and `reports/` output directories
+
 ## [2.4.4] - 2026-02-08
 
 ### Changed
