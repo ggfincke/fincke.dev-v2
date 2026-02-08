@@ -14,7 +14,7 @@ import { FeaturedProjectCard } from './FeaturedProjectCard';
 
 // featured projects component
 export function FeaturedProjects() {
-  const showExpandedProjects = useMediaQuery('(min-width: 1920px)');
+  const showExpandedProjects = useMediaQuery('(min-width: 2560px)');
   const featuredTitles = showExpandedProjects
     ? [...FEATURED_PROJECT_TITLES, ...WIDE_FEATURED_PROJECT_TITLES]
     : FEATURED_PROJECT_TITLES;
@@ -24,29 +24,25 @@ export function FeaturedProjects() {
   );
 
   return (
-    <section
-      className="animate-slide-in-right space-y-6 opacity-0 lg:space-y-8"
-      style={{ animationDelay: '0.4s' }}
-    >
-      <ol className="space-y-6 sm:space-y-8 group/list">
-        {featured.map((project, index) => (
-          <li
-            key={index}
-            className="animate-slide-in-up opacity-0"
-            style={{ animationDelay: `${0.6 + index * 0.1}s` }}
-          >
-            <FeaturedProjectCard project={project} />
-          </li>
-        ))}
-      </ol>
+    <>
+      {featured.map((project, index) => (
+        <div
+          key={index}
+          className="animate-slide-in-up opacity-0"
+          style={{ animationDelay: `${0.6 + index * 0.1}s` }}
+        >
+          <FeaturedProjectCard project={project} />
+        </div>
+      ))}
 
       <Link
         to="/projects"
-        className="inline-flex items-center gap-2 text-sm text-[var(--red)] transition hover:text-[var(--white)]"
+        className="animate-slide-in-up inline-flex items-center gap-2 text-sm text-[var(--red)] opacity-0 transition hover:text-[var(--white)]"
+        style={{ animationDelay: `${0.6 + featured.length * 0.1}s` }}
       >
         View All Projects
         <ArrowIcon />
       </Link>
-    </section>
+    </>
   );
 }
