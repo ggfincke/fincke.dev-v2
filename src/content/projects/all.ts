@@ -7,22 +7,28 @@ export const projects: Project[] = [
   {
     title: 'MDX Preview for VS Code',
     tagline:
-      'Live MDX/Markdown preview extension with React component rendering and rich documentation features.',
+      'Live MDX preview extension with dual-mode rendering, framework-aware component shims, and a browser-side module system.',
     dateRange: 'Jan 2026 - Present',
     status: 'in-development',
     madeFor: 'Personal',
-    featured: false,
+    featured: true,
     bulletPoints: [
-      'Built live preview pipeline with debounced updates and bidirectional scroll sync for .mdx, .md, and TSX previews',
-      'Implemented Safe vs Trusted modes with workspace trust and script execution gating for secure component rendering',
-      'Added MDX 3 support with React 18, Shiki syntax highlighting, Mermaid diagrams, GitHub alert callouts, and KaTeX math',
-      'Delivered configuration-driven UX (TOC, frontmatter display, white background override) and command palette actions for preview control',
+      'Built dual-mode rendering pipeline (Safe HTML / Trusted JS) with workspace-trust gating, dynamic CSP generation, and path-traversal prevention',
+      'Implemented browser-side CommonJS module loader with LRU caching, dependency-graph invalidation, and preloaded React runtime over Comlink RPC',
+      'Added framework auto-detection for Docusaurus, Starlight, Nextra, and Next.js with code-generated component shims and import aliases',
+      'Integrated Tailwind CSS v4 compilation, Sass transpilation, Shiki syntax highlighting, KaTeX math, and Mermaid / Graphviz / PlantUML diagrams',
+      'Shipped singleton service architecture with lifecycle registry, 4-script codegen pipeline, and 15+ configurable preview themes',
     ],
     technologies: [
       'TypeScript',
       'React',
       'MDX',
       'VS Code Extension API',
+      'Vite',
+      'esbuild',
+      'Vitest',
+      'Comlink',
+      'Tailwind CSS',
       'Shiki',
       'KaTeX',
       'Mermaid',
@@ -30,6 +36,14 @@ export const projects: Project[] = [
     imagePath: '/assets/projects/images/vsc-mdx.png',
     imageAlt: 'MDX Preview for VS Code extension screenshot',
     repoUrl: 'https://github.com/ggfincke/vsc-mdx-preview',
+    liveUrl:
+      'https://marketplace.visualstudio.com/items?itemName=ggfincke.vsc-mdx-preview',
+    additionalLinks: [
+      {
+        url: 'https://open-vsx.org/extension/ggfincke/vsc-mdx-preview',
+        label: 'Open VSX',
+      },
+    ],
   },
   {
     title: 'OpenCode to ccusage',
