@@ -3,6 +3,7 @@
 
 import { siGithub } from 'simple-icons';
 
+import type { ExternalLink } from '~/shared/types';
 import { getButtonClasses } from '~/shared/utils/classNames';
 
 export type ProjectLinksVariant = 'icon' | 'button';
@@ -10,6 +11,7 @@ export type ProjectLinksVariant = 'icon' | 'button';
 interface ProjectLinksProps {
   repoUrl?: string;
   liveUrl?: string;
+  additionalLinks?: ExternalLink[];
   variant?: ProjectLinksVariant;
   size?: 'sm' | 'md';
   liveLabel?: string;
@@ -66,12 +68,17 @@ function ExternalLinkIcon({
 export function ProjectLinks({
   repoUrl,
   liveUrl,
+  additionalLinks,
   variant = 'icon',
   size = 'sm',
   liveLabel,
   className,
 }: ProjectLinksProps) {
-  if (!repoUrl && !liveUrl) {
+  if (
+    !repoUrl &&
+    !liveUrl &&
+    (!additionalLinks || additionalLinks.length === 0)
+  ) {
     return null;
   }
 
@@ -100,6 +107,18 @@ export function ProjectLinks({
             {liveLabel ? ` ${liveLabel}` : ' View Live Site'}
           </a>
         )}
+        {additionalLinks?.map(link => (
+          <a
+            key={link.url}
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={getButtonClasses(size, 'secondary')}
+          >
+            <ExternalLinkIcon size={size === 'sm' ? 14 : 16} />
+            {` ${link.label}`}
+          </a>
+        ))}
       </div>
     );
   }
@@ -128,6 +147,18 @@ export function ProjectLinks({
           <ExternalLinkIcon size={24} />
         </a>
       )}
+      {additionalLinks?.map(link => (
+        <a
+          key={link.url}
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] rounded-sm"
+          aria-label={link.label}
+        >
+          <ExternalLinkIcon size={24} />
+        </a>
+      ))}
     </div>
   );
 }
