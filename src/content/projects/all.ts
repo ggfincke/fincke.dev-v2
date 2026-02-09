@@ -9,9 +9,8 @@ export const projects: Project[] = [
     tagline:
       'Live MDX preview extension with dual-mode rendering, framework-aware component shims, and a browser-side module system.',
     dateRange: 'Jan 2026 - Present',
-    status: 'in-development',
+    status: 'live',
     madeFor: 'Personal',
-    featured: true,
     bulletPoints: [
       'Built dual-mode rendering pipeline (Safe HTML / Trusted JS) with workspace-trust gating, dynamic CSP generation, and path-traversal prevention',
       'Implemented browser-side CommonJS module loader with LRU caching, dependency-graph invalidation, and preloaded React runtime over Comlink RPC',
@@ -52,7 +51,6 @@ export const projects: Project[] = [
     dateRange: 'Dec 2025',
     status: 'live',
     madeFor: 'Personal',
-    featured: false,
     bulletPoints: [
       'Converted OpenCode session data into ccusage JSONL with per-project or per-directory grouping',
       'Built report workflow that merges OpenCode and Claude Code usage data for unified metrics',
@@ -68,9 +66,8 @@ export const projects: Project[] = [
     tagline:
       'Context-aware VS Code automation that adapts themes, panels, layouts, and editor features based on workspace state.',
     dateRange: 'Nov 2025 – Present',
-    status: 'in-development',
+    status: 'paused',
     madeFor: 'Personal',
-    featured: false,
     bulletPoints: [
       'Built rule engine with first-match-wins evaluation, overlap detection, and mode bundles for predictable, reusable automation',
       'Implemented 15+ action types (themes, panels, layout, notifications, tasks/commands, profiles) and 17+ condition types (file patterns, language, debug/test state, Git branch, time of day, diagnostics)',
@@ -87,7 +84,6 @@ export const projects: Project[] = [
     dateRange: 'Oct 2025 - Present',
     status: 'in-development',
     madeFor: 'Personal',
-    featured: true,
     bulletPoints: [
       'Built Django REST API with JWT auth, OpenAPI docs, and PostgreSQL + pgvector for semantic search and workout library retrieval',
       'Implemented RAG-based workout generation using embeddings and LLM calls to personalize plans and surface curated sets',
@@ -121,7 +117,6 @@ export const projects: Project[] = [
     dateRange: 'Oct 2025 – Present',
     status: 'live',
     madeFor: 'Personal',
-    featured: true,
     bulletPoints: [
       'Complete redesign with Vite 7 + React 19 + TypeScript + Tailwind CSS 4.0 for pure client‑side architecture',
       'Section‑based organization: each feature isolated with its own components, content, and utilities for maximum modularity',
@@ -151,7 +146,6 @@ export const projects: Project[] = [
     dateRange: 'Sep 2025 – Present',
     status: 'live',
     madeFor: 'Personal',
-    featured: true,
     bulletPoints: [
       'Built interactive Discord dashboards (buttons, modals, select menus) for status, start/stop/restart, logs, backups, and configuration',
       'Implemented provider abstraction for local Docker and AWS EC2 with runtime switching, health checks, and live status via RCON and mcstatus.io',
@@ -181,9 +175,8 @@ export const projects: Project[] = [
     tagline:
       'Hybrid microservices inventory system for multi‑marketplace ecommerce.',
     dateRange: 'Sep 2025 – Present',
-    status: 'in-development',
+    status: 'paused',
     madeFor: 'Personal',
-    featured: true,
     bulletPoints: [
       'Orchestrates products, listings, orders, and fees across marketplaces with Java/Spring Boot core and a Go connector service',
       'JWT auth with access/refresh tokens, role‑based authorization (ADMIN/USER/API CLIENT), secure rotation, and Spring Security guards',
@@ -206,7 +199,6 @@ export const projects: Project[] = [
       'Gradle',
       'Go',
     ],
-    // todo restore hopper screenshot asset once export is ready
     imageAlt: 'Hopper inventory management system screenshot',
     repoUrl: 'https://github.com/ggfincke/hopper',
   },
@@ -217,7 +209,6 @@ export const projects: Project[] = [
     dateRange: 'Aug 2025 – Present',
     status: 'live',
     madeFor: 'Personal',
-    featured: true,
     bulletPoints: [
       'Built Typer-based command suite (sectionize, tailor, generate, apply) with configurable defaults and themed help UI',
       'Implemented structured JSON edit pipeline with interactive diff resolution, risk/on-error policies, and format-preserving DOCX/LaTeX/Typst handling',
@@ -251,7 +242,6 @@ export const projects: Project[] = [
     dateRange: 'May 2025 - Present',
     status: 'live',
     madeFor: 'Bolt Hackathon',
-    featured: true,
     bulletPoints: [
       'Chat‑to‑basket turns natural language into structured baskets using Supabase and OpenAI',
       'Advanced crawling with CAPTCHA handling, anti‑bot countermeasures, normalization, and real‑time updates',
@@ -282,7 +272,6 @@ export const projects: Project[] = [
     dateRange: 'Mar 2025 - Sep 2025',
     status: 'complete',
     madeFor: 'Personal',
-    featured: false,
     bulletPoints: [
       'Next.js + TypeScript + Tailwind; responsive UI with subtle motion',
       'Custom component system, accessibility and performance‑first design',
@@ -305,7 +294,7 @@ export const projects: Project[] = [
     title: 'InStock',
     tagline: 'High‑frequency stock & price tracker; precursor to TrackBasket.',
     dateRange: 'Dec 2024 - Mar 2025',
-    status: 'paused',
+    status: 'complete',
     madeFor: 'Personal',
     bulletPoints: [
       'Optimized detection for restocks and price changes on high‑velocity products',
@@ -392,7 +381,6 @@ export const projects: Project[] = [
     dateRange: 'Sep 2024 - Dec 2024',
     status: 'complete',
     madeFor: 'Penn State',
-    featured: false,
     bulletPoints: [
       'React marketplace with live data integration and custom SQLite schema in BCNF',
       'Hand‑written SQL queries, filtering/search for sets & rarities, responsive UI (scored >100%)',
@@ -474,9 +462,8 @@ export const projects: Project[] = [
     title: 'SwimMate',
     tagline: 'Native iOS/watchOS swimming workout tracker.',
     dateRange: 'Feb 2024 - Jun 2024',
-    status: 'in-development',
+    status: 'complete',
     madeFor: 'Penn State',
-    featured: true,
     bulletPoints: [
       'Comprehensive swimming app to track, plan, and save workouts with history and progress visualization',
       'HealthKit + SwiftUI components for workout entry, lap timing, and analytics with Swift Charts',
