@@ -2,9 +2,10 @@
 // projects archive page w/ responsive table & card layouts
 
 import { Link } from 'react-router-dom';
+import { ChevronIcon } from '~/shared/components/ui/icons';
 import { ProjectsTable } from '../components/ProjectsTable';
 
-// projects archive page component
+// * Projects archive page component
 export function ProjectsArchivePage() {
   return (
     <div className="relative min-h-screen bg-[var(--bg)] text-[var(--muted)] overflow-y-auto">
@@ -15,19 +16,7 @@ export function ProjectsArchivePage() {
             to="/"
             className="inline-flex items-center gap-2 text-sm text-[var(--red)] transition hover:text-[var(--white)]"
           >
-            <svg
-              className="h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
+            <ChevronIcon size={16} direction="left" />
             Back
           </Link>
           <div>

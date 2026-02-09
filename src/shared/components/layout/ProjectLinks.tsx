@@ -1,13 +1,15 @@
 // src/shared/components/layout/ProjectLinks.tsx
 // shared links renderer for project repository & live links
 
-import { siGithub } from 'simple-icons';
-
 import type { ExternalLink } from '~/shared/types';
 import { getButtonClasses } from '~/shared/utils/classNames';
+import { ExternalLinkIcon } from '~/shared/components/ui/icons/ExternalLinkIcon';
+import { GitHubIcon } from '~/shared/components/ui/icons/GitHubIcon';
 
+// link display variant type
 export type ProjectLinksVariant = 'icon' | 'button';
 
+// props for project links
 interface ProjectLinksProps {
   repoUrl?: string;
   liveUrl?: string;
@@ -16,52 +18,6 @@ interface ProjectLinksProps {
   size?: 'sm' | 'md';
   liveLabel?: string;
   className?: string;
-}
-
-// github icon component
-function GitHubIcon({ size, className }: { size: number; className?: string }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      role="img"
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="currentColor"
-      className={className}
-    >
-      <path d={siGithub.path} />
-    </svg>
-  );
-}
-
-// external link icon component
-function ExternalLinkIcon({
-  size,
-  className,
-}: {
-  size: number;
-  className?: string;
-}) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-      <polyline points="15 3 21 3 21 9" />
-      <line x1="10" y1="14" x2="21" y2="3" />
-    </svg>
-  );
 }
 
 // project links component w/ icon or button variants

@@ -1,13 +1,14 @@
 // src/sections/featured-projects/components/FeaturedProjectTechnologies.tsx
 // technology pills w/ overflow count
 
-import { SkillPill } from '~/shared/components/ui/SkillPill';
+import { TechPills } from '~/shared/components/ui/TechPills';
 
+// props for featured project technologies
 interface FeaturedProjectTechnologiesProps {
   technologies: string[];
 }
 
-// featured project technologies component
+// technology pills w/ overflow count
 export function FeaturedProjectTechnologies({
   technologies,
 }: FeaturedProjectTechnologiesProps) {
@@ -16,15 +17,11 @@ export function FeaturedProjectTechnologies({
   }
 
   return (
-    <div className="mt-2 flex flex-wrap gap-2 lg:flex-nowrap">
-      {technologies.slice(0, 4).map((tech, techIndex) => (
-        <SkillPill key={techIndex} name={tech} size="sm" />
-      ))}
-      {technologies.length > 4 && (
-        <span className="inline-flex shrink-0 items-center whitespace-nowrap text-xs text-[var(--muted)]">
-          +{technologies.length - 4} more
-        </span>
-      )}
-    </div>
+    <TechPills
+      technologies={technologies}
+      maxVisible={4}
+      size="sm"
+      className="mt-2 flex flex-wrap gap-2 xl:flex-nowrap"
+    />
   );
 }
