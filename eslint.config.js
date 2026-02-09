@@ -1,3 +1,6 @@
+// eslint.config.js
+// flat ESLint config w/ TypeScript, React, & Prettier
+
 import js from '@eslint/js';
 import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';

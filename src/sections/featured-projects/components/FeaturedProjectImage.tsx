@@ -1,11 +1,14 @@
 // src/sections/featured-projects/components/FeaturedProjectImage.tsx
+// featured project thumbnail w/ hover effects
 
+// props for featured project image
 interface FeaturedProjectImageProps {
   imagePath: string;
   imageAlt?: string;
   title: string;
 }
 
+// project thumbnail w/ hover effects
 export function FeaturedProjectImage({
   imagePath,
   imageAlt,

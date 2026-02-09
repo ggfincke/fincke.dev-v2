@@ -1,6 +1,7 @@
 // src/shared/utils/techColors.ts
 // color mapping for technology pills based on Material Theme Ocean HC
 
+// technology category union type
 export type TechCategory =
   | 'language'
   | 'framework'
@@ -9,12 +10,14 @@ export type TechCategory =
   | 'tooling'
   | 'platform';
 
+// tech name to category lookup map
 interface TechColorMap {
   [key: string]: TechCategory;
 }
 
+// master tech-to-category mapping
 const TECH_COLOR_MAP: TechColorMap = {
-  // Languages
+  // languages
   Python: 'language',
   TypeScript: 'language',
   JavaScript: 'language',
@@ -27,7 +30,7 @@ const TECH_COLOR_MAP: TechColorMap = {
   Verilog: 'language',
   SQL: 'language',
 
-  // Frameworks & runtime libraries
+  // frameworks & runtime libraries
   React: 'framework',
   'Next.js': 'framework',
   'Tailwind CSS': 'framework',
@@ -58,7 +61,7 @@ const TECH_COLOR_MAP: TechColorMap = {
   'Gesture Handling': 'framework',
   'MVC/MVVM': 'framework',
 
-  // Tooling (dev/build/test/docs/render/IDE)
+  // tooling (dev/build/test/docs/render/IDE)
   Vite: 'tooling',
   esbuild: 'tooling',
   Vitest: 'tooling',
@@ -93,7 +96,7 @@ const TECH_COLOR_MAP: TechColorMap = {
   MetaMask: 'tooling',
   'Xilinx Vivado': 'tooling',
 
-  // Infra (cloud/db/containers/server-side components)
+  // infra (cloud/db/containers/server-side components)
   Docker: 'infra',
   'Docker Compose': 'infra',
 
@@ -117,7 +120,7 @@ const TECH_COLOR_MAP: TechColorMap = {
   JWT: 'infra',
   RCON: 'infra',
 
-  // Platform (OS/runtime/platforms + systems fundamentals + hardware platforms)
+  // platform (OS/runtime/platforms + systems fundamentals + hardware platforms)
   iOS: 'platform',
   watchOS: 'platform',
   'Node.js': 'platform',
@@ -139,7 +142,7 @@ const TECH_COLOR_MAP: TechColorMap = {
   SimpleScalar: 'platform',
   'Performance Analysis': 'platform',
 
-  // Data / AI / ML
+  // data / AI / ML
   'Machine Learning': 'data',
   'Deep Learning': 'data',
   'LLM Evaluation': 'data',
@@ -177,10 +180,12 @@ const TECH_COLOR_MAP: TechColorMap = {
   'Statistical Methods': 'data',
 };
 
+// normalize tech name for case-insensitive lookup
 function normalizeTech(tech: string): string {
   return tech.trim().toLowerCase();
 }
 
+// case-insensitive lookup table built from TECH_COLOR_MAP
 const NORMALIZED_TECH_MAP: TechColorMap = Object.fromEntries(
   Object.entries(TECH_COLOR_MAP).map(([key, value]) => [
     normalizeTech(key),
@@ -188,6 +193,7 @@ const NORMALIZED_TECH_MAP: TechColorMap = Object.fromEntries(
   ])
 );
 
+// category-to-CSS-variable mapping
 const CATEGORY_COLOR_VAR: Record<TechCategory, string> = {
   language: 'var(--green)',
   framework: 'var(--blue)',
@@ -197,6 +203,7 @@ const CATEGORY_COLOR_VAR: Record<TechCategory, string> = {
   platform: 'var(--cyan)',
 };
 
+// category-to-background-color mapping
 const CATEGORY_BG: Record<TechCategory, string> = {
   language: 'rgba(195, 232, 141, 0.15)',
   framework: 'rgba(130, 170, 255, 0.15)',
@@ -206,12 +213,14 @@ const CATEGORY_BG: Record<TechCategory, string> = {
   platform: 'rgba(137, 221, 255, 0.15)',
 };
 
+// get text color for a technology pill
 export function getTechColor(tech: string): string {
   const category = NORMALIZED_TECH_MAP[normalizeTech(tech)];
   if (!category) return 'var(--muted)';
   return CATEGORY_COLOR_VAR[category] ?? 'var(--muted)';
 }
 
+// get background color for a technology pill
 export function getTechBgColor(tech: string): string {
   const category = NORMALIZED_TECH_MAP[normalizeTech(tech)];
   if (!category) return 'var(--card)';

@@ -3,13 +3,14 @@
 
 import type { ReactNode } from 'react';
 
+// props for interactive card
 interface InteractiveCardProps {
   href?: string;
   children: ReactNode;
   className?: string;
 }
 
-// interactive card wrapper
+// card wrapper that renders link or div w/ hover effects
 export function InteractiveCard({
   href,
   children,

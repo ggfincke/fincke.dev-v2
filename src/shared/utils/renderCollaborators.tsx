@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 
 import type { Collaborator } from '~/shared/types';
 
+// accepted collaborator input types
 export type CollaboratorsValue =
   | string
   | string[]

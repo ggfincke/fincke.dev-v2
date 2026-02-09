@@ -1,6 +1,7 @@
-// src/types/experience.ts
+// src/shared/types/experience.ts
 // skill types
 
+// skill category union type
 export type SkillCategory =
   | 'languages'
   | 'frontend'
@@ -11,6 +12,7 @@ export type SkillCategory =
   | 'tools'
   | 'specialized';
 
+// individual skill entry shape
 export interface Skill {
   name: string;
   category: SkillCategory;

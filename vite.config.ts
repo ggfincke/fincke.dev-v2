@@ -1,3 +1,6 @@
+// vite.config.ts
+// vite build config w/ React, Tailwind, & path aliases
+
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
@@ -6,8 +9,6 @@ import { dirname, resolve } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-// vite config docs
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {

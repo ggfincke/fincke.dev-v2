@@ -1,12 +1,13 @@
 // src/sections/experience/components/JobCompanyHeader.tsx
 // company name & date range header
 
+// props for company header
 interface JobCompanyHeaderProps {
   company: string;
   dateRange: string;
 }
 
-// company header component
+// company name & date range header
 export function JobCompanyHeader({
   company,
   dateRange,

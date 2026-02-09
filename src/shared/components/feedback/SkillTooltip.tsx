@@ -12,13 +12,14 @@ const TOOLTIP_SPACING = 6;
 const VIEWPORT_PADDING = 8;
 const MAX_VISIBLE_PROJECTS = 6;
 
+// props for skill tooltip
 interface SkillTooltipProps {
   projects: Project[];
   isVisible: boolean;
   targetRef: React.RefObject<HTMLElement | null>;
 }
 
-// skill tooltip component
+// skill tooltip w/ related projects list
 export function SkillTooltip({
   projects,
   isVisible,

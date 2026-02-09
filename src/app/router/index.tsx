@@ -5,6 +5,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '~/app/App';
 import { ProjectsArchivePage } from '~/sections/projects-archive/pages/ProjectsArchivePage';
 
+// * Router configuration
 export const router = createBrowserRouter([
   {
     path: '/',

@@ -3,6 +3,7 @@
 
 import type { SocialLink } from '~/shared/types';
 
+// social link entries w/ icons & URLs
 export const SOCIAL_LINKS: SocialLink[] = [
   {
     label: 'Email',

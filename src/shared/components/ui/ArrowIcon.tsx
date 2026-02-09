@@ -1,6 +1,7 @@
 // src/shared/components/ui/ArrowIcon.tsx
 // right arrow icon for navigation links
 
+// right arrow SVG for navigation links
 export function ArrowIcon({ className = 'h-4 w-4' }: { className?: string }) {
   return (
     <svg

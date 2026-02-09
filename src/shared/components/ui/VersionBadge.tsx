@@ -3,15 +3,17 @@
 
 import { useEffect, useState } from 'react';
 
+// GitHub release API response shape
 interface GitHubRelease {
   tag_name: string;
 }
 
+// props for version badge
 interface VersionBadgeProps {
   repoUrl: string;
 }
 
-// version badge component
+// latest release version badge from GitHub API
 export function VersionBadge({ repoUrl }: VersionBadgeProps) {
   const [version, setVersion] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);

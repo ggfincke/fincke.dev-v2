@@ -3,6 +3,7 @@
 
 import type { WorkExperience } from '~/shared/types';
 
+// work experience timeline entries
 export const WORK_EXPERIENCE: WorkExperience[] = [
   {
     title: 'Software Engineer (contract)',
@@ -22,7 +23,7 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
     technologies: ['Swift', 'SwiftUI', 'iOS'],
     visibility: 'wide',
   },
-  // NOT INCLUDED BC OF SPACE CONSTRAINTS :)
+  // omitted entries — excluded for space constraints
   // {
   //   title: 'CMPSC 475 Learning Assistant (iOS / Applications Programming)',
   //   company: 'Pennsylvania State University',

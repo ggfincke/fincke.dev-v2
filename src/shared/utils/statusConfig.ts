@@ -3,6 +3,7 @@
 
 import type { ProjectStatus } from '~/shared/types';
 
+// status display configuration shape
 interface StatusConfig {
   icon: string;
   label: string;
@@ -10,6 +11,7 @@ interface StatusConfig {
   bgColorVar: string;
 }
 
+// status-to-display mapping for all project statuses
 export const statusConfig: Record<ProjectStatus, StatusConfig> = {
   'in-development': {
     icon: '🛠',
