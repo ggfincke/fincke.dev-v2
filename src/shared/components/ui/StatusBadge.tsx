@@ -6,11 +6,12 @@ import type { CSSProperties } from 'react';
 import type { ProjectStatus } from '~/shared/types';
 import { statusConfig } from '~/shared/utils/statusConfig';
 
+// props for status badge
 interface StatusBadgeProps {
   status: ProjectStatus;
 }
 
-// status badge component
+// status badge w/ emoji & color-coded styling
 export function StatusBadge({ status }: StatusBadgeProps) {
   const statusDisplay = statusConfig[status];
 
@@ -23,6 +24,8 @@ export function StatusBadge({ status }: StatusBadgeProps) {
     <span
       className="inline-flex items-center whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium"
       style={style}
+      role="status"
+      aria-label={statusDisplay.label}
     >
       {statusDisplay.icon} {statusDisplay.label}
     </span>

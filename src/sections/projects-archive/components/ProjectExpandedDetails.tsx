@@ -1,22 +1,24 @@
 // src/sections/projects-archive/components/ProjectExpandedDetails.tsx
 // expanded project details section (shared between mobile & desktop)
 
+import { getProjectsBySkill } from '~/content/projects';
 import { ProjectLinks } from '~/shared/components/layout/ProjectLinks';
-import { SkillPill } from '~/shared/components/ui/SkillPill';
 import { StatusBadge } from '~/shared/components/ui/StatusBadge';
+import { TechPills } from '~/shared/components/ui/TechPills';
 import { VersionBadge } from '~/shared/components/ui/VersionBadge';
 import type { Project } from '~/shared/types';
 import { renderCollaborators } from '~/shared/utils/renderCollaborators';
+import { getLiveLabel } from '../utils/getLiveLabel';
 
+// props for expanded project details
 interface ProjectExpandedDetailsProps {
   project: Project;
-  getLiveLabel: (url: string) => string;
   variant?: 'mobile' | 'desktop';
 }
 
+// expanded project details shared between mobile & desktop
 export function ProjectExpandedDetails({
   project,
-  getLiveLabel,
   variant = 'desktop',
 }: ProjectExpandedDetailsProps) {
   const isMobile = variant === 'mobile';
@@ -107,18 +109,13 @@ export function ProjectExpandedDetails({
           >
             Technologies
           </h4>
-          <div
+          <TechPills
+            technologies={project.technologies}
+            size={skillSize}
+            showProjectsOnHover
+            getRelatedProjects={getProjectsBySkill}
             className={`flex flex-wrap ${isMobile ? 'gap-2' : 'gap-x-3 gap-y-2'}`}
-          >
-            {project.technologies.map(tech => (
-              <SkillPill
-                key={tech}
-                name={tech}
-                size={skillSize}
-                showProjectsOnHover
-              />
-            ))}
-          </div>
+          />
         </div>
 
         {(project.repoUrl ||

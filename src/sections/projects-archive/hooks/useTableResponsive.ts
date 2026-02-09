@@ -3,8 +3,9 @@
 
 import { useEffect, useState } from 'react';
 
-// tailwind md breakpoint for switching layouts
-const TABLE_BREAKPOINT = 768;
+import { BREAKPOINTS } from '~/shared/utils/breakpoints';
+
+const TABLE_BREAKPOINT = BREAKPOINTS.table;
 
 // * custom hook for responsive table/card layout switching
 export function useTableResponsive() {

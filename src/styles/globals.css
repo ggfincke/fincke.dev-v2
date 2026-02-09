@@ -1,3 +1,6 @@
+/* src/styles/globals.css */
+/* design tokens, custom properties, & animations */
+
 @import 'tailwindcss';
 
 :root {
@@ -20,8 +23,6 @@
   --blue: #82aaff;
   --purple: #c792ea;
   --red: #f07178;
-  --pink: #ff9cac;
-  --violet: #bb80b3;
   --comments: #464b5d;
 
   /* status colors for badges & indicators */

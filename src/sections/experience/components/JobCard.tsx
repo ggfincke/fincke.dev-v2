@@ -3,18 +3,20 @@
 
 import { InteractiveCard } from '~/shared/components/layout/InteractiveCard';
 import type { WorkExperience } from '~/shared/types';
+import { CARD_HOVER_BACKDROP } from '~/shared/utils/classNames';
 import { JobCompanyHeader } from './JobCompanyHeader';
 import { JobTechnologies } from './JobTechnologies';
 
+// props for job experience card
 interface JobCardProps {
   job: WorkExperience;
 }
 
-// job experience card component
+// job card w/ company header, description & technologies
 export function JobCard({ job }: JobCardProps) {
   return (
     <InteractiveCard href={job.link}>
-      <div className="absolute -inset-3 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-4 lg:block lg:group-hover:bg-[var(--card)]/50 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(128,203,196,0.1)] lg:group-hover:drop-shadow-lg" />
+      <div className={CARD_HOVER_BACKDROP} />
 
       <div className="relative z-10">
         <JobCompanyHeader company={job.company} dateRange={job.dateRange} />

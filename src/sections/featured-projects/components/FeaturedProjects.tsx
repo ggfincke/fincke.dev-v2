@@ -3,33 +3,32 @@
 
 import { Link } from 'react-router-dom';
 
-import {
-  FEATURED_PROJECT_TITLES,
-  WIDE_FEATURED_PROJECT_TITLES,
-  getFeaturedProjects,
-} from '~/content/projects';
+import { getFeaturedProjects } from '~/content/projects';
 import { ArrowIcon } from '~/shared/components/ui/ArrowIcon';
 import { useMediaQuery } from '~/shared/hooks/useMediaQuery';
+import { ANIMATION_DELAYS, staggerDelay } from '~/shared/utils/animationConfig';
+import { BREAKPOINTS } from '~/shared/utils/breakpoints';
 import { FeaturedProjectCard } from './FeaturedProjectCard';
 
-// featured projects component
+// featured project cards w/ archive link
 export function FeaturedProjects() {
-  const showExpandedProjects = useMediaQuery('(min-width: 2560px)');
-  const featuredTitles = showExpandedProjects
-    ? [...FEATURED_PROJECT_TITLES, ...WIDE_FEATURED_PROJECT_TITLES]
-    : FEATURED_PROJECT_TITLES;
-
-  const featured = getFeaturedProjects().filter(project =>
-    featuredTitles.includes(project.title)
-  );
+  // show extra projects on ultra-wide viewports
+  const showExpandedProjects = useMediaQuery(BREAKPOINTS.ultraWide);
+  const featured = getFeaturedProjects(showExpandedProjects);
 
   return (
     <>
       {featured.map((project, index) => (
         <div
-          key={index}
+          key={project.title}
           className="animate-slide-in-up opacity-0"
-          style={{ animationDelay: `${0.6 + index * 0.1}s` }}
+          style={{
+            animationDelay: staggerDelay(
+              ANIMATION_DELAYS.featuredProjects.base,
+              ANIMATION_DELAYS.featuredProjects.step,
+              index
+            ),
+          }}
         >
           <FeaturedProjectCard project={project} />
         </div>
@@ -38,7 +37,13 @@ export function FeaturedProjects() {
       <Link
         to="/projects"
         className="animate-slide-in-up inline-flex items-center gap-2 text-sm text-[var(--red)] opacity-0 transition hover:text-[var(--white)]"
-        style={{ animationDelay: `${0.6 + featured.length * 0.1}s` }}
+        style={{
+          animationDelay: staggerDelay(
+            ANIMATION_DELAYS.featuredProjects.base,
+            ANIMATION_DELAYS.featuredProjects.step,
+            featured.length
+          ),
+        }}
       >
         View All Projects
         <ArrowIcon />

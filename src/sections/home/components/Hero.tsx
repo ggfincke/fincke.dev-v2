@@ -2,13 +2,14 @@
 // hero section w/ name & tagline
 
 import { HERO_CONTENT } from '~/content/home';
+import { ANIMATION_DELAYS } from '~/shared/utils/animationConfig';
 
-// hero component
+// hero section w/ name & tagline
 export function Hero() {
   return (
     <div
       className="animate-slide-in-left opacity-0"
-      style={{ animationDelay: '0.1s' }}
+      style={{ animationDelay: ANIMATION_DELAYS.hero }}
     >
       <h1 className="text-4xl font-bold leading-tight text-[var(--cyan)] md:text-6xl">
         {HERO_CONTENT.name}

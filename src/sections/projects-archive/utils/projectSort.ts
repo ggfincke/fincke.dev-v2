@@ -1,6 +1,10 @@
 // src/sections/projects-archive/utils/projectSort.ts
 // project sorting utilities
 
+// extract first year from date range string as display text
+export const extractFirstYear = (dateRange: string): string =>
+  dateRange.match(/\d{4}/)?.[0] ?? 'TBD';
+
 // extract latest year from date range string
 export const extractLatestYear = (dateRange: string): number => {
   const years = dateRange.match(/\d{4}/g);

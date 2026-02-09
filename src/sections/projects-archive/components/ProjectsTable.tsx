@@ -11,15 +11,6 @@ import { ProjectTableRow } from './ProjectTableRow';
 import { ProjectExpandedDetails } from './ProjectExpandedDetails';
 import { getAllProjects } from '~/content/projects';
 
-// determine live link label based on URL type
-const getLiveLabel = (url: string): string => {
-  const lower = url.toLowerCase();
-  if (lower.endsWith('.pdf')) return 'View Report';
-  if (lower.includes('marketplace.visualstudio.com'))
-    return 'VS Code Marketplace';
-  return 'View Live Site';
-};
-
 // * Projects table component w/ expandable rows
 export function ProjectsTable() {
   const projects = useMemo(() => getAllProjects(), []);
@@ -62,7 +53,6 @@ export function ProjectsTable() {
                   {expanded && (
                     <ProjectExpandedDetails
                       project={project}
-                      getLiveLabel={getLiveLabel}
                       variant="mobile"
                     />
                   )}
@@ -108,7 +98,6 @@ export function ProjectsTable() {
                   project={project}
                   expanded={expanded}
                   onToggle={() => toggleRow(index)}
-                  getLiveLabel={getLiveLabel}
                 />
               );
 
@@ -121,7 +110,6 @@ export function ProjectsTable() {
                   <td colSpan={7} className="p-0">
                     <ProjectExpandedDetails
                       project={project}
-                      getLiveLabel={getLiveLabel}
                       variant="desktop"
                     />
                   </td>

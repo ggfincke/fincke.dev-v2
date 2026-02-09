@@ -2,12 +2,14 @@
 // social media links w/ icons
 
 import type { SimpleIcon } from 'simple-icons';
-import { siGithub, siInstagram, siMedium, siX, siYoutube } from 'simple-icons';
+import { siInstagram, siMedium, siX, siYoutube } from 'simple-icons';
 
 import type { SocialLink } from '~/shared/types';
 import { SOCIAL_LINKS } from '~/content/home';
+import { GitHubIcon as SharedGitHubIcon } from '~/shared/components/ui/icons';
+import { ANIMATION_DELAYS } from '~/shared/utils/animationConfig';
 
-// icon components
+// email SVG icon
 function EmailIcon() {
   return (
     <svg
@@ -25,6 +27,7 @@ function EmailIcon() {
   );
 }
 
+// phone SVG icon
 function PhoneIcon() {
   return (
     <svg
@@ -41,6 +44,7 @@ function PhoneIcon() {
   );
 }
 
+// create icon component from simple-icons data
 function createSimpleIcon(icon: SimpleIcon) {
   return function SimpleIconComponent() {
     return (
@@ -58,12 +62,16 @@ function createSimpleIcon(icon: SimpleIcon) {
   };
 }
 
-const GitHubIcon = createSimpleIcon(siGithub);
+// GitHub icon wrapper
+function GitHubIcon() {
+  return <SharedGitHubIcon size={24} className="h-6 w-6" />;
+}
 const MediumIcon = createSimpleIcon(siMedium);
 const InstagramIcon = createSimpleIcon(siInstagram);
 const TwitterIcon = createSimpleIcon(siX);
 const YouTubeIcon = createSimpleIcon(siYoutube);
 
+// LinkedIn SVG icon
 function LinkedInIcon() {
   return (
     <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
@@ -72,7 +80,7 @@ function LinkedInIcon() {
   );
 }
 
-// icon map
+// map social link types to icon components
 const iconMap = {
   email: EmailIcon,
   github: GitHubIcon,
@@ -84,13 +92,13 @@ const iconMap = {
   youtube: YouTubeIcon,
 };
 
-// social links component
+// social media links w/ icons
 export function SocialLinks() {
   return (
     <nav
       aria-label="Social media links"
       className="animate-slide-in-left flex gap-4 opacity-0"
-      style={{ animationDelay: '0.5s' }}
+      style={{ animationDelay: ANIMATION_DELAYS.socialLinks }}
     >
       {SOCIAL_LINKS.map((link: SocialLink) => {
         const Icon = iconMap[link.icon];

@@ -16,6 +16,10 @@ const buttonColors = {
     'bg-[var(--accent)] !text-[var(--accent-contrast,var(--bg))] hover:bg-opacity-90 hover:shadow-md',
 } as const;
 
+// hover backdrop for interactive cards (job cards, featured project cards)
+export const CARD_HOVER_BACKDROP =
+  'absolute -inset-3 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-4 lg:block lg:group-hover:bg-[var(--card)]/50 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(128,203,196,0.1)] lg:group-hover:drop-shadow-lg';
+
 // generate button class string based on size & variant
 export function getButtonClasses(
   size: keyof typeof buttonSizes = 'md',
