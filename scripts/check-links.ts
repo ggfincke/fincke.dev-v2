@@ -1,5 +1,5 @@
 // scripts/check-links.ts
-// Validates all external URLs and local asset paths from content data.
+// validates all external URLs & local asset paths from content data
 // Usage: npm run check-links
 
 import { existsSync } from 'fs';
@@ -13,11 +13,13 @@ const PUBLIC = join(ROOT, 'public');
 const TIMEOUT = 10_000;
 const BATCH_SIZE = 5;
 
+// link check input shape
 interface LinkEntry {
   url: string;
   source: string;
 }
 
+// link check result w/ status & detail
 interface LinkResult extends LinkEntry {
   status: 'ok' | 'fail' | 'skip';
   detail: string;
@@ -32,7 +34,10 @@ function collectExternalUrls(): LinkEntry[] {
       urls.push({ url: p.liveUrl, source: `project liveUrl: ${p.title}` });
     if (p.additionalLinks) {
       for (const link of p.additionalLinks) {
-        urls.push({ url: link.url, source: `project link: ${p.title} (${link.label})` });
+        urls.push({
+          url: link.url,
+          source: `project link: ${p.title} (${link.label})`,
+        });
       }
     }
   }
@@ -52,13 +57,17 @@ function collectLocalPaths(): LinkEntry[] {
   const paths: LinkEntry[] = [];
 
   for (const p of projects) {
-    if (p.imagePath) paths.push({ url: p.imagePath, source: `project image: ${p.title}` });
+    if (p.imagePath)
+      paths.push({ url: p.imagePath, source: `project image: ${p.title}` });
     if (p.liveUrl?.startsWith('/'))
       paths.push({ url: p.liveUrl, source: `project liveUrl: ${p.title}` });
   }
 
   // hardcoded asset refs in components
-  paths.push({ url: '/documents/resume-selected.pdf', source: 'JobHistory.tsx' });
+  paths.push({
+    url: '/documents/resume-selected.pdf',
+    source: 'JobHistory.tsx',
+  });
 
   return paths;
 }
@@ -83,7 +92,7 @@ async function checkUrl(url: string): Promise<{ ok: boolean; detail: string }> {
 
     if (res.ok) return { ok: true, detail: `${res.status}` };
 
-    // some servers reject HEAD, retry with GET
+    // some servers reject HEAD, retry w/ GET
     if (res.status === 405 || res.status === 403) {
       const getRes = await fetch(url, {
         method: 'GET',
@@ -91,7 +100,8 @@ async function checkUrl(url: string): Promise<{ ok: boolean; detail: string }> {
         redirect: 'follow',
         headers: { 'User-Agent': 'fincke.dev-link-checker/1.0' },
       });
-      if (getRes.ok) return { ok: true, detail: `${getRes.status} (GET fallback)` };
+      if (getRes.ok)
+        return { ok: true, detail: `${getRes.status} (GET fallback)` };
       return { ok: false, detail: `${getRes.status}` };
     }
 
@@ -126,7 +136,7 @@ async function main() {
   );
 
   // check local paths (sync)
-  const localResults: LinkResult[] = localPaths.map((entry) => {
+  const localResults: LinkResult[] = localPaths.map(entry => {
     const diskPath = join(PUBLIC, ...entry.url.split('/').filter(Boolean));
     const exists = existsSync(diskPath);
     return {
@@ -137,7 +147,7 @@ async function main() {
   });
 
   // check external URLs (async, batched)
-  const externalResults = await checkInBatches(externalUrls, async (entry) => {
+  const externalResults = await checkInBatches(externalUrls, async entry => {
     if (entry.url.startsWith('mailto:') || entry.url.startsWith('tel:')) {
       console.log(`  SKIP  ${entry.url}`);
       return { ...entry, status: 'skip' as const, detail: 'mailto/tel' };
@@ -151,9 +161,9 @@ async function main() {
   });
 
   const allResults = [...localResults, ...externalResults];
-  const ok = allResults.filter((r) => r.status === 'ok');
-  const failed = allResults.filter((r) => r.status === 'fail');
-  const skipped = allResults.filter((r) => r.status === 'skip');
+  const ok = allResults.filter(r => r.status === 'ok');
+  const failed = allResults.filter(r => r.status === 'fail');
+  const skipped = allResults.filter(r => r.status === 'skip');
 
   // summary
   console.log('\n' + '='.repeat(90));
