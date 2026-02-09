@@ -4,11 +4,18 @@
 import type { Project } from '~/shared/types';
 
 import { projects } from './all';
+import {
+  FEATURED_PROJECT_TITLES,
+  WIDE_FEATURED_PROJECT_TITLES,
+} from './featured';
 import { skillMappings } from './skillMappings';
 
-// get featured projects
-export const getFeaturedProjects = (): Project[] => {
-  return projects.filter(project => project.featured);
+// get featured projects by title list
+export const getFeaturedProjects = (includeWide = false): Project[] => {
+  const titles = includeWide
+    ? [...FEATURED_PROJECT_TITLES, ...WIDE_FEATURED_PROJECT_TITLES]
+    : FEATURED_PROJECT_TITLES;
+  return projects.filter(project => titles.includes(project.title));
 };
 
 // get all projects
