@@ -23,7 +23,14 @@
   --blue: #82aaff;
   --purple: #c792ea;
   --red: #f07178;
-  --comments: #464b5d;
+
+  /* technology category background colors */
+  --tech-bg-language: rgba(195, 232, 141, 0.15);
+  --tech-bg-framework: rgba(130, 170, 255, 0.15);
+  --tech-bg-infra: rgba(199, 146, 234, 0.15);
+  --tech-bg-data: rgba(255, 203, 107, 0.15);
+  --tech-bg-tooling: rgba(247, 140, 108, 0.15);
+  --tech-bg-platform: rgba(137, 221, 255, 0.15);
 
   /* status colors for badges & indicators */
   --status-in-development: #82aaff;
@@ -99,18 +106,6 @@ body {
   }
 }
 
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -128,10 +123,6 @@ body {
   animation: slideInLeft 0.6s ease-out forwards;
 }
 
-.animate-slide-in-right {
-  animation: slideInRight 0.6s ease-out forwards;
-}
-
 .animate-slide-in-up {
   animation: slideInUp 0.5s ease-out forwards;
 }
@@ -139,8 +130,8 @@ body {
 /* disable animations for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .animate-slide-in-left,
-  .animate-slide-in-right,
-  .animate-slide-in-up {
+  .animate-slide-in-up,
+  .animate-fadeIn {
     animation: none;
     opacity: 1;
     transform: none;

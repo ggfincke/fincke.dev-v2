@@ -203,14 +203,14 @@ const CATEGORY_COLOR_VAR: Record<TechCategory, string> = {
   platform: 'var(--cyan)',
 };
 
-// category-to-background-color mapping
+// category-to-background-color mapping (CSS variables defined in globals.css)
 const CATEGORY_BG: Record<TechCategory, string> = {
-  language: 'rgba(195, 232, 141, 0.15)',
-  framework: 'rgba(130, 170, 255, 0.15)',
-  infra: 'rgba(199, 146, 234, 0.15)',
-  data: 'rgba(255, 203, 107, 0.15)',
-  tooling: 'rgba(247, 140, 108, 0.15)',
-  platform: 'rgba(137, 221, 255, 0.15)',
+  language: 'var(--tech-bg-language)',
+  framework: 'var(--tech-bg-framework)',
+  infra: 'var(--tech-bg-infra)',
+  data: 'var(--tech-bg-data)',
+  tooling: 'var(--tech-bg-tooling)',
+  platform: 'var(--tech-bg-platform)',
 };
 
 // get text color for a technology pill

@@ -1,15 +1,24 @@
-// src/shared/components/ui/ArrowIcon.tsx
+// src/shared/components/ui/icons/ArrowIcon.tsx
 // right arrow icon for navigation links
 
+// props for arrow icon
+interface ArrowIconProps {
+  size?: number;
+  className?: string;
+}
+
 // right arrow SVG for navigation links
-export function ArrowIcon({ className = 'h-4 w-4' }: { className?: string }) {
+export function ArrowIcon({ size = 16, className }: ArrowIconProps) {
   return (
     <svg
-      className={className}
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.5"
+      aria-hidden="true"
+      className={className}
     >
       <path
         strokeLinecap="round"

@@ -3,9 +3,6 @@
 
 import type { ReactNode } from 'react';
 
-const DEFAULT_INLINE_LINK_CLASSES =
-  'text-[var(--red)] underline decoration-[var(--red)]/40 underline-offset-4 transition hover:text-[var(--white)] hover:decoration-[var(--white)]/40';
-
 // props for inline link
 interface InlineLinkProps {
   href: string;
@@ -17,10 +14,13 @@ interface InlineLinkProps {
 export function InlineLink({
   href,
   children,
-  className = DEFAULT_INLINE_LINK_CLASSES,
+  className = '',
 }: InlineLinkProps) {
   return (
-    <a className={className} href={href}>
+    <a
+      className={`text-[var(--red)] underline decoration-[var(--red)]/40 underline-offset-4 transition hover:text-[var(--white)] hover:decoration-[var(--white)]/40 ${className}`}
+      href={href}
+    >
       {children}
     </a>
   );

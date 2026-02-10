@@ -15,4 +15,4 @@ export const staggerDelay = (
   base: number,
   step: number,
   index: number
-): string => `${base + index * step}s`;
+): string => `${(base + index * step).toFixed(2)}s`;
