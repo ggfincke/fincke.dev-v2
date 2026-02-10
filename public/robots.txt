@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fincke.dev/sitemap.xml

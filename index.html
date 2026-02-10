@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="/thumbnail.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f111a" />
 
     <!-- Primary Meta Tags -->
     <title>Garrett Fincke | Software Engineer</title>
@@ -17,6 +18,7 @@
       name="keywords"
       content="Software Engineer, AI Tooling, Full-Stack Developer, LLM Evaluation, React, TypeScript, Python, Java, Go, Portfolio, Garrett Fincke"
     />
+    <link rel="canonical" href="https://fincke.dev/" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -32,23 +34,37 @@
     />
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://fincke.dev/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://fincke.dev/" />
+    <meta name="twitter:title" content="Garrett Fincke | Software Engineer" />
     <meta
-      property="twitter:title"
-      content="Garrett Fincke | Software Engineer"
-    />
-    <meta
-      property="twitter:description"
+      name="twitter:description"
       content="Software engineer — AI tooling & scalable full-stack systems. Experience in Python, TypeScript, Java, Go, React, and LLM evaluation infrastructure."
     />
     <meta
-      property="twitter:image"
+      name="twitter:image"
       content="https://fincke.dev/assets/images/profile.jpg"
     />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Garrett Fincke",
+        "url": "https://fincke.dev",
+        "jobTitle": "Software Engineer",
+        "sameAs": [
+          "https://github.com/ggfincke",
+          "https://www.linkedin.com/in/garrett-fincke/",
+          "https://medium.com/@ggfincke"
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>This site requires JavaScript to function.</noscript>
     <script type="module" src="/src/app/main.tsx"></script>
   </body>
 </html>
