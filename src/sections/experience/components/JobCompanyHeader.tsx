@@ -15,7 +15,7 @@ export function JobCompanyHeader({
   return (
     <div className="mb-2 flex items-baseline justify-between gap-2">
       <h3 className="text-sm font-medium text-[var(--white)]">{company}</h3>
-      <span className="text-xs text-[var(--comments)]">{dateRange}</span>
+      <span className="text-xs text-[var(--muted)]">{dateRange}</span>
     </div>
   );
 }

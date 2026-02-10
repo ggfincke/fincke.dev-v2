@@ -31,7 +31,7 @@ export function ProjectTableRow({
       <td className="py-6 pl-6 pr-2">
         <ExpandToggle expanded={expanded} onToggle={onToggle} />
       </td>
-      <td className="py-6 pl-4 pr-4 text-[var(--comments)] font-mono text-sm">
+      <td className="py-6 pl-4 pr-4 text-[var(--muted)] font-mono text-sm">
         {year}
       </td>
       <td className="py-6 pl-4 pr-2">

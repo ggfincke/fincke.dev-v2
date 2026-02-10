@@ -16,8 +16,10 @@ interface JobCardProps {
 export function JobCard({ job }: JobCardProps) {
   return (
     <InteractiveCard href={job.link}>
+      {/* hover backdrop */}
       <div className={CARD_HOVER_BACKDROP} />
 
+      {/* card content */}
       <div className="relative z-10">
         <JobCompanyHeader company={job.company} dateRange={job.dateRange} />
 

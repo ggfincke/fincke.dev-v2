@@ -19,12 +19,11 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
   const linkUrl = project.liveUrl || project.repoUrl;
 
   return (
-    <InteractiveCard
-      href={linkUrl}
-      className="group relative flex gap-4 p-1 transition-all lg:hover:!opacity-100 lg:group-hover/list:opacity-50"
-    >
+    <InteractiveCard href={linkUrl} className="flex gap-4">
+      {/* hover backdrop */}
       <div className={CARD_HOVER_BACKDROP} />
 
+      {/* project image */}
       {project.imagePath && (
         <FeaturedProjectImage
           imagePath={project.imagePath}
@@ -33,6 +32,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
         />
       )}
 
+      {/* project info */}
       <div className="relative z-10 flex-1">
         <FeaturedProjectHeader title={project.title} hasLink={!!linkUrl} />
 

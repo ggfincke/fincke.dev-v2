@@ -31,12 +31,14 @@ export function ProjectExpandedDetails({
   return (
     <div className={containerClass}>
       <div className={spacingClass}>
+        {/* project tagline */}
         {project.tagline && (
           <div className="text-base text-[var(--fg)]/80 italic">
             {project.tagline}
           </div>
         )}
 
+        {/* status & version info */}
         <div className="flex items-center gap-4">
           <StatusBadge status={project.status} />
           <span className="text-[var(--muted)] text-sm italic">
@@ -49,6 +51,7 @@ export function ProjectExpandedDetails({
           </span>
         </div>
 
+        {/* collaborators */}
         {project.collaborators && (
           <div>
             <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">
@@ -60,6 +63,7 @@ export function ProjectExpandedDetails({
           </div>
         )}
 
+        {/* description & image */}
         {isMobile ? (
           <div>
             <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">
@@ -103,6 +107,7 @@ export function ProjectExpandedDetails({
           </div>
         )}
 
+        {/* technologies */}
         <div>
           <h4
             className={`text-sm font-semibold text-[var(--accent)] ${isMobile ? 'mb-2' : 'mb-3'}`}
@@ -118,6 +123,7 @@ export function ProjectExpandedDetails({
           />
         </div>
 
+        {/* external links */}
         {(project.repoUrl ||
           project.liveUrl ||
           (project.additionalLinks && project.additionalLinks.length > 0)) && (

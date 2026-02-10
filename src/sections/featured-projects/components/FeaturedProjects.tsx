@@ -4,7 +4,7 @@
 import { Link } from 'react-router-dom';
 
 import { getFeaturedProjects } from '~/content/projects';
-import { ArrowIcon } from '~/shared/components/ui/ArrowIcon';
+import { ArrowIcon } from '~/shared/components/ui/icons';
 import { useMediaQuery } from '~/shared/hooks/useMediaQuery';
 import { ANIMATION_DELAYS, staggerDelay } from '~/shared/utils/animationConfig';
 import { BREAKPOINTS } from '~/shared/utils/breakpoints';
@@ -18,6 +18,7 @@ export function FeaturedProjects() {
 
   return (
     <>
+      {/* project cards */}
       {featured.map((project, index) => (
         <div
           key={project.title}
@@ -34,6 +35,7 @@ export function FeaturedProjects() {
         </div>
       ))}
 
+      {/* archive link */}
       <Link
         to="/projects"
         className="animate-slide-in-up inline-flex items-center gap-2 text-sm text-[var(--red)] opacity-0 transition hover:text-[var(--white)]"

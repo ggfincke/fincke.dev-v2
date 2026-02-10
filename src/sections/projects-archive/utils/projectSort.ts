@@ -14,55 +14,39 @@ export const extractLatestYear = (dateRange: string): number => {
   return Math.max(...years.map(year => Number.parseInt(year, 10)));
 };
 
+// months lookup for date parsing
+const MONTHS = [
+  'jan',
+  'feb',
+  'mar',
+  'apr',
+  'may',
+  'jun',
+  'jul',
+  'aug',
+  'sep',
+  'oct',
+  'nov',
+  'dec',
+];
+
 // extract latest month from date range string
-// strategy: find month closest to latest year in string
-// proximity check (<50 chars) handles Sep 2024 - Present cases
-// also prefer later month when multiple matches sit near that year
+// splits on range separator and checks the last segment first
+// returns month index (0 = Jan), 12 for "Present", -1 if not found
 export const extractLatestMonth = (dateRange: string): number => {
-  const months = [
-    'jan',
-    'feb',
-    'mar',
-    'apr',
-    'may',
-    'jun',
-    'jul',
-    'aug',
-    'sep',
-    'oct',
-    'nov',
-    'dec',
-  ];
   const lower = dateRange.toLowerCase();
-  const matches = lower.match(
-    /\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\w*/g
-  );
 
-  if (!matches) {
-    return 0;
-  }
+  // "Present" means ongoing — sort above any named month
+  if (lower.includes('present')) return 12;
 
-  const latestYear = extractLatestYear(dateRange);
-  let latestMonth = 0;
+  // split on range separators (hyphen, en-dash, em-dash)
+  const segments = lower.split(/\s*[-–—]\s*/);
 
-  for (const match of matches) {
-    const monthIndex = months.findIndex(month => match.startsWith(month));
-    if (monthIndex === -1) {
-      continue;
-    }
-
-    const monthPos = lower.indexOf(match);
-    const yearPos = lower.indexOf(String(latestYear));
-
-    // keep this month when no year found, month sits near latest year, or month outranks current pick
-    if (
-      latestYear === 0 ||
-      Math.abs(monthPos - yearPos) < 50 ||
-      monthIndex > latestMonth
-    ) {
-      latestMonth = monthIndex;
+  for (let i = segments.length - 1; i >= 0; i--) {
+    for (let m = 0; m < MONTHS.length; m++) {
+      if (segments[i].includes(MONTHS[m])) return m;
     }
   }
 
-  return latestMonth;
+  return -1;
 };

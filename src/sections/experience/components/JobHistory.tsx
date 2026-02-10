@@ -4,7 +4,7 @@
 import { useMediaQuery } from '~/shared/hooks/useMediaQuery';
 import { WORK_EXPERIENCE } from '~/content/experience';
 import { BREAKPOINTS } from '~/shared/utils/breakpoints';
-import { ArrowIcon } from '~/shared/components/ui/ArrowIcon';
+import { ArrowIcon } from '~/shared/components/ui/icons';
 import { ANIMATION_DELAYS, staggerDelay } from '~/shared/utils/animationConfig';
 import { JobCard } from './JobCard';
 
@@ -18,6 +18,7 @@ export function JobHistory() {
 
   return (
     <>
+      {/* job cards */}
       {visibleJobs.map((job, index) => (
         <div
           key={job.company}
@@ -34,6 +35,7 @@ export function JobHistory() {
         </div>
       ))}
 
+      {/* resume link */}
       <a
         href="/documents/resume-selected.pdf"
         target="_blank"

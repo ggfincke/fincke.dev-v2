@@ -3,8 +3,8 @@
 
 import { useMemo } from 'react';
 
+import { useMediaQuery } from '~/shared/hooks/useMediaQuery';
 import { useExpandableRows } from '../hooks/useExpandableRows';
-import { useTableResponsive } from '../hooks/useTableResponsive';
 import { extractLatestYear, extractLatestMonth } from '../utils/projectSort';
 import { ProjectMobileCard } from './ProjectMobileCard';
 import { ProjectTableRow } from './ProjectTableRow';
@@ -14,7 +14,9 @@ import { getAllProjects } from '~/content/projects';
 // * Projects table component w/ expandable rows
 export function ProjectsTable() {
   const projects = useMemo(() => getAllProjects(), []);
-  const { shouldShowCards, shouldShowTable } = useTableResponsive();
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const shouldShowCards = !isDesktop;
+  const shouldShowTable = isDesktop;
   const { toggleRow, isExpanded } = useExpandableRows<number>();
 
   // sort projects by date desc to surface newest first
@@ -36,6 +38,7 @@ export function ProjectsTable() {
 
   return (
     <div className="overflow-x-auto">
+      {/* mobile card layout */}
       {shouldShowCards && (
         <div className="block md:hidden">
           <div className="space-y-4">
@@ -63,6 +66,7 @@ export function ProjectsTable() {
         </div>
       )}
 
+      {/* desktop table layout */}
       {shouldShowTable && (
         <table className="w-full table-fixed hidden md:table">
           <thead>
