@@ -15,7 +15,9 @@ export const getFeaturedProjects = (includeWide = false): Project[] => {
   const titles = includeWide
     ? [...FEATURED_PROJECT_TITLES, ...WIDE_FEATURED_PROJECT_TITLES]
     : FEATURED_PROJECT_TITLES;
-  return projects.filter(project => titles.includes(project.title));
+  return titles
+    .map(title => projects.find(p => p.title === title))
+    .filter((p): p is Project => p !== undefined);
 };
 
 // get all projects

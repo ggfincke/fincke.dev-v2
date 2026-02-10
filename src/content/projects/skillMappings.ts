@@ -77,7 +77,6 @@ export const skillMappings: Record<string, string[]> = {
   seaborn: ['seaborn'],
   jupyter: ['jupyter'],
   'deep learning': ['deep learning', 'tensorflow', 'keras', 'pytorch', 'cnn'],
-  cnns: ['cnn', 'deep learning'],
   resnet: ['resnet'],
   densenet: ['densenet'],
   'random fourier features': ['random fourier features'],
@@ -121,6 +120,7 @@ export const skillMappings: Record<string, string[]> = {
   'web3.js': ['web3.js'],
   metamask: ['metamask'],
   'blockchain development': ['solidity', 'ethereum', 'web3.js'],
+  cnns: ['cnn', 'deep learning'],
   ethereum: ['ethereum', 'solidity', 'web3.js'],
 
   // cloud & infra

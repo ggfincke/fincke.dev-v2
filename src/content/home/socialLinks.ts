@@ -2,17 +2,18 @@
 // social media links data
 
 import type { SocialLink } from '~/shared/types';
+import { EMAIL } from './about';
 
 // social link entries w/ icons & URLs
 export const SOCIAL_LINKS: SocialLink[] = [
   {
     label: 'Email',
-    url: 'mailto:garrettfincke@gmail.com',
+    url: `mailto:${EMAIL}`,
     icon: 'email',
   },
   {
     label: 'Phone',
-    url: 'tel:7247777186',
+    url: 'tel:+17247777186',
     icon: 'phone',
   },
   {

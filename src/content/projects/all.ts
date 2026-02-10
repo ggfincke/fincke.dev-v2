@@ -8,7 +8,7 @@ export const projects: Project[] = [
     title: 'MDX Preview for VS Code',
     tagline:
       'Live MDX preview extension with dual-mode rendering, framework-aware component shims, and a browser-side module system.',
-    dateRange: 'Jan 2026 - Present',
+    dateRange: 'Jan 2026 – Present',
     status: 'live',
     madeFor: 'Personal',
     bulletPoints: [
@@ -49,7 +49,7 @@ export const projects: Project[] = [
     tagline:
       'CLI tool that exports OpenCode sessions to ccusage-compatible JSONL and generates combined usage reports.',
     dateRange: 'Dec 2025',
-    status: 'live',
+    status: 'complete',
     madeFor: 'Personal',
     bulletPoints: [
       'Converted OpenCode session data into ccusage JSONL with per-project or per-directory grouping',
@@ -58,7 +58,6 @@ export const projects: Project[] = [
       'Exposed clear CLI commands (report, export, advanced) with pass-through flags to ccusage',
     ],
     technologies: ['TypeScript', 'Node.js', 'CLI'],
-    imageAlt: 'OpenCode to ccusage CLI screenshot',
     repoUrl: 'https://github.com/ggfincke/opencode-to-ccusage',
   },
   {
@@ -81,7 +80,7 @@ export const projects: Project[] = [
     title: 'SwimMate v2',
     tagline:
       'Full-stack swimming platform with native iOS/watchOS apps, HealthKit sync, and AI-powered workout generation.',
-    dateRange: 'Oct 2025 - Present',
+    dateRange: 'Oct 2025 – Present',
     status: 'in-development',
     madeFor: 'Personal',
     bulletPoints: [
@@ -199,15 +198,14 @@ export const projects: Project[] = [
       'Gradle',
       'Go',
     ],
-    imageAlt: 'Hopper inventory management system screenshot',
     repoUrl: 'https://github.com/ggfincke/hopper',
   },
   {
     title: 'Loom',
     tagline:
       'AI-powered resume tailoring CLI with structured edits, diff review, and versioned workflows.',
-    dateRange: 'Aug 2025 – Present',
-    status: 'live',
+    dateRange: 'Aug 2025 – Dec 2025',
+    status: 'complete',
     madeFor: 'Personal',
     bulletPoints: [
       'Built Typer-based command suite (sectionize, tailor, generate, apply) with configurable defaults and themed help UI',
@@ -239,8 +237,8 @@ export const projects: Project[] = [
   {
     title: 'TrackBasket',
     tagline: 'AI‑assisted price tracking for 30k+ products across retailers.',
-    dateRange: 'May 2025 - Present',
-    status: 'live',
+    dateRange: 'May 2025 – Jul 2025',
+    status: 'complete',
     madeFor: 'Bolt Hackathon',
     bulletPoints: [
       'Chat‑to‑basket turns natural language into structured baskets using Supabase and OpenAI',
@@ -269,7 +267,7 @@ export const projects: Project[] = [
     title: 'Portfolio Website v1',
     tagline:
       'Previous Next.js portfolio site, now retired and superseded by v2.',
-    dateRange: 'Mar 2025 - Sep 2025',
+    dateRange: 'Mar 2025 – Sep 2025',
     status: 'complete',
     madeFor: 'Personal',
     bulletPoints: [
@@ -293,7 +291,7 @@ export const projects: Project[] = [
   {
     title: 'InStock',
     tagline: 'High‑frequency stock & price tracker; precursor to TrackBasket.',
-    dateRange: 'Dec 2024 - Mar 2025',
+    dateRange: 'Dec 2024 – Mar 2025',
     status: 'complete',
     madeFor: 'Personal',
     bulletPoints: [
@@ -378,7 +376,7 @@ export const projects: Project[] = [
     title: 'TCGhub',
     tagline: 'TCGplayer‑style marketplace clone with hand‑rolled SQL.',
     collaborators: [{ name: 'Yash Tumuluri' }],
-    dateRange: 'Sep 2024 - Dec 2024',
+    dateRange: 'Sep 2024 – Dec 2024',
     status: 'complete',
     madeFor: 'Penn State',
     bulletPoints: [
@@ -393,7 +391,7 @@ export const projects: Project[] = [
   {
     title: 'Traditional Machine Learning Methods Exploration for MNIST',
     tagline: 'Classical ML baselines for MNIST with KNN/LR/SVM.',
-    dateRange: 'Sep 2024 - Oct 2024',
+    dateRange: 'Sep 2024 – Oct 2024',
     status: 'complete',
     madeFor: 'Penn State',
     bulletPoints: [
@@ -419,7 +417,7 @@ export const projects: Project[] = [
     title: 'COVID-19 Case Surveillance Analysis',
     tagline: 'Large‑scale public health data exploration in Python.',
     collaborators: [{ name: 'Edwin Clatus' }, { name: 'Sahit Botta' }],
-    dateRange: 'May 2024 - Aug 2024',
+    dateRange: 'May 2024 – Aug 2024',
     status: 'complete',
     madeFor: 'Penn State',
     bulletPoints: [
@@ -441,7 +439,7 @@ export const projects: Project[] = [
   {
     title: 'BetterBettor',
     tagline: 'Decentralized sports betting dApp on Ethereum.',
-    dateRange: 'Mar 2024 - May 2024',
+    dateRange: 'Mar 2024 – May 2024',
     status: 'complete',
     madeFor: 'Penn State',
     bulletPoints: [
@@ -461,7 +459,7 @@ export const projects: Project[] = [
   {
     title: 'SwimMate',
     tagline: 'Native iOS/watchOS swimming workout tracker.',
-    dateRange: 'Feb 2024 - Jun 2024',
+    dateRange: 'Feb 2024 – Jun 2024',
     status: 'complete',
     madeFor: 'Penn State',
     bulletPoints: [
@@ -482,12 +480,12 @@ export const projects: Project[] = [
       'Swift Charts',
       'WatchConnectivity',
     ],
-    repoUrl: 'https://github.com/ggfincke/SwimMate',
+    repoUrl: 'https://github.com/ggfincke/SwimMate-v1',
   },
   {
     title: 'OPTIMUS',
     tagline: 'Fine‑tuned Discord chatbot based on Microsoft GODEL‑v1.1.',
-    dateRange: 'Feb 2024 - Apr 2024',
+    dateRange: 'Feb 2024 – Apr 2024',
     status: 'complete',
     madeFor: 'Personal',
     bulletPoints: [
@@ -508,7 +506,7 @@ export const projects: Project[] = [
     tagline:
       'Five Swift/SwiftUI projects spanning maps, puzzles, and data‑driven apps.',
     collaborators: [{ name: 'Ashley Amendola' }],
-    dateRange: 'Jan 2024 - Mar 2024',
+    dateRange: 'Jan 2024 – Mar 2024',
     status: 'complete',
     madeFor: 'Penn State',
     bulletPoints: [
@@ -532,7 +530,7 @@ export const projects: Project[] = [
     title: 'Memory Management & Threading in C',
     tagline: 'OS simulations for paging, scheduling, and kernel extensions.',
     collaborators: [{ name: 'Avanish Grampurohit' }],
-    dateRange: 'Sep 2023 - Dec 2023',
+    dateRange: 'Sep 2023 – Dec 2023',
     status: 'complete',
     madeFor: 'Penn State',
     bulletPoints: [
@@ -553,7 +551,7 @@ export const projects: Project[] = [
     title: 'USBAP',
     tagline: 'Sports‑betting data scraper for analysis and arbitrage research.',
     collaborators: [{ name: 'Yugal Kithany' }, { name: 'Kyle Lynch' }],
-    dateRange: 'May 2023 - Jun 2023',
+    dateRange: 'May 2023 – Jun 2023',
     status: 'experimental',
     madeFor: 'Personal',
     bulletPoints: [
@@ -567,7 +565,7 @@ export const projects: Project[] = [
     title: 'MIPS Processor',
     tagline: 'Single‑cycle 32‑bit MIPS in Verilog with modular design.',
     collaborators: [{ name: 'Avanish Grampurohit' }],
-    dateRange: 'Mar 2023 - May 2023',
+    dateRange: 'Mar 2023 – May 2023',
     status: 'complete',
     madeFor: 'Penn State',
     bulletPoints: [
@@ -580,7 +578,7 @@ export const projects: Project[] = [
   {
     title: 'JBOD Storage System with Caching & Network Communication',
     tagline: 'Block‑level JBOD with LFU cache and TCP client/server.',
-    dateRange: 'Sep 2022 - Dec 2022',
+    dateRange: 'Sep 2022 – Dec 2022',
     status: 'complete',
     madeFor: 'Penn State',
     bulletPoints: [

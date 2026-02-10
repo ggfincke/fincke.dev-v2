@@ -3,8 +3,7 @@
 
 import type { HeroContent } from '~/shared/types';
 
-// hero name & tagline data
+// hero name data
 export const HERO_CONTENT: HeroContent = {
   name: 'Garrett Fincke',
-  tagline: 'Software engineer — AI tooling & scalable full-stack systems',
 };

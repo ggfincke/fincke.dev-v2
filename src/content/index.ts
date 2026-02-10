@@ -4,7 +4,6 @@
 export * as homeContent from './home';
 export * as experienceContent from './experience';
 export * as projectContent from './projects';
-export * as skillContent from './skills';
 
 // re-exports for common imports
 export { HERO_CONTENT, ABOUT_CONTENT, SOCIAL_LINKS } from './home';
@@ -16,4 +15,3 @@ export {
   getProjectsBySkill,
   skillMappings,
 } from './projects';
-export { skills } from './skills';

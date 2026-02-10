@@ -11,7 +11,6 @@ export interface AboutContent {
 // hero section content shape
 export interface HeroContent {
   name: string;
-  tagline: string;
 }
 
 // work experience entry shape

@@ -86,7 +86,7 @@ export const skills: Skill[] = [
   { name: 'seaborn', category: 'ai-ml' },
   { name: 'Jupyter', category: 'ai-ml' },
   { name: 'Deep Learning', category: 'ai-ml' },
-  { name: 'CNNs', category: 'ai-ml' },
+  { name: 'CNN', category: 'ai-ml' },
   { name: 'ResNet', category: 'ai-ml' },
   { name: 'DenseNet', category: 'ai-ml' },
   { name: 'Random Fourier Features', category: 'ai-ml' },
@@ -94,8 +94,7 @@ export const skills: Skill[] = [
   { name: 'Mistral', category: 'ai-ml' },
   { name: 'LM Studio', category: 'ai-ml' },
   { name: 'Machine Learning', category: 'ai-ml' },
-  { name: 'CNN', category: 'ai-ml' },
-  { name: 'Web Scraping', category: 'ai-ml' },
+  { name: 'Web Scraping', category: 'specialized' },
 
   // devops & CI/CD
   {
@@ -111,7 +110,7 @@ export const skills: Skill[] = [
   { name: 'Web3.js', category: 'specialized' },
   { name: 'MetaMask', category: 'specialized' },
   { name: 'Ethereum', category: 'specialized' },
-  { name: 'blockchain development', category: 'specialized' },
+  { name: 'Blockchain Development', category: 'specialized' },
 
   // systems & architecture
   { name: 'Operating Systems', category: 'specialized' },
