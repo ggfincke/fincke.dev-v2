@@ -9,8 +9,15 @@ import { ProjectsTable } from '../components/ProjectsTable';
 export function ProjectsArchivePage() {
   return (
     <div className="relative min-h-screen bg-[var(--bg)] text-[var(--muted)] overflow-y-auto">
+      {/* skip nav link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-[var(--accent)] focus:px-4 focus:py-2 focus:text-[var(--bg)] focus:font-medium"
+      >
+        Skip to content
+      </a>
       {/* page header w/ back link */}
-      <main id="top" className="mx-auto max-w-7xl px-4 pt-12 pb-24">
+      <main id="main-content" className="mx-auto max-w-7xl px-4 pt-12 pb-24">
         <header className="space-y-4">
           <Link
             to="/"
@@ -34,6 +41,7 @@ export function ProjectsArchivePage() {
           <ProjectsTable />
         </section>
 
+        {/* page footer */}
         <footer className="mt-16 text-center text-sm text-[var(--muted)]">
           Private repositories available upon request
         </footer>

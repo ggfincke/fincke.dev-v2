@@ -14,6 +14,7 @@ const MAX_VISIBLE_PROJECTS = 6;
 
 // props for skill tooltip
 interface SkillTooltipProps {
+  id: string;
   projects: Project[];
   isVisible: boolean;
   targetRef: React.RefObject<HTMLElement | null>;
@@ -21,12 +22,13 @@ interface SkillTooltipProps {
 
 // skill tooltip w/ related projects list
 export function SkillTooltip({
+  id,
   projects,
   isVisible,
   targetRef,
 }: SkillTooltipProps) {
   const tooltipRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const [position, setPosition] = useState({ top: 0, left: 0, arrowLeft: 0 });
 
   // compute tooltip position w/ target metrics
   useEffect(() => {
@@ -52,7 +54,14 @@ export function SkillTooltip({
       left = window.innerWidth - tooltipRect.width - VIEWPORT_PADDING;
     }
 
-    setPosition({ top, left });
+    // arrow should point at target center
+    const targetCenter = targetRect.left + targetRect.width / 2;
+    const arrowLeft = Math.max(
+      8,
+      Math.min(targetCenter - left, tooltipRect.width - 8)
+    );
+
+    setPosition({ top, left, arrowLeft });
   }, [isVisible, projects.length, targetRef]);
 
   if (!isVisible || projects.length === 0) {
@@ -62,6 +71,8 @@ export function SkillTooltip({
   return (
     <div
       ref={tooltipRef}
+      id={id}
+      role="tooltip"
       className="fixed z-50 bg-[var(--bg)] border border-[var(--border)] rounded-lg shadow-xl p-4 max-w-sm animate-fadeIn pointer-events-none"
       style={{ top: `${position.top}px`, left: `${position.left}px` }}
     >
@@ -85,7 +96,11 @@ export function SkillTooltip({
       </div>
       <div
         className="absolute w-2 h-2 bg-[var(--bg)] border-l border-b border-[var(--border)] rotate-45"
-        style={{ bottom: '-5px', left: '50%', marginLeft: '-4px' }}
+        style={{
+          bottom: '-5px',
+          left: `${position.arrowLeft}px`,
+          marginLeft: '-4px',
+        }}
       />
     </div>
   );

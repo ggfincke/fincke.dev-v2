@@ -16,6 +16,7 @@ export function ExpandToggle({ expanded, onToggle }: ExpandToggleProps) {
       type="button"
       onClick={onToggle}
       className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors p-1 rounded hover:bg-[var(--card)] flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+      aria-expanded={expanded}
       aria-label={
         expanded ? 'Collapse project details' : 'Expand project details'
       }

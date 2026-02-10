@@ -5,6 +5,7 @@ import js from '@eslint/js';
 import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
 import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import prettier from 'eslint-plugin-prettier/recommended';
@@ -18,6 +19,7 @@ export default defineConfig([
       tseslint.configs.recommended,
       reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
+      jsxA11y.flatConfigs.recommended,
       prettier,
     ],
     languageOptions: {
@@ -33,6 +35,11 @@ export default defineConfig([
           disallowTypeAnnotations: true,
           fixStyle: 'separate-type-imports',
         },
+      ],
+      // allow tabIndex on non-interactive elements for tooltip keyboard access
+      'jsx-a11y/no-noninteractive-tabindex': [
+        'warn',
+        { tags: [], roles: [], allowExpressionValues: true },
       ],
     },
   },

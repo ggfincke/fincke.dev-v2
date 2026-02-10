@@ -25,6 +25,7 @@ export function ChevronIcon({
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden="true"
       className={`${direction === 'left' ? 'rotate-180' : ''} ${className ?? ''}`.trim()}
     >
       <path d="M9 18l6-6-6-6" />

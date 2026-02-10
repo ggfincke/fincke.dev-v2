@@ -24,7 +24,6 @@ export function StatusBadge({ status }: StatusBadgeProps) {
     <span
       className="inline-flex items-center whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium"
       style={style}
-      role="status"
       aria-label={statusDisplay.label}
     >
       {statusDisplay.icon} {statusDisplay.label}
