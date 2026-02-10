@@ -1,5 +1,5 @@
 // scripts/validate-assets.ts
-// Validates that all referenced assets exist and finds orphaned files in public/.
+// validates that all referenced assets exist & finds orphaned files in public/
 // Usage: npm run validate-assets
 
 import { existsSync, readdirSync, statSync } from 'fs';
@@ -23,7 +23,8 @@ function collectReferencedPaths(): Map<string, string> {
 
   for (const p of projects) {
     if (p.imagePath) paths.set(p.imagePath, `project: ${p.title}`);
-    if (p.liveUrl?.startsWith('/')) paths.set(p.liveUrl, `project liveUrl: ${p.title}`);
+    if (p.liveUrl?.startsWith('/'))
+      paths.set(p.liveUrl, `project liveUrl: ${p.title}`);
   }
 
   for (const ref of HARDCODED_REFS) {

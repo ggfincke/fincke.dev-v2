@@ -1,7 +1,7 @@
 // src/sections/home/components/GlowEffect.tsx
 // decorative radial glow effect
 
-// glow effect component
+// radial glow overlay
 export function GlowEffect() {
   return (
     <div

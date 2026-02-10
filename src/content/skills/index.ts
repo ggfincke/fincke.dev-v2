@@ -1,13 +1,14 @@
 // src/content/skills/index.ts
 // comprehensive skills data w/ category mappings
 
-import type { Skill, SkillCategory } from '~/shared/types';
+import type { Skill } from '~/shared/types';
 
 export const skills: Skill[] = [
   // languages
   { name: 'Python', category: 'languages' },
   { name: 'Swift', category: 'languages' },
   { name: 'C', category: 'languages' },
+  { name: 'C/C++', category: 'languages' },
   {
     name: 'JavaScript',
     category: 'languages',
@@ -15,6 +16,7 @@ export const skills: Skill[] = [
   },
   { name: 'TypeScript', category: 'languages' },
   { name: 'Java', category: 'languages' },
+  { name: 'Go', category: 'languages' },
   { name: 'SQL', category: 'languages' },
   { name: 'Solidity', category: 'languages' },
   { name: 'Verilog', category: 'languages' },
@@ -22,6 +24,7 @@ export const skills: Skill[] = [
   // frontend
   { name: 'React', category: 'frontend' },
   { name: 'Next.js', category: 'frontend' },
+  { name: 'React Router', category: 'frontend' },
   { name: 'Tailwind CSS', category: 'frontend' },
   { name: 'HTML5', category: 'frontend' },
   { name: 'CSS3', category: 'frontend' },
@@ -31,17 +34,24 @@ export const skills: Skill[] = [
   // backend & APIs
   { name: 'Node.js', category: 'backend' },
   { name: 'Django', category: 'backend' },
+  { name: 'Django REST Framework', category: 'backend' },
   { name: 'FastAPI', category: 'backend' },
   { name: 'Celery', category: 'backend' },
   { name: 'REST APIs', category: 'backend' },
   { name: 'Spring Boot', category: 'backend' },
+  { name: 'Spring Data JPA', category: 'backend' },
+  { name: 'Spring Security', category: 'backend' },
+  { name: 'Spring Batch', category: 'backend' },
+  { name: 'Actuator', category: 'backend' },
 
   // databases & caches
   { name: 'PostgreSQL', category: 'database' },
+  { name: 'pgvector', category: 'database' },
   { name: 'SQLite', category: 'database' },
   { name: 'Supabase', category: 'database' },
   { name: 'Firebase', category: 'database' },
   { name: 'Redis', category: 'database' },
+  { name: 'H2', category: 'database' },
 
   // mobile (iOS & watchOS)
   { name: 'iOS', category: 'mobile' },
@@ -76,10 +86,15 @@ export const skills: Skill[] = [
   { name: 'seaborn', category: 'ai-ml' },
   { name: 'Jupyter', category: 'ai-ml' },
   { name: 'Deep Learning', category: 'ai-ml' },
-  { name: 'CNNs', category: 'ai-ml' },
+  { name: 'CNN', category: 'ai-ml' },
   { name: 'ResNet', category: 'ai-ml' },
   { name: 'DenseNet', category: 'ai-ml' },
   { name: 'Random Fourier Features', category: 'ai-ml' },
+  { name: 'Gemini', category: 'ai-ml' },
+  { name: 'Mistral', category: 'ai-ml' },
+  { name: 'LM Studio', category: 'ai-ml' },
+  { name: 'Machine Learning', category: 'ai-ml' },
+  { name: 'Web Scraping', category: 'specialized' },
 
   // devops & CI/CD
   {
@@ -88,12 +103,14 @@ export const skills: Skill[] = [
     displayName: 'CI/CD (GitHub Actions)',
   },
   { name: 'Docker', category: 'tools' },
+  { name: 'Docker Compose', category: 'tools' },
   { name: 'Microservices', category: 'tools' },
 
   // web3 & blockchain
   { name: 'Web3.js', category: 'specialized' },
   { name: 'MetaMask', category: 'specialized' },
-  { name: 'blockchain development', category: 'specialized' },
+  { name: 'Ethereum', category: 'specialized' },
+  { name: 'Blockchain Development', category: 'specialized' },
 
   // systems & architecture
   { name: 'Operating Systems', category: 'specialized' },
@@ -104,6 +121,10 @@ export const skills: Skill[] = [
   { name: 'Systems Programming', category: 'specialized' },
   { name: 'Networking', category: 'specialized' },
   { name: 'Caching', category: 'specialized' },
+  { name: 'SimpleScalar', category: 'specialized' },
+  { name: 'Cache Hierarchies', category: 'specialized' },
+  { name: 'Branch Prediction', category: 'specialized' },
+  { name: 'Performance Analysis', category: 'specialized' },
 
   // hardware & EDA
   { name: 'FPGA', category: 'specialized' },
@@ -111,11 +132,34 @@ export const skills: Skill[] = [
   { name: 'Digital Design', category: 'specialized' },
 
   // tools & design
+  { name: 'Vite', category: 'tools' },
+  { name: 'esbuild', category: 'tools' },
+  { name: 'Vitest', category: 'tools' },
+  { name: 'ESLint', category: 'tools' },
+  { name: 'Prettier', category: 'tools' },
+  { name: 'Gradle', category: 'tools' },
+  { name: 'Flyway', category: 'tools' },
   { name: 'VS Code', category: 'tools' },
+  { name: 'VS Code Extension API', category: 'tools' },
   { name: 'Xcode', category: 'tools' },
   { name: 'Figma', category: 'tools' },
   { name: 'LaTeX', category: 'tools' },
+  { name: 'Typst', category: 'tools' },
+  { name: 'MDX', category: 'tools' },
+  { name: 'Shiki', category: 'tools' },
+  { name: 'KaTeX', category: 'tools' },
+  { name: 'Mermaid', category: 'tools' },
+  { name: 'Rich', category: 'tools' },
   { name: 'Git', category: 'tools' },
+
+  // cloud & infra
+  { name: 'AWS', category: 'specialized' },
+  { name: 'EC2', category: 'specialized' },
+  { name: 'SSM', category: 'specialized' },
+  { name: 'CloudWatch', category: 'specialized' },
+  { name: 'S3', category: 'specialized' },
+  { name: 'JWT', category: 'specialized' },
+  { name: 'RCON', category: 'specialized' },
 
   // specialized
   {
@@ -134,6 +178,8 @@ export const skills: Skill[] = [
     category: 'specialized',
     displayName: 'bots (Discord.py)',
   },
+  { name: 'Discord.js', category: 'specialized' },
+  { name: 'Comlink', category: 'specialized' },
   { name: 'CAPTCHA solving', category: 'specialized' },
   { name: 'Data Analysis', category: 'specialized' },
   { name: 'CLI', category: 'specialized' },
@@ -144,33 +190,3 @@ export const skills: Skill[] = [
   { name: 'Gesture Handling', category: 'specialized' },
   { name: 'MVC/MVVM', category: 'specialized' },
 ];
-
-// * generate skill categories for about section
-export const getSkillCategories = (): Record<SkillCategory, string[]> => {
-  const categories: Record<SkillCategory, string[]> = {
-    languages: [],
-    frontend: [],
-    backend: [],
-    database: [],
-    mobile: [],
-    'ai-ml': [],
-    tools: [],
-    specialized: [],
-  };
-
-  skills.forEach(skill => {
-    const displayName = skill.displayName || skill.name;
-    if (categories[skill.category]) {
-      categories[skill.category].push(displayName);
-    }
-  });
-
-  return categories;
-};
-
-// get skills by category
-export const getSkillsByCategory = (category: SkillCategory): string[] => {
-  return skills
-    .filter(skill => skill.category === category)
-    .map(skill => skill.displayName || skill.name);
-};

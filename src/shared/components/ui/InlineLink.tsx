@@ -3,20 +3,24 @@
 
 import type { ReactNode } from 'react';
 
+// props for inline link
 interface InlineLinkProps {
   href: string;
   children: ReactNode;
   className?: string;
 }
 
-// inline link component
+// styled inline link for text content
 export function InlineLink({
   href,
   children,
-  className = 'text-[var(--red)] underline decoration-[var(--red)]/40 underline-offset-4 transition hover:text-[var(--white)] hover:decoration-[var(--white)]/40',
+  className = '',
 }: InlineLinkProps) {
   return (
-    <a className={className} href={href}>
+    <a
+      className={`text-[var(--red)] underline decoration-[var(--red)]/40 underline-offset-4 transition hover:text-[var(--white)] hover:decoration-[var(--white)]/40 ${className}`}
+      href={href}
+    >
       {children}
     </a>
   );

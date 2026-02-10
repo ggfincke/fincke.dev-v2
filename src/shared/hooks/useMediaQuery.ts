@@ -3,13 +3,14 @@
 
 import { useEffect, useState } from 'react';
 
-// subscribe to a media query and return whether it currently matches
+// * Subscribe to a media query & return whether it currently matches
 export function useMediaQuery(query: string) {
   const [matches, setMatches] = useState(() => {
     if (typeof window === 'undefined') return false;
     return window.matchMedia(query).matches;
   });
 
+  // sync match state w/ viewport changes
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
 
@@ -17,7 +18,7 @@ export function useMediaQuery(query: string) {
     const updateMatch = (event: MediaQueryListEvent) =>
       setMatches(event.matches);
 
-    // sync initial value + subscribe
+    // sync initial value & subscribe
     setMatches(mediaQuery.matches);
     mediaQuery.addEventListener('change', updateMatch);
 

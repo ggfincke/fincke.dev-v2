@@ -3,27 +3,20 @@
 
 import { useMemo } from 'react';
 
+import { useMediaQuery } from '~/shared/hooks/useMediaQuery';
 import { useExpandableRows } from '../hooks/useExpandableRows';
-import { useTableResponsive } from '../hooks/useTableResponsive';
 import { extractLatestYear, extractLatestMonth } from '../utils/projectSort';
 import { ProjectMobileCard } from './ProjectMobileCard';
 import { ProjectTableRow } from './ProjectTableRow';
 import { ProjectExpandedDetails } from './ProjectExpandedDetails';
 import { getAllProjects } from '~/content/projects';
 
-// determine live link label based on URL type
-const getLiveLabel = (url: string): string => {
-  const lower = url.toLowerCase();
-  if (lower.endsWith('.pdf')) return 'View Report';
-  if (lower.includes('marketplace.visualstudio.com'))
-    return 'VS Code Marketplace';
-  return 'View Live Site';
-};
-
 // * Projects table component w/ expandable rows
 export function ProjectsTable() {
   const projects = useMemo(() => getAllProjects(), []);
-  const { shouldShowCards, shouldShowTable } = useTableResponsive();
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const shouldShowCards = !isDesktop;
+  const shouldShowTable = isDesktop;
   const { toggleRow, isExpanded } = useExpandableRows<number>();
 
   // sort projects by date desc to surface newest first
@@ -45,6 +38,7 @@ export function ProjectsTable() {
 
   return (
     <div className="overflow-x-auto">
+      {/* mobile card layout */}
       {shouldShowCards && (
         <div className="block md:hidden">
           <div className="space-y-4">
@@ -62,7 +56,6 @@ export function ProjectsTable() {
                   {expanded && (
                     <ProjectExpandedDetails
                       project={project}
-                      getLiveLabel={getLiveLabel}
                       variant="mobile"
                     />
                   )}
@@ -73,6 +66,7 @@ export function ProjectsTable() {
         </div>
       )}
 
+      {/* desktop table layout */}
       {shouldShowTable && (
         <table className="w-full table-fixed hidden md:table">
           <thead>
@@ -108,7 +102,6 @@ export function ProjectsTable() {
                   project={project}
                   expanded={expanded}
                   onToggle={() => toggleRow(index)}
-                  getLiveLabel={getLiveLabel}
                 />
               );
 
@@ -121,7 +114,6 @@ export function ProjectsTable() {
                   <td colSpan={7} className="p-0">
                     <ProjectExpandedDetails
                       project={project}
-                      getLiveLabel={getLiveLabel}
                       variant="desktop"
                     />
                   </td>

@@ -1,5 +1,5 @@
 // scripts/screenshots.ts
-// Takes full-page screenshots of the site at various viewport sizes.
+// takes full-page screenshots of the site at various viewport sizes
 // Usage: npm run screenshots (requires dev server running on localhost:5173)
 
 import { chromium } from 'playwright';
@@ -8,16 +8,17 @@ import { join } from 'path';
 
 const BASE_URL = 'http://localhost:5173';
 const OUT_DIR = join(import.meta.dirname, '..', 'screenshots');
-const ANIMATION_WAIT = 800; // longest CSS animation is 600ms + buffer
+// longest CSS animation is 600ms + buffer
+const ANIMATION_WAIT = 800;
 
 // width/height = CSS pixels (what the browser sees for media queries)
 // dpr = deviceScaleFactor (output image rendered at width*dpr x height*dpr physical pixels)
 const VIEWPORTS = [
-  // Mobile (standard retina)
+  // mobile (standard retina)
   { name: 'iPhone-SE', width: 375, height: 667, dpr: 2 },
   { name: 'iPhone-14-Pro', width: 393, height: 852, dpr: 3 },
   { name: 'iPhone-15-Pro-Max', width: 430, height: 932, dpr: 3 },
-  // Tablet (retina)
+  // tablet (retina)
   { name: 'iPad-Mini', width: 768, height: 1024, dpr: 2 },
   { name: 'iPad-Air', width: 820, height: 1180, dpr: 2 },
   { name: 'iPad-Pro-12.9', width: 1024, height: 1366, dpr: 2 },
@@ -27,7 +28,7 @@ const VIEWPORTS = [
   { name: 'MacBook-Pro-14', width: 1512, height: 982, dpr: 2 },
   { name: 'MacBook-Air-15', width: 1680, height: 1050, dpr: 2 },
   { name: 'MacBook-Pro-16', width: 1728, height: 1117, dpr: 2 },
-  // Desktop
+  // desktop
   { name: '1080p', width: 1920, height: 1080, dpr: 1 },
   { name: '1440p-QHD', width: 2560, height: 1440, dpr: 1 },
   // 4K monitors (physical 3840x2160, typical OS scaling → CSS viewport)

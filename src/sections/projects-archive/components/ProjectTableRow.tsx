@@ -1,35 +1,37 @@
 // src/sections/projects-archive/components/ProjectTableRow.tsx
 // desktop table row for project
 
+import { getProjectsBySkill } from '~/content/projects';
 import { ProjectLinks } from '~/shared/components/layout/ProjectLinks';
-import { SkillPill } from '~/shared/components/ui/SkillPill';
 import { StatusCircle } from '~/shared/components/ui/StatusCircle';
+import { TechPills } from '~/shared/components/ui/TechPills';
 import type { Project } from '~/shared/types';
 import { renderCollaborators } from '~/shared/utils/renderCollaborators';
+import { getLiveLabel } from '../utils/getLiveLabel';
+import { extractFirstYear } from '../utils/projectSort';
 import { ExpandToggle } from './ExpandToggle';
 
+// props for project table row
 interface ProjectTableRowProps {
   project: Project;
   expanded: boolean;
   onToggle: () => void;
-  getLiveLabel: (url: string) => string;
 }
 
-// project table row component
+// desktop table row for project
 export function ProjectTableRow({
   project,
   expanded,
   onToggle,
-  getLiveLabel,
 }: ProjectTableRowProps) {
-  const year = project.dateRange.match(/\d{4}/)?.[0] ?? 'TBD';
+  const year = extractFirstYear(project.dateRange);
 
   return (
     <tr className="border-b border-[var(--border)] hover:bg-[var(--card)] transition-colors">
       <td className="py-6 pl-6 pr-2">
         <ExpandToggle expanded={expanded} onToggle={onToggle} />
       </td>
-      <td className="py-6 pl-4 pr-4 text-[var(--comments)] font-mono text-sm">
+      <td className="py-6 pl-4 pr-4 text-[var(--muted)] font-mono text-sm">
         {year}
       </td>
       <td className="py-6 pl-4 pr-2">
@@ -47,16 +49,14 @@ export function ProjectTableRow({
       </td>
       <td className="py-6 pl-4 pr-4 text-[var(--muted)]">{project.madeFor}</td>
       <td className="py-6 pl-4 pr-4">
-        <div className="flex flex-wrap gap-2 items-center max-w-md">
-          {project.technologies.slice(0, 3).map(tech => (
-            <SkillPill key={tech} name={tech} size="xs" showProjectsOnHover />
-          ))}
-          {project.technologies.length > 3 && (
-            <span className="text-[var(--muted)] text-xs">
-              +{project.technologies.length - 3} more
-            </span>
-          )}
-        </div>
+        <TechPills
+          technologies={project.technologies}
+          maxVisible={3}
+          size="xs"
+          showProjectsOnHover
+          getRelatedProjects={getProjectsBySkill}
+          className="flex flex-wrap gap-2 items-center max-w-md"
+        />
       </td>
       <td className="py-6 pl-4 pr-4">
         <ProjectLinks

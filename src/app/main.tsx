@@ -7,6 +7,7 @@ import { RouterProvider } from 'react-router-dom';
 import '~/styles/globals.css';
 import { router } from '~/app/router';
 
+// * Initialize & mount React app
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <RouterProvider router={router} />

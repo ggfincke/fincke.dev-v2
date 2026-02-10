@@ -1,11 +1,14 @@
 // src/sections/featured-projects/components/FeaturedProjectImage.tsx
+// featured project thumbnail w/ hover effects
 
+// props for featured project image
 interface FeaturedProjectImageProps {
   imagePath: string;
   imageAlt?: string;
   title: string;
 }
 
+// project thumbnail w/ hover effects
 export function FeaturedProjectImage({
   imagePath,
   imageAlt,
@@ -16,6 +19,7 @@ export function FeaturedProjectImage({
       <img
         src={imagePath}
         alt={imageAlt || title}
+        loading="lazy"
         className="max-h-full max-w-full object-contain p-2 transition-[filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] lg:group-hover:brightness-110 motion-reduce:transition-none"
       />
     </div>

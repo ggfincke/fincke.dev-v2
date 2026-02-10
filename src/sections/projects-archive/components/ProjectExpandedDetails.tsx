@@ -1,22 +1,24 @@
 // src/sections/projects-archive/components/ProjectExpandedDetails.tsx
 // expanded project details section (shared between mobile & desktop)
 
+import { getProjectsBySkill } from '~/content/projects';
 import { ProjectLinks } from '~/shared/components/layout/ProjectLinks';
-import { SkillPill } from '~/shared/components/ui/SkillPill';
 import { StatusBadge } from '~/shared/components/ui/StatusBadge';
+import { TechPills } from '~/shared/components/ui/TechPills';
 import { VersionBadge } from '~/shared/components/ui/VersionBadge';
 import type { Project } from '~/shared/types';
 import { renderCollaborators } from '~/shared/utils/renderCollaborators';
+import { getLiveLabel } from '../utils/getLiveLabel';
 
+// props for expanded project details
 interface ProjectExpandedDetailsProps {
   project: Project;
-  getLiveLabel: (url: string) => string;
   variant?: 'mobile' | 'desktop';
 }
 
+// expanded project details shared between mobile & desktop
 export function ProjectExpandedDetails({
   project,
-  getLiveLabel,
   variant = 'desktop',
 }: ProjectExpandedDetailsProps) {
   const isMobile = variant === 'mobile';
@@ -29,12 +31,14 @@ export function ProjectExpandedDetails({
   return (
     <div className={containerClass}>
       <div className={spacingClass}>
+        {/* project tagline */}
         {project.tagline && (
           <div className="text-base text-[var(--fg)]/80 italic">
             {project.tagline}
           </div>
         )}
 
+        {/* status & version info */}
         <div className="flex items-center gap-4">
           <StatusBadge status={project.status} />
           <span className="text-[var(--muted)] text-sm italic">
@@ -47,6 +51,7 @@ export function ProjectExpandedDetails({
           </span>
         </div>
 
+        {/* collaborators */}
         {project.collaborators && (
           <div>
             <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">
@@ -58,6 +63,7 @@ export function ProjectExpandedDetails({
           </div>
         )}
 
+        {/* description & image */}
         {isMobile ? (
           <div>
             <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">
@@ -101,26 +107,23 @@ export function ProjectExpandedDetails({
           </div>
         )}
 
+        {/* technologies */}
         <div>
           <h4
             className={`text-sm font-semibold text-[var(--accent)] ${isMobile ? 'mb-2' : 'mb-3'}`}
           >
             Technologies
           </h4>
-          <div
+          <TechPills
+            technologies={project.technologies}
+            size={skillSize}
+            showProjectsOnHover
+            getRelatedProjects={getProjectsBySkill}
             className={`flex flex-wrap ${isMobile ? 'gap-2' : 'gap-x-3 gap-y-2'}`}
-          >
-            {project.technologies.map(tech => (
-              <SkillPill
-                key={tech}
-                name={tech}
-                size={skillSize}
-                showProjectsOnHover
-              />
-            ))}
-          </div>
+          />
         </div>
 
+        {/* external links */}
         {(project.repoUrl ||
           project.liveUrl ||
           (project.additionalLinks && project.additionalLinks.length > 0)) && (

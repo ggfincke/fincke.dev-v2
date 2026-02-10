@@ -1,65 +1,68 @@
 // src/sections/home/components/About.tsx
 // about section w/ bio & contact information
 
+import type { ReactNode } from 'react';
+
 import { ABOUT_CONTENT } from '~/content/home';
 import { InlineLink } from '~/shared/components/ui/InlineLink';
+import { ANIMATION_DELAYS } from '~/shared/utils/animationConfig';
 
-// highlight specific keywords with color
-function highlightText(text: string) {
-  const languages = [
-    'Python',
-    'TypeScript',
-    'Java',
-    'Go',
-    'Swift',
-    'JavaScript',
-  ];
-  const frameworks = [
-    'React',
-    'Next.js',
-    'FastAPI',
-    'Django',
-    'SwiftUI',
-    'UIkit',
-  ];
-  const companies = ['Scale AI'];
-
-  let result = text;
-
-  // replace companies with purple spans
-  companies.forEach(company => {
-    result = result.replace(
-      new RegExp(company, 'g'),
-      `<span class="text-[var(--purple)]">${company}</span>`
-    );
-  });
-
-  // replace languages with green spans
-  languages.forEach(lang => {
-    result = result.replace(
-      new RegExp(`\\b${lang}\\b`, 'g'),
-      `<span class="text-[var(--green)]">${lang}</span>`
-    );
-  });
-
-  // replace frameworks with blue spans
-  frameworks.forEach(framework => {
-    result = result.replace(
-      new RegExp(framework.replace('.', '\\.'), 'g'),
-      `<span class="text-[var(--blue)]">${framework}</span>`
-    );
-  });
-
-  return result;
+// highlight rule mapping words to CSS classes
+interface HighlightRule {
+  words: string[];
+  className: string;
 }
 
-// about component
+const HIGHLIGHT_RULES: HighlightRule[] = [
+  { words: ['Scale AI'], className: 'text-[var(--purple)]' },
+  {
+    words: ['Python', 'TypeScript', 'Java', 'Go', 'Swift', 'JavaScript'],
+    className: 'text-[var(--green)]',
+  },
+  {
+    words: ['React', 'Next.js', 'FastAPI', 'Django', 'SwiftUI', 'UIkit'],
+    className: 'text-[var(--blue)]',
+  },
+];
+
+// build a single regex from all highlight rules
+const HIGHLIGHT_PATTERN = new RegExp(
+  `(${HIGHLIGHT_RULES.flatMap(rule =>
+    rule.words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+  ).join('|')})`,
+  'g'
+);
+
+// map each keyword to its color class
+const KEYWORD_CLASS_MAP = new Map<string, string>(
+  HIGHLIGHT_RULES.flatMap(rule =>
+    rule.words.map(word => [word, rule.className] as const)
+  )
+);
+
+// highlight specific keywords w/ color
+function highlightText(text: string): ReactNode[] {
+  const parts = text.split(HIGHLIGHT_PATTERN);
+  return parts.map((part, i) => {
+    const className = KEYWORD_CLASS_MAP.get(part);
+    if (className) {
+      return (
+        <span key={i} className={className}>
+          {part}
+        </span>
+      );
+    }
+    return part;
+  });
+}
+
+// about section w/ highlighted bio & contact info
 export function About() {
   return (
     <section
       aria-labelledby="about-heading"
       className="animate-slide-in-left opacity-0"
-      style={{ animationDelay: '0.3s' }}
+      style={{ animationDelay: ANIMATION_DELAYS.about }}
     >
       <h2
         id="about-heading"
@@ -67,14 +70,13 @@ export function About() {
       >
         {ABOUT_CONTENT.heading}
       </h2>
-      {ABOUT_CONTENT.paragraphs.slice(0, 2).map((text, index) => (
+      {ABOUT_CONTENT.paragraphs.map((text, index) => (
         <p
           key={index}
           className="mt-3 text-sm leading-relaxed text-[var(--muted)]"
-          dangerouslySetInnerHTML={{
-            __html: highlightText(text),
-          }}
-        />
+        >
+          {highlightText(text)}
+        </p>
       ))}
       <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
         Would love to collaborate or chat! Reach me at{' '}

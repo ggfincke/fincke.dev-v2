@@ -1,7 +1,7 @@
 // scripts/lighthouse.ts
-// Runs Lighthouse audits on both routes and outputs scores + HTML reports.
+// runs Lighthouse audits on both routes & outputs scores + HTML reports
 // Usage: npm run lighthouse (requires "npm run preview" on localhost:4173)
-// Lighthouse needs a production build for accurate scores — dev server HMR/sourcemaps skew results.
+// Lighthouse needs a production build for accurate scores — dev server HMR/sourcemaps skew results
 
 import { launch } from 'chrome-launcher';
 import lighthouse from 'lighthouse';
@@ -16,7 +16,12 @@ const ROUTES = [
   { path: '/projects', slug: 'projects' },
 ];
 
-const CATEGORIES = ['performance', 'accessibility', 'best-practices', 'seo'] as const;
+const CATEGORIES = [
+  'performance',
+  'accessibility',
+  'best-practices',
+  'seo',
+] as const;
 
 async function checkServer(): Promise<boolean> {
   try {
@@ -42,7 +47,11 @@ async function main() {
   const chrome = await launch({
     chromeFlags: ['--headless=new', '--no-sandbox', '--disable-gpu'],
   });
-  const results: { route: string; scores: Record<string, string>; error?: string }[] = [];
+  const results: {
+    route: string;
+    scores: Record<string, string>;
+    error?: string;
+  }[] = [];
 
   for (const route of ROUTES) {
     const url = `${BASE_URL}${route.path}`;
@@ -73,7 +82,10 @@ async function main() {
     const scores: Record<string, string> = {};
     for (const cat of CATEGORIES) {
       const category = result.lhr.categories[cat];
-      scores[cat] = category?.score !== null ? String(Math.round(category!.score * 100)) : 'N/A';
+      scores[cat] =
+        category?.score !== null
+          ? String(Math.round(category!.score * 100))
+          : 'N/A';
     }
     results.push({ route: route.slug, scores, error: runtimeError?.code });
   }

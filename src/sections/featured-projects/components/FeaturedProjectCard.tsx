@@ -3,25 +3,27 @@
 
 import { InteractiveCard } from '~/shared/components/layout/InteractiveCard';
 import type { Project } from '~/shared/types';
+import { CARD_HOVER_BACKDROP } from '~/shared/utils/classNames';
 import { FeaturedProjectImage } from './FeaturedProjectImage';
 import { FeaturedProjectHeader } from './FeaturedProjectHeader';
 import { FeaturedProjectTechnologies } from './FeaturedProjectTechnologies';
 
+// props for featured project card
 interface FeaturedProjectCardProps {
   project: Project;
 }
 
-// featured project card component
+// featured project card w/ image, header & technologies
 export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
+  // prefer live URL, fall back to repo URL
   const linkUrl = project.liveUrl || project.repoUrl;
 
   return (
-    <InteractiveCard
-      href={linkUrl}
-      className="group relative flex gap-4 p-1 transition-all lg:hover:!opacity-100 lg:group-hover/list:opacity-50"
-    >
-      <div className="absolute -inset-3 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-4 lg:block lg:group-hover:bg-[var(--card)]/50 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(128,203,196,0.1)] lg:group-hover:drop-shadow-lg" />
+    <InteractiveCard href={linkUrl} className="flex gap-4">
+      {/* hover backdrop */}
+      <div className={CARD_HOVER_BACKDROP} />
 
+      {/* project image */}
       {project.imagePath && (
         <FeaturedProjectImage
           imagePath={project.imagePath}
@@ -30,6 +32,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
         />
       )}
 
+      {/* project info */}
       <div className="relative z-10 flex-1">
         <FeaturedProjectHeader title={project.title} hasLink={!!linkUrl} />
 

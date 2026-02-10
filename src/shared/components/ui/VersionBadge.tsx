@@ -3,62 +3,49 @@
 
 import { useEffect, useState } from 'react';
 
-interface GitHubRelease {
-  tag_name: string;
-}
-
+// props for version badge
 interface VersionBadgeProps {
   repoUrl: string;
 }
 
-// version badge component
+// latest release version badge from GitHub API (cached in sessionStorage)
 export function VersionBadge({ repoUrl }: VersionBadgeProps) {
   const [version, setVersion] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  // fetch latest release from GitHub API
   useEffect(() => {
-    let isMounted = true;
+    const match = repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/);
+    if (!match) return;
 
-    const fetchLatestVersion = async () => {
-      try {
-        const match = repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/);
-        if (!match) {
-          return;
+    const [, owner, repo] = match;
+    const cacheKey = `gh-release:${owner}/${repo}`;
+
+    // check sessionStorage cache first
+    const cached = sessionStorage.getItem(cacheKey);
+    if (cached) {
+      setVersion(cached);
+      return;
+    }
+
+    const controller = new AbortController();
+
+    fetch(`https://api.github.com/repos/${owner}/${repo}/releases/latest`, {
+      signal: controller.signal,
+    })
+      .then(res => (res.ok ? res.json() : null))
+      .then(data => {
+        if (typeof data?.tag_name === 'string') {
+          sessionStorage.setItem(cacheKey, data.tag_name);
+          setVersion(data.tag_name);
         }
+      })
+      .catch(() => {
+        // swallow errors — badge is optional
+      });
 
-        const [, owner, repo] = match;
-        const response = await fetch(
-          `https://api.github.com/repos/${owner}/${repo}/releases/latest`
-        );
-
-        if (!isMounted) {
-          return;
-        }
-
-        if (response.ok) {
-          const release: GitHubRelease = await response.json();
-          setVersion(release.tag_name);
-        }
-      } catch {
-        // swallow errors since badge is optional
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchLatestVersion();
-
-    return () => {
-      isMounted = false;
-    };
+    return () => controller.abort();
   }, [repoUrl]);
 
-  if (loading || !version) {
-    return null;
-  }
+  if (!version) return null;
 
   return (
     <span className="font-semibold text-base text-[var(--accent)] not-italic">

@@ -1,4 +1,4 @@
-// src/types/index.ts
+// src/shared/types/index.ts
 // barrel export for all types
 
 export type {
