@@ -5,6 +5,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.6] - 2026-02-09
+
+### Added
+
+- Error boundary (`ErrorFallback`) and 404 page (`NotFoundPage`) for unmatched routes
+- Lazy-loaded `/projects` route for smaller initial bundle
+- Skip-to-content links on both pages for keyboard navigation
+- `eslint-plugin-jsx-a11y` with recommended rules
+- Vendor chunk splitting (react, react-dom, react-router-dom)
+- SEO: JSON-LD structured data, canonical link, `robots.txt`, `sitemap.xml`, theme-color meta
+- Keyboard-accessible skill tooltips with `role="tooltip"`, `aria-describedby`, and focus/blur handlers
+- `aria-hidden` on decorative SVG icons, `aria-expanded` on expand toggles
+- CSS custom properties for tech category background colors
+- `loading="lazy"` on featured project images
+
+### Changed
+
+- Consolidated `ArrowIcon` into `src/shared/components/ui/icons/` barrel
+- Simplified `VersionBadge` with `AbortController` and direct `sessionStorage` caching
+- Replaced `useTableResponsive` hook with inline `useMediaQuery` call
+- Rewrote `extractLatestMonth` sort utility for clarity (segment-based parsing)
+- Inlined default class strings in `InlineLink` and extracted `BASE_CLASSES` in `InteractiveCard`
+- Normalized date ranges to en-dashes, deduplicated CNN skill entry, recategorized Web Scraping
+- Extracted shared `EMAIL` constant, removed unused `tagline` from `HeroContent`
+- Featured project selector now preserves declared title order
+- Replaced `--comments` CSS variable references with `--muted`
+- Removed unused `slideInRight` animation, added `animate-fadeIn` to reduced-motion rule
+- Fixed `staggerDelay` floating-point precision with `toFixed(2)`
+- Twitter meta tags corrected from `property` to `name`
+- Phone link updated to E.164 format (`tel:+1...`)
+
+### Removed
+
+- `tslib` dependency (unused)
+- `--comments` CSS variable
+- `useTableResponsive` hook (replaced by `useMediaQuery`)
+- `role="status"` from `StatusBadge` (incorrect usage)
+
 ## [2.4.5] - 2026-02-08
 
 ### Added

@@ -1,7 +1,7 @@
 {
   "name": "fincke.dev-v2",
   "private": true,
-  "version": "2.4.5",
+  "version": "2.4.6",
   "type": "module",
   "scripts": {
     "dev": "vite",
