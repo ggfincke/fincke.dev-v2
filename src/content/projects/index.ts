@@ -5,7 +5,5 @@ export { projects } from './all'
 export {
   getFeaturedProjects,
   getAllProjects,
-  getProjectsBySkill,
+  getProjectsByTechnology,
 } from './selectors'
-
-export { skillMappings } from './skillMappings'
