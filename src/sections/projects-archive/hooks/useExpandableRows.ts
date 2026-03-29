@@ -6,27 +6,38 @@ import { useCallback, useState } from 'react'
 // * custom hook for managing expandable row state
 export function useExpandableRows<T>()
 {
-  const [expandedRows, setExpandedRows] = useState<T[]>([])
+  const [expandedRows, setExpandedRows] = useState(() => new Set<T>())
 
   // toggle row expansion state
   const toggleRow = useCallback((id: T) =>
   {
     setExpandedRows((prev) =>
-      prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]
-    )
+    {
+      const next = new Set(prev)
+
+      if (next.has(id))
+      {
+        next.delete(id)
+      }
+      else
+      {
+        next.add(id)
+      }
+
+      return next
+    })
   }, [])
 
   // check if row is expanded
   const isExpanded = useCallback(
     (id: T) =>
     {
-      return expandedRows.includes(id)
+      return expandedRows.has(id)
     },
     [expandedRows]
   )
 
   return {
-    expandedRows,
     toggleRow,
     isExpanded,
   }

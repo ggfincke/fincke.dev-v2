@@ -6,6 +6,7 @@ import { siInstagram, siMedium, siX, siYoutube } from 'simple-icons'
 
 import type { SocialLink } from '~/shared/types'
 import { SOCIAL_LINKS } from '~/content/home'
+import { IconLink } from '~/shared/components/ui/IconLink'
 import { GitHubIcon as SharedGitHubIcon } from '~/shared/components/ui/icons'
 import { ANIMATION_DELAYS } from '~/shared/utils/animationConfig'
 
@@ -119,24 +120,15 @@ export function SocialLinks()
       {
         const Icon = iconMap[link.icon]
         return (
-          <a
+          <IconLink
             key={link.icon}
             href={link.url}
-            target={
-              link.icon !== 'email' && link.icon !== 'phone'
-                ? '_blank'
-                : undefined
-            }
-            rel={
-              link.icon !== 'email' && link.icon !== 'phone'
-                ? 'noopener noreferrer'
-                : undefined
-            }
-            aria-label={link.label}
+            label={link.label}
+            openInNewTab={link.openInNewTab}
             className="text-[var(--muted)] transition hover:text-[var(--accent)]"
           >
             <Icon />
-          </a>
+          </IconLink>
         )
       })}
     </nav>

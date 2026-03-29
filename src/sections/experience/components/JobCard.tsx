@@ -2,10 +2,10 @@
 // job experience card w/ company info & technologies
 
 import { InteractiveCard } from '~/shared/components/layout/InteractiveCard'
+import { TechPills } from '~/shared/components/ui/TechPills'
 import type { WorkExperience } from '~/shared/types'
 import { CARD_HOVER_BACKDROP } from '~/shared/utils/classNames'
 import { JobCompanyHeader } from './JobCompanyHeader'
-import { JobTechnologies } from './JobTechnologies'
 
 // props for job experience card
 interface JobCardProps
@@ -23,7 +23,7 @@ export function JobCard({ job }: JobCardProps)
 
       {/* card content */}
       <div className="relative z-10">
-        <JobCompanyHeader company={job.company} dateRange={job.dateRange} />
+        <JobCompanyHeader company={job.company} period={job.period} />
 
         <div className="mb-1 text-sm text-[var(--yellow)]">{job.title}</div>
 
@@ -31,8 +31,13 @@ export function JobCard({ job }: JobCardProps)
           {job.description}
         </p>
 
-        {job.technologies && (
-          <JobTechnologies technologies={job.technologies} />
+        {job.technologies && job.technologies.length > 0 && (
+          <TechPills
+            technologies={job.technologies}
+            size="sm"
+            as="ul"
+            className="mt-2 flex flex-wrap gap-2"
+          />
         )}
       </div>
     </InteractiveCard>

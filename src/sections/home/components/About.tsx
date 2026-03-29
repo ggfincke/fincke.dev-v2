@@ -3,7 +3,8 @@
 
 import type { ReactNode } from 'react'
 
-import { ABOUT_CONTENT } from '~/content/home'
+import { getTechnologyTerms } from '~/content/technologies'
+import { ABOUT_CONTENT, ABOUT_HIGHLIGHT_GROUPS } from '~/content/home'
 import { InlineLink } from '~/shared/components/ui/InlineLink'
 import { ANIMATION_DELAYS } from '~/shared/utils/animationConfig'
 
@@ -14,17 +15,17 @@ interface HighlightRule
   className: string
 }
 
-const HIGHLIGHT_RULES: HighlightRule[] = [
-  { words: ['Scale AI'], className: 'text-[var(--purple)]' },
-  {
-    words: ['Python', 'TypeScript', 'Java', 'Go', 'Swift', 'JavaScript'],
-    className: 'text-[var(--green)]',
-  },
-  {
-    words: ['React', 'Next.js', 'FastAPI', 'Django', 'SwiftUI', 'UIkit'],
-    className: 'text-[var(--blue)]',
-  },
-]
+const HIGHLIGHT_RULES: HighlightRule[] = ABOUT_HIGHLIGHT_GROUPS.map((group) =>
+{
+  const technologyWords = (group.technologyIds ?? []).flatMap((technologyId) =>
+    getTechnologyTerms(technologyId)
+  )
+
+  return {
+    className: group.className,
+    words: [...new Set([...(group.phrases ?? []), ...technologyWords])],
+  }
+})
 
 // build a single regex from all highlight rules (longest first to avoid partial matches)
 const HIGHLIGHT_PATTERN = new RegExp(

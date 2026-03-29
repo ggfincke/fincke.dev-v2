@@ -1,9 +1,8 @@
 // src/sections/featured-projects/components/FeaturedProjects.tsx
 // featured projects highlight w/ link to full projects page
 
-import { Link } from 'react-router-dom'
-
 import { getFeaturedProjects } from '~/content/projects'
+import { ActionLink } from '~/shared/components/ui/ActionLink'
 import { ArrowIcon } from '~/shared/components/ui/icons'
 import { useMediaQuery } from '~/shared/hooks/useMediaQuery'
 import { ANIMATION_DELAYS, staggerDelay } from '~/shared/utils/animationConfig'
@@ -22,7 +21,7 @@ export function FeaturedProjects()
       {/* project cards */}
       {featured.map((project, index) => (
         <div
-          key={project.title}
+          key={project.id}
           className="animate-slide-in-up opacity-0"
           style={{
             animationDelay: staggerDelay(
@@ -37,9 +36,10 @@ export function FeaturedProjects()
       ))}
 
       {/* archive link */}
-      <Link
+      <ActionLink
         to="/projects"
-        className="animate-slide-in-up inline-flex items-center gap-2 text-sm text-[var(--red)] opacity-0 transition hover:text-[var(--white)]"
+        icon={<ArrowIcon />}
+        className="animate-slide-in-up opacity-0"
         style={{
           animationDelay: staggerDelay(
             ANIMATION_DELAYS.featuredProjects.base,
@@ -49,8 +49,7 @@ export function FeaturedProjects()
         }}
       >
         View All Projects
-        <ArrowIcon />
-      </Link>
+      </ActionLink>
     </>
   )
 }
