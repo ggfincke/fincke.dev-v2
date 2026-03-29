@@ -68,16 +68,10 @@ export function About()
 {
   return (
     <section
-      aria-labelledby="about-heading"
+      aria-label="About"
       className="animate-slide-in-left opacity-0"
       style={{ animationDelay: ANIMATION_DELAYS.about }}
     >
-      <h2
-        id="about-heading"
-        className="text-base font-semibold tracking-wide text-[var(--cyan)]"
-      >
-        {ABOUT_CONTENT.heading}
-      </h2>
       {ABOUT_CONTENT.paragraphs.map((text, index) => (
         <p
           key={index}
