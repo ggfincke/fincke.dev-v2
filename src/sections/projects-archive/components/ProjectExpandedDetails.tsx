@@ -26,8 +26,8 @@ export function ProjectExpandedDetails({
   const isMobile = variant === 'mobile'
   const containerClass = isMobile
     ? 'mt-2 border border-[var(--border)] rounded-lg p-4 bg-[var(--card)]/50'
-    : 'px-6 pb-8 bg-[var(--card)]/50 border-b border-[var(--border)] transition-all duration-300'
-  const spacingClass = isMobile ? 'space-y-4' : 'space-y-6 pt-6'
+    : 'px-6 pt-4 pb-6 bg-[var(--card)]/70 border-b border-[var(--border)] border-t-2 border-t-[var(--accent)]/30 transition-all duration-300'
+  const spacingClass = isMobile ? 'space-y-4' : 'space-y-6'
   const skillSize = isMobile ? 'xs' : 'md'
 
   return (
@@ -96,11 +96,11 @@ export function ProjectExpandedDetails({
 
             {project.imagePath && (
               <div className="lg:w-1/3 flex-shrink-0">
-                <div className="rounded-lg p-4 w-full group relative hover:shadow-lg transition-all duration-300">
+                <div className="border border-[var(--border)] rounded-lg bg-[var(--bg)]/50 overflow-hidden p-3">
                   <img
                     src={project.imagePath}
                     alt={project.imageAlt ?? `${project.title} screenshot`}
-                    className="w-full h-full rounded-lg object-contain transition-all duration-300 group-hover:scale-105 group-hover:z-50"
+                    className="w-full h-full rounded-lg object-contain transition-[filter] duration-300 hover:brightness-110"
                     loading="lazy"
                   />
                 </div>

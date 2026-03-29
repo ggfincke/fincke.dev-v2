@@ -26,11 +26,13 @@ const HIGHLIGHT_RULES: HighlightRule[] = [
   },
 ]
 
-// build a single regex from all highlight rules
+// build a single regex from all highlight rules (longest first to avoid partial matches)
 const HIGHLIGHT_PATTERN = new RegExp(
   `(${HIGHLIGHT_RULES.flatMap((rule) =>
     rule.words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-  ).join('|')})`,
+  )
+    .sort((a, b) => b.length - a.length)
+    .join('|')})`,
   'g'
 )
 
