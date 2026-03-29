@@ -89,7 +89,7 @@ export function SkillTooltip({
       </div>
       <div className="space-y-2">
         {projects.slice(0, MAX_VISIBLE_PROJECTS).map((project) => (
-          <div key={project.title} className="flex items-center gap-2">
+          <div key={project.id} className="flex items-center gap-2">
             <StatusCircle status={project.status} size={18} />
             <span className="text-sm text-[var(--muted)] truncate">
               {project.title}

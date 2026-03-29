@@ -1,17 +1,18 @@
 // src/shared/components/ui/TechPills.tsx
 // reusable technology pills w/ optional overflow count
 
+import type { TechnologyId } from '~/content/technologies'
 import type { Project } from '~/shared/types'
 import { SkillPill } from './SkillPill'
 
 // props for technology pills
 interface TechPillsProps
 {
-  technologies: string[]
+  technologies: TechnologyId[]
   maxVisible?: number
   size?: 'xs' | 'sm' | 'md'
   showProjectsOnHover?: boolean
-  getRelatedProjects?: (name: string) => Project[]
+  getRelatedProjects?: (technologyId: TechnologyId) => Project[]
   className?: string
   as?: 'div' | 'ul'
 }
@@ -34,11 +35,11 @@ export function TechPills({
 
   return (
     <Wrapper className={className}>
-      {visible.map((tech) =>
+      {visible.map((technologyId) =>
         Wrapper === 'ul' ? (
-          <li key={tech}>
+          <li key={technologyId}>
             <SkillPill
-              name={tech}
+              technologyId={technologyId}
               size={size}
               showProjectsOnHover={showProjectsOnHover}
               getRelatedProjects={getRelatedProjects}
@@ -46,8 +47,8 @@ export function TechPills({
           </li>
         ) : (
           <SkillPill
-            key={tech}
-            name={tech}
+            key={technologyId}
+            technologyId={technologyId}
             size={size}
             showProjectsOnHover={showProjectsOnHover}
             getRelatedProjects={getRelatedProjects}
