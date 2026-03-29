@@ -5,6 +5,95 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.0] - 2026-03-29
+
+### Added
+
+- GitHub Actions CI/CD: lint/build on push, tag-based release workflow
+- Projects archive: clickable rows, staggered animations, expand/collapse transitions
+- Mobile cards: inline status circles, tech pills, and project links
+- Shared `@ggfincke/eslint-config` and `@ggfincke/prettier-config` packages
+- Error boundaries, 404 page, lazy-loaded routes, skip-nav links
+- SEO: structured data, canonical link, `robots.txt`, `sitemap.xml`
+- A11y: keyboard-accessible tooltips, ARIA attributes, `jsx-a11y` plugin
+- Vendor chunk splitting and `loading="lazy"` on images
+- Dev scripts: screenshots, link checker, asset validator, Lighthouse
+- `ExternalLink` type and `additionalLinks` on projects
+- New projects: MDX Preview, OpenCode to ccusage, Reactive Workbench, SwimMate v2
+
+### Changed
+
+- Migrated codebase to Allman brace style and removed semicolons
+- Consolidated UI: shared icons, `TechPills`, CSS vars, simplified component APIs
+- Refactored content barrel exports, routing, and utility patterns
+- Polished projects archive table layout, hover effects, and expand styling
+- Promoted MDX Preview to featured, expanded tech color system to 6 categories
+- Ultra-wide breakpoint bumped to 2560px, tighter responsive spacing
+- Updated resume PDFs and project descriptions
+
+### Removed
+
+- `.prettierrc` (replaced by shared config)
+- `tslib`, `--comments` CSS var, `useTableResponsive` hook
+
+## [2.4.11] - 2026-03-29
+
+### Added
+
+- GitHub Actions CI workflow for lint, format check, typecheck, and build
+- Release workflow for tag-based GitHub Releases with changelog extraction
+
+## [2.4.10] - 2026-03-29
+
+### Added
+
+- Staggered slide-in animations and expand/collapse keyframes on projects archive
+- Full-row click and keyboard support on desktop table rows and mobile cards
+- Status circles, tech pills, and project links on mobile cards
+
+### Changed
+
+- Highlight regex sorts patterns longest-first to fix partial keyword matches
+- Tighter table padding, accent hover effects, and row expand styling
+- Updated `resume-selected.pdf`
+
+## [2.4.9] - 2026-03-28
+
+### Added
+
+- `@ggfincke/eslint-config` and `@ggfincke/prettier-config` shared packages
+- `format:check` and `lint:fix` npm scripts
+
+### Changed
+
+- Migrated codebase to Allman brace style and removed semicolons
+- Refactored all components, content, types, and utilities for new code style
+
+### Removed
+
+- `.prettierrc` (replaced by shared config)
+
+## [2.4.8] - 2026-02-26
+
+### Changed
+
+- Updated `resume-master.pdf` and `resume-selected.pdf`
+
+## [2.4.7] - 2026-02-09
+
+### Added
+
+- Error boundaries, 404 page, and lazy-loaded `/projects` route
+- Skip-to-content links, ARIA attributes, and keyboard-accessible tooltips
+- SEO essentials: structured data, canonical link, `robots.txt`, `sitemap.xml`
+- Vendor chunk splitting and `loading="lazy"` on featured images
+- Shared `TechPills` component and consolidated icon barrel
+
+### Changed
+
+- UI consolidation: extracted CSS vars, simplified component APIs
+- Content cleanup: normalized dates, deduplicated skills, updated statuses
+
 ## [2.4.6] - 2026-02-09
 
 ### Added
