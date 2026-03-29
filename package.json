@@ -5,7 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "build": "tsc -b && vite build",
+    "typecheck": "tsc -b --noEmit",
+    "ci:check": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run validate-assets && npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
     "lint:fix": "eslint --fix .",
@@ -14,6 +18,7 @@
     "screenshots": "npx tsx scripts/screenshots.ts",
     "check-links": "npx tsx scripts/check-links.ts",
     "validate-assets": "npx tsx scripts/validate-assets.ts",
+    "content:health": "npm run validate-assets && npm run check-links",
     "lighthouse": "npx tsx scripts/lighthouse.ts",
     "analyze": "npx vite-bundle-visualizer --output reports/bundle.html",
     "preversion": "node scripts/check-changelog.mjs",
@@ -31,6 +36,9 @@
     "@ggfincke/eslint-config": "file:packages/eslint-config",
     "@ggfincke/prettier-config": "file:packages/prettier-config",
     "@tailwindcss/vite": "^4.1.18",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^24.6.1",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
@@ -43,6 +51,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.4.0",
+    "jsdom": "^29.0.1",
     "lighthouse": "^12.8.2",
     "playwright": "^1.58.2",
     "prettier": "^3.6.2",
@@ -52,6 +61,7 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.44.0",
     "vite": "^7.1.7",
-    "vite-bundle-visualizer": "^1.2.1"
+    "vite-bundle-visualizer": "^1.2.1",
+    "vitest": "^4.1.2"
   }
 }
