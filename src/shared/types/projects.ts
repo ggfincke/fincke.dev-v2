@@ -1,7 +1,9 @@
 // src/shared/types/projects.ts
 // project & collaborator types
 
-import type { ReactNode } from 'react'
+import type { TechnologyId } from '~/content/technologies'
+
+import type { DateSpan } from './dates'
 
 // project lifecycle status union type
 export type ProjectStatus =
@@ -11,6 +13,17 @@ export type ProjectStatus =
   | 'complete'
   | 'experimental'
   | 'planned'
+
+// featured project presentation tier
+export type ProjectFeatureTier = 'default' | 'wide'
+
+// featured project metadata
+export interface ProjectFeature
+{
+  tier: ProjectFeatureTier
+  // globally unique ordering across all featured projects
+  order: number
+}
 
 // collaborator entry shape
 export interface Collaborator
@@ -29,14 +42,16 @@ export interface ExternalLink
 // project entry shape
 export interface Project
 {
+  id: string
   title: string
   tagline?: string
-  dateRange: string
+  period: DateSpan
   status: ProjectStatus
   madeFor: string
+  feature?: ProjectFeature
 
-  bulletPoints: (string | ReactNode)[]
-  technologies: string[]
+  bulletPoints: string[]
+  technologies: TechnologyId[]
   imagePath?: string
   imageAlt?: string
   repoUrl?: string

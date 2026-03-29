@@ -1,8 +1,19 @@
 // src/shared/utils/classNames.ts
 // common CSS class combinations for consistent styling
 
-const baseButtonClasses =
-  'inline-flex items-center gap-2 rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]'
+export const FOCUS_RING_CLASSES =
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]'
+
+export const SKIP_LINK_CLASSES =
+  'sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-[var(--accent)] focus:px-4 focus:py-2 focus:text-[var(--bg)] focus:font-medium'
+
+export const ACTION_LINK_CLASSES = `inline-flex items-center gap-2 rounded-sm text-sm text-[var(--red)] transition hover:text-[var(--white)] ${FOCUS_RING_CLASSES}`
+
+export const ICON_LINK_CLASSES = `rounded-sm text-[var(--muted)] transition-colors hover:text-[var(--accent)] ${FOCUS_RING_CLASSES}`
+
+export const FULL_SCREEN_MESSAGE_ACTION_CLASSES = `mt-8 inline-flex items-center gap-2 rounded-lg border border-[var(--accent)] px-6 py-3 text-sm font-medium text-[var(--accent)] transition-colors hover:bg-[var(--accent)] hover:text-[var(--accent-contrast)] ${FOCUS_RING_CLASSES}`
+
+const baseButtonClasses = `inline-flex items-center gap-2 rounded-lg transition-all duration-200 ${FOCUS_RING_CLASSES}`
 
 const buttonSizes = {
   sm: 'px-3 py-1 text-sm',
