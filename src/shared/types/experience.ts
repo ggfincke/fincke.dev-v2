@@ -1,21 +1,19 @@
 // src/shared/types/experience.ts
-// skill types
+// work experience types
 
-// skill category union type
-export type SkillCategory =
-  | 'languages'
-  | 'frontend'
-  | 'backend'
-  | 'database'
-  | 'mobile'
-  | 'ai-ml'
-  | 'tools'
-  | 'specialized'
+import type { TechnologyId } from '~/content/technologies'
 
-// individual skill entry shape
-export interface Skill
+import type { DateSpan } from './dates'
+
+// work experience entry shape
+export interface WorkExperience
 {
-  name: string
-  category: SkillCategory
-  displayName?: string
+  id: string
+  title: string
+  company: string
+  period: DateSpan
+  description: string
+  technologies?: TechnologyId[]
+  link?: string
+  showOnUltraWide?: boolean
 }

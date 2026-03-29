@@ -3,6 +3,8 @@
 
 import type { ReactNode } from 'react'
 
+import { ExternalLink } from '~/shared/components/ui/ExternalLink'
+
 const BASE_CLASSES =
   'group relative block p-1 transition-all lg:hover:!opacity-100 lg:group-hover/list:opacity-50'
 
@@ -26,14 +28,9 @@ export function InteractiveCard({
   if (href)
   {
     return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={classes}
-      >
+      <ExternalLink href={href} className={classes}>
         {children}
-      </a>
+      </ExternalLink>
     )
   }
 

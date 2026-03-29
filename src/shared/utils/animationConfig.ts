@@ -8,6 +8,15 @@ export const ANIMATION_DELAYS = {
   socialLinks: '0.5s',
   jobHistory: { base: 0.4, step: 0.1 },
   featuredProjects: { base: 0.6, step: 0.1 },
+  projectsArchive: {
+    mobile: { base: 0.05, step: 0.03 },
+    desktop: { base: 0.05, step: 0.025 },
+  },
+} as const
+
+// shared motion utility classes
+export const MOTION_CLASSES = {
+  emphasizedOut: 'ease-emphasized-out',
 } as const
 
 // compute staggered animation delay for list items

@@ -1,209 +1,184 @@
 // scripts/check-links.ts
-// validates all external URLs & local asset paths from content data
+// validates external URLs from content, metadata, & deployment files
 // Usage: npm run check-links
 
-import { existsSync } from 'fs'
-import { join } from 'path'
-import { projects } from '../src/content/projects/all'
-import { SOCIAL_LINKS } from '../src/content/home/socialLinks'
-import { WORK_EXPERIENCE } from '../src/content/experience/workExperience'
+import type { ExternalUrlReference } from './lib/contentInventory'
 
-const ROOT = join(import.meta.dirname, '..')
-const PUBLIC = join(ROOT, 'public')
+import { getContentInventory } from './lib/contentInventory'
+import {
+  getLinkPolicy,
+  shouldFailLinkCheck,
+  shouldRetryWithGet,
+} from './lib/linkPolicy'
+
 const TIMEOUT = 10_000
 const BATCH_SIZE = 5
+const USER_AGENT =
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) ' +
+  'AppleWebKit/537.36 (KHTML, like Gecko) ' +
+  'Chrome/136.0.0.0 Safari/537.36'
 
-// link check input shape
-interface LinkEntry
+interface LinkResult extends ExternalUrlReference
 {
-  url: string
-  source: string
-}
-
-// link check result w/ status & detail
-interface LinkResult extends LinkEntry
-{
-  status: 'ok' | 'fail' | 'skip'
+  status: 'ok' | 'fail' | 'warn' | 'skip'
   detail: string
 }
 
-function collectExternalUrls(): LinkEntry[]
+async function requestUrl(
+  url: string,
+  method: 'HEAD' | 'GET'
+): Promise<Response>
 {
-  const urls: LinkEntry[] = []
-
-  for (const p of projects)
-  {
-    if (p.repoUrl) urls.push({ url: p.repoUrl, source: `project: ${p.title}` })
-    if (p.liveUrl && !p.liveUrl.startsWith('/'))
-      urls.push({ url: p.liveUrl, source: `project liveUrl: ${p.title}` })
-    if (p.additionalLinks)
-    {
-      for (const link of p.additionalLinks)
-      {
-        urls.push({
-          url: link.url,
-          source: `project link: ${p.title} (${link.label})`,
-        })
-      }
-    }
-  }
-
-  for (const s of SOCIAL_LINKS)
-  {
-    urls.push({ url: s.url, source: `social: ${s.label}` })
-  }
-
-  for (const w of WORK_EXPERIENCE)
-  {
-    if (w.link) urls.push({ url: w.link, source: `experience: ${w.company}` })
-  }
-
-  return urls
-}
-
-function collectLocalPaths(): LinkEntry[]
-{
-  const paths: LinkEntry[] = []
-
-  for (const p of projects)
-  {
-    if (p.imagePath)
-      paths.push({ url: p.imagePath, source: `project image: ${p.title}` })
-    if (p.liveUrl?.startsWith('/'))
-      paths.push({ url: p.liveUrl, source: `project liveUrl: ${p.title}` })
-  }
-
-  // hardcoded asset refs in components
-  paths.push({
-    url: '/documents/resume-selected.pdf',
-    source: 'JobHistory.tsx',
+  return fetch(url, {
+    method,
+    signal: AbortSignal.timeout(TIMEOUT),
+    redirect: 'follow',
+    headers: {
+      'User-Agent': USER_AGENT,
+      Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    },
   })
-
-  return paths
 }
 
 async function checkUrl(url: string): Promise<{ ok: boolean; detail: string }>
 {
-  // skip non-http URLs
-  if (url.startsWith('mailto:') || url.startsWith('tel:'))
-  {
-    return { ok: true, detail: 'skipped (mailto/tel)' }
-  }
-
-  const controller = new AbortController()
-  const timer = setTimeout(() => controller.abort(), TIMEOUT)
-
   try
   {
-    const res = await fetch(url, {
-      method: 'HEAD',
-      signal: controller.signal,
-      redirect: 'follow',
-      headers: { 'User-Agent': 'fincke.dev-link-checker/1.0' },
-    })
-    clearTimeout(timer)
+    const headResponse = await requestUrl(url, 'HEAD')
 
-    if (res.ok) return { ok: true, detail: `${res.status}` }
-
-    // some servers reject HEAD, retry w/ GET
-    if (res.status === 405 || res.status === 403)
+    if (headResponse.ok)
     {
-      const getRes = await fetch(url, {
-        method: 'GET',
-        signal: AbortSignal.timeout(TIMEOUT),
-        redirect: 'follow',
-        headers: { 'User-Agent': 'fincke.dev-link-checker/1.0' },
-      })
-      if (getRes.ok)
-        return { ok: true, detail: `${getRes.status} (GET fallback)` }
-      return { ok: false, detail: `${getRes.status}` }
+      return { ok: true, detail: `${headResponse.status}` }
     }
 
-    return { ok: false, detail: `${res.status}` }
+    if (!shouldRetryWithGet(headResponse.status))
+    {
+      return { ok: false, detail: `${headResponse.status}` }
+    }
+
+    const getResponse = await requestUrl(url, 'GET')
+
+    if (getResponse.ok)
+    {
+      return { ok: true, detail: `${getResponse.status} (GET fallback)` }
+    }
+
+    return { ok: false, detail: `${getResponse.status} (GET fallback)` }
   }
-  catch (err)
+  catch (error)
   {
-    clearTimeout(timer)
-    const msg = err instanceof Error ? err.message : String(err)
-    if (msg.includes('abort')) return { ok: false, detail: 'timeout' }
-    return { ok: false, detail: msg }
+    const detail = error instanceof Error ? error.message : String(error)
+    return {
+      ok: false,
+      detail: detail.includes('aborted') ? 'timeout' : detail,
+    }
   }
 }
 
 async function checkInBatches(
-  entries: LinkEntry[],
-  fn: (entry: LinkEntry) => Promise<LinkResult>
+  entries: ReadonlyArray<ExternalUrlReference>
 ): Promise<LinkResult[]>
 {
   const results: LinkResult[] = []
-  for (let i = 0; i < entries.length; i += BATCH_SIZE)
+
+  for (let index = 0; index < entries.length; index += BATCH_SIZE)
   {
-    const batch = entries.slice(i, i + BATCH_SIZE)
-    const batchResults = await Promise.all(batch.map(fn))
+    const batch = entries.slice(index, index + BATCH_SIZE)
+    const batchResults = await Promise.all(batch.map(checkEntry))
     results.push(...batchResults)
   }
+
   return results
+}
+
+async function checkEntry(entry: ExternalUrlReference): Promise<LinkResult>
+{
+  const policy = getLinkPolicy(entry.url)
+
+  if (policy.expectation === 'skip')
+  {
+    console.log(`  SKIP  ${entry.url}  (${policy.reason})`)
+    return {
+      ...entry,
+      status: 'skip',
+      detail: policy.reason,
+    }
+  }
+
+  const { ok, detail } = await checkUrl(entry.url)
+
+  if (ok)
+  {
+    console.log(`  OK    ${entry.url}  (${detail})`)
+    return {
+      ...entry,
+      status: 'ok',
+      detail,
+    }
+  }
+
+  const status = policy.expectation === 'warn' ? 'warn' : 'fail'
+  const prefix = status === 'warn' ? '  WARN' : '  FAIL'
+
+  console.log(`${prefix}  ${entry.url}  (${detail}; ${policy.reason})`)
+
+  return {
+    ...entry,
+    status,
+    detail,
+  }
+}
+
+function formatSources(sources: string[]): string
+{
+  return sources.join(' | ')
 }
 
 async function main()
 {
-  const externalUrls = collectExternalUrls()
-  const localPaths = collectLocalPaths()
+  const inventory = getContentInventory()
 
-  console.log(
-    `\nChecking ${externalUrls.length} external URLs + ${localPaths.length} local paths...\n`
-  )
+  console.log(`\nChecking ${inventory.externalUrls.length} external URLs...\n`)
 
-  // check local paths (sync)
-  const localResults: LinkResult[] = localPaths.map((entry) =>
-  {
-    const diskPath = join(PUBLIC, ...entry.url.split('/').filter(Boolean))
-    const exists = existsSync(diskPath)
-    return {
-      ...entry,
-      status: exists ? 'ok' : 'fail',
-      detail: exists ? 'exists' : 'FILE NOT FOUND',
-    }
-  })
+  const results = await checkInBatches(inventory.externalUrls)
+  const ok = results.filter((result) => result.status === 'ok')
+  const failed = results.filter((result) => result.status === 'fail')
+  const warned = results.filter((result) => result.status === 'warn')
+  const skipped = results.filter((result) => result.status === 'skip')
 
-  // check external URLs (async, batched)
-  const externalResults = await checkInBatches(externalUrls, async (entry) =>
-  {
-    if (entry.url.startsWith('mailto:') || entry.url.startsWith('tel:'))
-    {
-      console.log(`  SKIP  ${entry.url}`)
-      return { ...entry, status: 'skip' as const, detail: 'mailto/tel' }
-    }
-
-    const { ok, detail } = await checkUrl(entry.url)
-    const status = ok ? 'ok' : 'fail'
-    const icon = ok ? '  OK  ' : '  FAIL'
-    console.log(`${icon}  ${entry.url}  (${detail})`)
-    return { ...entry, status, detail }
-  })
-
-  const allResults = [...localResults, ...externalResults]
-  const ok = allResults.filter((r) => r.status === 'ok')
-  const failed = allResults.filter((r) => r.status === 'fail')
-  const skipped = allResults.filter((r) => r.status === 'skip')
-
-  // summary
-  console.log('\n' + '='.repeat(90))
+  console.log('\n' + '='.repeat(96))
 
   if (failed.length > 0)
   {
     console.log(`\nFailed (${failed.length}):`)
-    for (const f of failed)
+    for (const result of failed)
     {
-      console.log(`  !!  ${f.url}  [${f.detail}]  (${f.source})`)
+      console.log(
+        `  !!  ${result.url}  [${result.detail}]  (${formatSources(result.sources)})`
+      )
+    }
+  }
+
+  if (warned.length > 0)
+  {
+    console.log(`\nWarnings (${warned.length}):`)
+    for (const result of warned)
+    {
+      console.log(
+        `  ??  ${result.url}  [${result.detail}]  (${formatSources(result.sources)})`
+      )
     }
   }
 
   console.log(
-    `\nSummary: ${ok.length} ok, ${failed.length} failed, ${skipped.length} skipped\n`
+    `\nSummary: ${ok.length} ok, ${failed.length} failed, ` +
+      `${warned.length} warned, ${skipped.length} skipped\n`
   )
 
-  if (failed.length > 0) process.exit(1)
+  if (shouldFailLinkCheck(results))
+  {
+    process.exit(1)
+  }
 }
 
 main()

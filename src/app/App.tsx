@@ -1,49 +1,17 @@
 // src/app/App.tsx
-// main application component w/ layout & decorative effects
+// root layout route for shared app chrome
 
-import { Hero } from '~/sections/home/components/Hero'
-import { About } from '~/sections/home/components/About'
-import { SocialLinks } from '~/sections/home/components/SocialLinks'
-import { JobHistory } from '~/sections/experience/components/JobHistory'
-import { FeaturedProjects } from '~/sections/featured-projects/components/FeaturedProjects'
-import { GlowEffect } from '~/sections/home/components/GlowEffect'
-import { DecorativeWave } from '~/sections/home/components/DecorativeWave'
+import { Outlet } from 'react-router-dom'
 
-// * Main app component
+import { SkipLink } from '~/shared/components/layout/SkipLink'
+
+// * Root app layout route
 function App()
 {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[var(--bg)] text-[var(--muted)]">
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-[var(--accent)] focus:px-4 focus:py-2 focus:text-[var(--bg)] focus:font-medium"
-      >
-        Skip to content
-      </a>
-      {/* main content section */}
-      <main
-        id="main-content"
-        className="relative mx-auto max-w-7xl px-4 py-12 min-[2560px]:max-w-[1400px]"
-      >
-        <div className="grid gap-16 lg:grid-cols-2 lg:items-center lg:gap-20">
-          {/* left column: hero + about + social */}
-          <div className="space-y-6">
-            <Hero />
-            <About />
-            <SocialLinks />
-          </div>
-
-          {/* right column: job history + featured projects */}
-          <div className="space-y-4 min-[1728px]:space-y-6 pt-11">
-            <JobHistory />
-            <FeaturedProjects />
-          </div>
-        </div>
-      </main>
-
-      {/* decorative effects */}
-      <GlowEffect />
-      <DecorativeWave />
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--muted)]">
+      <SkipLink />
+      <Outlet />
     </div>
   )
 }

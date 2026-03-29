@@ -1,126 +1,157 @@
 // scripts/validate-assets.ts
-// validates that all referenced assets exist & finds orphaned files in public/
+// validates local runtime/deployment assets & classifies retained/orphaned files
 // Usage: npm run validate-assets
 
-import { existsSync, readdirSync, statSync } from 'fs'
-import { join, relative } from 'path'
-import { projects } from '../src/content/projects/all'
+import { getContentInventory } from './lib/contentInventory'
+import { validateAssetInventory } from './lib/assetValidation'
 
-const ROOT = join(import.meta.dirname, '..')
-const PUBLIC = join(ROOT, 'public')
-
-// hardcoded asset refs found in components/HTML (not in content data)
-// note: thumbnail.ico is in project root, processed by Vite from index.html — not in public/
-const HARDCODED_REFS = [
-  '/documents/resume-selected.pdf',
-  '/documents/resume-master.pdf',
-  '/assets/images/profile.jpg',
-  '/assets/logos/brand/fincke-logo.svg',
-]
-
-function collectReferencedPaths(): Map<string, string>
+function printSection(title: string)
 {
-  const paths = new Map<string, string>()
-
-  for (const p of projects)
-  {
-    if (p.imagePath) paths.set(p.imagePath, `project: ${p.title}`)
-    if (p.liveUrl?.startsWith('/'))
-      paths.set(p.liveUrl, `project liveUrl: ${p.title}`)
-  }
-
-  for (const ref of HARDCODED_REFS)
-  {
-    paths.set(ref, 'hardcoded')
-  }
-
-  return paths
+  console.log(`\n${title}:`)
+  console.log('-'.repeat(88))
 }
 
-function getAllPublicFiles(dir: string): string[]
+function formatSources(sources: string[]): string
 {
-  const results: string[] = []
-  for (const entry of readdirSync(dir, { withFileTypes: true }))
-  {
-    const fullPath = join(dir, entry.name)
-    if (entry.isDirectory())
-    {
-      results.push(...getAllPublicFiles(fullPath))
-    }
-    else
-    {
-      results.push('/' + relative(PUBLIC, fullPath).replace(/\\/g, '/'))
-    }
-  }
-  return results
+  return sources.join(' | ')
 }
 
 function main()
 {
-  const referenced = collectReferencedPaths()
-  const allPublicFiles = new Set(getAllPublicFiles(PUBLIC))
+  const inventory = getContentInventory()
+  const result = validateAssetInventory(inventory)
 
-  const found: { path: string; source: string }[] = []
-  const missing: { path: string; source: string }[] = []
+  const foundByCategory = {
+    runtime: result.found.filter((file) => file.category === 'runtime'),
+    deployment: result.found.filter((file) => file.category === 'deployment'),
+    retained: result.found.filter((file) => file.category === 'retained'),
+  }
+  const blockingMissing = result.missing.filter(
+    (file) => file.category !== 'retained'
+  )
+  const retainedMissing = result.missing.filter(
+    (file) => file.category === 'retained'
+  )
+  const hasDeploymentMetadataFailure =
+    !result.robots.hasExpectedSitemapUrl ||
+    result.sitemap.missingUrls.length > 0 ||
+    result.sitemap.extraUrls.length > 0
 
-  for (const [refPath, source] of referenced)
+  printSection(`Found Runtime Assets (${foundByCategory.runtime.length})`)
+  for (const file of foundByCategory.runtime)
   {
-    const diskPath = join(PUBLIC, ...refPath.split('/').filter(Boolean))
-    if (existsSync(diskPath))
-    {
-      found.push({ path: refPath, source })
-    }
-    else
-    {
-      missing.push({ path: refPath, source })
-    }
+    console.log(`  OK  ${file.path}  (${formatSources(file.sources)})`)
   }
 
-  const orphaned = [...allPublicFiles].filter((f) => !referenced.has(f))
-
-  // print results
-  console.log(`\nReferenced & Found (${found.length}):`)
-  console.log('-'.repeat(80))
-  for (const f of found)
+  printSection(`Found Deployment Assets (${foundByCategory.deployment.length})`)
+  for (const file of foundByCategory.deployment)
   {
-    console.log(`  OK  ${f.path}  (${f.source})`)
+    console.log(`  OK  ${file.path}  (${formatSources(file.sources)})`)
   }
 
-  if (missing.length > 0)
+  printSection(`Found Retained Assets (${foundByCategory.retained.length})`)
+  for (const file of foundByCategory.retained)
   {
-    console.log(`\nReferenced & MISSING (${missing.length}):`)
-    console.log('-'.repeat(80))
-    for (const m of missing)
+    console.log(`  OK  ${file.path}  (${formatSources(file.sources)})`)
+  }
+
+  if (blockingMissing.length > 0)
+  {
+    printSection(
+      `Missing Runtime / Deployment Assets (${blockingMissing.length})`
+    )
+    for (const file of blockingMissing)
     {
-      console.log(`  !!  ${m.path}  (${m.source})`)
-    }
-  }
-  else
-  {
-    console.log('\nNo missing assets.')
-  }
-
-  if (orphaned.length > 0)
-  {
-    console.log(`\nOrphaned / Unreferenced (${orphaned.length}):`)
-    console.log('-'.repeat(80))
-    for (const o of orphaned)
-    {
-      const size = statSync(join(PUBLIC, ...o.split('/').filter(Boolean))).size
-      const kb = (size / 1024).toFixed(1)
-      console.log(`  ??  ${o}  (${kb} KB)`)
+      console.log(
+        `  !!  ${file.path}  [${file.category}; ${file.storage}]  (${formatSources(file.sources)})`
+      )
     }
   }
   else
   {
-    console.log('\nNo orphaned assets.')
+    console.log('\nNo missing runtime or deployment assets.')
+  }
+
+  if (retainedMissing.length > 0)
+  {
+    printSection(`Missing Retained Assets (${retainedMissing.length})`)
+    for (const file of retainedMissing)
+    {
+      console.log(
+        `  ??  ${file.path}  [${file.category}; ${file.storage}]  (${formatSources(file.sources)})`
+      )
+    }
+  }
+  else
+  {
+    console.log('\nNo missing retained assets.')
+  }
+
+  if (result.orphaned.length > 0)
+  {
+    printSection(`Unexpected Orphans (${result.orphaned.length})`)
+    for (const file of result.orphaned)
+    {
+      console.log(`  !!  ${file.path}  (${file.sizeBytes} bytes)`)
+    }
+  }
+  else
+  {
+    console.log('\nNo unexpected orphaned files.')
+  }
+
+  if (result.ignored.length > 0)
+  {
+    printSection(`Ignored Files (${result.ignored.length})`)
+    for (const file of result.ignored)
+    {
+      console.log(`  --  ${file.path}`)
+    }
+  }
+
+  printSection('Deployment Metadata')
+  console.log(
+    `  robots.txt sitemap reference: ` +
+      `${result.robots.hasExpectedSitemapUrl ? 'OK' : 'MISSING'} ` +
+      `(${result.robots.expectedSitemapUrl})`
+  )
+  console.log(
+    `  sitemap.xml routes: ${result.sitemap.actualUrls.length} actual / ` +
+      `${result.sitemap.expectedUrls.length} expected`
+  )
+
+  if (result.sitemap.missingUrls.length > 0)
+  {
+    console.log('  Missing sitemap URLs:')
+    for (const url of result.sitemap.missingUrls)
+    {
+      console.log(`    !!  ${url}`)
+    }
+  }
+
+  if (result.sitemap.extraUrls.length > 0)
+  {
+    console.log('  Extra sitemap URLs:')
+    for (const url of result.sitemap.extraUrls)
+    {
+      console.log(`    ??  ${url}`)
+    }
   }
 
   console.log(
-    `\nSummary: ${found.length} found, ${missing.length} missing, ${orphaned.length} orphaned\n`
+    `\nSummary: ${result.found.length} found, ${blockingMissing.length} blocking missing, ` +
+      `${retainedMissing.length} retained missing, ${result.orphaned.length} orphaned, ` +
+      `${result.ignored.length} ignored\n`
   )
 
-  if (missing.length > 0) process.exit(1)
+  if (
+    blockingMissing.length > 0 ||
+    result.orphaned.length > 0 ||
+    hasDeploymentMetadataFailure
+  )
+  {
+    process.exit(1)
+  }
 }
 
 main()

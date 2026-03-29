@@ -3,42 +3,33 @@
 
 import { useMemo } from 'react'
 
+import { getAllProjects } from '~/content/projects'
 import { useMediaQuery } from '~/shared/hooks/useMediaQuery'
-import { staggerDelay } from '~/shared/utils/animationConfig'
+import { ANIMATION_DELAYS, staggerDelay } from '~/shared/utils/animationConfig'
+import { BREAKPOINTS } from '~/shared/utils/breakpoints'
+import { compareDateSpansByLatestDesc } from '~/shared/utils/dateSpan'
 import { useExpandableRows } from '../hooks/useExpandableRows'
-import { extractLatestYear, extractLatestMonth } from '../utils/projectSort'
+import { ProjectExpansionPanel } from './ProjectExpansionPanel'
 import { ProjectMobileCard } from './ProjectMobileCard'
 import { ProjectTableRow } from './ProjectTableRow'
 import { ProjectExpandedDetails } from './ProjectExpandedDetails'
-import { getAllProjects } from '~/content/projects'
+import { getProjectViewModel } from '~/shared/utils/projectViewModel'
 
 // * Projects table component w/ expandable rows
 export function ProjectsTable()
 {
   const projects = useMemo(() => getAllProjects(), [])
-  const isDesktop = useMediaQuery('(min-width: 768px)')
+  const isDesktop = useMediaQuery(BREAKPOINTS.tabletQuery)
   const shouldShowCards = !isDesktop
   const shouldShowTable = isDesktop
-  const { toggleRow, isExpanded } = useExpandableRows<number>()
+  const { toggleRow, isExpanded } = useExpandableRows<string>()
 
   // sort projects by date desc to surface newest first
   const sortedProjects = useMemo(() =>
   {
     return [...projects].sort((a, b) =>
-    {
-      const yearA = extractLatestYear(a.dateRange)
-      const yearB = extractLatestYear(b.dateRange)
-
-      if (yearA !== yearB)
-      {
-        return yearB - yearA
-      }
-
-      const monthA = extractLatestMonth(a.dateRange)
-      const monthB = extractLatestMonth(b.dateRange)
-
-      return monthB - monthA
-    })
+      compareDateSpansByLatestDesc(a.period, b.period)
+    )
   }, [projects])
 
   return (
@@ -49,32 +40,37 @@ export function ProjectsTable()
           <div className="space-y-4">
             {sortedProjects.map((project, index) =>
             {
-              const expanded = isExpanded(index)
+              const expanded = isExpanded(project.id)
+              const viewModel = getProjectViewModel(project)
 
               return (
                 <div
-                  key={`mobile-project-${project.title}`}
+                  key={`mobile-project-${project.id}`}
                   className="animate-slide-in-up opacity-0"
-                  style={{ animationDelay: staggerDelay(0.05, 0.03, index) }}
+                  style={{
+                    animationDelay: staggerDelay(
+                      ANIMATION_DELAYS.projectsArchive.mobile.base,
+                      ANIMATION_DELAYS.projectsArchive.mobile.step,
+                      index
+                    ),
+                  }}
                 >
                   <ProjectMobileCard
                     project={project}
                     expanded={expanded}
-                    onToggle={() => toggleRow(index)}
+                    onToggle={() => toggleRow(project.id)}
                   />
 
-                  <div
-                    className={`grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${expanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+                  <ProjectExpansionPanel
+                    expanded={expanded}
+                    id={viewModel.detailsId}
+                    label={viewModel.detailsLabel}
                   >
-                    <div className="overflow-hidden">
-                      <div className={expanded ? 'expand-content-enter' : ''}>
-                        <ProjectExpandedDetails
-                          project={project}
-                          variant="mobile"
-                        />
-                      </div>
-                    </div>
-                  </div>
+                    <ProjectExpandedDetails
+                      project={project}
+                      variant="mobile"
+                    />
+                  </ProjectExpansionPanel>
                 </div>
               )
             })}
@@ -111,33 +107,32 @@ export function ProjectsTable()
           <tbody>
             {sortedProjects.flatMap((project, index) =>
             {
-              const expanded = isExpanded(index)
+              const expanded = isExpanded(project.id)
+              const viewModel = getProjectViewModel(project)
 
               const mainRow = (
                 <ProjectTableRow
-                  key={`project-${project.title}`}
+                  key={`project-${project.id}`}
                   project={project}
                   expanded={expanded}
-                  onToggle={() => toggleRow(index)}
+                  onToggle={() => toggleRow(project.id)}
                   index={index}
                 />
               )
 
               const expandedRow = (
-                <tr key={`expanded-${project.title}`}>
+                <tr key={`expanded-${project.id}`}>
                   <td colSpan={7} className="p-0">
-                    <div
-                      className={`grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${expanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+                    <ProjectExpansionPanel
+                      expanded={expanded}
+                      id={viewModel.detailsId}
+                      label={viewModel.detailsLabel}
                     >
-                      <div className="overflow-hidden">
-                        <div className={expanded ? 'expand-content-enter' : ''}>
-                          <ProjectExpandedDetails
-                            project={project}
-                            variant="desktop"
-                          />
-                        </div>
-                      </div>
-                    </div>
+                      <ProjectExpandedDetails
+                        project={project}
+                        variant="desktop"
+                      />
+                    </ProjectExpansionPanel>
                   </td>
                 </tr>
               )

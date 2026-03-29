@@ -2,7 +2,10 @@
 // shared links renderer for project repository & live links
 
 import type { ExternalLink } from '~/shared/types'
+import { ExternalLink as ExternalAnchor } from '~/shared/components/ui/ExternalLink'
+import { IconLink } from '~/shared/components/ui/IconLink'
 import { getButtonClasses } from '~/shared/utils/classNames'
+import { getProjectLiveLabel } from '~/shared/utils/projectLinks'
 import { ExternalLinkIcon } from '~/shared/components/ui/icons/ExternalLinkIcon'
 import { GitHubIcon } from '~/shared/components/ui/icons/GitHubIcon'
 
@@ -19,6 +22,23 @@ interface ProjectLinksProps
   size?: 'sm' | 'md'
   liveLabel?: string
   className?: string
+  contextLabel?: string
+}
+
+function withProjectContext(label: string, contextLabel?: string)
+{
+  if (!contextLabel)
+  {
+    return label
+  }
+
+  return `${label} for ${contextLabel}`
+}
+
+function getLiveIconLabel(resolvedLiveLabel: string, contextLabel?: string)
+{
+  const liveDestination = resolvedLiveLabel.replace(/^View /, '')
+  return withProjectContext(`Open ${liveDestination}`, contextLabel)
 }
 
 // project links component w/ icon or button variants
@@ -30,8 +50,13 @@ export function ProjectLinks({
   size = 'sm',
   liveLabel,
   className,
+  contextLabel,
 }: ProjectLinksProps)
 {
+  const resolvedLiveLabel = liveUrl
+    ? (liveLabel ?? getProjectLiveLabel(liveUrl))
+    : undefined
+
   if (
     !repoUrl &&
     !liveUrl &&
@@ -46,38 +71,32 @@ export function ProjectLinks({
     return (
       <div className={className ?? 'flex flex-wrap gap-2'}>
         {repoUrl && (
-          <a
+          <ExternalAnchor
             href={repoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
             className={getButtonClasses(size, 'secondary')}
           >
             <GitHubIcon size={size === 'sm' ? 14 : 16} />
             {size !== 'sm' ? ' View Repository' : ' Repository'}
-          </a>
+          </ExternalAnchor>
         )}
         {liveUrl && (
-          <a
+          <ExternalAnchor
             href={liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
             className={getButtonClasses(size, 'primary')}
           >
             <ExternalLinkIcon size={size === 'sm' ? 14 : 16} />
-            {liveLabel ? ` ${liveLabel}` : ' View Live Site'}
-          </a>
+            {resolvedLiveLabel ? ` ${resolvedLiveLabel}` : ' View Live Site'}
+          </ExternalAnchor>
         )}
         {additionalLinks?.map((link) => (
-          <a
+          <ExternalAnchor
             key={link.url}
             href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
             className={getButtonClasses(size, 'secondary')}
           >
             <ExternalLinkIcon size={size === 'sm' ? 14 : 16} />
             {` ${link.label}`}
-          </a>
+          </ExternalAnchor>
         ))}
       </div>
     )
@@ -86,38 +105,32 @@ export function ProjectLinks({
   return (
     <div className={className ?? 'flex space-x-3'}>
       {repoUrl && (
-        <a
+        <IconLink
           href={repoUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] rounded-sm"
-          aria-label="GitHub Repository"
+          label={withProjectContext('Open GitHub repository', contextLabel)}
         >
           <GitHubIcon size={24} />
-        </a>
+        </IconLink>
       )}
       {liveUrl && (
-        <a
+        <IconLink
           href={liveUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] rounded-sm"
-          aria-label={liveLabel || 'Live Site'}
+          label={getLiveIconLabel(
+            resolvedLiveLabel || 'Live Site',
+            contextLabel
+          )}
         >
           <ExternalLinkIcon size={24} />
-        </a>
+        </IconLink>
       )}
       {additionalLinks?.map((link) => (
-        <a
+        <IconLink
           key={link.url}
           href={link.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] rounded-sm"
-          aria-label={link.label}
+          label={withProjectContext(`Open ${link.label}`, contextLabel)}
         >
           <ExternalLinkIcon size={24} />
-        </a>
+        </IconLink>
       ))}
     </div>
   )

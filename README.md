@@ -8,7 +8,7 @@
 [![Website](https://img.shields.io/badge/Website-Live_on_fincke.dev-14B8A6?style=flat-square)](https://fincke.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-A lean rebuild of my pesonal portfolio built with Vite 7, React 19, and Tailwind CSS 4. Features a clean, minimalist UI with responsive layout, smooth animations, data-driven content architecture, and an interactive projects archive with expandable details and version tracking.
+Personal portfolio site built with Vite 7, React 19, TypeScript, and Tailwind CSS 4. The app has two public routes: a home page that combines intro content, work history, and featured projects, and a lazy-loaded `/projects` archive with responsive table/card layouts and expandable details.
 
 ## Live Site
 
@@ -16,51 +16,40 @@ Visit https://fincke.dev
 
 ## Highlights
 
-- Home route: hero, about, and social CTA content paired with a curated job history and featured projects grid.
-- Projects archive: client-side route with responsive table/card layouts, expandable details, and per-project technology/status badges.
-- Typed content pipeline: project, experience, and skill data live in structured TypeScript modules; utility helpers expose filtered views.
-- Design system: shared UI components (badges, tooltips, project links, icons) ensure consistent styling across sections.
-- Tailwind CSS 4: single-file design tokens and utility layers in `src/styles/globals.css` drive the color system and motion.
+- Nested React Router app shell with shared skip-link and page-shell primitives.
+- Structured content model for home copy, work history, projects, and canonical technologies.
+- Shared project presentation layer used by both featured cards and the full archive.
+- Focused verification pipeline: linting, typechecking, Vitest, asset validation, screenshots, Lighthouse, and live content-health checks.
 
 ## Tech Stack
 
-- Framework: Vite 7 + React 19 with `@tailwindcss/vite`
+- Framework: Vite 7 + React 19
 - Language: TypeScript 5.8 in strict mode
-- Routing: React Router 7 (`/` home, `/projects` archive)
-- Styling: Tailwind CSS 4 utilities with custom CSS variables
-- Linting/formatting: ESLint 9 (flat config) + Prettier 3
-- Icons: `simple-icons` for branded social links
+- Routing: React Router 7
+- Styling: Tailwind CSS 4 + `src/styles/globals.css`
+- Testing: Vitest, React Testing Library, jsdom
+- Automation: Playwright screenshots, Lighthouse, custom content-health scripts
 
 ## Project Structure
 
-```
+```text
 fincke.dev-v2/
+├── docs/                        # Tracked maintainer references
 ├── public/
-│   ├── assets/                   # Images, logos, screenshots
-│   └── documents/                # PDFs (résumé, reports, etc.)
+│   ├── assets/                  # Runtime images
+│   ├── documents/               # Resume PDFs and retained docs
+│   ├── robots.txt
+│   └── sitemap.xml
+├── scripts/                     # Repo automation and content-health tooling
 ├── src/
-│   ├── app/                      # App shell, router, and entry point
-│   │   ├── App.tsx
-│   │   ├── main.tsx
-│   │   └── router/
-│   │       └── index.tsx
-│   ├── content/                  # Global content (skills)
-│   ├── sections/                 # Feature domains grouped by route/section
-│   │   ├── home/
-│   │   │   ├── components/       # Hero, About, SocialLinks, decorative UI
-│   │   │   └── content/          # Hero/About copy and social metadata
-│   │   ├── experience/           # Experience timeline components/content
-│   │   ├── featured-projects/    # Featured project cards for the home view
-│   │   └── projects-archive/     # `/projects` route (data, hooks, table/cards)
-│   ├── shared/                   # Reusable types, utilities, and UI primitives
-│   │   ├── components/           # UI/layout/feedback subcomponents
-│   │   ├── types/                # Project/content/experience type definitions
-│   │   └── utils/                # Helpers (status config, collaborators, etc.)
-│   └── styles/                   # Global Tailwind layer & design tokens
-├── dev-docs/                     # Working notes and architecture plans
-├── eslint.config.js              # ESLint flat config
-├── vite.config.ts                # Vite config with `~` alias → `src`
-├── tsconfig*.json                # TypeScript project references
+│   ├── app/                     # Root layout route, router, entrypoint
+│   ├── content/                 # Authored home, experience, projects, technologies
+│   ├── sections/                # Route/section-specific UI
+│   ├── shared/                  # Shared components, types, hooks, utilities
+│   └── styles/                  # Global CSS tokens and Tailwind layers
+├── tests/                       # Vitest suites (node + jsdom)
+├── vite.config.ts
+├── tsconfig*.json
 └── package.json
 ```
 
@@ -73,51 +62,81 @@ fincke.dev-v2/
 
 ### Setup
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Start the dev server:
-   ```bash
-   npm run dev
-   ```
-3. Open http://localhost:5173 (Vite HMR enabled).
+```bash
+npm install
+npm run dev
+```
 
-### Scripts
+Then open `http://localhost:5173`.
 
-- `dev`: Vite dev server
-- `build`: TypeScript project build + Vite production bundle
-- `lint`: ESLint via flat config
-- `preview`: Preview production build locally
+## Maintainer Docs
+
+- `docs/architecture.md` - Current-state architecture, content ownership, and verification contracts
+- `docs/screenshots.md` - Supported Playwright screenshot workflow and review expectations
+
+## Scripts
+
+### Deterministic Checks
+
+- `npm run format:check` - Prettier + ESLint validation without rewriting files
+- `npm run lint` - ESLint across app, scripts, and tests
+- `npm run typecheck` - TypeScript project references for app, scripts, and tests
+- `npm test` - Vitest in single-run mode
+- `npm run validate-assets` - Runtime/deployment/retained asset validation
+- `npm run build` - TypeScript build + Vite production bundle
+- `npm run ci:check` - Main CI gate: format check, lint, typecheck, tests, asset validation, and build
+
+### Live / Manual Checks
+
+- `npm run check-links` - Live external-link verification with host-aware soft/hard failure policy
+- `npm run content:health` - Asset validation + live link check
+- `npm run screenshots` - Playwright screenshot sweep
+  Requires `npm run dev` on `http://localhost:5173`
+- `npm run lighthouse` - Lighthouse audits for public routes
+  Requires `npm run build && npm run preview` on `http://localhost:4173`
 
 ## Updating Content
 
-- Projects & archive data: `src/sections/projects-archive/content/projects.tsx`
-- Project filters/helpers: `src/sections/projects-archive/content/projectFilters.ts`
-- Skill → technology mappings: `src/sections/projects-archive/content/skillMappings.ts`
-- Experience timeline: `src/sections/experience/content/experienceTimeline.ts`
-- Home copy/social links: `src/sections/home/content/`
-- Skill catalog: `src/content/skills.ts`
-- Shared status labels/colors: `src/shared/utils/statusConfig.ts`
+The source of truth for authored site content lives under `src/content/`:
 
-Each module exports strongly-typed objects, so TypeScript will flag incomplete or inconsistent data.
+- Home copy: `src/content/home/hero.ts`, `src/content/home/about.ts`, `src/content/home/socialLinks.ts`
+- Work history: `src/content/experience/workExperience.ts`
+- Projects: `src/content/projects/all.ts`
+- Project selectors: `src/content/projects/selectors.ts`
+- Canonical technologies and aliases: `src/content/technologies/registry.ts`
 
-## Styling & Theming
+The shared content contracts live under `src/shared/types/`:
 
-Tailwind CSS 4 runs in JIT mode with tokens declared in `src/styles/globals.css`. The file defines the color palette, typography, and key motion primitives that power hero effects, glow/wave decorations, and project cards. Component classes lean on CSS variables for consistent light/dark ratios.
+- Home types: `src/shared/types/home.ts`
+- Work experience: `src/shared/types/experience.ts`
+- Projects: `src/shared/types/projects.ts`
+- Structured dates: `src/shared/types/dates.ts`
+- Technology definitions: `src/shared/types/technology.ts`
+
+If you are adding or renaming technologies, update the registry first and then reference canonical technology IDs from projects or work experience.
+
+## Runtime Structure
+
+- `/` renders the root layout route plus the `HomePage`
+- `/projects` lazy-loads `ProjectsArchivePage`
+- `App.tsx` owns the shared outer shell and `SkipLink`
+- `PageShell` owns the main landmark/container contract used by the route pages
+- Error and 404 feedback pages use shared feedback primitives instead of the normal page shell
+
+## Automation Notes
+
+- CI and release workflows both run `npm run ci:check`
+- A separate scheduled/manual GitHub Actions workflow runs `npm run content:health`
+- Screenshot and Lighthouse runs are manual review tools and are not part of the main CI gate
 
 ## Deployment
 
-Generate a static build with `npm run build`. Deploy the resulting `dist/` directory to Vercel (current target), Netlify, GitHub Pages, or any static host.
+Generate a static bundle with `npm run build` and deploy the `dist/` output to the static host of your choice.
 
 ## Contributing
 
-This is a personal portfolio and not accepting external features/PRs. Feel free to fork or reference the structure; if you ship a derivative design, a link back to https://fincke.dev is appreciated.
+This is a personal portfolio repo and is not accepting feature PRs. Feel free to fork the structure for your own site.
 
 ## License
 
-MIT — see [LICENSE](LICENSE)
-
-## Contact
-
-Questions or feedback? Say hi via the links on https://fincke.dev or open an issue.
+MIT. See [LICENSE](LICENSE).

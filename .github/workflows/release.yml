@@ -17,10 +17,7 @@ jobs:
           node-version: '22'
           cache: 'npm'
       - run: npm ci
-      - run: npm run lint
-      - run: npm run format:check
-      - run: npx tsc -b --noEmit
-      - run: npm run build
+      - run: npm run ci:check
 
       - name: Push to main branch
         run: git push origin HEAD:main --force

@@ -2,8 +2,9 @@
 // error fallback for route-level error boundary
 
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
+import { FullScreenMessagePage } from '~/shared/components/feedback/FullScreenMessagePage'
 
-// route error fallback w/ reload action
+// route error fallback rendered through shared full-screen message shell
 export function ErrorFallback()
 {
   const error = useRouteError()
@@ -21,25 +22,15 @@ export function ErrorFallback()
     message = error.message
   }
 
-  const handleReload = () =>
-  {
-    window.location.href = '/'
-  }
-
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg)] px-4 text-center">
-      <div className="text-6xl mb-4 text-[var(--red)]" aria-hidden="true">
-        !
-      </div>
-      <h1 className="text-2xl font-bold text-[var(--fg)]">{title}</h1>
-      <p className="mt-4 max-w-md text-[var(--muted)]">{message}</p>
-      <button
-        type="button"
-        onClick={handleReload}
-        className="mt-8 inline-flex items-center gap-2 rounded-lg border border-[var(--accent)] px-6 py-3 text-sm font-medium text-[var(--accent)] transition-colors hover:bg-[var(--accent)] hover:text-[var(--accent-contrast)] cursor-pointer"
-      >
-        Go home
-      </button>
-    </div>
+    <FullScreenMessagePage
+      visual={
+        <div className="mb-4 text-6xl text-[var(--red)]" aria-hidden="true">
+          !
+        </div>
+      }
+      title={title}
+      description={message}
+    />
   )
 }

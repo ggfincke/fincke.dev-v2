@@ -3,41 +3,43 @@
 
 import type { WorkExperience } from '~/shared/types'
 
-// work experience timeline entries
 export const WORK_EXPERIENCE: WorkExperience[] = [
   {
+    id: 'scale-ai-software-engineer-contract',
     title: 'Software Engineer (contract)',
     company: 'Scale AI',
-    dateRange: 'May 2024 — Jul 2025',
+    period: {
+      start: {
+        year: 2024,
+        month: 5,
+      },
+      end: {
+        year: 2025,
+        month: 7,
+      },
+    },
     description:
       'Built internal tooling to evaluate LLM-generated code, automating compilation, execution, linting, and test orchestration to measure pass@k and correctness. Designed training/eval data pipelines with schema versioning and validation, and instrumented dashboards to track error rates and test failure modes.',
-    technologies: ['Python', 'TypeScript', 'Data Pipelines', 'LLM Evaluation'],
+    technologies: ['python', 'typescript', 'data-pipelines', 'llm-evaluation'],
     link: 'https://medium.com/@ggfincke/how-pass-k-is-used-to-evaluate-llm-coding-performance-296e5c4565bc',
   },
   {
+    id: 'pennsylvania-state-university-cmpsc-475-learning-assistant-ios-applications-programming',
     title: 'CMPSC 475 Learning Assistant (iOS / Applications Programming)',
     company: 'Pennsylvania State University',
-    dateRange: 'Aug 2024 — Dec 2024',
+    period: {
+      start: {
+        year: 2024,
+        month: 8,
+      },
+      end: {
+        year: 2024,
+        month: 12,
+      },
+    },
     description:
       'Mentored students in iOS/mobile application development using Swift and SwiftUI. Collaborated with faculty to tailor instruction based on student progress.',
-    technologies: ['Swift', 'SwiftUI', 'iOS'],
-    visibility: 'wide',
+    technologies: ['swift', 'swiftui', 'ios'],
+    showOnUltraWide: true,
   },
-  // omitted entries — excluded for space constraints
-  // {
-  //   title: 'CMPSC 475 Learning Assistant (iOS / Applications Programming)',
-  //   company: 'Pennsylvania State University',
-  //   dateRange: 'Aug 2024 — Dec 2024',
-  //   description:
-  //     'Mentored students in iOS/mobile application development using Swift & SwiftUI. Collaborated w/ faculty to tailor instruction based on student progress & technical challenges.',
-  //   technologies: ['Swift', 'SwiftUI', 'iOS'],
-  // },
-  // {
-  //   title: 'Owner / Operator',
-  //   company: 'Pink Ocean Collectibles',
-  //   dateRange: 'Apr 2020 — Present',
-  //   description:
-  //     'Build & operate multi-channel storefront w/ 2000+ sales, $75k+ lifetime profit, & 100% positive feedback.',
-  //   technologies: [],
-  // },
 ]

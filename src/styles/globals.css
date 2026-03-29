@@ -14,6 +14,7 @@
   --border: #3e445d;
   --ring: rgba(128, 203, 196, 0.45);
   --accent-contrast: var(--bg);
+  --ease-emphasized-out: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* semantic text colors from Material Theme Ocean HC */
   --white: #ffffff;
@@ -166,6 +167,11 @@ body
 {
   animation: expandFadeIn 0.2s ease-out 0.1s forwards;
   opacity: 0;
+}
+
+.ease-emphasized-out
+{
+  transition-timing-function: var(--ease-emphasized-out);
 }
 
 /* disable animations for users who prefer reduced motion */

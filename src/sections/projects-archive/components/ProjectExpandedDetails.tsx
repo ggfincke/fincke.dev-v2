@@ -1,14 +1,13 @@
 // src/sections/projects-archive/components/ProjectExpandedDetails.tsx
 // expanded project details section (shared between mobile & desktop)
 
-import { getProjectsBySkill } from '~/content/projects'
 import { ProjectLinks } from '~/shared/components/layout/ProjectLinks'
+import { ProjectCollaborators } from '~/shared/components/projects/ProjectCollaborators'
+import { ProjectTechnologies } from '~/shared/components/projects/ProjectTechnologies'
 import { StatusBadge } from '~/shared/components/ui/StatusBadge'
-import { TechPills } from '~/shared/components/ui/TechPills'
 import { VersionBadge } from '~/shared/components/ui/VersionBadge'
 import type { Project } from '~/shared/types'
-import { renderCollaborators } from '~/shared/utils/renderCollaborators'
-import { getLiveLabel } from '../utils/getLiveLabel'
+import { getProjectViewModel } from '~/shared/utils/projectViewModel'
 
 // props for expanded project details
 interface ProjectExpandedDetailsProps
@@ -23,6 +22,7 @@ export function ProjectExpandedDetails({
   variant = 'desktop',
 }: ProjectExpandedDetailsProps)
 {
+  const viewModel = getProjectViewModel(project)
   const isMobile = variant === 'mobile'
   const containerClass = isMobile
     ? 'mt-2 border border-[var(--border)] rounded-lg p-4 bg-[var(--card)]/50'
@@ -49,7 +49,7 @@ export function ProjectExpandedDetails({
                 <VersionBadge repoUrl={project.repoUrl} />
               </>
             )}
-            {project.dateRange}
+            {viewModel.periodLabel}
           </span>
         </div>
 
@@ -59,9 +59,10 @@ export function ProjectExpandedDetails({
             <h4 className="text-sm font-semibold text-[var(--accent)] mb-2">
               Collaborators
             </h4>
-            <p className="text-[var(--muted)]">
-              {renderCollaborators(project.collaborators)}
-            </p>
+            <ProjectCollaborators
+              collaborators={project.collaborators}
+              className="text-[var(--muted)]"
+            />
           </div>
         )}
 
@@ -116,19 +117,16 @@ export function ProjectExpandedDetails({
           >
             Technologies
           </h4>
-          <TechPills
+          <ProjectTechnologies
             technologies={project.technologies}
             size={skillSize}
-            showProjectsOnHover
-            getRelatedProjects={getProjectsBySkill}
+            showRelatedProjects
             className={`flex flex-wrap ${isMobile ? 'gap-2' : 'gap-x-3 gap-y-2'}`}
           />
         </div>
 
         {/* external links */}
-        {(project.repoUrl ||
-          project.liveUrl ||
-          (project.additionalLinks && project.additionalLinks.length > 0)) && (
+        {viewModel.hasLinks && (
           <div>
             <h4
               className={`text-sm font-semibold text-[var(--accent)] ${isMobile ? 'mb-2' : 'mb-3'}`}
@@ -141,10 +139,8 @@ export function ProjectExpandedDetails({
               additionalLinks={project.additionalLinks}
               variant="button"
               size={isMobile ? 'sm' : 'md'}
-              liveLabel={
-                project.liveUrl ? getLiveLabel(project.liveUrl) : undefined
-              }
               className={isMobile ? undefined : 'flex flex-wrap gap-4'}
+              contextLabel={project.title}
             />
           </div>
         )}

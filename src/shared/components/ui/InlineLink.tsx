@@ -3,6 +3,8 @@
 
 import type { ReactNode } from 'react'
 
+import { FOCUS_RING_CLASSES } from '~/shared/utils/classNames'
+
 // props for inline link
 interface InlineLinkProps
 {
@@ -20,7 +22,7 @@ export function InlineLink({
 {
   return (
     <a
-      className={`text-[var(--red)] underline decoration-[var(--red)]/40 underline-offset-4 transition hover:text-[var(--white)] hover:decoration-[var(--white)]/40 ${className}`}
+      className={`rounded-sm text-[var(--red)] underline decoration-[var(--red)]/40 underline-offset-4 transition hover:text-[var(--white)] hover:decoration-[var(--white)]/40 ${FOCUS_RING_CLASSES} ${className}`}
       href={href}
     >
       {children}
