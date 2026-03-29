@@ -1,8 +1,8 @@
 // src/content/home/socialLinks.ts
 // social media links data
 
-import type { SocialLink } from '~/shared/types';
-import { EMAIL } from './about';
+import type { SocialLink } from '~/shared/types'
+import { EMAIL } from './about'
 
 // social link entries w/ icons & URLs
 export const SOCIAL_LINKS: SocialLink[] = [
@@ -46,4 +46,4 @@ export const SOCIAL_LINKS: SocialLink[] = [
     url: 'https://youtube.com/@tterrag456',
     icon: 'youtube',
   },
-];
+]

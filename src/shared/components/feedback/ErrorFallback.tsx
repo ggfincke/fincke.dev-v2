@@ -1,25 +1,30 @@
 // src/shared/components/feedback/ErrorFallback.tsx
 // error fallback for route-level error boundary
 
-import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
+import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
 
 // route error fallback w/ reload action
-export function ErrorFallback() {
-  const error = useRouteError();
+export function ErrorFallback()
+{
+  const error = useRouteError()
 
-  let title = 'Something went wrong';
-  let message = 'An unexpected error occurred. Please try reloading the page.';
+  let title = 'Something went wrong'
+  let message = 'An unexpected error occurred. Please try reloading the page.'
 
-  if (isRouteErrorResponse(error)) {
-    title = `${error.status} ${error.statusText}`;
-    message = error.data?.toString() ?? message;
-  } else if (error instanceof Error) {
-    message = error.message;
+  if (isRouteErrorResponse(error))
+  {
+    title = `${error.status} ${error.statusText}`
+    message = error.data?.toString() ?? message
+  }
+  else if (error instanceof Error)
+  {
+    message = error.message
   }
 
-  const handleReload = () => {
-    window.location.href = '/';
-  };
+  const handleReload = () =>
+  {
+    window.location.href = '/'
+  }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg)] px-4 text-center">
@@ -36,5 +41,5 @@ export function ErrorFallback() {
         Go home
       </button>
     </div>
-  );
+  )
 }

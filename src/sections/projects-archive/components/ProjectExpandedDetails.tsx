@@ -1,32 +1,34 @@
 // src/sections/projects-archive/components/ProjectExpandedDetails.tsx
 // expanded project details section (shared between mobile & desktop)
 
-import { getProjectsBySkill } from '~/content/projects';
-import { ProjectLinks } from '~/shared/components/layout/ProjectLinks';
-import { StatusBadge } from '~/shared/components/ui/StatusBadge';
-import { TechPills } from '~/shared/components/ui/TechPills';
-import { VersionBadge } from '~/shared/components/ui/VersionBadge';
-import type { Project } from '~/shared/types';
-import { renderCollaborators } from '~/shared/utils/renderCollaborators';
-import { getLiveLabel } from '../utils/getLiveLabel';
+import { getProjectsBySkill } from '~/content/projects'
+import { ProjectLinks } from '~/shared/components/layout/ProjectLinks'
+import { StatusBadge } from '~/shared/components/ui/StatusBadge'
+import { TechPills } from '~/shared/components/ui/TechPills'
+import { VersionBadge } from '~/shared/components/ui/VersionBadge'
+import type { Project } from '~/shared/types'
+import { renderCollaborators } from '~/shared/utils/renderCollaborators'
+import { getLiveLabel } from '../utils/getLiveLabel'
 
 // props for expanded project details
-interface ProjectExpandedDetailsProps {
-  project: Project;
-  variant?: 'mobile' | 'desktop';
+interface ProjectExpandedDetailsProps
+{
+  project: Project
+  variant?: 'mobile' | 'desktop'
 }
 
 // expanded project details shared between mobile & desktop
 export function ProjectExpandedDetails({
   project,
   variant = 'desktop',
-}: ProjectExpandedDetailsProps) {
-  const isMobile = variant === 'mobile';
+}: ProjectExpandedDetailsProps)
+{
+  const isMobile = variant === 'mobile'
   const containerClass = isMobile
     ? 'mt-2 border border-[var(--border)] rounded-lg p-4 bg-[var(--card)]/50'
-    : 'px-6 pb-8 bg-[var(--card)]/50 border-b border-[var(--border)] transition-all duration-300';
-  const spacingClass = isMobile ? 'space-y-4' : 'space-y-6 pt-6';
-  const skillSize = isMobile ? 'xs' : 'md';
+    : 'px-6 pb-8 bg-[var(--card)]/50 border-b border-[var(--border)] transition-all duration-300'
+  const spacingClass = isMobile ? 'space-y-4' : 'space-y-6 pt-6'
+  const skillSize = isMobile ? 'xs' : 'md'
 
   return (
     <div className={containerClass}>
@@ -148,5 +150,5 @@ export function ProjectExpandedDetails({
         )}
       </div>
     </div>
-  );
+  )
 }

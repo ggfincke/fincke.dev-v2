@@ -1,16 +1,17 @@
 // src/app/App.tsx
 // main application component w/ layout & decorative effects
 
-import { Hero } from '~/sections/home/components/Hero';
-import { About } from '~/sections/home/components/About';
-import { SocialLinks } from '~/sections/home/components/SocialLinks';
-import { JobHistory } from '~/sections/experience/components/JobHistory';
-import { FeaturedProjects } from '~/sections/featured-projects/components/FeaturedProjects';
-import { GlowEffect } from '~/sections/home/components/GlowEffect';
-import { DecorativeWave } from '~/sections/home/components/DecorativeWave';
+import { Hero } from '~/sections/home/components/Hero'
+import { About } from '~/sections/home/components/About'
+import { SocialLinks } from '~/sections/home/components/SocialLinks'
+import { JobHistory } from '~/sections/experience/components/JobHistory'
+import { FeaturedProjects } from '~/sections/featured-projects/components/FeaturedProjects'
+import { GlowEffect } from '~/sections/home/components/GlowEffect'
+import { DecorativeWave } from '~/sections/home/components/DecorativeWave'
 
 // * Main app component
-function App() {
+function App()
+{
   return (
     <div className="relative min-h-screen overflow-hidden bg-[var(--bg)] text-[var(--muted)]">
       <a
@@ -44,7 +45,7 @@ function App() {
       <GlowEffect />
       <DecorativeWave />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

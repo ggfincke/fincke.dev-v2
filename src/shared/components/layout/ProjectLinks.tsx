@@ -1,23 +1,24 @@
 // src/shared/components/layout/ProjectLinks.tsx
 // shared links renderer for project repository & live links
 
-import type { ExternalLink } from '~/shared/types';
-import { getButtonClasses } from '~/shared/utils/classNames';
-import { ExternalLinkIcon } from '~/shared/components/ui/icons/ExternalLinkIcon';
-import { GitHubIcon } from '~/shared/components/ui/icons/GitHubIcon';
+import type { ExternalLink } from '~/shared/types'
+import { getButtonClasses } from '~/shared/utils/classNames'
+import { ExternalLinkIcon } from '~/shared/components/ui/icons/ExternalLinkIcon'
+import { GitHubIcon } from '~/shared/components/ui/icons/GitHubIcon'
 
 // link display variant type
-export type ProjectLinksVariant = 'icon' | 'button';
+export type ProjectLinksVariant = 'icon' | 'button'
 
 // props for project links
-interface ProjectLinksProps {
-  repoUrl?: string;
-  liveUrl?: string;
-  additionalLinks?: ExternalLink[];
-  variant?: ProjectLinksVariant;
-  size?: 'sm' | 'md';
-  liveLabel?: string;
-  className?: string;
+interface ProjectLinksProps
+{
+  repoUrl?: string
+  liveUrl?: string
+  additionalLinks?: ExternalLink[]
+  variant?: ProjectLinksVariant
+  size?: 'sm' | 'md'
+  liveLabel?: string
+  className?: string
 }
 
 // project links component w/ icon or button variants
@@ -29,16 +30,19 @@ export function ProjectLinks({
   size = 'sm',
   liveLabel,
   className,
-}: ProjectLinksProps) {
+}: ProjectLinksProps)
+{
   if (
     !repoUrl &&
     !liveUrl &&
     (!additionalLinks || additionalLinks.length === 0)
-  ) {
-    return null;
+  )
+  {
+    return null
   }
 
-  if (variant === 'button') {
+  if (variant === 'button')
+  {
     return (
       <div className={className ?? 'flex flex-wrap gap-2'}>
         {repoUrl && (
@@ -63,7 +67,7 @@ export function ProjectLinks({
             {liveLabel ? ` ${liveLabel}` : ' View Live Site'}
           </a>
         )}
-        {additionalLinks?.map(link => (
+        {additionalLinks?.map((link) => (
           <a
             key={link.url}
             href={link.url}
@@ -76,7 +80,7 @@ export function ProjectLinks({
           </a>
         ))}
       </div>
-    );
+    )
   }
 
   return (
@@ -103,7 +107,7 @@ export function ProjectLinks({
           <ExternalLinkIcon size={24} />
         </a>
       )}
-      {additionalLinks?.map(link => (
+      {additionalLinks?.map((link) => (
         <a
           key={link.url}
           href={link.url}
@@ -116,5 +120,5 @@ export function ProjectLinks({
         </a>
       ))}
     </div>
-  );
+  )
 }

@@ -1,16 +1,18 @@
 // src/shared/components/ui/icons/GitHubIcon.tsx
 // GitHub logo icon via simple-icons
 
-import { siGithub } from 'simple-icons';
+import { siGithub } from 'simple-icons'
 
 // props for GitHub icon
-interface GitHubIconProps {
-  size?: number;
-  className?: string;
+interface GitHubIconProps
+{
+  size?: number
+  className?: string
 }
 
 // GitHub logo SVG via simple-icons
-export function GitHubIcon({ size = 24, className }: GitHubIconProps) {
+export function GitHubIcon({ size = 24, className }: GitHubIconProps)
+{
   return (
     <svg
       width={size}
@@ -24,5 +26,5 @@ export function GitHubIcon({ size = 24, className }: GitHubIconProps) {
     >
       <path d={siGithub.path} />
     </svg>
-  );
+  )
 }

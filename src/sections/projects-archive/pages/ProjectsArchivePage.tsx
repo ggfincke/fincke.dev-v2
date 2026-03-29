@@ -1,12 +1,13 @@
 // src/sections/projects-archive/pages/ProjectsArchivePage.tsx
 // projects archive page w/ responsive table & card layouts
 
-import { Link } from 'react-router-dom';
-import { ChevronIcon } from '~/shared/components/ui/icons';
-import { ProjectsTable } from '../components/ProjectsTable';
+import { Link } from 'react-router-dom'
+import { ChevronIcon } from '~/shared/components/ui/icons'
+import { ProjectsTable } from '../components/ProjectsTable'
 
 // * Projects archive page component
-export function ProjectsArchivePage() {
+export function ProjectsArchivePage()
+{
   return (
     <div className="relative min-h-screen bg-[var(--bg)] text-[var(--muted)] overflow-y-auto">
       {/* skip nav link */}
@@ -47,5 +48,5 @@ export function ProjectsArchivePage() {
         </footer>
       </main>
     </div>
-  );
+  )
 }

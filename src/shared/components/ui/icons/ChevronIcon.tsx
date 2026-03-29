@@ -2,10 +2,11 @@
 // chevron icon w/ configurable direction
 
 // props for chevron icon
-interface ChevronIconProps {
-  size?: number;
-  className?: string;
-  direction?: 'left' | 'right';
+interface ChevronIconProps
+{
+  size?: number
+  className?: string
+  direction?: 'left' | 'right'
 }
 
 // chevron SVG w/ configurable direction
@@ -13,7 +14,8 @@ export function ChevronIcon({
   size = 16,
   className,
   direction = 'right',
-}: ChevronIconProps) {
+}: ChevronIconProps)
+{
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -30,5 +32,5 @@ export function ChevronIcon({
     >
       <path d="M9 18l6-6-6-6" />
     </svg>
-  );
+  )
 }

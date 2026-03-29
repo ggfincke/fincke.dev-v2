@@ -2,13 +2,15 @@
 // right arrow icon for navigation links
 
 // props for arrow icon
-interface ArrowIconProps {
-  size?: number;
-  className?: string;
+interface ArrowIconProps
+{
+  size?: number
+  className?: string
 }
 
 // right arrow SVG for navigation links
-export function ArrowIcon({ size = 16, className }: ArrowIconProps) {
+export function ArrowIcon({ size = 16, className }: ArrowIconProps)
+{
   return (
     <svg
       width={size}
@@ -26,5 +28,5 @@ export function ArrowIcon({ size = 16, className }: ArrowIconProps) {
         d="M17 8l4 4m0 0l-4 4m4-4H3"
       />
     </svg>
-  );
+  )
 }

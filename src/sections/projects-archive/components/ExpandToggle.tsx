@@ -1,16 +1,18 @@
 // src/sections/projects-archive/components/ExpandToggle.tsx
 // expandable row toggle button w/ chevron icon
 
-import { ChevronIcon } from '~/shared/components/ui/icons';
+import { ChevronIcon } from '~/shared/components/ui/icons'
 
 // props for expand toggle
-interface ExpandToggleProps {
-  expanded: boolean;
-  onToggle: () => void;
+interface ExpandToggleProps
+{
+  expanded: boolean
+  onToggle: () => void
 }
 
 // expandable row toggle button w/ chevron icon
-export function ExpandToggle({ expanded, onToggle }: ExpandToggleProps) {
+export function ExpandToggle({ expanded, onToggle }: ExpandToggleProps)
+{
   return (
     <button
       type="button"
@@ -25,5 +27,5 @@ export function ExpandToggle({ expanded, onToggle }: ExpandToggleProps) {
         className={`transform transition-transform duration-200 ${expanded ? 'rotate-90' : ''}`}
       />
     </button>
-  );
+  )
 }

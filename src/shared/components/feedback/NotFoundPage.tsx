@@ -1,10 +1,11 @@
 // src/shared/components/feedback/NotFoundPage.tsx
 // 404 not found page for unmatched routes
 
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
 // 404 page w/ back-to-home link
-export function NotFoundPage() {
+export function NotFoundPage()
+{
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg)] px-4 text-center">
       <h1 className="text-6xl font-bold text-[var(--accent)]">404</h1>
@@ -19,5 +20,5 @@ export function NotFoundPage() {
         Go home
       </Link>
     </div>
-  );
+  )
 }

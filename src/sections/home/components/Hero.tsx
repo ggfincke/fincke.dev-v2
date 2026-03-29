@@ -1,11 +1,12 @@
 // src/sections/home/components/Hero.tsx
 // hero section w/ name & tagline
 
-import { HERO_CONTENT } from '~/content/home';
-import { ANIMATION_DELAYS } from '~/shared/utils/animationConfig';
+import { HERO_CONTENT } from '~/content/home'
+import { ANIMATION_DELAYS } from '~/shared/utils/animationConfig'
 
 // hero section w/ name & tagline
-export function Hero() {
+export function Hero()
+{
   return (
     <div
       className="animate-slide-in-left opacity-0"
@@ -22,5 +23,5 @@ export function Hero() {
         </span>
       </p>
     </div>
-  );
+  )
 }

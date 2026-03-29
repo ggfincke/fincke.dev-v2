@@ -1,20 +1,21 @@
 // src/sections/experience/components/JobHistory.tsx
 // brief job history w/ link to full resume
 
-import { useMediaQuery } from '~/shared/hooks/useMediaQuery';
-import { WORK_EXPERIENCE } from '~/content/experience';
-import { BREAKPOINTS } from '~/shared/utils/breakpoints';
-import { ArrowIcon } from '~/shared/components/ui/icons';
-import { ANIMATION_DELAYS, staggerDelay } from '~/shared/utils/animationConfig';
-import { JobCard } from './JobCard';
+import { useMediaQuery } from '~/shared/hooks/useMediaQuery'
+import { WORK_EXPERIENCE } from '~/content/experience'
+import { BREAKPOINTS } from '~/shared/utils/breakpoints'
+import { ArrowIcon } from '~/shared/components/ui/icons'
+import { ANIMATION_DELAYS, staggerDelay } from '~/shared/utils/animationConfig'
+import { JobCard } from './JobCard'
 
 // job history section w/ resume link
-export function JobHistory() {
+export function JobHistory()
+{
   // filter jobs by viewport — wide shows additional entries
-  const showExpandedExperience = useMediaQuery(BREAKPOINTS.ultraWideWithHeight);
-  const visibleJobs = WORK_EXPERIENCE.filter(job =>
+  const showExpandedExperience = useMediaQuery(BREAKPOINTS.ultraWideWithHeight)
+  const visibleJobs = WORK_EXPERIENCE.filter((job) =>
     job.visibility === 'wide' ? showExpandedExperience : true
-  );
+  )
 
   return (
     <>
@@ -53,5 +54,5 @@ export function JobHistory() {
         <ArrowIcon />
       </a>
     </>
-  );
+  )
 }

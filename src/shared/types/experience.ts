@@ -10,11 +10,12 @@ export type SkillCategory =
   | 'mobile'
   | 'ai-ml'
   | 'tools'
-  | 'specialized';
+  | 'specialized'
 
 // individual skill entry shape
-export interface Skill {
-  name: string;
-  category: SkillCategory;
-  displayName?: string;
+export interface Skill
+{
+  name: string
+  category: SkillCategory
+  displayName?: string
 }

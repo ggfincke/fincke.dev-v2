@@ -1,20 +1,21 @@
 // src/sections/featured-projects/components/FeaturedProjects.tsx
 // featured projects highlight w/ link to full projects page
 
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
-import { getFeaturedProjects } from '~/content/projects';
-import { ArrowIcon } from '~/shared/components/ui/icons';
-import { useMediaQuery } from '~/shared/hooks/useMediaQuery';
-import { ANIMATION_DELAYS, staggerDelay } from '~/shared/utils/animationConfig';
-import { BREAKPOINTS } from '~/shared/utils/breakpoints';
-import { FeaturedProjectCard } from './FeaturedProjectCard';
+import { getFeaturedProjects } from '~/content/projects'
+import { ArrowIcon } from '~/shared/components/ui/icons'
+import { useMediaQuery } from '~/shared/hooks/useMediaQuery'
+import { ANIMATION_DELAYS, staggerDelay } from '~/shared/utils/animationConfig'
+import { BREAKPOINTS } from '~/shared/utils/breakpoints'
+import { FeaturedProjectCard } from './FeaturedProjectCard'
 
 // featured project cards w/ archive link
-export function FeaturedProjects() {
+export function FeaturedProjects()
+{
   // show extra projects on ultra-wide viewports
-  const showExpandedProjects = useMediaQuery(BREAKPOINTS.ultraWide);
-  const featured = getFeaturedProjects(showExpandedProjects);
+  const showExpandedProjects = useMediaQuery(BREAKPOINTS.ultraWide)
+  const featured = getFeaturedProjects(showExpandedProjects)
 
   return (
     <>
@@ -51,5 +52,5 @@ export function FeaturedProjects() {
         <ArrowIcon />
       </Link>
     </>
-  );
+  )
 }

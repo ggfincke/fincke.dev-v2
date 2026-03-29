@@ -1,7 +1,7 @@
 // src/shared/types/projects.ts
 // project & collaborator types
 
-import type { ReactNode } from 'react';
+import type { ReactNode } from 'react'
 
 // project lifecycle status union type
 export type ProjectStatus =
@@ -10,34 +10,37 @@ export type ProjectStatus =
   | 'paused'
   | 'complete'
   | 'experimental'
-  | 'planned';
+  | 'planned'
 
 // collaborator entry shape
-export interface Collaborator {
-  name: string;
-  url?: string;
+export interface Collaborator
+{
+  name: string
+  url?: string
 }
 
 // external link shape
-export interface ExternalLink {
-  url: string;
-  label: string;
+export interface ExternalLink
+{
+  url: string
+  label: string
 }
 
 // project entry shape
-export interface Project {
-  title: string;
-  tagline?: string;
-  dateRange: string;
-  status: ProjectStatus;
-  madeFor: string;
+export interface Project
+{
+  title: string
+  tagline?: string
+  dateRange: string
+  status: ProjectStatus
+  madeFor: string
 
-  bulletPoints: (string | ReactNode)[];
-  technologies: string[];
-  imagePath?: string;
-  imageAlt?: string;
-  repoUrl?: string;
-  liveUrl?: string;
-  additionalLinks?: ExternalLink[];
-  collaborators?: Collaborator[];
+  bulletPoints: (string | ReactNode)[]
+  technologies: string[]
+  imagePath?: string
+  imageAlt?: string
+  repoUrl?: string
+  liveUrl?: string
+  additionalLinks?: ExternalLink[]
+  collaborators?: Collaborator[]
 }

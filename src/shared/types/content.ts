@@ -2,32 +2,36 @@
 // content types for static site sections
 
 // about section content shape
-export interface AboutContent {
-  heading: string;
-  paragraphs: string[];
-  email: string;
+export interface AboutContent
+{
+  heading: string
+  paragraphs: string[]
+  email: string
 }
 
 // hero section content shape
-export interface HeroContent {
-  name: string;
+export interface HeroContent
+{
+  name: string
 }
 
 // work experience entry shape
-export interface WorkExperience {
-  title: string;
-  company: string;
-  dateRange: string;
-  description: string;
-  technologies?: string[];
-  link?: string;
-  visibility?: 'default' | 'wide';
+export interface WorkExperience
+{
+  title: string
+  company: string
+  dateRange: string
+  description: string
+  technologies?: string[]
+  link?: string
+  visibility?: 'default' | 'wide'
 }
 
 // social media link shape
-export interface SocialLink {
-  label: string;
-  url: string;
+export interface SocialLink
+{
+  label: string
+  url: string
   icon:
     | 'email'
     | 'github'
@@ -36,5 +40,5 @@ export interface SocialLink {
     | 'medium'
     | 'instagram'
     | 'twitter'
-    | 'youtube';
+    | 'youtube'
 }

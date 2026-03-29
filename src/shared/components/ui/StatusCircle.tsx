@@ -1,20 +1,22 @@
 // src/shared/components/ui/StatusCircle.tsx
 // circular status indicator w/ emoji & background color
 
-import type { CSSProperties } from 'react';
+import type { CSSProperties } from 'react'
 
-import type { ProjectStatus } from '~/shared/types';
-import { statusConfig } from '~/shared/utils/statusConfig';
+import type { ProjectStatus } from '~/shared/types'
+import { statusConfig } from '~/shared/utils/statusConfig'
 
 // props for status circle
-interface StatusCircleProps {
-  status: ProjectStatus;
-  size?: number;
+interface StatusCircleProps
+{
+  status: ProjectStatus
+  size?: number
 }
 
 // circular status indicator w/ emoji
-export function StatusCircle({ status, size = 32 }: StatusCircleProps) {
-  const statusDisplay = statusConfig[status];
+export function StatusCircle({ status, size = 32 }: StatusCircleProps)
+{
+  const statusDisplay = statusConfig[status]
 
   const style: CSSProperties = {
     width: `${size}px`,
@@ -23,7 +25,7 @@ export function StatusCircle({ status, size = 32 }: StatusCircleProps) {
     fontSize: `${Math.round(size * 0.5)}px`,
     backgroundColor: `var(${statusDisplay.colorVar})`,
     color: 'var(--bg)',
-  };
+  }
 
   return (
     <span
@@ -34,5 +36,5 @@ export function StatusCircle({ status, size = 32 }: StatusCircleProps) {
     >
       {statusDisplay.icon}
     </span>
-  );
+  )
 }

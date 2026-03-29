@@ -1,16 +1,17 @@
 // src/sections/projects-archive/components/ProjectMobileCard.tsx
 // mobile card view for project row
 
-import type { Project } from '~/shared/types';
-import { renderCollaborators } from '~/shared/utils/renderCollaborators';
-import { extractFirstYear } from '../utils/projectSort';
-import { ExpandToggle } from './ExpandToggle';
+import type { Project } from '~/shared/types'
+import { renderCollaborators } from '~/shared/utils/renderCollaborators'
+import { extractFirstYear } from '../utils/projectSort'
+import { ExpandToggle } from './ExpandToggle'
 
 // props for mobile project card
-interface ProjectMobileCardProps {
-  project: Project;
-  expanded: boolean;
-  onToggle: () => void;
+interface ProjectMobileCardProps
+{
+  project: Project
+  expanded: boolean
+  onToggle: () => void
 }
 
 // mobile card view for project row
@@ -18,8 +19,9 @@ export function ProjectMobileCard({
   project,
   expanded,
   onToggle,
-}: ProjectMobileCardProps) {
-  const year = extractFirstYear(project.dateRange);
+}: ProjectMobileCardProps)
+{
+  const year = extractFirstYear(project.dateRange)
 
   return (
     <div className="border border-[var(--border)] rounded-lg p-4 bg-[var(--card)]/30 hover:bg-[var(--card)]/50 transition-colors">
@@ -40,5 +42,5 @@ export function ProjectMobileCard({
         <ExpandToggle expanded={expanded} onToggle={onToggle} />
       </div>
     </div>
-  );
+  )
 }

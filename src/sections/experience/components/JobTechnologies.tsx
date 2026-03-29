@@ -1,17 +1,20 @@
 // src/sections/experience/components/JobTechnologies.tsx
 // technology pills for job experience
 
-import { TechPills } from '~/shared/components/ui/TechPills';
+import { TechPills } from '~/shared/components/ui/TechPills'
 
 // props for job technologies list
-interface JobTechnologiesProps {
-  technologies: string[];
+interface JobTechnologiesProps
+{
+  technologies: string[]
 }
 
 // technology pills for job experience
-export function JobTechnologies({ technologies }: JobTechnologiesProps) {
-  if (!technologies || technologies.length === 0) {
-    return null;
+export function JobTechnologies({ technologies }: JobTechnologiesProps)
+{
+  if (!technologies || technologies.length === 0)
+  {
+    return null
   }
 
   return (
@@ -21,5 +24,5 @@ export function JobTechnologies({ technologies }: JobTechnologiesProps) {
       as="ul"
       className="mt-2 flex flex-wrap gap-2"
     />
-  );
+  )
 }

@@ -1,24 +1,26 @@
 // src/shared/components/ui/StatusBadge.tsx
 // project status badge w/ emoji & color-coded styling
 
-import type { CSSProperties } from 'react';
+import type { CSSProperties } from 'react'
 
-import type { ProjectStatus } from '~/shared/types';
-import { statusConfig } from '~/shared/utils/statusConfig';
+import type { ProjectStatus } from '~/shared/types'
+import { statusConfig } from '~/shared/utils/statusConfig'
 
 // props for status badge
-interface StatusBadgeProps {
-  status: ProjectStatus;
+interface StatusBadgeProps
+{
+  status: ProjectStatus
 }
 
 // status badge w/ emoji & color-coded styling
-export function StatusBadge({ status }: StatusBadgeProps) {
-  const statusDisplay = statusConfig[status];
+export function StatusBadge({ status }: StatusBadgeProps)
+{
+  const statusDisplay = statusConfig[status]
 
   const style = {
     color: `var(${statusDisplay.colorVar})`,
     backgroundColor: `var(${statusDisplay.bgColorVar})`,
-  } satisfies CSSProperties;
+  } satisfies CSSProperties
 
   return (
     <span
@@ -28,5 +30,5 @@ export function StatusBadge({ status }: StatusBadgeProps) {
     >
       {statusDisplay.icon} {statusDisplay.label}
     </span>
-  );
+  )
 }
