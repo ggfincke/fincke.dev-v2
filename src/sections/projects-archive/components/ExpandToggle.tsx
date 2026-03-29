@@ -17,14 +17,14 @@ export function ExpandToggle({ expanded, onToggle }: ExpandToggleProps)
     <button
       type="button"
       onClick={onToggle}
-      className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors p-1 rounded hover:bg-[var(--card)] flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+      className={`p-1 rounded flex-shrink-0 transition-all duration-150 hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] ${expanded ? 'bg-[var(--accent)]/10 text-[var(--accent)]' : 'text-[var(--muted)] hover:text-[var(--accent)] hover:bg-[var(--card)]'}`}
       aria-expanded={expanded}
       aria-label={
         expanded ? 'Collapse project details' : 'Expand project details'
       }
     >
       <ChevronIcon
-        className={`transform transition-transform duration-200 ${expanded ? 'rotate-90' : ''}`}
+        className={`transform transition-transform duration-300 ${expanded ? 'rotate-90' : ''}`}
       />
     </button>
   )
