@@ -7,14 +7,10 @@ import { launch } from 'chrome-launcher'
 import lighthouse from 'lighthouse'
 import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import { join } from 'path'
+import { PUBLIC_ROUTES } from './lib/siteManifest'
 
 const BASE_URL = 'http://localhost:4173'
 const REPORTS_DIR = join(import.meta.dirname, '..', 'reports')
-
-const ROUTES = [
-  { path: '/', slug: 'home' },
-  { path: '/projects', slug: 'projects' },
-]
 
 const CATEGORIES = [
   'performance',
@@ -59,7 +55,7 @@ async function main()
     error?: string
   }[] = []
 
-  for (const route of ROUTES)
+  for (const route of PUBLIC_ROUTES)
   {
     const url = `${BASE_URL}${route.path}`
     console.log(`\nAuditing ${url}...`)

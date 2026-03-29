@@ -1,13 +1,12 @@
-name: CI
+name: Content Health
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  schedule:
+    - cron: '0 14 * * 1'
+  workflow_dispatch:
 
 jobs:
-  check:
+  content-health:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -16,4 +15,5 @@ jobs:
           node-version: '22'
           cache: 'npm'
       - run: npm ci
-      - run: npm run ci:check
+      - run: npm run typecheck
+      - run: npm run content:health

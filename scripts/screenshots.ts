@@ -5,6 +5,7 @@
 import { chromium } from 'playwright'
 import { existsSync, mkdirSync, statSync } from 'fs'
 import { join } from 'path'
+import { PUBLIC_ROUTES } from './lib/siteManifest'
 
 const BASE_URL = 'http://localhost:5173'
 const OUT_DIR = join(import.meta.dirname, '..', 'screenshots')
@@ -34,11 +35,6 @@ const VIEWPORTS = [
   // 4K monitors (physical 3840x2160, typical OS scaling → CSS viewport)
   { name: '4K-150pct', width: 2560, height: 1440, dpr: 1.5 },
   { name: '4K-200pct', width: 1920, height: 1080, dpr: 2 },
-]
-
-const ROUTES = [
-  { path: '/', slug: 'home' },
-  { path: '/projects', slug: 'projects' },
 ]
 
 function formatSize(bytes: number): string
@@ -76,7 +72,7 @@ async function main()
   if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true })
 
   console.log(
-    `\nCapturing ${VIEWPORTS.length} viewports x ${ROUTES.length} routes...\n`
+    `\nCapturing ${VIEWPORTS.length} viewports x ${PUBLIC_ROUTES.length} routes...\n`
   )
 
   const browser = await chromium.launch()
@@ -97,7 +93,7 @@ async function main()
     })
     const page = await context.newPage()
 
-    for (const route of ROUTES)
+    for (const route of PUBLIC_ROUTES)
     {
       const filename = `${vp.name}__${route.slug}.png`
       const filepath = join(OUT_DIR, filename)
