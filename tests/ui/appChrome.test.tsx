@@ -19,7 +19,7 @@ describe('app chrome routes', () =>
       screen.getAllByRole('link', { name: 'Skip to content' })
     ).toHaveLength(1)
     expect(screen.getByRole('main')).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'About' })).toBeInTheDocument()
+    expect(screen.getByRole('region', { name: 'About' })).toBeInTheDocument()
   })
 
   it('renders the shared skip link and archive content on the projects route', async () =>

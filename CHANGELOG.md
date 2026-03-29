@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0] - 2026-03-29
+
+### Added
+
+- Centralized technology registry replacing the old skills index and skill-to-project mappings
+- Vitest infrastructure with jsdom environment and comprehensive test suite (content contracts, selectors, view models, date formatting, link policy, asset validation, technology registry, UI rendering)
+- New shared components: `PageShell`, `SkipLink`, `ActionLink`, `ExternalLink`, `IconLink`, `FullScreenMessagePage`, `ProjectIdentity`, `ProjectTechnologies`, `ProjectCollaborators`, `ProjectExpansionPanel`
+- Shared utilities: `dateSpan`, `linkProps`, `projectViewModel`, `interaction`, `animationConfig`
+- Content-health CI workflow for automated content validation
+- Script libraries: `assetValidation`, `contentInventory`, `linkPolicy`, `siteManifest`
+- Architecture and screenshots documentation (`docs/`)
+- Split shared types into focused modules: `dates`, `home`, `technology`
+
+### Changed
+
+- Hero subtitle simplified to "Software Engineer · Pittsburgh, PA" with muted styling
+- About section heading removed; uses `aria-label` instead of `aria-labelledby`
+- Restructured all section components to use technology registry, shared project components, and new utilities
+- Replaced `techColors` and `renderCollaborators` with new utility modules
+- Migrated project entries to use technology registry references
+- Simplified `App.tsx` with new `HomePage` module and updated router configuration
+- Refactored `SkillPill`, `ProjectLinks`, `InteractiveCard`, and archive components
+- Consolidated content barrel exports and updated selectors
+- Streamlined CI and release workflows
+- Refactored validation and link-checking scripts with shared script utilities
+
+### Removed
+
+- `techColors.ts`, `renderCollaborators.tsx`, `skillMappings.ts`, `skills/index.ts`
+- `FeaturedProjectHeader`, `FeaturedProjectTechnologies`, `JobTechnologies` components
+- `projectSort.ts` utility
+- `featured.ts` selector (consolidated into `selectors.ts`)
+- `content/index.ts` barrel (replaced by direct imports)
+
 ## [2.5.0] - 2026-03-29
 
 ### Added
