@@ -53,6 +53,8 @@ body
 {
   background: var(--bg);
   color: var(--muted);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 /* custom scrollbar styling */
@@ -146,12 +148,33 @@ body
   animation: slideInUp 0.5s ease-out forwards;
 }
 
+/* expand/collapse content fade-in */
+@keyframes expandFadeIn
+{
+  from
+  {
+    opacity: 0;
+  }
+
+  to
+  {
+    opacity: 1;
+  }
+}
+
+.expand-content-enter
+{
+  animation: expandFadeIn 0.2s ease-out 0.1s forwards;
+  opacity: 0;
+}
+
 /* disable animations for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce)
 {
   .animate-slide-in-left,
   .animate-slide-in-up,
-  .animate-fadeIn
+  .animate-fadeIn,
+  .expand-content-enter
   {
     animation: none;
     opacity: 1;
