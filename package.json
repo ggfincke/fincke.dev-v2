@@ -15,7 +15,9 @@
     "check-links": "npx tsx scripts/check-links.ts",
     "validate-assets": "npx tsx scripts/validate-assets.ts",
     "lighthouse": "npx tsx scripts/lighthouse.ts",
-    "analyze": "npx vite-bundle-visualizer --output reports/bundle.html"
+    "analyze": "npx vite-bundle-visualizer --output reports/bundle.html",
+    "preversion": "node scripts/check-changelog.mjs",
+    "version": "git add CHANGELOG.md"
   },
   "dependencies": {
     "react": "^19.1.1",
@@ -26,8 +28,8 @@
   "prettier": "@ggfincke/prettier-config",
   "devDependencies": {
     "@eslint/js": "^9.36.0",
-    "@ggfincke/eslint-config": "file:../../eslint-config",
-    "@ggfincke/prettier-config": "file:../../prettier-config",
+    "@ggfincke/eslint-config": "file:packages/eslint-config",
+    "@ggfincke/prettier-config": "file:packages/prettier-config",
     "@tailwindcss/vite": "^4.1.18",
     "@types/node": "^24.6.1",
     "@types/react": "^19.1.13",

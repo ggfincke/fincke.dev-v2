@@ -1,0 +1,8 @@
+{
+  "name": "@ggfincke/eslint-config",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    "./rules": "./rules/index.js"
+  }
+}

@@ -1,0 +1,12 @@
+const config = {
+  plugins: ['prettier-plugin-brace-style'],
+  braceStyle: 'allman',
+  semi: false,
+  singleQuote: true,
+  trailingComma: 'es5',
+  tabWidth: 2,
+  printWidth: 80,
+  arrowParens: 'always',
+}
+
+export default config

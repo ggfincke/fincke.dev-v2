@@ -1,0 +1,12 @@
+{
+  "name": "@ggfincke/prettier-config",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": "./index.js",
+  "dependencies": {
+    "prettier-plugin-brace-style": "^0.8.2"
+  },
+  "peerDependencies": {
+    "prettier": ">=3.0.0"
+  }
+}
