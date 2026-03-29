@@ -1,29 +1,36 @@
 // src/shared/utils/renderCollaborators.tsx
 // shared renderer for collaborators w/ optional link support
 
-import type { ReactNode } from 'react';
+import type { ReactNode } from 'react'
 
-import type { Collaborator } from '~/shared/types';
+import type { Collaborator } from '~/shared/types'
 
 // accepted collaborator input types
 export type CollaboratorsValue =
   | string
   | string[]
   | Collaborator
-  | Collaborator[];
+  | Collaborator[]
 
 // render collaborators as text or links
-export function renderCollaborators(value: CollaboratorsValue): ReactNode {
-  if (typeof value === 'string') {
-    return value;
+export function renderCollaborators(value: CollaboratorsValue): ReactNode
+{
+  if (typeof value === 'string')
+  {
+    return value
   }
 
-  if (Array.isArray(value) && value.every(entry => typeof entry === 'string')) {
-    return (value as string[]).join(', ');
+  if (
+    Array.isArray(value) &&
+    value.every((entry) => typeof entry === 'string')
+  )
+  {
+    return (value as string[]).join(', ')
   }
 
-  if (!Array.isArray(value) && typeof value === 'object') {
-    const collab = value as Collaborator;
+  if (!Array.isArray(value) && typeof value === 'object')
+  {
+    const collab = value as Collaborator
     return collab.url ? (
       <a
         href={collab.url}
@@ -35,10 +42,14 @@ export function renderCollaborators(value: CollaboratorsValue): ReactNode {
       </a>
     ) : (
       collab.name
-    );
+    )
   }
 
-  if (Array.isArray(value) && value.every(entry => typeof entry === 'object')) {
+  if (
+    Array.isArray(value) &&
+    value.every((entry) => typeof entry === 'object')
+  )
+  {
     return (value as Collaborator[]).map((collab, index, arr) => (
       <span key={collab.name}>
         {collab.url ? (
@@ -55,8 +66,8 @@ export function renderCollaborators(value: CollaboratorsValue): ReactNode {
         )}
         {index < arr.length - 1 ? ', ' : ''}
       </span>
-    ));
+    ))
   }
 
-  return null;
+  return null
 }

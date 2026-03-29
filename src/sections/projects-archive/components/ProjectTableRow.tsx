@@ -1,21 +1,22 @@
 // src/sections/projects-archive/components/ProjectTableRow.tsx
 // desktop table row for project
 
-import { getProjectsBySkill } from '~/content/projects';
-import { ProjectLinks } from '~/shared/components/layout/ProjectLinks';
-import { StatusCircle } from '~/shared/components/ui/StatusCircle';
-import { TechPills } from '~/shared/components/ui/TechPills';
-import type { Project } from '~/shared/types';
-import { renderCollaborators } from '~/shared/utils/renderCollaborators';
-import { getLiveLabel } from '../utils/getLiveLabel';
-import { extractFirstYear } from '../utils/projectSort';
-import { ExpandToggle } from './ExpandToggle';
+import { getProjectsBySkill } from '~/content/projects'
+import { ProjectLinks } from '~/shared/components/layout/ProjectLinks'
+import { StatusCircle } from '~/shared/components/ui/StatusCircle'
+import { TechPills } from '~/shared/components/ui/TechPills'
+import type { Project } from '~/shared/types'
+import { renderCollaborators } from '~/shared/utils/renderCollaborators'
+import { getLiveLabel } from '../utils/getLiveLabel'
+import { extractFirstYear } from '../utils/projectSort'
+import { ExpandToggle } from './ExpandToggle'
 
 // props for project table row
-interface ProjectTableRowProps {
-  project: Project;
-  expanded: boolean;
-  onToggle: () => void;
+interface ProjectTableRowProps
+{
+  project: Project
+  expanded: boolean
+  onToggle: () => void
 }
 
 // desktop table row for project
@@ -23,8 +24,9 @@ export function ProjectTableRow({
   project,
   expanded,
   onToggle,
-}: ProjectTableRowProps) {
-  const year = extractFirstYear(project.dateRange);
+}: ProjectTableRowProps)
+{
+  const year = extractFirstYear(project.dateRange)
 
   return (
     <tr className="border-b border-[var(--border)] hover:bg-[var(--card)] transition-colors">
@@ -71,5 +73,5 @@ export function ProjectTableRow({
         />
       </td>
     </tr>
-  );
+  )
 }

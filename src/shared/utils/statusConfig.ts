@@ -1,14 +1,15 @@
 // src/shared/utils/statusConfig.ts
 // shared status configuration for badges & indicators
 
-import type { ProjectStatus } from '~/shared/types';
+import type { ProjectStatus } from '~/shared/types'
 
 // status display configuration shape
-interface StatusConfig {
-  icon: string;
-  label: string;
-  colorVar: string;
-  bgColorVar: string;
+interface StatusConfig
+{
+  icon: string
+  label: string
+  colorVar: string
+  bgColorVar: string
 }
 
 // status-to-display mapping for all project statuses
@@ -49,4 +50,4 @@ export const statusConfig: Record<ProjectStatus, StatusConfig> = {
     colorVar: '--status-live',
     bgColorVar: '--status-live-bg',
   },
-};
+}

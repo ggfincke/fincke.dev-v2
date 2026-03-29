@@ -6,11 +6,11 @@ export type {
   HeroContent,
   WorkExperience,
   SocialLink,
-} from './content';
-export type { Skill, SkillCategory } from './experience';
+} from './content'
+export type { Skill, SkillCategory } from './experience'
 export type {
   Project,
   Collaborator,
   ProjectStatus,
   ExternalLink,
-} from './projects';
+} from './projects'

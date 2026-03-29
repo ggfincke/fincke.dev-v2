@@ -1,7 +1,7 @@
 // src/content/experience/workExperience.ts
 // work experience timeline data
 
-import type { WorkExperience } from '~/shared/types';
+import type { WorkExperience } from '~/shared/types'
 
 // work experience timeline entries
 export const WORK_EXPERIENCE: WorkExperience[] = [
@@ -29,7 +29,7 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
   //   company: 'Pennsylvania State University',
   //   dateRange: 'Aug 2024 — Dec 2024',
   //   description:
-  //     'Mentored students in iOS/mobile application development using Swift and SwiftUI. Collaborated with faculty to tailor instruction based on student progress and technical challenges.',
+  //     'Mentored students in iOS/mobile application development using Swift & SwiftUI. Collaborated w/ faculty to tailor instruction based on student progress & technical challenges.',
   //   technologies: ['Swift', 'SwiftUI', 'iOS'],
   // },
   // {
@@ -37,7 +37,7 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
   //   company: 'Pink Ocean Collectibles',
   //   dateRange: 'Apr 2020 — Present',
   //   description:
-  //     'Build and operate multi-channel storefront with 2000+ sales, $75k+ lifetime profit, and 100% positive feedback.',
+  //     'Build & operate multi-channel storefront w/ 2000+ sales, $75k+ lifetime profit, & 100% positive feedback.',
   //   technologies: [],
   // },
-];
+]

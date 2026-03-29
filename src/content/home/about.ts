@@ -1,10 +1,10 @@
 // src/content/home/about.ts
 // about section content
 
-import type { AboutContent } from '~/shared/types';
+import type { AboutContent } from '~/shared/types'
 
 // shared email constant
-export const EMAIL = 'garrettfincke@gmail.com';
+export const EMAIL = 'garrettfincke@gmail.com'
 
 // about section copy & email
 export const ABOUT_CONTENT: AboutContent = {
@@ -14,4 +14,4 @@ export const ABOUT_CONTENT: AboutContent = {
     "I'm big on consistency, whether that's in code or in training. I've completed an Ironman 70.3, and outside of work I'm usually building side projects, iterating on tools I use a lot, and making small improvements where I can.",
   ],
   email: EMAIL,
-};
+}

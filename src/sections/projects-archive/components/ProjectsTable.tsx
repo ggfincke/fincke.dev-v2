@@ -1,40 +1,44 @@
 // src/sections/projects-archive/components/ProjectsTable.tsx
 // comprehensive projects table w/ responsive card & table layouts
 
-import { useMemo } from 'react';
+import { useMemo } from 'react'
 
-import { useMediaQuery } from '~/shared/hooks/useMediaQuery';
-import { useExpandableRows } from '../hooks/useExpandableRows';
-import { extractLatestYear, extractLatestMonth } from '../utils/projectSort';
-import { ProjectMobileCard } from './ProjectMobileCard';
-import { ProjectTableRow } from './ProjectTableRow';
-import { ProjectExpandedDetails } from './ProjectExpandedDetails';
-import { getAllProjects } from '~/content/projects';
+import { useMediaQuery } from '~/shared/hooks/useMediaQuery'
+import { useExpandableRows } from '../hooks/useExpandableRows'
+import { extractLatestYear, extractLatestMonth } from '../utils/projectSort'
+import { ProjectMobileCard } from './ProjectMobileCard'
+import { ProjectTableRow } from './ProjectTableRow'
+import { ProjectExpandedDetails } from './ProjectExpandedDetails'
+import { getAllProjects } from '~/content/projects'
 
 // * Projects table component w/ expandable rows
-export function ProjectsTable() {
-  const projects = useMemo(() => getAllProjects(), []);
-  const isDesktop = useMediaQuery('(min-width: 768px)');
-  const shouldShowCards = !isDesktop;
-  const shouldShowTable = isDesktop;
-  const { toggleRow, isExpanded } = useExpandableRows<number>();
+export function ProjectsTable()
+{
+  const projects = useMemo(() => getAllProjects(), [])
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+  const shouldShowCards = !isDesktop
+  const shouldShowTable = isDesktop
+  const { toggleRow, isExpanded } = useExpandableRows<number>()
 
   // sort projects by date desc to surface newest first
-  const sortedProjects = useMemo(() => {
-    return [...projects].sort((a, b) => {
-      const yearA = extractLatestYear(a.dateRange);
-      const yearB = extractLatestYear(b.dateRange);
+  const sortedProjects = useMemo(() =>
+  {
+    return [...projects].sort((a, b) =>
+    {
+      const yearA = extractLatestYear(a.dateRange)
+      const yearB = extractLatestYear(b.dateRange)
 
-      if (yearA !== yearB) {
-        return yearB - yearA;
+      if (yearA !== yearB)
+      {
+        return yearB - yearA
       }
 
-      const monthA = extractLatestMonth(a.dateRange);
-      const monthB = extractLatestMonth(b.dateRange);
+      const monthA = extractLatestMonth(a.dateRange)
+      const monthB = extractLatestMonth(b.dateRange)
 
-      return monthB - monthA;
-    });
-  }, [projects]);
+      return monthB - monthA
+    })
+  }, [projects])
 
   return (
     <div className="overflow-x-auto">
@@ -42,8 +46,9 @@ export function ProjectsTable() {
       {shouldShowCards && (
         <div className="block md:hidden">
           <div className="space-y-4">
-            {sortedProjects.map((project, index) => {
-              const expanded = isExpanded(index);
+            {sortedProjects.map((project, index) =>
+            {
+              const expanded = isExpanded(index)
 
               return (
                 <div key={`mobile-project-${project.title}`}>
@@ -60,7 +65,7 @@ export function ProjectsTable() {
                     />
                   )}
                 </div>
-              );
+              )
             })}
           </div>
         </div>
@@ -93,8 +98,9 @@ export function ProjectsTable() {
             </tr>
           </thead>
           <tbody>
-            {sortedProjects.flatMap((project, index) => {
-              const expanded = isExpanded(index);
+            {sortedProjects.flatMap((project, index) =>
+            {
+              const expanded = isExpanded(index)
 
               const mainRow = (
                 <ProjectTableRow
@@ -103,10 +109,11 @@ export function ProjectsTable() {
                   expanded={expanded}
                   onToggle={() => toggleRow(index)}
                 />
-              );
+              )
 
-              if (!expanded) {
-                return [mainRow];
+              if (!expanded)
+              {
+                return [mainRow]
               }
 
               const expandedRow = (
@@ -118,13 +125,13 @@ export function ProjectsTable() {
                     />
                   </td>
                 </tr>
-              );
+              )
 
-              return [mainRow, expandedRow];
+              return [mainRow, expandedRow]
             })}
           </tbody>
         </table>
       )}
     </div>
-  );
+  )
 }

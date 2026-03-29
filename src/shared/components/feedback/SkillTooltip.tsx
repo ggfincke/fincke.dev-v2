@@ -1,23 +1,24 @@
 // src/shared/components/feedback/SkillTooltip.tsx
 // interactive tooltip for skill pills w/ related projects
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react'
 
-import { StatusCircle } from '~/shared/components/ui/StatusCircle';
-import type { Project } from '~/shared/types';
+import { StatusCircle } from '~/shared/components/ui/StatusCircle'
+import type { Project } from '~/shared/types'
 
 // space between tooltip & target element
-const TOOLTIP_SPACING = 6;
+const TOOLTIP_SPACING = 6
 // minimum gap from viewport edge
-const VIEWPORT_PADDING = 8;
-const MAX_VISIBLE_PROJECTS = 6;
+const VIEWPORT_PADDING = 8
+const MAX_VISIBLE_PROJECTS = 6
 
 // props for skill tooltip
-interface SkillTooltipProps {
-  id: string;
-  projects: Project[];
-  isVisible: boolean;
-  targetRef: React.RefObject<HTMLElement | null>;
+interface SkillTooltipProps
+{
+  id: string
+  projects: Project[]
+  isVisible: boolean
+  targetRef: React.RefObject<HTMLElement | null>
 }
 
 // skill tooltip w/ related projects list
@@ -26,46 +27,53 @@ export function SkillTooltip({
   projects,
   isVisible,
   targetRef,
-}: SkillTooltipProps) {
-  const tooltipRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ top: 0, left: 0, arrowLeft: 0 });
+}: SkillTooltipProps)
+{
+  const tooltipRef = useRef<HTMLDivElement>(null)
+  const [position, setPosition] = useState({ top: 0, left: 0, arrowLeft: 0 })
 
   // compute tooltip position w/ target metrics
-  useEffect(() => {
-    if (!isVisible || !targetRef.current || !tooltipRef.current) {
-      return;
+  useEffect(() =>
+  {
+    if (!isVisible || !targetRef.current || !tooltipRef.current)
+    {
+      return
     }
 
-    const targetRect = targetRef.current.getBoundingClientRect();
-    const tooltipRect = tooltipRef.current.getBoundingClientRect();
+    const targetRect = targetRef.current.getBoundingClientRect()
+    const tooltipRect = tooltipRef.current.getBoundingClientRect()
 
-    let top = targetRect.top - tooltipRect.height - TOOLTIP_SPACING;
-    let left = targetRect.left + targetRect.width / 2 - tooltipRect.width / 2;
+    let top = targetRect.top - tooltipRect.height - TOOLTIP_SPACING
+    let left = targetRect.left + targetRect.width / 2 - tooltipRect.width / 2
 
-    if (top < VIEWPORT_PADDING) {
-      top = targetRect.bottom + TOOLTIP_SPACING;
+    if (top < VIEWPORT_PADDING)
+    {
+      top = targetRect.bottom + TOOLTIP_SPACING
     }
 
-    if (left < VIEWPORT_PADDING) {
-      left = VIEWPORT_PADDING;
+    if (left < VIEWPORT_PADDING)
+    {
+      left = VIEWPORT_PADDING
     }
 
-    if (left + tooltipRect.width > window.innerWidth - VIEWPORT_PADDING) {
-      left = window.innerWidth - tooltipRect.width - VIEWPORT_PADDING;
+    if (left + tooltipRect.width > window.innerWidth - VIEWPORT_PADDING)
+    {
+      left = window.innerWidth - tooltipRect.width - VIEWPORT_PADDING
     }
 
     // arrow should point at target center
-    const targetCenter = targetRect.left + targetRect.width / 2;
+    const targetCenter = targetRect.left + targetRect.width / 2
     const arrowLeft = Math.max(
       8,
       Math.min(targetCenter - left, tooltipRect.width - 8)
-    );
+    )
 
-    setPosition({ top, left, arrowLeft });
-  }, [isVisible, projects.length, targetRef]);
+    setPosition({ top, left, arrowLeft })
+  }, [isVisible, projects.length, targetRef])
 
-  if (!isVisible || projects.length === 0) {
-    return null;
+  if (!isVisible || projects.length === 0)
+  {
+    return null
   }
 
   return (
@@ -80,7 +88,7 @@ export function SkillTooltip({
         Related Projects ({projects.length})
       </div>
       <div className="space-y-2">
-        {projects.slice(0, MAX_VISIBLE_PROJECTS).map(project => (
+        {projects.slice(0, MAX_VISIBLE_PROJECTS).map((project) => (
           <div key={project.title} className="flex items-center gap-2">
             <StatusCircle status={project.status} size={18} />
             <span className="text-sm text-[var(--muted)] truncate">
@@ -103,5 +111,5 @@ export function SkillTooltip({
         }}
       />
     </div>
-  );
+  )
 }

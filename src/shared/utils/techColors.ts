@@ -8,11 +8,12 @@ export type TechCategory =
   | 'infra'
   | 'data'
   | 'tooling'
-  | 'platform';
+  | 'platform'
 
 // tech name to category lookup map
-interface TechColorMap {
-  [key: string]: TechCategory;
+interface TechColorMap
+{
+  [key: string]: TechCategory
 }
 
 // master tech-to-category mapping
@@ -178,11 +179,12 @@ const TECH_COLOR_MAP: TechColorMap = {
   DenseNet: 'data',
   'Random Fourier Features': 'data',
   'Statistical Methods': 'data',
-};
+}
 
 // normalize tech name for case-insensitive lookup
-function normalizeTech(tech: string): string {
-  return tech.trim().toLowerCase();
+function normalizeTech(tech: string): string
+{
+  return tech.trim().toLowerCase()
 }
 
 // case-insensitive lookup table built from TECH_COLOR_MAP
@@ -191,7 +193,7 @@ const NORMALIZED_TECH_MAP: TechColorMap = Object.fromEntries(
     normalizeTech(key),
     value,
   ])
-);
+)
 
 // category-to-CSS-variable mapping
 const CATEGORY_COLOR_VAR: Record<TechCategory, string> = {
@@ -201,7 +203,7 @@ const CATEGORY_COLOR_VAR: Record<TechCategory, string> = {
   data: 'var(--yellow)',
   tooling: 'var(--orange)',
   platform: 'var(--cyan)',
-};
+}
 
 // category-to-background-color mapping (CSS variables defined in globals.css)
 const CATEGORY_BG: Record<TechCategory, string> = {
@@ -211,18 +213,20 @@ const CATEGORY_BG: Record<TechCategory, string> = {
   data: 'var(--tech-bg-data)',
   tooling: 'var(--tech-bg-tooling)',
   platform: 'var(--tech-bg-platform)',
-};
+}
 
 // get text color for a technology pill
-export function getTechColor(tech: string): string {
-  const category = NORMALIZED_TECH_MAP[normalizeTech(tech)];
-  if (!category) return 'var(--muted)';
-  return CATEGORY_COLOR_VAR[category] ?? 'var(--muted)';
+export function getTechColor(tech: string): string
+{
+  const category = NORMALIZED_TECH_MAP[normalizeTech(tech)]
+  if (!category) return 'var(--muted)'
+  return CATEGORY_COLOR_VAR[category] ?? 'var(--muted)'
 }
 
 // get background color for a technology pill
-export function getTechBgColor(tech: string): string {
-  const category = NORMALIZED_TECH_MAP[normalizeTech(tech)];
-  if (!category) return 'var(--card)';
-  return CATEGORY_BG[category] ?? 'var(--card)';
+export function getTechBgColor(tech: string): string
+{
+  const category = NORMALIZED_TECH_MAP[normalizeTech(tech)]
+  if (!category) return 'var(--card)'
+  return CATEGORY_BG[category] ?? 'var(--card)'
 }

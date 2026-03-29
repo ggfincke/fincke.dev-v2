@@ -1,19 +1,21 @@
 // src/sections/experience/components/JobCard.tsx
 // job experience card w/ company info & technologies
 
-import { InteractiveCard } from '~/shared/components/layout/InteractiveCard';
-import type { WorkExperience } from '~/shared/types';
-import { CARD_HOVER_BACKDROP } from '~/shared/utils/classNames';
-import { JobCompanyHeader } from './JobCompanyHeader';
-import { JobTechnologies } from './JobTechnologies';
+import { InteractiveCard } from '~/shared/components/layout/InteractiveCard'
+import type { WorkExperience } from '~/shared/types'
+import { CARD_HOVER_BACKDROP } from '~/shared/utils/classNames'
+import { JobCompanyHeader } from './JobCompanyHeader'
+import { JobTechnologies } from './JobTechnologies'
 
 // props for job experience card
-interface JobCardProps {
-  job: WorkExperience;
+interface JobCardProps
+{
+  job: WorkExperience
 }
 
 // job card w/ company header, description & technologies
-export function JobCard({ job }: JobCardProps) {
+export function JobCard({ job }: JobCardProps)
+{
   return (
     <InteractiveCard href={job.link}>
       {/* hover backdrop */}
@@ -34,5 +36,5 @@ export function JobCard({ job }: JobCardProps) {
         )}
       </div>
     </InteractiveCard>
-  );
+  )
 }

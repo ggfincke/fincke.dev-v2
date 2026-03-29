@@ -2,7 +2,8 @@
 // decorative SVG wave w/ gradient
 
 // decorative SVG wave overlay
-export function DecorativeWave() {
+export function DecorativeWave()
+{
   return (
     <div
       className="decorative-wave pointer-events-none absolute left-0 hidden w-full lg:block"
@@ -50,5 +51,5 @@ export function DecorativeWave() {
         </defs>
       </svg>
     </div>
-  );
+  )
 }

@@ -1,18 +1,19 @@
 // src/shared/components/ui/TechPills.tsx
 // reusable technology pills w/ optional overflow count
 
-import type { Project } from '~/shared/types';
-import { SkillPill } from './SkillPill';
+import type { Project } from '~/shared/types'
+import { SkillPill } from './SkillPill'
 
 // props for technology pills
-interface TechPillsProps {
-  technologies: string[];
-  maxVisible?: number;
-  size?: 'xs' | 'sm' | 'md';
-  showProjectsOnHover?: boolean;
-  getRelatedProjects?: (name: string) => Project[];
-  className?: string;
-  as?: 'div' | 'ul';
+interface TechPillsProps
+{
+  technologies: string[]
+  maxVisible?: number
+  size?: 'xs' | 'sm' | 'md'
+  showProjectsOnHover?: boolean
+  getRelatedProjects?: (name: string) => Project[]
+  className?: string
+  as?: 'div' | 'ul'
 }
 
 // reusable technology pills w/ optional overflow count
@@ -24,15 +25,16 @@ export function TechPills({
   getRelatedProjects,
   className,
   as: Wrapper = 'div',
-}: TechPillsProps) {
+}: TechPillsProps)
+{
   const visible =
-    maxVisible !== undefined ? technologies.slice(0, maxVisible) : technologies;
+    maxVisible !== undefined ? technologies.slice(0, maxVisible) : technologies
   const overflowCount =
-    maxVisible !== undefined ? technologies.length - maxVisible : 0;
+    maxVisible !== undefined ? technologies.length - maxVisible : 0
 
   return (
     <Wrapper className={className}>
-      {visible.map(tech =>
+      {visible.map((tech) =>
         Wrapper === 'ul' ? (
           <li key={tech}>
             <SkillPill
@@ -58,5 +60,5 @@ export function TechPills({
         </span>
       )}
     </Wrapper>
-  );
+  )
 }

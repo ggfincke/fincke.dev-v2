@@ -2,16 +2,18 @@
 // external link icon (box w/ arrow)
 
 // props for external link icon
-interface ExternalLinkIconProps {
-  size?: number;
-  className?: string;
+interface ExternalLinkIconProps
+{
+  size?: number
+  className?: string
 }
 
 // external link SVG icon (box w/ arrow)
 export function ExternalLinkIcon({
   size = 24,
   className,
-}: ExternalLinkIconProps) {
+}: ExternalLinkIconProps)
+{
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -30,5 +32,5 @@ export function ExternalLinkIcon({
       <polyline points="15 3 21 3 21 9" />
       <line x1="10" y1="14" x2="21" y2="3" />
     </svg>
-  );
+  )
 }

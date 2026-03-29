@@ -175,4 +175,4 @@ export const skillMappings: Record<string, string[]> = {
   'mvc/mvvm': ['mvc/mvvm'],
   transformers: ['transformers', 'huggingface'],
   'web scraping': ['selenium', 'beautifulsoup', 'web scraping'],
-};
+}

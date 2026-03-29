@@ -1,13 +1,14 @@
 // src/shared/components/ui/InlineLink.tsx
 // styled inline link for text content
 
-import type { ReactNode } from 'react';
+import type { ReactNode } from 'react'
 
 // props for inline link
-interface InlineLinkProps {
-  href: string;
-  children: ReactNode;
-  className?: string;
+interface InlineLinkProps
+{
+  href: string
+  children: ReactNode
+  className?: string
 }
 
 // styled inline link for text content
@@ -15,7 +16,8 @@ export function InlineLink({
   href,
   children,
   className = '',
-}: InlineLinkProps) {
+}: InlineLinkProps)
+{
   return (
     <a
       className={`text-[var(--red)] underline decoration-[var(--red)]/40 underline-offset-4 transition hover:text-[var(--white)] hover:decoration-[var(--white)]/40 ${className}`}
@@ -23,5 +25,5 @@ export function InlineLink({
     >
       {children}
     </a>
-  );
+  )
 }

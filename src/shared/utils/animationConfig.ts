@@ -8,11 +8,11 @@ export const ANIMATION_DELAYS = {
   socialLinks: '0.5s',
   jobHistory: { base: 0.4, step: 0.1 },
   featuredProjects: { base: 0.6, step: 0.1 },
-} as const;
+} as const
 
 // compute staggered animation delay for list items
 export const staggerDelay = (
   base: number,
   step: number,
   index: number
-): string => `${(base + index * step).toFixed(2)}s`;
+): string => `${(base + index * step).toFixed(2)}s`

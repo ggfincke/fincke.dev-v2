@@ -1,7 +1,7 @@
 // src/content/skills/index.ts
 // comprehensive skills data w/ category mappings
 
-import type { Skill } from '~/shared/types';
+import type { Skill } from '~/shared/types'
 
 export const skills: Skill[] = [
   // languages
@@ -189,4 +189,4 @@ export const skills: Skill[] = [
   { name: 'Custom Shapes', category: 'specialized' },
   { name: 'Gesture Handling', category: 'specialized' },
   { name: 'MVC/MVVM', category: 'specialized' },
-];
+]

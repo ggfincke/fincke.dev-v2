@@ -1,17 +1,17 @@
 // src/content/index.ts
 // central barrel for static site content
 
-export * as homeContent from './home';
-export * as experienceContent from './experience';
-export * as projectContent from './projects';
+export * as homeContent from './home'
+export * as experienceContent from './experience'
+export * as projectContent from './projects'
 
 // re-exports for common imports
-export { HERO_CONTENT, ABOUT_CONTENT, SOCIAL_LINKS } from './home';
-export { WORK_EXPERIENCE } from './experience';
+export { HERO_CONTENT, ABOUT_CONTENT, SOCIAL_LINKS } from './home'
+export { WORK_EXPERIENCE } from './experience'
 export {
   projects,
   getAllProjects,
   getFeaturedProjects,
   getProjectsBySkill,
   skillMappings,
-} from './projects';
+} from './projects'

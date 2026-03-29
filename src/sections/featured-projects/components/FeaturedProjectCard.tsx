@@ -1,22 +1,24 @@
 // src/sections/featured-projects/components/FeaturedProjectCard.tsx
 // featured project card w/ image & technologies
 
-import { InteractiveCard } from '~/shared/components/layout/InteractiveCard';
-import type { Project } from '~/shared/types';
-import { CARD_HOVER_BACKDROP } from '~/shared/utils/classNames';
-import { FeaturedProjectImage } from './FeaturedProjectImage';
-import { FeaturedProjectHeader } from './FeaturedProjectHeader';
-import { FeaturedProjectTechnologies } from './FeaturedProjectTechnologies';
+import { InteractiveCard } from '~/shared/components/layout/InteractiveCard'
+import type { Project } from '~/shared/types'
+import { CARD_HOVER_BACKDROP } from '~/shared/utils/classNames'
+import { FeaturedProjectImage } from './FeaturedProjectImage'
+import { FeaturedProjectHeader } from './FeaturedProjectHeader'
+import { FeaturedProjectTechnologies } from './FeaturedProjectTechnologies'
 
 // props for featured project card
-interface FeaturedProjectCardProps {
-  project: Project;
+interface FeaturedProjectCardProps
+{
+  project: Project
 }
 
 // featured project card w/ image, header & technologies
-export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
+export function FeaturedProjectCard({ project }: FeaturedProjectCardProps)
+{
   // prefer live URL, fall back to repo URL
-  const linkUrl = project.liveUrl || project.repoUrl;
+  const linkUrl = project.liveUrl || project.repoUrl
 
   return (
     <InteractiveCard href={linkUrl} className="flex gap-4">
@@ -45,5 +47,5 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps) {
         )}
       </div>
     </InteractiveCard>
-  );
+  )
 }

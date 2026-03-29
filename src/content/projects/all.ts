@@ -1,13 +1,13 @@
 // src/content/projects/all.ts
 // project portfolio data
 
-import type { Project } from '~/shared/types';
+import type { Project } from '~/shared/types'
 
 export const projects: Project[] = [
   {
     title: 'MDX Preview for VS Code',
     tagline:
-      'Live MDX preview extension with dual-mode rendering, framework-aware component shims, and a browser-side module system.',
+      '2,000+ installs; Live MDX preview extension with dual-mode rendering and framework-aware component shims.',
     dateRange: 'Jan 2026 – Present',
     status: 'live',
     madeFor: 'Personal',
@@ -22,8 +22,8 @@ export const projects: Project[] = [
       'TypeScript',
       'React',
       'MDX',
-      'VS Code Extension API',
       'Vite',
+      'VS Code Extension API',
       'esbuild',
       'Vitest',
       'Comlink',
@@ -595,4 +595,4 @@ export const projects: Project[] = [
     ],
     repoUrl: 'https://github.com/ggfincke/CMPSC311_projects',
   },
-];
+]

@@ -2,14 +2,14 @@
 // takes full-page screenshots of the site at various viewport sizes
 // Usage: npm run screenshots (requires dev server running on localhost:5173)
 
-import { chromium } from 'playwright';
-import { existsSync, mkdirSync, statSync } from 'fs';
-import { join } from 'path';
+import { chromium } from 'playwright'
+import { existsSync, mkdirSync, statSync } from 'fs'
+import { join } from 'path'
 
-const BASE_URL = 'http://localhost:5173';
-const OUT_DIR = join(import.meta.dirname, '..', 'screenshots');
+const BASE_URL = 'http://localhost:5173'
+const OUT_DIR = join(import.meta.dirname, '..', 'screenshots')
 // longest CSS animation is 600ms + buffer
-const ANIMATION_WAIT = 800;
+const ANIMATION_WAIT = 800
 
 // width/height = CSS pixels (what the browser sees for media queries)
 // dpr = deviceScaleFactor (output image rendered at width*dpr x height*dpr physical pixels)
@@ -34,70 +34,79 @@ const VIEWPORTS = [
   // 4K monitors (physical 3840x2160, typical OS scaling → CSS viewport)
   { name: '4K-150pct', width: 2560, height: 1440, dpr: 1.5 },
   { name: '4K-200pct', width: 1920, height: 1080, dpr: 2 },
-];
+]
 
 const ROUTES = [
   { path: '/', slug: 'home' },
   { path: '/projects', slug: 'projects' },
-];
+]
 
-function formatSize(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  const kb = bytes / 1024;
-  if (kb < 1024) return `${kb.toFixed(1)} KB`;
-  return `${(kb / 1024).toFixed(2)} MB`;
+function formatSize(bytes: number): string
+{
+  if (bytes < 1024) return `${bytes} B`
+  const kb = bytes / 1024
+  if (kb < 1024) return `${kb.toFixed(1)} KB`
+  return `${(kb / 1024).toFixed(2)} MB`
 }
 
-async function checkServer(): Promise<boolean> {
-  try {
-    const res = await fetch(BASE_URL);
-    return res.ok;
-  } catch {
-    return false;
+async function checkServer(): Promise<boolean>
+{
+  try
+  {
+    const res = await fetch(BASE_URL)
+    return res.ok
+  }
+  catch
+  {
+    return false
   }
 }
 
-async function main() {
-  const serverUp = await checkServer();
-  if (!serverUp) {
+async function main()
+{
+  const serverUp = await checkServer()
+  if (!serverUp)
+  {
     console.error(
       `\nDev server not reachable at ${BASE_URL}\nRun "npm run dev" first, then try again.\n`
-    );
-    process.exit(1);
+    )
+    process.exit(1)
   }
 
-  if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true });
+  if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true })
 
   console.log(
     `\nCapturing ${VIEWPORTS.length} viewports x ${ROUTES.length} routes...\n`
-  );
+  )
 
-  const browser = await chromium.launch();
+  const browser = await chromium.launch()
   const results: {
-    viewport: string;
-    dims: string;
-    dpr: string;
-    route: string;
-    file: string;
-    size: string;
-  }[] = [];
+    viewport: string
+    dims: string
+    dpr: string
+    route: string
+    file: string
+    size: string
+  }[] = []
 
-  for (const vp of VIEWPORTS) {
+  for (const vp of VIEWPORTS)
+  {
     const context = await browser.newContext({
       viewport: { width: vp.width, height: vp.height },
       deviceScaleFactor: vp.dpr,
-    });
-    const page = await context.newPage();
+    })
+    const page = await context.newPage()
 
-    for (const route of ROUTES) {
-      const filename = `${vp.name}__${route.slug}.png`;
-      const filepath = join(OUT_DIR, filename);
+    for (const route of ROUTES)
+    {
+      const filename = `${vp.name}__${route.slug}.png`
+      const filepath = join(OUT_DIR, filename)
 
-      await page.goto(`${BASE_URL}${route.path}`, { waitUntil: 'networkidle' });
-      await page.waitForTimeout(ANIMATION_WAIT);
-      await page.screenshot({ path: filepath, fullPage: true });
+      await page.goto(`${BASE_URL}${route.path}`, { waitUntil: 'networkidle' })
+      await page.waitForTimeout(ANIMATION_WAIT)
+      await page.screenshot({ path: filepath, fullPage: true })
 
-      const size = statSync(filepath).size;
+      const size = statSync(filepath).size
       results.push({
         viewport: vp.name,
         dims: `${vp.width}x${vp.height}`,
@@ -105,16 +114,16 @@ async function main() {
         route: route.slug,
         file: filename,
         size: formatSize(size),
-      });
+      })
 
-      console.log(`  ${filename} (${formatSize(size)})`);
+      console.log(`  ${filename} (${formatSize(size)})`)
     }
 
-    await context.close();
+    await context.close()
   }
 
   // summary table
-  console.log('\n' + '='.repeat(100));
+  console.log('\n' + '='.repeat(100))
   console.log(
     'Viewport'.padEnd(24) +
       'CSS Pixels'.padEnd(14) +
@@ -122,9 +131,10 @@ async function main() {
       'Route'.padEnd(12) +
       'File Size'.padEnd(12) +
       'File'
-  );
-  console.log('-'.repeat(100));
-  for (const r of results) {
+  )
+  console.log('-'.repeat(100))
+  for (const r of results)
+  {
     console.log(
       r.viewport.padEnd(24) +
         r.dims.padEnd(14) +
@@ -132,12 +142,12 @@ async function main() {
         r.route.padEnd(12) +
         r.size.padEnd(12) +
         r.file
-    );
+    )
   }
-  console.log('='.repeat(100));
-  console.log(`\n${results.length} screenshots saved to ${OUT_DIR}\n`);
+  console.log('='.repeat(100))
+  console.log(`\n${results.length} screenshots saved to ${OUT_DIR}\n`)
 
-  await browser.close();
+  await browser.close()
 }
 
-main();
+main()
