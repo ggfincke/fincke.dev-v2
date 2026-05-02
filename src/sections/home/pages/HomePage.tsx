@@ -1,6 +1,7 @@
 // src/sections/home/pages/HomePage.tsx
 // home page route content
 
+import { EducationHistory } from '~/sections/education/components/EducationHistory'
 import { JobHistory } from '~/sections/experience/components/JobHistory'
 import { FeaturedProjects } from '~/sections/featured-projects/components/FeaturedProjects'
 import { About } from '~/sections/home/components/About'
@@ -20,6 +21,7 @@ export function HomePage()
           <div className="space-y-6">
             <Hero />
             <About />
+            <EducationHistory />
             <SocialLinks />
           </div>
 

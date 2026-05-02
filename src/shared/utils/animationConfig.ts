@@ -5,7 +5,8 @@
 export const ANIMATION_DELAYS = {
   hero: '0.1s',
   about: '0.3s',
-  socialLinks: '0.5s',
+  socialLinks: '0.7s',
+  education: { base: 0.5, step: 0.05 },
   jobHistory: { base: 0.4, step: 0.1 },
   featuredProjects: { base: 0.6, step: 0.1 },
   projectsArchive: {

@@ -3,6 +3,7 @@
 
 export type { DateSpan, YearMonth } from './dates'
 export type { AboutContent, HeroContent, SocialLink } from './home'
+export type { Education } from './education'
 export type { WorkExperience } from './experience'
 export type { TechnologyCategory, TechnologyDefinition } from './technology'
 export type {

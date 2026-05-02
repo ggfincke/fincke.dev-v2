@@ -1,13 +1,14 @@
 // scripts/screenshots.ts
 // takes full-page screenshots of the site at various viewport sizes
-// Usage: npm run screenshots (requires dev server running on localhost:5173)
+// Usage: npm run screenshots (requires dev server). Override port via PORT env var (default 5174).
 
 import { chromium } from 'playwright'
 import { existsSync, mkdirSync, statSync } from 'fs'
 import { join } from 'path'
 import { PUBLIC_ROUTES } from './lib/siteManifest'
 
-const BASE_URL = 'http://localhost:5173'
+const PORT = process.env.PORT ?? '5174'
+const BASE_URL = `http://localhost:${PORT}`
 const OUT_DIR = join(import.meta.dirname, '..', 'screenshots')
 // longest CSS animation is 600ms + buffer
 const ANIMATION_WAIT = 800

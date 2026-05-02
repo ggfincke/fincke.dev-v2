@@ -43,6 +43,7 @@
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.3",
+    "baseline-browser-mapping": "^2.10.25",
     "chrome-launcher": "^1.2.1",
     "eslint": "^9.36.0",
     "eslint-config-prettier": "^10.1.8",

@@ -62,6 +62,18 @@ const MANUAL_RUNTIME_LOCAL_FILES: ReadonlyArray<RawLocalFileReference> = [
     source: 'JobHistory resume download',
     storage: 'public',
   },
+  {
+    path: '/assets/logos/schools/pitt.png',
+    category: 'runtime',
+    source: 'EducationCard Pitt logo',
+    storage: 'public',
+  },
+  {
+    path: '/assets/logos/schools/penn-state.png',
+    category: 'runtime',
+    source: 'EducationCard Penn State logo',
+    storage: 'public',
+  },
 ]
 
 const MANUAL_RETAINED_LOCAL_FILES: ReadonlyArray<RawLocalFileReference> = [

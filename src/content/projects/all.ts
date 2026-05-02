@@ -8,7 +8,7 @@ export const projects: Project[] = [
     id: 'mdx-preview-for-vs-code',
     title: 'MDX Preview for VS Code',
     tagline:
-      '2,000+ installs; Live MDX preview extension with dual-mode rendering and framework-aware component shims.',
+      '3,500+ installs; Live MDX preview extension with dual-mode rendering and framework-aware component shims.',
     period: {
       start: {
         year: 2026,
@@ -115,7 +115,7 @@ export const projects: Project[] = [
     madeFor: 'Personal',
     feature: {
       tier: 'default',
-      order: 3,
+      order: 2,
     },
     bulletPoints: [
       'Built Django REST API with JWT auth, OpenAPI docs, and PostgreSQL + pgvector for semantic search and workout library retrieval',
@@ -194,7 +194,7 @@ export const projects: Project[] = [
     madeFor: 'Personal',
     feature: {
       tier: 'wide',
-      order: 4,
+      order: 3,
     },
     bulletPoints: [
       'Built interactive Discord dashboards (buttons, modals, select menus) for status, start/stop/restart, logs, backups, and configuration',
@@ -277,7 +277,7 @@ export const projects: Project[] = [
     madeFor: 'Personal',
     feature: {
       tier: 'default',
-      order: 2,
+      order: 4,
     },
     bulletPoints: [
       'Built Typer-based command suite (sectionize, tailor, generate, apply) with configurable defaults and themed help UI',

@@ -6,13 +6,15 @@ import type { YearMonth } from '~/shared/types'
 
 export const FEATURED_DEFAULT_PROJECT_IDS = [
   'mdx-preview-for-vs-code',
-  'loom',
   'swimmate-v2',
+  'loom',
 ] as const
 
 export const FEATURED_WITH_WIDE_PROJECT_IDS = [
-  ...FEATURED_DEFAULT_PROJECT_IDS,
+  'mdx-preview-for-vs-code',
+  'swimmate-v2',
   'minecart',
+  'loom',
 ] as const
 
 export const TECHNOLOGY_ALIAS_CASES: ReadonlyArray<
