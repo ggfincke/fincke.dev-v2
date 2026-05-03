@@ -13,4 +13,5 @@ export interface Education
   period: DateSpan
   isExpected?: boolean
   honors?: string
+  url?: string
 }

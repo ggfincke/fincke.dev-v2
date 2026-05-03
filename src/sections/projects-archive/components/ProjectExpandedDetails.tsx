@@ -81,7 +81,7 @@ export function ProjectExpandedDetails({
             </ul>
           </div>
         ) : (
-          <div className="flex flex-col lg:flex-row lg:items-center gap-8">
+          <div className="flex flex-col xl:flex-row xl:items-center gap-8">
             <div className="flex-1">
               <h4 className="text-sm font-semibold text-[var(--accent)] mb-3">
                 Description
@@ -96,7 +96,7 @@ export function ProjectExpandedDetails({
             </div>
 
             {project.imagePath && (
-              <div className="lg:w-1/3 flex-shrink-0">
+              <div className="xl:w-1/3 flex-shrink-0">
                 <div className="border border-[var(--border)] rounded-lg bg-[var(--bg)]/50 overflow-hidden p-3">
                   <img
                     src={project.imagePath}

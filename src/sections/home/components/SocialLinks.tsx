@@ -1,6 +1,7 @@
 // src/sections/home/components/SocialLinks.tsx
 // social media links w/ icons
 
+import { useEffect, useRef, useState } from 'react'
 import type { SimpleIcon } from 'simple-icons'
 import { siInstagram, siMedium, siX, siYoutube } from 'simple-icons'
 
@@ -9,6 +10,7 @@ import { SOCIAL_LINKS } from '~/content/home'
 import { IconLink } from '~/shared/components/ui/IconLink'
 import { GitHubIcon as SharedGitHubIcon } from '~/shared/components/ui/icons'
 import { ANIMATION_DELAYS } from '~/shared/utils/animationConfig'
+import { ICON_LINK_CLASSES } from '~/shared/utils/classNames'
 
 // email SVG icon
 function EmailIcon()
@@ -107,6 +109,73 @@ const iconMap = {
   youtube: YouTubeIcon,
 }
 
+// click-to-reveal phone button — keeps tel: URL out of static HTML
+function PhoneRevealButton()
+{
+  const [revealed, setRevealed] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  // assemble at runtime so the digits don't appear as a contiguous string in JSX
+  const digits = ['+1', '724', '777', '7186'].join('')
+  const formatted = '+1 (724) 777-7186'
+
+  useEffect(() =>
+  {
+    if (!revealed)
+    {
+      return
+    }
+
+    function handlePointerDown(event: PointerEvent)
+    {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      )
+      {
+        setRevealed(false)
+      }
+    }
+    function handleKey(event: KeyboardEvent)
+    {
+      if (event.key === 'Escape')
+      {
+        setRevealed(false)
+      }
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown)
+    document.addEventListener('keydown', handleKey)
+    return () =>
+    {
+      document.removeEventListener('pointerdown', handlePointerDown)
+      document.removeEventListener('keydown', handleKey)
+    }
+  }, [revealed])
+
+  return (
+    <div ref={containerRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setRevealed((current) => !current)}
+        aria-label={revealed ? 'Hide phone number' : 'Show phone number'}
+        aria-expanded={revealed}
+        className={ICON_LINK_CLASSES}
+      >
+        <PhoneIcon />
+      </button>
+      {revealed && (
+        <a
+          href={`tel:${digits}`}
+          className="absolute left-1/2 top-full z-20 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-[var(--border)] bg-[var(--card)] px-2 py-1 text-xs text-[var(--white)] shadow-md transition hover:text-[var(--accent)]"
+        >
+          {formatted}
+        </a>
+      )}
+    </div>
+  )
+}
+
 // social media links w/ icons
 export function SocialLinks()
 {
@@ -118,6 +187,11 @@ export function SocialLinks()
     >
       {SOCIAL_LINKS.map((link: SocialLink) =>
       {
+        if (link.icon === 'phone')
+        {
+          return <PhoneRevealButton key={link.icon} />
+        }
+
         const Icon = iconMap[link.icon]
         return (
           <IconLink

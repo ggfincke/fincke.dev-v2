@@ -15,23 +15,31 @@ describe('About highlighting', () =>
     const uiKit = screen.getByText('UIKit')
     const postgres = screen.getByText('Postgres')
     const githubActions = screen.getByText('GitHub Actions')
+    const docker = screen.getByText('Docker')
+    const scaleAi = screen.getByText('Scale AI')
+    const aiInfrastructure = screen.getByText('AI infrastructure')
 
     expect(uiKit.tagName).toBe('SPAN')
-    expect(uiKit).toHaveClass('text-[var(--blue)]')
+    expect(uiKit).toHaveStyle({ color: 'var(--blue)' })
 
     expect(postgres.tagName).toBe('SPAN')
-    expect(postgres).toHaveClass('text-[var(--purple)]')
+    expect(postgres).toHaveStyle({ color: 'var(--purple)' })
 
     expect(githubActions.tagName).toBe('SPAN')
-    expect(githubActions).toHaveClass('text-[var(--purple)]')
+    expect(githubActions).toHaveStyle({ color: 'var(--orange)' })
 
+    expect(docker.tagName).toBe('SPAN')
+    expect(docker).toHaveStyle({ color: 'var(--purple)' })
+
+    expect(scaleAi.tagName).toBe('SPAN')
+    expect(scaleAi).toHaveStyle({ color: 'var(--red)' })
+
+    expect(aiInfrastructure.tagName).toBe('SPAN')
+    expect(aiInfrastructure).toHaveStyle({ color: 'var(--yellow)' })
+
+    expect(container.querySelector('span[style*="color"]')).not.toBeNull()
     expect(
-      container.querySelector(
-        'span.text-\\[var\\(--blue\\)\\], span.text-\\[var\\(--purple\\)\\], span.text-\\[var\\(--green\\)\\]'
-      )
-    ).not.toBeNull()
-    expect(
-      screen.queryByText('Docker', { selector: 'span' })
+      screen.queryByText('Ironman', { selector: 'span' })
     ).not.toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: 'garrettfincke@gmail.com' })

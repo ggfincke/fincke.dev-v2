@@ -40,7 +40,9 @@ describe('content inventory', () =>
       category: 'runtime',
       storage: 'public',
     })
-    expect(localFiles.get('/documents/resume-selected.pdf')).toMatchObject({
+    expect(
+      localFiles.get('/documents/garrett_fincke_resume.pdf')
+    ).toMatchObject({
       category: 'runtime',
     })
     expect(localFiles.get('/documents/resume-master.pdf')).toMatchObject({

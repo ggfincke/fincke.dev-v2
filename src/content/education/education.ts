@@ -21,6 +21,7 @@ export const EDUCATION: Education[] = [
     },
     isExpected: true,
     honors: 'SCI Scholarship for Excellence',
+    url: 'https://www.pitt.edu',
   },
   {
     id: 'pennsylvania-state-university-bscs',
@@ -37,5 +38,6 @@ export const EDUCATION: Education[] = [
         month: 12,
       },
     },
+    url: 'https://www.psu.edu',
   },
 ]

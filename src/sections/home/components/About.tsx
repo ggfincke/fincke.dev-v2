@@ -3,58 +3,44 @@
 
 import type { ReactNode } from 'react'
 
-import { getTechnologyTerms } from '~/content/technologies'
-import { ABOUT_CONTENT, ABOUT_HIGHLIGHT_GROUPS } from '~/content/home'
+import { getTechnologyColor, getTechnologyTerms } from '~/content/technologies'
+import { ABOUT_CONTENT, ABOUT_HIGHLIGHTS } from '~/content/home'
 import { InlineLink } from '~/shared/components/ui/InlineLink'
 import { ANIMATION_DELAYS } from '~/shared/utils/animationConfig'
 
-// highlight rule mapping words to CSS classes
-interface HighlightRule
-{
-  words: string[]
-  className: string
-}
+// term -> CSS color value, sourced from technology category for tech IDs
+const TERM_COLOR_MAP = new Map<string, string>([
+  ...ABOUT_HIGHLIGHTS.technologyIds.flatMap((technologyId) =>
+  {
+    const color = getTechnologyColor(technologyId)
+    return getTechnologyTerms(technologyId).map(
+      (term) => [term, color] as [string, string]
+    )
+  }),
+  ...ABOUT_HIGHLIGHTS.phrases.flatMap((phrase) =>
+    phrase.words.map((word) => [word, phrase.color] as [string, string])
+  ),
+])
 
-const HIGHLIGHT_RULES: HighlightRule[] = ABOUT_HIGHLIGHT_GROUPS.map((group) =>
-{
-  const technologyWords = (group.technologyIds ?? []).flatMap((technologyId) =>
-    getTechnologyTerms(technologyId)
-  )
-
-  return {
-    className: group.className,
-    words: [...new Set([...(group.phrases ?? []), ...technologyWords])],
-  }
-})
-
-// build a single regex from all highlight rules (longest first to avoid partial matches)
+// longest term first so regex matches multi-word phrases before their substrings
 const HIGHLIGHT_PATTERN = new RegExp(
-  `(${HIGHLIGHT_RULES.flatMap((rule) =>
-    rule.words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-  )
+  `(${[...TERM_COLOR_MAP.keys()]
+    .map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
     .sort((a, b) => b.length - a.length)
     .join('|')})`,
   'g'
 )
 
-// map each keyword to its color class
-const KEYWORD_CLASS_MAP = new Map<string, string>(
-  HIGHLIGHT_RULES.flatMap((rule) =>
-    rule.words.map((word) => [word, rule.className] as const)
-  )
-)
-
-// highlight specific keywords w/ color
 function highlightText(text: string): ReactNode[]
 {
   const parts = text.split(HIGHLIGHT_PATTERN)
   return parts.map((part, i) =>
   {
-    const className = KEYWORD_CLASS_MAP.get(part)
-    if (className)
+    const color = TERM_COLOR_MAP.get(part)
+    if (color)
     {
       return (
-        <span key={i} className={className}>
+        <span key={i} style={{ color }}>
           {part}
         </span>
       )

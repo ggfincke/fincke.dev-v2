@@ -57,7 +57,7 @@ const ROOT_LEVEL_LOCAL_FILES = new Set(['/thumbnail.ico'])
 
 const MANUAL_RUNTIME_LOCAL_FILES: ReadonlyArray<RawLocalFileReference> = [
   {
-    path: '/documents/resume-selected.pdf',
+    path: '/documents/garrett_fincke_resume.pdf',
     category: 'runtime',
     source: 'JobHistory resume download',
     storage: 'public',

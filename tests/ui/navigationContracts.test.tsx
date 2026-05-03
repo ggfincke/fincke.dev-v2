@@ -34,7 +34,7 @@ describe('shared navigation primitives', () =>
     unmount()
 
     render(
-      <ActionLink href="/documents/resume-selected.pdf" openInNewTab>
+      <ActionLink href="/documents/garrett_fincke_resume.pdf" openInNewTab>
         View Full Resume
       </ActionLink>
     )
@@ -107,7 +107,7 @@ describe('phase 4 consumer regressions', () =>
 
     expect(
       screen.getByRole('link', { name: 'View Full Resume' })
-    ).toHaveAttribute('href', '/documents/resume-selected.pdf')
+    ).toHaveAttribute('href', '/documents/garrett_fincke_resume.pdf')
 
     unmount()
 

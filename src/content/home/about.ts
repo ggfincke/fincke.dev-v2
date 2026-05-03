@@ -7,40 +7,50 @@ import type { AboutContent } from '~/shared/types'
 // shared email constant
 export const EMAIL = 'garrettfincke@gmail.com'
 
-// grouped highlight configuration for About prose
-export interface AboutHighlightGroup
+// freeform phrase highlight (concept terms not in the technology registry)
+export interface AboutPhraseHighlight
 {
-  className: string
-  technologyIds?: TechnologyId[]
-  phrases?: string[]
+  color: string
+  words: string[]
 }
 
-export const ABOUT_HIGHLIGHT_GROUPS: AboutHighlightGroup[] = [
-  {
-    className: 'text-[var(--purple)]',
-    phrases: ['Scale AI', 'AI infrastructure', 'retrieval systems'],
-  },
-  {
-    className: 'text-[var(--green)]',
-    technologyIds: ['python', 'typescript', 'swift'],
-  },
-  {
-    className: 'text-[var(--blue)]',
-    technologyIds: [
-      'react',
-      'next-js',
-      'fastapi',
-      'django',
-      'node-js',
-      'swiftui',
-      'uikit',
-    ],
-  },
-  {
-    className: 'text-[var(--purple)]',
-    technologyIds: ['postgresql', 'github-actions'],
-  },
-]
+// About prose highlight config — tech IDs inherit color from registry category
+export interface AboutHighlightConfig
+{
+  technologyIds: TechnologyId[]
+  phrases: AboutPhraseHighlight[]
+}
+
+export const ABOUT_HIGHLIGHTS: AboutHighlightConfig = {
+  technologyIds: [
+    'python',
+    'typescript',
+    'swift',
+    'react',
+    'next-js',
+    'fastapi',
+    'django',
+    'node-js',
+    'swiftui',
+    'uikit',
+    'ios',
+    'watchos',
+    'postgresql',
+    'docker',
+    'aws',
+    'github-actions',
+  ],
+  phrases: [
+    {
+      color: 'var(--red)',
+      words: ['Scale AI'],
+    },
+    {
+      color: 'var(--yellow)',
+      words: ['AI infrastructure', 'retrieval systems', 'LLM-generated code'],
+    },
+  ],
+}
 
 // about section copy & email
 export const ABOUT_CONTENT: AboutContent = {

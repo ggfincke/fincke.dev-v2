@@ -17,7 +17,7 @@ export function HomePage()
   return (
     <div className="relative min-h-screen overflow-hidden">
       <PageShell className="relative py-12 min-[2560px]:max-w-[1400px]">
-        <div className="grid gap-16 lg:grid-cols-2 lg:items-center lg:gap-20">
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-20">
           <div className="space-y-6">
             <Hero />
             <About />
@@ -25,9 +25,13 @@ export function HomePage()
             <SocialLinks />
           </div>
 
-          <div className="space-y-3 pt-11 min-[1728px]:space-y-4">
-            <JobHistory />
-            <FeaturedProjects />
+          <div className="pt-2 lg:pt-11">
+            <div className="space-y-3 min-[1728px]:space-y-4">
+              <JobHistory />
+            </div>
+            <div className="mt-10 space-y-3 min-[1728px]:mt-12 min-[1728px]:space-y-4">
+              <FeaturedProjects />
+            </div>
           </div>
         </div>
       </PageShell>

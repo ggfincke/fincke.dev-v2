@@ -13,10 +13,7 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
         year: 2026,
         month: 5,
       },
-      end: {
-        year: 2026,
-        month: 8,
-      },
+      isCurrent: true,
     },
     description:
       'On-premises AI tooling for nuclear engineering workflows. Building Python/FastAPI services around an internal document index and prototyping LLM-augmented retrieval with source-grounded outputs.',

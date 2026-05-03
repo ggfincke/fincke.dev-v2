@@ -39,9 +39,9 @@ describe('asset validation', () =>
     expect(publicFiles.get('/documents/resume-master.pdf')?.category).toBe(
       'retained'
     )
-    expect(publicFiles.get('/documents/resume-selected.pdf')?.category).toBe(
-      'runtime'
-    )
+    expect(
+      publicFiles.get('/documents/garrett_fincke_resume.pdf')?.category
+    ).toBe('runtime')
     expect(publicFiles.get('/robots.txt')?.category).toBe('deployment')
   })
 

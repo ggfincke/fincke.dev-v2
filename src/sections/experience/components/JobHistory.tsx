@@ -39,7 +39,7 @@ export function JobHistory()
 
       {/* resume link */}
       <ActionLink
-        href="/documents/resume-selected.pdf"
+        href="/documents/garrett_fincke_resume.pdf"
         openInNewTab
         icon={<ArrowIcon />}
         className="animate-slide-in-up opacity-0"
