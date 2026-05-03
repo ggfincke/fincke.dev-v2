@@ -39,11 +39,11 @@ export function EducationCard({ education }: EducationCardProps)
       {logo && <div className="h-12 w-12 shrink-0">{logo}</div>}
 
       <div className="min-w-0 flex-1">
-        <div className="flex items-baseline justify-between gap-2">
-          <h3 className="truncate text-sm font-medium text-[var(--white)]">
+        <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-2">
+          <h3 className="text-sm font-medium text-[var(--white)] sm:truncate">
             {education.school}
           </h3>
-          <span className="shrink-0 text-xs text-[var(--muted)]">
+          <span className="text-xs text-[var(--muted)] sm:shrink-0">
             {dateLabel}
           </span>
         </div>
@@ -53,6 +53,12 @@ export function EducationCard({ education }: EducationCardProps)
           <span className="px-1.5">·</span>
           {education.location}
         </p>
+
+        {education.honors && (
+          <p className="truncate text-[11px] text-[var(--muted)]/80">
+            {education.honors}
+          </p>
+        )}
       </div>
     </div>
   )

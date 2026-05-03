@@ -25,7 +25,7 @@ export function HomePage()
             <SocialLinks />
           </div>
 
-          <div className="space-y-4 pt-11 min-[1728px]:space-y-6">
+          <div className="space-y-3 pt-11 min-[1728px]:space-y-4">
             <JobHistory />
             <FeaturedProjects />
           </div>

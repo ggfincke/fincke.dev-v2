@@ -5,6 +5,46 @@ import type { Project } from '~/shared/types'
 
 export const projects: Project[] = [
   {
+    id: 'tierlistbuilder',
+    title: 'Tier List Builder',
+    tagline:
+      'Local-first browser tier list builder w/ snapshot-based drag preview, multi-board workspace, & 7-format export pipeline.',
+    period: {
+      start: {
+        year: 2026,
+        month: 3,
+      },
+      isCurrent: true,
+    },
+    status: 'live',
+    madeFor: 'Personal',
+    bulletPoints: [
+      'Built snapshot-based drag-and-drop on @dnd-kit w/ bulk multi-drag, fan-out FLIP animation, and a 3-state keyboard controller (browse, pickup, drag) for full keyboard interaction',
+      'Shipped multi-board workspace with autosave, labeled undo/redo with toast feedback, content-addressed IndexedDB image blobs, and storage-quota-aware resilience',
+      'Implemented 7-format export pipeline (PNG/JPEG/WebP/PDF/JSON/ZIP/clipboard) via off-screen render host, pako-compressed hash-fragment share links, and a read-only embed route',
+      'Added inline annotation editor, per-board aspect-ratio picker with auto-crop & shadow trim, image editor (crop/rotate/zoom), and token-driven theming (8 themes + 5 text styles) with a full color-wheel picker',
+      'Organized as a 3-layer (app/features/shared) architecture with a @tierlistbuilder/contracts workspace package, Zustand stores, Vitest + Playwright tests, and Cloudflare Workers PWA delivery',
+    ],
+    technologies: [
+      'react',
+      'typescript',
+      'vite',
+      'tailwind-css',
+      'zustand',
+      'dnd-kit',
+      'react-router',
+      'html-to-image',
+      'jspdf',
+      'cloudflare-workers',
+      'pwa',
+      'playwright',
+    ],
+    imagePath: '/assets/projects/images/tierlistbuilder.png',
+    imageAlt: 'Tier List Builder app screenshot',
+    repoUrl: 'https://github.com/ggfincke/tierlistbuilder',
+    liveUrl: 'https://tierlistbuilder.app',
+  },
+  {
     id: 'mdx-preview-for-vs-code',
     title: 'MDX Preview for VS Code',
     tagline:
@@ -23,11 +63,11 @@ export const projects: Project[] = [
       order: 1,
     },
     bulletPoints: [
-      'Built dual-mode rendering pipeline (Safe HTML / Trusted JS) with workspace-trust gating, dynamic CSP generation, and path-traversal prevention',
-      'Implemented browser-side CommonJS module loader with LRU caching, dependency-graph invalidation, and preloaded React runtime over Comlink RPC',
-      'Added framework auto-detection for Docusaurus, Starlight, Nextra, and Next.js with code-generated component shims and import aliases',
-      'Integrated Tailwind CSS v4 compilation, Sass transpilation, Shiki syntax highlighting, KaTeX math, and Mermaid / Graphviz / PlantUML diagrams',
-      'Shipped singleton service architecture with lifecycle registry, 4-script codegen pipeline, and 15+ configurable preview themes',
+      'Built the VS Code extension as a 5-package npm-workspace monorepo with dual-mode rendering (Safe HTML / Trusted JS), workspace-trust gating, dynamic CSP generation, and path-traversal prevention',
+      'Extracted mdx-forge as a standalone MIT-licensed npm runtime toolkit (separate repo, independent release cycle) with three subpath exports: compiler (compileSafe/compileTrusted), browser (module loader, LRU registry, evaluation), and components (framework shims + registry metadata)',
+      "Wired framework auto-detection for Docusaurus, Starlight, Nextra, and Next.js — the extension reads package.json and resolves imports (e.g. @theme/Tabs) through mdx-forge's component registry via a 4-script codegen pipeline that generates shim barrels and preload entries",
+      'Integrated Tailwind v4 compilation, Sass transpilation, Shiki syntax highlighting, KaTeX math, and Mermaid / Graphviz / PlantUML diagrams in the webview, with 15+ preview themes and source-line hover highlighting',
+      'Shipped Claude Code add-ons distributed via mdx-forge: a skill teaching the toolkit API plus the mdx-forge-render MCP server that compiles MDX, captures Playwright screenshots, and returns structured diagnostics with did-you-mean suggestions',
     ],
     technologies: [
       'typescript',
@@ -52,6 +92,14 @@ export const projects: Project[] = [
       {
         url: 'https://open-vsx.org/extension/ggfincke/vsc-mdx-preview',
         label: 'Open VSX',
+      },
+      {
+        url: 'https://github.com/ggfincke/mdx-forge',
+        label: 'mdx-forge',
+      },
+      {
+        url: 'https://www.npmjs.com/package/mdx-forge',
+        label: 'mdx-forge on npm',
       },
     ],
   },
@@ -275,10 +323,6 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Personal',
-    feature: {
-      tier: 'default',
-      order: 4,
-    },
     bulletPoints: [
       'Built Typer-based command suite (sectionize, tailor, generate, apply) with configurable defaults and themed help UI',
       'Implemented structured JSON edit pipeline with interactive diff resolution, risk/on-error policies, and format-preserving DOCX/LaTeX/Typst handling',

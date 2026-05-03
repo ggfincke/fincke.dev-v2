@@ -19,7 +19,7 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
       },
     },
     description:
-      'Developing secure, on-premises AI tooling for nuclear engineering workflows; building Python/FastAPI services around an internal engineering document index, and prototyping LLM-augmented retrieval emphasizing source grounding and human-in-the-loop review.',
+      'On-premises AI tooling for nuclear engineering workflows. Building Python/FastAPI services around an internal document index and prototyping LLM-augmented retrieval with source-grounded outputs.',
     technologies: ['python', 'fastapi', 'ollama'],
   },
   {
@@ -37,7 +37,7 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
       },
     },
     description:
-      'Built internal tooling to evaluate LLM-generated code, automating compilation, execution, linting, and test orchestration to measure pass@k and correctness. Designed training/eval data pipelines with schema versioning and validation, and instrumented dashboards to track error rates and test failure modes.',
+      'Python evaluation harnesses for LLM-generated code: sandboxed Docker execution, automated linting and test orchestration to measure pass@k, plus schema-versioned data pipelines for reproducible validation.',
     technologies: ['python', 'typescript', 'data-pipelines', 'llm-evaluation'],
     link: 'https://medium.com/@ggfincke/how-pass-k-is-used-to-evaluate-llm-coding-performance-296e5c4565bc',
   },

@@ -1,18 +1,25 @@
 // src/sections/projects-archive/components/ProjectsTable.tsx
 // comprehensive projects table w/ responsive card & table layouts
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import { getAllProjects } from '~/content/projects'
 import { useMediaQuery } from '~/shared/hooks/useMediaQuery'
 import { ANIMATION_DELAYS, staggerDelay } from '~/shared/utils/animationConfig'
 import { BREAKPOINTS } from '~/shared/utils/breakpoints'
-import { compareDateSpansByLatestDesc } from '~/shared/utils/dateSpan'
 import { useExpandableRows } from '../hooks/useExpandableRows'
+import {
+  compareProjects,
+  DEFAULT_PROJECT_SORT,
+  nextSortState,
+  type ProjectSortKey,
+  type ProjectSortState,
+} from '../utils/projectSort'
 import { ProjectExpansionPanel } from './ProjectExpansionPanel'
 import { ProjectMobileCard } from './ProjectMobileCard'
 import { ProjectTableRow } from './ProjectTableRow'
 import { ProjectExpandedDetails } from './ProjectExpandedDetails'
+import { SortableHeader } from './SortableHeader'
 import { getProjectViewModel } from '~/shared/utils/projectViewModel'
 
 // * Projects table component w/ expandable rows
@@ -23,17 +30,21 @@ export function ProjectsTable()
   const shouldShowCards = !isDesktop
   const shouldShowTable = isDesktop
   const { toggleRow, isExpanded } = useExpandableRows<string>()
+  const [sortState, setSortState] =
+    useState<ProjectSortState>(DEFAULT_PROJECT_SORT)
 
-  // sort projects by date desc to surface newest first
   const sortedProjects = useMemo(() =>
   {
-    return [...projects].sort((a, b) =>
-      compareDateSpansByLatestDesc(a.period, b.period)
-    )
-  }, [projects])
+    return [...projects].sort((a, b) => compareProjects(a, b, sortState))
+  }, [projects, sortState])
+
+  const handleSort = (key: ProjectSortKey) =>
+  {
+    setSortState((current) => nextSortState(current, key))
+  }
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-clip">
       {/* mobile card layout */}
       {shouldShowCards && (
         <div className="block md:hidden">
@@ -84,18 +95,39 @@ export function ProjectsTable()
           <thead>
             <tr className="border-b-2 border-[var(--accent)]/20">
               <th className="text-left py-4 pl-4 pr-1 text-sm font-medium text-[var(--muted)] uppercase tracking-wider w-10" />
-              <th className="text-left py-4 pl-4 pr-4 w-[8%] text-sm font-medium text-[var(--muted)] uppercase tracking-wider">
-                Year
-              </th>
-              <th className="text-left py-4 pl-4 pr-2 w-[24%] text-sm font-medium text-[var(--muted)] uppercase tracking-wider">
-                Project
-              </th>
-              <th className="text-center py-4 px-4 w-[7%] text-sm font-medium text-[var(--muted)] uppercase tracking-wider">
-                Status
-              </th>
-              <th className="text-left py-4 pl-4 pr-4 w-[12%] text-sm font-medium text-[var(--muted)] uppercase tracking-wider">
-                Made for
-              </th>
+              <SortableHeader
+                label="Year"
+                sortKey="year"
+                active={sortState.key === 'year'}
+                direction={sortState.direction}
+                onSort={handleSort}
+                className="text-left pl-4 pr-4 w-[8%]"
+              />
+              <SortableHeader
+                label="Project"
+                sortKey="project"
+                active={sortState.key === 'project'}
+                direction={sortState.direction}
+                onSort={handleSort}
+                className="text-left pl-4 pr-2 w-[24%]"
+              />
+              <SortableHeader
+                label="Status"
+                sortKey="status"
+                active={sortState.key === 'status'}
+                direction={sortState.direction}
+                onSort={handleSort}
+                align="center"
+                className="text-center px-4 w-[7%]"
+              />
+              <SortableHeader
+                label="Made for"
+                sortKey="madeFor"
+                active={sortState.key === 'madeFor'}
+                direction={sortState.direction}
+                onSort={handleSort}
+                className="text-left pl-4 pr-4 w-[12%]"
+              />
               <th className="text-left py-4 pl-4 pr-4 text-sm font-medium text-[var(--muted)] uppercase tracking-wider">
                 Built with
               </th>
