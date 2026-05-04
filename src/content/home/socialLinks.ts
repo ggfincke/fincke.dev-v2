@@ -2,7 +2,7 @@
 // social media links data
 
 import type { SocialLink } from '~/shared/types'
-import { EMAIL } from './about'
+import { EMAIL } from '~/content/home/about'
 
 // social link entries w/ icons & URLs
 export const SOCIAL_LINKS: SocialLink[] = [
@@ -14,10 +14,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
   },
   {
     label: 'Phone',
-    // not rendered as an href — SocialLinks renders a click-to-reveal button for this entry. URL retained for inventory/contact-data parity.
-    url: 'tel:+17247777186',
     icon: 'phone',
-    openInNewTab: false,
   },
   {
     label: 'GitHub',

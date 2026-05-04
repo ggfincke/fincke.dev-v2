@@ -11,10 +11,11 @@ export function NotFoundPage()
       visual={
         <div className="mb-4 text-6xl font-bold text-[var(--accent)]">404</div>
       }
-      title="Page not found"
-      description="The page you are looking for does not exist or has been moved."
-      titleClassName="text-xl text-[var(--fg)]"
-      descriptionClassName="mt-2 max-w-md text-[var(--muted)]"
-    />
+    >
+      <h1 className="text-xl text-[var(--fg)]">Page not found</h1>
+      <p className="mt-2 max-w-md text-[var(--muted)]">
+        The page you are looking for does not exist or has been moved.
+      </p>
+    </FullScreenMessagePage>
   )
 }

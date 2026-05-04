@@ -1,6 +1,8 @@
 // src/shared/components/layout/ProjectLinks.tsx
 // shared links renderer for project repository & live links
 
+import type { ComponentType, ReactNode } from 'react'
+
 import type { ExternalLink } from '~/shared/types'
 import { ExternalLink as ExternalAnchor } from '~/shared/components/ui/ExternalLink'
 import { IconLink } from '~/shared/components/ui/IconLink'
@@ -11,6 +13,22 @@ import { GitHubIcon } from '~/shared/components/ui/icons/GitHubIcon'
 
 // link display variant type
 export type ProjectLinksVariant = 'icon' | 'button'
+
+// project link "kind" → primary vs secondary CTA styling & label
+type LinkKind = 'repo' | 'live' | 'extra'
+
+interface ResolvedLink
+{
+  href: string
+  // short aria-label used by the icon variant
+  iconLabel: string
+  // visible text for the button variant when size is sm
+  buttonLabel: string
+  // visible text for the button variant when size is md
+  buttonLabelLong: string
+  Icon: ComponentType<{ size?: number }>
+  kind: LinkKind
+}
 
 // props for project links
 interface ProjectLinksProps
@@ -41,6 +59,60 @@ function getLiveIconLabel(resolvedLiveLabel: string, contextLabel?: string)
   return withProjectContext(`Open ${liveDestination}`, contextLabel)
 }
 
+// flatten the (repo/live/extra) inputs into a single ordered list of links
+function buildLinks(
+  repoUrl: string | undefined,
+  liveUrl: string | undefined,
+  additionalLinks: ExternalLink[] | undefined,
+  resolvedLiveLabel: string | undefined,
+  contextLabel?: string
+): ResolvedLink[]
+{
+  const links: ResolvedLink[] = []
+
+  if (repoUrl)
+  {
+    links.push({
+      href: repoUrl,
+      iconLabel: withProjectContext('Open GitHub repository', contextLabel),
+      buttonLabel: 'Repository',
+      buttonLabelLong: 'View Repository',
+      Icon: GitHubIcon,
+      kind: 'repo',
+    })
+  }
+
+  if (liveUrl)
+  {
+    const live = resolvedLiveLabel ?? 'View Live Site'
+    links.push({
+      href: liveUrl,
+      iconLabel: getLiveIconLabel(
+        resolvedLiveLabel ?? 'Live Site',
+        contextLabel
+      ),
+      buttonLabel: live,
+      buttonLabelLong: live,
+      Icon: ExternalLinkIcon,
+      kind: 'live',
+    })
+  }
+
+  for (const link of additionalLinks ?? [])
+  {
+    links.push({
+      href: link.url,
+      iconLabel: withProjectContext(`Open ${link.label}`, contextLabel),
+      buttonLabel: link.label,
+      buttonLabelLong: link.label,
+      Icon: ExternalLinkIcon,
+      kind: 'extra',
+    })
+  }
+
+  return links
+}
+
 // project links component w/ icon or button variants
 export function ProjectLinks({
   repoUrl,
@@ -57,81 +129,56 @@ export function ProjectLinks({
     ? (liveLabel ?? getProjectLiveLabel(liveUrl))
     : undefined
 
-  if (
-    !repoUrl &&
-    !liveUrl &&
-    (!additionalLinks || additionalLinks.length === 0)
+  const links = buildLinks(
+    repoUrl,
+    liveUrl,
+    additionalLinks,
+    resolvedLiveLabel,
+    contextLabel
   )
+
+  if (links.length === 0)
   {
     return null
   }
 
   if (variant === 'button')
   {
+    const buttonIconSize = size === 'sm' ? 14 : 16
     return (
       <div className={className ?? 'flex flex-wrap gap-2'}>
-        {repoUrl && (
-          <ExternalAnchor
-            href={repoUrl}
-            className={getButtonClasses(size, 'secondary')}
-          >
-            <GitHubIcon size={size === 'sm' ? 14 : 16} />
-            {size !== 'sm' ? ' View Repository' : ' Repository'}
-          </ExternalAnchor>
-        )}
-        {liveUrl && (
-          <ExternalAnchor
-            href={liveUrl}
-            className={getButtonClasses(size, 'primary')}
-          >
-            <ExternalLinkIcon size={size === 'sm' ? 14 : 16} />
-            {resolvedLiveLabel ? ` ${resolvedLiveLabel}` : ' View Live Site'}
-          </ExternalAnchor>
-        )}
-        {additionalLinks?.map((link) => (
-          <ExternalAnchor
-            key={link.url}
-            href={link.url}
-            className={getButtonClasses(size, 'secondary')}
-          >
-            <ExternalLinkIcon size={size === 'sm' ? 14 : 16} />
-            {` ${link.label}`}
-          </ExternalAnchor>
-        ))}
+        {links.map((link) =>
+        {
+          const colorVariant: 'primary' | 'secondary' =
+            link.kind === 'live' ? 'primary' : 'secondary'
+          const label = size === 'sm' ? link.buttonLabel : link.buttonLabelLong
+          const Icon = link.Icon
+
+          return (
+            <ExternalAnchor
+              key={link.href}
+              href={link.href}
+              className={getButtonClasses(size, colorVariant)}
+            >
+              <Icon size={buttonIconSize} /> {label}
+            </ExternalAnchor>
+          ) as ReactNode
+        })}
       </div>
     )
   }
 
   return (
     <div className={className ?? 'flex space-x-3'}>
-      {repoUrl && (
-        <IconLink
-          href={repoUrl}
-          label={withProjectContext('Open GitHub repository', contextLabel)}
-        >
-          <GitHubIcon size={24} />
-        </IconLink>
-      )}
-      {liveUrl && (
-        <IconLink
-          href={liveUrl}
-          label={getLiveIconLabel(
-            resolvedLiveLabel || 'Live Site',
-            contextLabel
-          )}
-        >
-          <ExternalLinkIcon size={24} />
-        </IconLink>
-      )}
-      {additionalLinks?.map((link) => (
-        <IconLink
-          key={link.url}
-          href={link.url}
-          label={withProjectContext(`Open ${link.label}`, contextLabel)}
-        >
-          <ExternalLinkIcon size={24} />
-        </IconLink>
-      ))}
+      {links.map((link) =>
+      {
+        const Icon = link.Icon
+        return (
+          <IconLink key={link.href} href={link.href} label={link.iconLabel}>
+            <Icon size={24} />
+          </IconLink>
+        )
+      })}
     </div>
   )
 }

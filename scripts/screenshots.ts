@@ -3,15 +3,20 @@
 // Usage: npm run screenshots (requires dev server). Override port via PORT env var (default 5174).
 
 import { chromium } from 'playwright'
-import { existsSync, mkdirSync, statSync } from 'fs'
+import { mkdirSync, statSync } from 'fs'
 import { join } from 'path'
+import { MAX_ANIMATION_DURATION_MS } from '../src/shared/utils/animationConfig'
+import { printDivider, printTable } from './lib/cliFormat'
+import { requireRunningServer } from './lib/devServer'
 import { PUBLIC_ROUTES } from './lib/siteManifest'
 
 const PORT = process.env.PORT ?? '5174'
 const BASE_URL = `http://localhost:${PORT}`
 const OUT_DIR = join(import.meta.dirname, '..', 'screenshots')
-// longest CSS animation is 600ms + buffer
-const ANIMATION_WAIT = 800
+// derived from runtime stagger config so this stays correct when delays change
+const ANIMATION_WAIT = MAX_ANIMATION_DURATION_MS + 200
+// concurrent browser contexts during capture; tune up if your machine has the cores
+const VIEWPORT_CONCURRENCY = 4
 
 // width/height = CSS pixels (what the browser sees for media queries)
 // dpr = deviceScaleFactor (output image rendered at width*dpr x height*dpr physical pixels)
@@ -38,6 +43,16 @@ const VIEWPORTS = [
   { name: '4K-200pct', width: 1920, height: 1080, dpr: 2 },
 ]
 
+interface ShotResult
+{
+  viewport: string
+  dims: string
+  dpr: string
+  route: string
+  file: string
+  size: string
+}
+
 function formatSize(bytes: number): string
 {
   if (bytes < 1024) return `${bytes} B`
@@ -46,53 +61,22 @@ function formatSize(bytes: number): string
   return `${(kb / 1024).toFixed(2)} MB`
 }
 
-async function checkServer(): Promise<boolean>
+type Viewport = (typeof VIEWPORTS)[number]
+
+async function captureViewport(
+  browser: Awaited<ReturnType<typeof chromium.launch>>,
+  vp: Viewport
+): Promise<ShotResult[]>
 {
+  const context = await browser.newContext({
+    viewport: { width: vp.width, height: vp.height },
+    deviceScaleFactor: vp.dpr,
+  })
+
   try
   {
-    const res = await fetch(BASE_URL)
-    return res.ok
-  }
-  catch
-  {
-    return false
-  }
-}
-
-async function main()
-{
-  const serverUp = await checkServer()
-  if (!serverUp)
-  {
-    console.error(
-      `\nDev server not reachable at ${BASE_URL}\nRun "npm run dev" first, then try again.\n`
-    )
-    process.exit(1)
-  }
-
-  if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true })
-
-  console.log(
-    `\nCapturing ${VIEWPORTS.length} viewports x ${PUBLIC_ROUTES.length} routes...\n`
-  )
-
-  const browser = await chromium.launch()
-  const results: {
-    viewport: string
-    dims: string
-    dpr: string
-    route: string
-    file: string
-    size: string
-  }[] = []
-
-  for (const vp of VIEWPORTS)
-  {
-    const context = await browser.newContext({
-      viewport: { width: vp.width, height: vp.height },
-      deviceScaleFactor: vp.dpr,
-    })
     const page = await context.newPage()
+    const captures: ShotResult[] = []
 
     for (const route of PUBLIC_ROUTES)
     {
@@ -104,7 +88,7 @@ async function main()
       await page.screenshot({ path: filepath, fullPage: true })
 
       const size = statSync(filepath).size
-      results.push({
+      captures.push({
         viewport: vp.name,
         dims: `${vp.width}x${vp.height}`,
         dpr: `${vp.dpr}x`,
@@ -116,35 +100,80 @@ async function main()
       console.log(`  ${filename} (${formatSize(size)})`)
     }
 
+    return captures
+  }
+  finally
+  {
     await context.close()
   }
+}
 
-  // summary table
-  console.log('\n' + '='.repeat(100))
-  console.log(
-    'Viewport'.padEnd(24) +
-      'CSS Pixels'.padEnd(14) +
-      'DPR'.padEnd(6) +
-      'Route'.padEnd(12) +
-      'File Size'.padEnd(12) +
-      'File'
+// run async work over an array w/ a fixed concurrency cap
+async function mapWithConcurrency<T, R>(
+  items: ReadonlyArray<T>,
+  limit: number,
+  fn: (item: T) => Promise<R>
+): Promise<R[]>
+{
+  const results: R[] = new Array(items.length)
+  let cursor = 0
+
+  const workers = Array.from(
+    { length: Math.min(limit, items.length) },
+    async () =>
+    {
+      while (cursor < items.length)
+      {
+        const index = cursor++
+        results[index] = await fn(items[index])
+      }
+    }
   )
-  console.log('-'.repeat(100))
-  for (const r of results)
-  {
-    console.log(
-      r.viewport.padEnd(24) +
-        r.dims.padEnd(14) +
-        r.dpr.padEnd(6) +
-        r.route.padEnd(12) +
-        r.size.padEnd(12) +
-        r.file
-    )
-  }
-  console.log('='.repeat(100))
-  console.log(`\n${results.length} screenshots saved to ${OUT_DIR}\n`)
 
-  await browser.close()
+  await Promise.all(workers)
+  return results
+}
+
+async function main()
+{
+  await requireRunningServer(
+    BASE_URL,
+    'Run "npm run dev" first, then try again.'
+  )
+
+  mkdirSync(OUT_DIR, { recursive: true })
+
+  console.log(
+    `\nCapturing ${VIEWPORTS.length} viewports x ${PUBLIC_ROUTES.length} routes ` +
+      `(concurrency ${VIEWPORT_CONCURRENCY})...\n`
+  )
+
+  const browser = await chromium.launch()
+  try
+  {
+    const allResults = await mapWithConcurrency(
+      VIEWPORTS,
+      VIEWPORT_CONCURRENCY,
+      (vp) => captureViewport(browser, vp)
+    )
+    const results = allResults.flat()
+
+    printDivider(100)
+    printTable(results, [
+      { header: 'Viewport', width: 24, format: (r) => r.viewport },
+      { header: 'CSS Pixels', width: 14, format: (r) => r.dims },
+      { header: 'DPR', width: 6, format: (r) => r.dpr },
+      { header: 'Route', width: 12, format: (r) => r.route },
+      { header: 'File Size', width: 12, format: (r) => r.size },
+      { header: 'File', format: (r) => r.file },
+    ])
+    console.log('='.repeat(100))
+    console.log(`\n${results.length} screenshots saved to ${OUT_DIR}\n`)
+  }
+  finally
+  {
+    await browser.close()
+  }
 }
 
 main()

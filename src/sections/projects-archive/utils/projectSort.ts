@@ -1,8 +1,9 @@
 // src/sections/projects-archive/utils/projectSort.ts
 // sort state, defaults, & comparators for the projects archive table
 
-import type { Project, ProjectStatus } from '~/shared/types'
+import type { Project, YearMonth } from '~/shared/types'
 import { compareDateSpansByLatestDesc } from '~/shared/utils/dateSpan'
+import { statusConfig } from '~/shared/utils/statusConfig'
 
 export type ProjectSortKey = 'year' | 'project' | 'status' | 'madeFor'
 export type ProjectSortDirection = 'asc' | 'desc'
@@ -27,27 +28,22 @@ const DEFAULT_DIRECTIONS: Record<ProjectSortKey, ProjectSortDirection> = {
   madeFor: 'asc',
 }
 
-// status rank ordered from most to least active (lower rank wins on ascending)
-const STATUS_RANK: Record<ProjectStatus, number> = {
-  live: 0,
-  'in-development': 1,
-  experimental: 2,
-  paused: 3,
-  planned: 4,
-  complete: 5,
-}
-
-function compareAscending(a: Project, b: Project, key: ProjectSortKey): number
+function compareAscending(
+  a: Project,
+  b: Project,
+  key: ProjectSortKey,
+  now: YearMonth
+): number
 {
   switch (key)
   {
     case 'year':
       // dateSpan helper returns desc; negate so ascending = oldest first
-      return -compareDateSpansByLatestDesc(a.period, b.period)
+      return -compareDateSpansByLatestDesc(a.period, b.period, now)
     case 'project':
       return a.title.localeCompare(b.title)
     case 'status':
-      return STATUS_RANK[a.status] - STATUS_RANK[b.status]
+      return statusConfig[a.status].rank - statusConfig[b.status].rank
     case 'madeFor':
       return a.madeFor.localeCompare(b.madeFor)
   }
@@ -56,10 +52,11 @@ function compareAscending(a: Project, b: Project, key: ProjectSortKey): number
 export function compareProjects(
   a: Project,
   b: Project,
-  state: ProjectSortState
+  state: ProjectSortState,
+  now: YearMonth
 ): number
 {
-  const ascending = compareAscending(a, b, state.key)
+  const ascending = compareAscending(a, b, state.key, now)
   const primary = state.direction === 'asc' ? ascending : -ascending
 
   if (primary !== 0)

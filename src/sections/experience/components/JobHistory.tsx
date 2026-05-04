@@ -1,37 +1,31 @@
 // src/sections/experience/components/JobHistory.tsx
 // brief job history w/ link to full resume
 
-import { useMediaQuery } from '~/shared/hooks/useMediaQuery'
 import { WORK_EXPERIENCE } from '~/content/experience'
 import { ActionLink } from '~/shared/components/ui/ActionLink'
-import { BREAKPOINTS } from '~/shared/utils/breakpoints'
 import { ArrowIcon } from '~/shared/components/ui/icons'
-import { ANIMATION_DELAYS, staggerDelay } from '~/shared/utils/animationConfig'
-import { JobCard } from './JobCard'
+import {
+  ANIMATION_DELAYS,
+  getStaggerStyle,
+} from '~/shared/utils/animationConfig'
+import { JobCard } from '~/sections/experience/components/JobCard'
+import { RESUME_PATH } from '~/sections/experience/components/jobHistory.paths'
 
 // job history section w/ resume link
 export function JobHistory()
 {
-  // filter jobs by viewport — wide shows additional entries
-  const showExpandedExperience = useMediaQuery(BREAKPOINTS.ultraWideWithHeight)
-  const visibleJobs = WORK_EXPERIENCE.filter((job) =>
-    job.showOnUltraWide ? showExpandedExperience : true
-  )
-
   return (
     <>
       {/* job cards */}
-      {visibleJobs.map((job, index) => (
+      {WORK_EXPERIENCE.map((job, index) => (
         <div
           key={job.id}
           className="animate-slide-in-up opacity-0"
-          style={{
-            animationDelay: staggerDelay(
-              ANIMATION_DELAYS.jobHistory.base,
-              ANIMATION_DELAYS.jobHistory.step,
-              index
-            ),
-          }}
+          style={getStaggerStyle(
+            ANIMATION_DELAYS.jobHistory.base,
+            ANIMATION_DELAYS.jobHistory.step,
+            index
+          )}
         >
           <JobCard job={job} />
         </div>
@@ -39,17 +33,15 @@ export function JobHistory()
 
       {/* resume link */}
       <ActionLink
-        href="/documents/garrett_fincke_resume.pdf"
+        href={RESUME_PATH}
         openInNewTab
         icon={<ArrowIcon />}
         className="animate-slide-in-up opacity-0"
-        style={{
-          animationDelay: staggerDelay(
-            ANIMATION_DELAYS.jobHistory.base,
-            ANIMATION_DELAYS.jobHistory.step,
-            visibleJobs.length
-          ),
-        }}
+        style={getStaggerStyle(
+          ANIMATION_DELAYS.jobHistory.base,
+          ANIMATION_DELAYS.jobHistory.step,
+          WORK_EXPERIENCE.length
+        )}
       >
         View Full Resume
       </ActionLink>

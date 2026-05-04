@@ -13,6 +13,7 @@ export interface ProjectViewModel
   hasLinks: boolean
   detailsId: string
   detailsLabel: string
+  imageAlt: string
 }
 
 // derive stable project view metadata from authored content
@@ -29,5 +30,6 @@ export function getProjectViewModel(project: Project): ProjectViewModel
     ),
     detailsId: `project-details-${project.id}`,
     detailsLabel: `Details for ${project.title}`,
+    imageAlt: project.imageAlt ?? `${project.title} screenshot`,
   }
 }

@@ -1,15 +1,16 @@
 // focused coverage for shared collaborator rendering
 
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
 import { ProjectCollaborators } from '~/shared/components/projects/ProjectCollaborators'
+import { renderWithRouter } from './render'
 
 describe('ProjectCollaborators', () =>
 {
   it('renders linked and unlinked collaborators with the same text contract', () =>
   {
-    const { container } = render(
+    const { container } = renderWithRouter(
       <ProjectCollaborators
         prefix="with "
         collaborators={[
@@ -46,7 +47,7 @@ describe('ProjectCollaborators', () =>
 
   it('renders single collaborators without trailing separators', () =>
   {
-    const { container } = render(
+    const { container } = renderWithRouter(
       <ProjectCollaborators collaborators={[{ name: 'Solo Builder' }]} />
     )
 

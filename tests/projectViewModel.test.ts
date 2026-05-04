@@ -3,22 +3,18 @@
 
 import { describe, expect, it } from 'vitest'
 
-import { projects } from '~/content/projects'
 import { getProjectLiveLabel } from '~/shared/utils/projectLinks'
 import { getProjectViewModel } from '~/shared/utils/projectViewModel'
 
-const mdxPreviewProject = projects.find(
-  (project) => project.id === 'mdx-preview-for-vs-code'
-)
-const loomProject = projects.find((project) => project.id === 'loom')
+import { getProjectFixture } from './fixtures'
 
 describe('project view model', () =>
 {
   it('derives stable display metadata from project content', () =>
   {
-    expect(mdxPreviewProject).toBeDefined()
-
-    const viewModel = getProjectViewModel(mdxPreviewProject!)
+    const viewModel = getProjectViewModel(
+      getProjectFixture('mdx-preview-for-vs-code')
+    )
 
     expect(viewModel.primaryHref).toBe(
       'https://marketplace.visualstudio.com/items?itemName=ggfincke.vsc-mdx-preview'
@@ -32,9 +28,7 @@ describe('project view model', () =>
 
   it('falls back to repository links when no live URL exists', () =>
   {
-    expect(loomProject).toBeDefined()
-
-    const viewModel = getProjectViewModel(loomProject!)
+    const viewModel = getProjectViewModel(getProjectFixture('loom'))
 
     expect(viewModel.primaryHref).toBe('https://github.com/ggfincke/loom')
   })

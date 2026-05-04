@@ -7,10 +7,9 @@ import { afterEach, beforeEach, vi } from 'vitest'
 
 import { installMatchMediaMock, resetMatchMedia } from './tests/ui/matchMedia'
 
-const fetchMock = vi.fn(async () => ({
-  ok: false,
-  json: async () => null,
-}))
+// default: every test that touches `fetch` should opt in via mockResolvedValueOnce.
+// returning a real Response so consumers that read `status`/`headers` don't NPE.
+const fetchMock = vi.fn(async () => new Response(null, { status: 503 }))
 
 vi.stubGlobal('fetch', fetchMock)
 

@@ -1,57 +1,49 @@
 // src/sections/projects-archive/components/ProjectMobileCard.tsx
 // mobile card view for project row
 
-import type { KeyboardEvent } from 'react'
+import { memo } from 'react'
 
+import { NestedInteractionBoundary } from '~/shared/components/layout/NestedInteractionBoundary'
 import { ProjectLinks } from '~/shared/components/layout/ProjectLinks'
 import { ProjectIdentity } from '~/shared/components/projects/ProjectIdentity'
 import { ProjectTechnologies } from '~/shared/components/projects/ProjectTechnologies'
 import { StatusCircle } from '~/shared/components/ui/StatusCircle'
-import type { Project } from '~/shared/types'
-import { getNestedInteractionProps } from '~/shared/utils/interaction'
-import { getProjectViewModel } from '~/shared/utils/projectViewModel'
-import { ExpandToggle } from './ExpandToggle'
+import type { Project, ProjectId } from '~/shared/types'
+import { getKeyboardActivationProps } from '~/shared/utils/interaction'
+import type { ProjectViewModel } from '~/shared/utils/projectViewModel'
+import { ExpandToggle } from '~/sections/projects-archive/components/ExpandToggle'
 
 // props for mobile project card
 interface ProjectMobileCardProps
 {
   project: Project
+  viewModel: ProjectViewModel
   expanded: boolean
-  onToggle: () => void
+  toggleRow: (id: ProjectId) => void
 }
 
 // mobile card view for project row
-export function ProjectMobileCard({
+function ProjectMobileCardImpl({
   project,
+  viewModel,
   expanded,
-  onToggle,
+  toggleRow,
 }: ProjectMobileCardProps)
 {
-  const viewModel = getProjectViewModel(project)
-
-  const handleKeyDown = (e: KeyboardEvent) =>
-  {
-    if (
-      e.key === 'Enter' ||
-      e.key === ' ' ||
-      e.key === 'Space' ||
-      e.key === 'Spacebar'
-    )
-    {
-      e.preventDefault()
-      onToggle()
-    }
-  }
+  const onToggle = () => toggleRow(project.id)
+  const keyboardActivationProps =
+    getKeyboardActivationProps<HTMLDivElement>(onToggle)
 
   return (
     <div
       className={`rounded-lg px-4 py-3 cursor-pointer transition-[border-color,background-color] duration-200 hover:bg-[var(--card)]/50 ${expanded ? 'border border-[var(--accent)]/30 bg-[var(--card)]/50' : 'border border-[var(--border)] bg-[var(--card)]/30'}`}
       onClick={onToggle}
-      onKeyDown={handleKeyDown}
+      onKeyDown={keyboardActivationProps.onKeyDown}
       role="button"
       tabIndex={0}
       aria-expanded={expanded}
       aria-controls={viewModel.detailsId}
+      aria-label={`Toggle details for ${project.title}`}
     >
       {/* row 1: year, title, toggle */}
       <div className="flex items-start justify-between gap-4">
@@ -67,27 +59,20 @@ export function ProjectMobileCard({
             collaboratorsClassName="mt-0.5 block text-sm text-[var(--muted)]"
           />
         </div>
-        <div
-          role="presentation"
-          {...getNestedInteractionProps<HTMLDivElement>()}
-        >
+        <NestedInteractionBoundary>
           <ExpandToggle
             expanded={expanded}
             onToggle={onToggle}
             controlsId={viewModel.detailsId}
             title={project.title}
           />
-        </div>
+        </NestedInteractionBoundary>
       </div>
 
       {/* row 2: status, tech pills, links */}
       <div className="flex items-center gap-2 mt-2 ml-[3rem] pl-4">
         <StatusCircle status={project.status} size={22} />
-        <div
-          className="flex-1 min-w-0"
-          role="presentation"
-          {...getNestedInteractionProps<HTMLDivElement>()}
-        >
+        <NestedInteractionBoundary className="flex-1 min-w-0">
           <ProjectTechnologies
             technologies={project.technologies}
             maxVisible={2}
@@ -95,12 +80,8 @@ export function ProjectMobileCard({
             showRelatedProjects
             className="flex flex-wrap gap-1.5 items-center"
           />
-        </div>
-        <div
-          className="flex-shrink-0"
-          role="presentation"
-          {...getNestedInteractionProps<HTMLDivElement>()}
-        >
+        </NestedInteractionBoundary>
+        <NestedInteractionBoundary className="flex-shrink-0">
           <ProjectLinks
             repoUrl={project.repoUrl}
             liveUrl={project.liveUrl}
@@ -110,8 +91,10 @@ export function ProjectMobileCard({
             className="flex space-x-3"
             contextLabel={project.title}
           />
-        </div>
+        </NestedInteractionBoundary>
       </div>
     </div>
   )
 }
+
+export const ProjectMobileCard = memo(ProjectMobileCardImpl)

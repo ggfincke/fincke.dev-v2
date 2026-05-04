@@ -1,13 +1,23 @@
 // src/shared/components/ui/icons/ChevronIcon.tsx
 // chevron icon w/ configurable direction
 
+import { cn } from '~/shared/utils/classNames'
+
 // props for chevron icon
 interface ChevronIconProps
 {
   size?: number
   className?: string
-  direction?: 'left' | 'right'
+  direction?: 'left' | 'right' | 'up' | 'down'
 }
+
+// rotation classes for non-default chevron directions
+const DIRECTION_ROTATION = {
+  right: '',
+  down: 'rotate-90',
+  left: 'rotate-180',
+  up: '-rotate-90',
+} as const
 
 // chevron SVG w/ configurable direction
 export function ChevronIcon({
@@ -28,7 +38,7 @@ export function ChevronIcon({
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
-      className={`${direction === 'left' ? 'rotate-180' : ''} ${className ?? ''}`.trim()}
+      className={cn(DIRECTION_ROTATION[direction], className)}
     >
       <path d="M9 18l6-6-6-6" />
     </svg>

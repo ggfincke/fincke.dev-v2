@@ -4,7 +4,7 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { Link, type To } from 'react-router-dom'
 
-import { ACTION_LINK_CLASSES } from '~/shared/utils/classNames'
+import { cn, ACTION_LINK_CLASSES } from '~/shared/utils/classNames'
 import { getNewTabLinkProps } from '~/shared/utils/linkProps'
 
 // common action link props
@@ -34,7 +34,7 @@ type ActionLinkProps =
 // shared CTA/action link for internal routes or href targets
 export function ActionLink({
   children,
-  className = '',
+  className,
   style,
   icon,
   iconPosition = 'end',
@@ -42,7 +42,7 @@ export function ActionLink({
   ...props
 }: ActionLinkProps)
 {
-  const classes = `${ACTION_LINK_CLASSES} ${className}`.trim()
+  const classes = cn(ACTION_LINK_CLASSES, className)
   const content = (
     <>
       {icon && iconPosition === 'start' && icon}
@@ -51,7 +51,7 @@ export function ActionLink({
     </>
   )
 
-  if ('to' in props && props.to !== undefined)
+  if (props.to !== undefined)
   {
     return (
       <Link

@@ -1,8 +1,12 @@
 // src/sections/projects-archive/components/SortableHeader.tsx
 // table header cell w/ click-to-sort button & direction indicator
 
-import { FOCUS_RING_CLASSES } from '~/shared/utils/classNames'
-import type { ProjectSortDirection, ProjectSortKey } from '../utils/projectSort'
+import { ChevronIcon } from '~/shared/components/ui/icons'
+import { FOCUS_RING_CLASSES, cn } from '~/shared/utils/classNames'
+import type {
+  ProjectSortDirection,
+  ProjectSortKey,
+} from '~/sections/projects-archive/utils/projectSort'
 
 // props for sortable header
 interface SortableHeaderProps
@@ -27,11 +31,8 @@ export function SortableHeader({
   className = '',
 }: SortableHeaderProps)
 {
-  const ariaSort = active
-    ? direction === 'asc'
-      ? 'ascending'
-      : 'descending'
-    : 'none'
+  const directionLabel = direction === 'asc' ? 'ascending' : 'descending'
+  const ariaSort = active ? directionLabel : 'none'
   const justifyClass = align === 'center' ? 'justify-center' : 'justify-start'
   const activeTextClass = active
     ? 'text-[var(--accent)]'
@@ -49,7 +50,7 @@ export function SortableHeader({
         className={`group/sort inline-flex w-full items-center gap-1.5 ${justifyClass} ${activeTextClass} uppercase tracking-wider transition-colors hover:text-[var(--accent)] ${FOCUS_RING_CLASSES}`}
         aria-label={
           active
-            ? `Sort by ${label} (currently ${direction === 'asc' ? 'ascending' : 'descending'})`
+            ? `Sort by ${label} (currently ${directionLabel})`
             : `Sort by ${label}`
         }
       >
@@ -60,7 +61,7 @@ export function SortableHeader({
   )
 }
 
-// stacked up/down arrows; active arrow inherits the parent text color
+// stacked chevrons; active arrow inherits the parent text color
 function SortIndicator({
   active,
   direction,
@@ -73,28 +74,27 @@ function SortIndicator({
   const downActive = active && direction === 'desc'
   const inactiveClass =
     'text-[var(--muted)]/30 group-hover/sort:text-[var(--muted)]/60'
+  const iconClass = 'h-2.5 w-2.5 shrink-0 stroke-[2.75]'
 
   return (
     <span
       aria-hidden="true"
       className="inline-flex flex-col items-center leading-none"
     >
-      <svg
-        width="8"
-        height="5"
-        viewBox="0 0 8 5"
-        className={upActive ? 'text-current' : inactiveClass}
-      >
-        <path d="M4 0 L8 5 L0 5 Z" fill="currentColor" />
-      </svg>
-      <svg
-        width="8"
-        height="5"
-        viewBox="0 0 8 5"
-        className={`mt-0.5 ${downActive ? 'text-current' : inactiveClass}`}
-      >
-        <path d="M0 0 L8 0 L4 5 Z" fill="currentColor" />
-      </svg>
+      <ChevronIcon
+        size={10}
+        direction="up"
+        className={cn(iconClass, upActive ? 'text-current' : inactiveClass)}
+      />
+      <ChevronIcon
+        size={10}
+        direction="down"
+        className={cn(
+          '-mt-1',
+          iconClass,
+          downActive ? 'text-current' : inactiveClass
+        )}
+      />
     </span>
   )
 }

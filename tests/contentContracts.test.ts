@@ -5,11 +5,16 @@ import { describe, expect, it } from 'vitest'
 
 import { WORK_EXPERIENCE } from '~/content/experience'
 import { projects } from '~/content/projects'
-import type { DateSpan, YearMonth } from '~/shared/types'
+import type { DateSpan, Project, ProjectFeature } from '~/shared/types'
+import { WORK_EXPERIENCE_IDS } from '~/shared/types/experience'
+import { PROJECT_IDS } from '~/shared/types/projects'
+import { getYearMonthValue } from '~/shared/utils/dateSpan'
 
-function getYearMonthValue(value: YearMonth): number
+type FeaturedProject = Project & { feature: ProjectFeature }
+
+function hasFeature(project: Project): project is FeaturedProject
 {
-  return value.year * 100 + value.month
+  return Boolean(project.feature)
 }
 
 function expectValidPeriod(period: DateSpan, label: string)
@@ -55,26 +60,30 @@ describe('content contracts', () =>
 {
   it('keeps project ids unique', () =>
   {
-    expect(getDuplicateValues(projects.map((project) => project.id))).toEqual(
-      []
-    )
+    const projectIds = projects.map((project) => project.id)
+
+    expect(getDuplicateValues(projectIds)).toEqual([])
+    expect(projectIds).toEqual(PROJECT_IDS)
   })
 
   it('keeps work experience ids unique', () =>
   {
-    expect(getDuplicateValues(WORK_EXPERIENCE.map((job) => job.id))).toEqual([])
+    const workExperienceIds = WORK_EXPERIENCE.map((job) => job.id)
+
+    expect(getDuplicateValues(workExperienceIds)).toEqual([])
+    expect(workExperienceIds).toEqual(WORK_EXPERIENCE_IDS)
   })
 
   it('keeps featured order values globally unique', () =>
   {
-    const featuredProjects = projects.filter((project) => project.feature)
-    const orders = featuredProjects.map((project) => project.feature!.order)
+    const featuredProjects = projects.filter(hasFeature)
+    const orders = featuredProjects.map((project) => project.feature.order)
 
     expect(getDuplicateValues(orders.map(String))).toEqual([])
 
     for (const project of featuredProjects)
     {
-      const order = project.feature!.order
+      const order = project.feature.order
       expect(
         Number.isInteger(order) && order > 0,
         `feature order must be a positive integer: ${project.id}`

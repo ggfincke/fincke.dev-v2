@@ -51,6 +51,25 @@ describe('date span utilities', () =>
     ).toBe('Oct 2025 – Present')
   })
 
+  it('formats expected ranges with a caller-owned suffix', () =>
+  {
+    expect(
+      formatDateSpan(
+        {
+          start: {
+            year: 2024,
+            month: 8,
+          },
+          end: {
+            year: 2027,
+            month: 5,
+          },
+        },
+        { expected: true }
+      )
+    ).toBe('Aug 2024 – May 2027 (expected)')
+  })
+
   it('sorts closed ranges by latest date across years', () =>
   {
     const newer: DateSpan = {

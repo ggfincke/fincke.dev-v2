@@ -1,33 +1,23 @@
 // tests/ui/projectSurfaces.test.tsx
 // shared rendering checks for featured & expanded project surfaces
 
-import { screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { screen, waitFor } from '@testing-library/react'
+import { describe, it, expect, vi } from 'vitest'
 
-import { projects } from '~/content/projects'
 import { FeaturedProjectCard } from '~/sections/featured-projects/components/FeaturedProjectCard'
 import { ProjectExpandedDetails } from '~/sections/projects-archive/components/ProjectExpandedDetails'
+import { VersionBadge } from '~/shared/components/ui/VersionBadge'
+import { getProjectFixture } from '../fixtures'
 import { renderWithRouter } from './render'
-
-const portfolioProject = projects.find(
-  (project) => project.id === 'portfolio-website-v2'
-)
-const loomProject = projects.find((project) => project.id === 'loom')
-const collaboratorProject = projects.find(
-  (project) =>
-    project.id ===
-    'deep-learning-architecture-comparison-and-analysis-for-cifar-10'
-)
 
 describe('featured project card', () =>
 {
   it('prefers live URLs and falls back to repository URLs', () =>
   {
-    expect(portfolioProject).toBeDefined()
-    expect(loomProject).toBeDefined()
-
     const { unmount } = renderWithRouter(
-      <FeaturedProjectCard project={portfolioProject!} />
+      <FeaturedProjectCard
+        project={getProjectFixture('portfolio-website-v2')}
+      />
     )
 
     expect(
@@ -35,7 +25,9 @@ describe('featured project card', () =>
     ).toHaveAttribute('href', 'https://fincke.dev')
 
     unmount()
-    renderWithRouter(<FeaturedProjectCard project={loomProject!} />)
+    renderWithRouter(
+      <FeaturedProjectCard project={getProjectFixture('loom')} />
+    )
 
     expect(screen.getByText('Loom').closest('a')).toHaveAttribute(
       'href',
@@ -45,9 +37,11 @@ describe('featured project card', () =>
 
   it('renders shared project technologies on featured cards', () =>
   {
-    expect(portfolioProject).toBeDefined()
-
-    renderWithRouter(<FeaturedProjectCard project={portfolioProject!} />)
+    renderWithRouter(
+      <FeaturedProjectCard
+        project={getProjectFixture('portfolio-website-v2')}
+      />
+    )
 
     expect(screen.getByText('React')).toBeInTheDocument()
     expect(screen.getByText('TypeScript')).toBeInTheDocument()
@@ -58,11 +52,11 @@ describe('expanded project details', () =>
 {
   it('renders shared project technologies and collaborator text', () =>
   {
-    expect(collaboratorProject).toBeDefined()
-
     renderWithRouter(
       <ProjectExpandedDetails
-        project={collaboratorProject!}
+        project={getProjectFixture(
+          'deep-learning-architecture-comparison-and-analysis-for-cifar-10'
+        )}
         variant="desktop"
       />
     )
@@ -71,5 +65,49 @@ describe('expanded project details', () =>
     expect(screen.getByText('TensorFlow')).toBeInTheDocument()
     expect(screen.getByText(/Jacob Goulet/)).toBeInTheDocument()
     expect(screen.getByText(/Tyler Rossi/)).toBeInTheDocument()
+  })
+})
+
+describe('version badge', () =>
+{
+  it('dedupes concurrent release requests for the same repository', async () =>
+  {
+    const fetchMock = vi.mocked(fetch)
+    fetchMock.mockResolvedValueOnce(
+      new Response(JSON.stringify({ tag_name: 'v1.2.3' }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    )
+
+    renderWithRouter(
+      <>
+        <VersionBadge repoUrl="https://github.com/ggfincke/loom" />
+        <VersionBadge repoUrl="https://github.com/ggfincke/loom" />
+      </>
+    )
+
+    expect(await screen.findAllByText(/v1\.2\.3/)).toHaveLength(2)
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('caches release misses to avoid repeated optional lookups', async () =>
+  {
+    const fetchMock = vi.mocked(fetch)
+    fetchMock.mockResolvedValueOnce(new Response(null, { status: 404 }))
+
+    const { unmount } = renderWithRouter(
+      <VersionBadge repoUrl="https://github.com/ggfincke/no-releases" />
+    )
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
+    unmount()
+
+    renderWithRouter(
+      <VersionBadge repoUrl="https://github.com/ggfincke/no-releases" />
+    )
+
+    await Promise.resolve()
+    expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 })

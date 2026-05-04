@@ -38,12 +38,9 @@ describe('projects archive desktop interactions', () =>
       screen.queryByRole('region', { name: MDX_PREVIEW_DETAILS_LABEL })
     ).not.toBeInTheDocument()
 
-    const titleCell = screen.getByText(MDX_PREVIEW_TITLE)
-    const row = titleCell.closest('tr')
+    const row = screen.getByRole('row', { name: new RegExp(MDX_PREVIEW_TITLE) })
 
-    expect(row).not.toBeNull()
-
-    await user.click(row!)
+    await user.click(row)
 
     expect(
       screen.getByRole('region', { name: MDX_PREVIEW_DETAILS_LABEL })
@@ -56,12 +53,9 @@ describe('projects archive desktop interactions', () =>
 
     renderDesktopArchive()
 
-    const titleCell = screen.getByText(MDX_PREVIEW_TITLE)
-    const row = titleCell.closest('tr')
+    const row = screen.getByRole('row', { name: new RegExp(MDX_PREVIEW_TITLE) })
 
-    expect(row).not.toBeNull()
-
-    const rowScope = within(row!)
+    const rowScope = within(row)
 
     await user.click(
       rowScope.getByRole('link', {
@@ -98,14 +92,13 @@ describe('projects archive mobile interactions', () =>
 
     expect(screen.queryByRole('table')).not.toBeInTheDocument()
 
-    const card = screen
-      .getByText(MDX_PREVIEW_TITLE)
-      .closest('[role="button"]') as HTMLElement | null
+    const card = screen.getByRole('button', {
+      name: `Toggle details for ${MDX_PREVIEW_TITLE}`,
+    })
 
-    expect(card).not.toBeNull()
     expect(card).toHaveAttribute('aria-expanded', 'false')
 
-    card!.focus()
+    card.focus()
     await user.keyboard('{Enter}')
 
     expect(card).toHaveAttribute('aria-expanded', 'true')
@@ -113,7 +106,7 @@ describe('projects archive mobile interactions', () =>
       screen.getByRole('region', { name: MDX_PREVIEW_DETAILS_LABEL })
     ).toBeInTheDocument()
 
-    await user.keyboard('{Space}')
+    await user.keyboard('[Space]')
     expect(card).toHaveAttribute('aria-expanded', 'false')
     expect(
       screen.queryByRole('region', { name: MDX_PREVIEW_DETAILS_LABEL })
@@ -126,13 +119,11 @@ describe('projects archive mobile interactions', () =>
 
     renderMobileArchive()
 
-    const card = screen
-      .getByText(MDX_PREVIEW_TITLE)
-      .closest('[role="button"]') as HTMLElement | null
+    const card = screen.getByRole('button', {
+      name: `Toggle details for ${MDX_PREVIEW_TITLE}`,
+    })
 
-    expect(card).not.toBeNull()
-
-    const cardScope = within(card!)
+    const cardScope = within(card)
 
     await user.click(
       cardScope.getByRole('link', {

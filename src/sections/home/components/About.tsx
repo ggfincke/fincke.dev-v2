@@ -1,12 +1,11 @@
 // src/sections/home/components/About.tsx
 // about section w/ bio & contact information
 
-import type { ReactNode } from 'react'
-
 import { getTechnologyColor, getTechnologyTerms } from '~/content/technologies'
 import { ABOUT_CONTENT, ABOUT_HIGHLIGHTS } from '~/content/home'
 import { InlineLink } from '~/shared/components/ui/InlineLink'
 import { ANIMATION_DELAYS } from '~/shared/utils/animationConfig'
+import { buildTermPattern, highlightText } from '~/shared/utils/textHighlight'
 
 // term -> CSS color value, sourced from technology category for tech IDs
 const TERM_COLOR_MAP = new Map<string, string>([
@@ -22,32 +21,12 @@ const TERM_COLOR_MAP = new Map<string, string>([
   ),
 ])
 
-// longest term first so regex matches multi-word phrases before their substrings
-const HIGHLIGHT_PATTERN = new RegExp(
-  `(${[...TERM_COLOR_MAP.keys()]
-    .map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-    .sort((a, b) => b.length - a.length)
-    .join('|')})`,
-  'g'
-)
+const HIGHLIGHT_PATTERN = buildTermPattern(TERM_COLOR_MAP.keys())
 
-function highlightText(text: string): ReactNode[]
-{
-  const parts = text.split(HIGHLIGHT_PATTERN)
-  return parts.map((part, i) =>
-  {
-    const color = TERM_COLOR_MAP.get(part)
-    if (color)
-    {
-      return (
-        <span key={i} style={{ color }}>
-          {part}
-        </span>
-      )
-    }
-    return part
-  })
-}
+// content is static — precompute highlighted nodes once at module load
+const HIGHLIGHTED_PARAGRAPHS = ABOUT_CONTENT.paragraphs.map((text) =>
+  highlightText(text, HIGHLIGHT_PATTERN, TERM_COLOR_MAP)
+)
 
 // about section w/ highlighted bio & contact info
 export function About()
@@ -58,12 +37,12 @@ export function About()
       className="animate-slide-in-left opacity-0"
       style={{ animationDelay: ANIMATION_DELAYS.about }}
     >
-      {ABOUT_CONTENT.paragraphs.map((text, index) => (
+      {HIGHLIGHTED_PARAGRAPHS.map((nodes, index) => (
         <p
           key={index}
           className="mt-3 text-sm leading-relaxed text-[var(--muted)]"
         >
-          {highlightText(text)}
+          {nodes}
         </p>
       ))}
       <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">

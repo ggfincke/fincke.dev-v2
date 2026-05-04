@@ -3,14 +3,14 @@
 
 import type { AnchorHTMLAttributes, ReactNode } from 'react'
 
-import { FOCUS_RING_CLASSES } from '~/shared/utils/classNames'
+import { cn, FOCUS_RING_CLASSES } from '~/shared/utils/classNames'
 import { getNewTabLinkProps } from '~/shared/utils/linkProps'
 
 // props for shared external link
 interface ExternalLinkProps
   extends Omit<
     AnchorHTMLAttributes<HTMLAnchorElement>,
-    'children' | 'className' | 'href'
+    'children' | 'className' | 'href' | 'rel' | 'target'
   >
   {
   href: string
@@ -23,7 +23,7 @@ interface ExternalLinkProps
 export function ExternalLink({
   href,
   children,
-  className = '',
+  className,
   openInNewTab = true,
   ...props
 }: ExternalLinkProps)
@@ -31,9 +31,9 @@ export function ExternalLink({
   return (
     <a
       href={href}
-      className={`${FOCUS_RING_CLASSES} ${className}`.trim()}
-      {...getNewTabLinkProps(openInNewTab)}
+      className={cn(FOCUS_RING_CLASSES, className)}
       {...props}
+      {...getNewTabLinkProps(openInNewTab)}
     >
       {children}
     </a>

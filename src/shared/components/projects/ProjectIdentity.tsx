@@ -5,7 +5,7 @@ import type { ElementType } from 'react'
 
 import type { Collaborator } from '~/shared/types'
 import { ExternalLinkIcon } from '~/shared/components/ui/icons'
-import { ProjectCollaborators } from './ProjectCollaborators'
+import { ProjectCollaborators } from '~/shared/components/projects/ProjectCollaborators'
 
 // project identity display variants
 type ProjectIdentityVariant = 'featured' | 'archive'

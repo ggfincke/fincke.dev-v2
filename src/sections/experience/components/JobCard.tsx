@@ -4,8 +4,7 @@
 import { InteractiveCard } from '~/shared/components/layout/InteractiveCard'
 import { TechPills } from '~/shared/components/ui/TechPills'
 import type { WorkExperience } from '~/shared/types'
-import { CARD_HOVER_BACKDROP } from '~/shared/utils/classNames'
-import { JobCompanyHeader } from './JobCompanyHeader'
+import { JobCompanyHeader } from '~/sections/experience/components/JobCompanyHeader'
 
 // props for job experience card
 interface JobCardProps
@@ -17,11 +16,7 @@ interface JobCardProps
 export function JobCard({ job }: JobCardProps)
 {
   return (
-    <InteractiveCard href={job.link}>
-      {/* hover backdrop */}
-      <div className={CARD_HOVER_BACKDROP} />
-
-      {/* card content */}
+    <InteractiveCard href={job.link} withHoverBackdrop>
       <div className="relative z-10">
         <JobCompanyHeader company={job.company} period={job.period} />
 

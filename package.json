@@ -27,8 +27,7 @@
   "dependencies": {
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-router-dom": "^7.9.3",
-    "simple-icons": "^15.16.0"
+    "react-router-dom": "^7.9.3"
   },
   "prettier": "@ggfincke/prettier-config",
   "devDependencies": {

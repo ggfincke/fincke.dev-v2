@@ -4,7 +4,7 @@
 import { PageShell } from '~/shared/components/layout/PageShell'
 import { ActionLink } from '~/shared/components/ui/ActionLink'
 import { ChevronIcon } from '~/shared/components/ui/icons'
-import { ProjectsTable } from '../components/ProjectsTable'
+import { ProjectsTable } from '~/sections/projects-archive/components/ProjectsTable'
 
 // * Projects archive page component
 export function ProjectsArchivePage()

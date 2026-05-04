@@ -16,8 +16,8 @@ describe('app chrome routes', () =>
     renderRouteTree(appRoutes, ['/'])
 
     expect(
-      screen.getAllByRole('link', { name: 'Skip to content' })
-    ).toHaveLength(1)
+      screen.getByRole('link', { name: 'Skip to content' })
+    ).toBeInTheDocument()
     expect(screen.getByRole('main')).toBeInTheDocument()
     expect(screen.getByRole('region', { name: 'About' })).toBeInTheDocument()
   })
@@ -30,8 +30,8 @@ describe('app chrome routes', () =>
       await screen.findByRole('heading', { name: 'All Projects' })
     ).toBeInTheDocument()
     expect(
-      screen.getAllByRole('link', { name: 'Skip to content' })
-    ).toHaveLength(1)
+      screen.getByRole('link', { name: 'Skip to content' })
+    ).toBeInTheDocument()
     expect(screen.getByRole('main')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Back' })).toHaveAttribute(
       'href',

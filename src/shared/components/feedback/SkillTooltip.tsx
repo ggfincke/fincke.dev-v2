@@ -16,7 +16,7 @@ const MAX_VISIBLE_PROJECTS = 6
 interface SkillTooltipProps
 {
   id: string
-  projects: Project[]
+  projects: readonly Project[]
   isVisible: boolean
   targetRef: React.RefObject<HTMLElement | null>
 }
@@ -69,7 +69,10 @@ export function SkillTooltip({
     )
 
     setPosition({ top, left, arrowLeft })
-  }, [isVisible, projects.length, targetRef])
+    // targetRef is a stable ref object — its identity never changes, so
+    // including it in deps would just add noise without affecting behavior.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isVisible, projects])
 
   if (!isVisible || projects.length === 0)
   {

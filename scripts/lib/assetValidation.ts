@@ -1,12 +1,19 @@
 // scripts/lib/assetValidation.ts
 // local asset validation & deployment-file classification
 
-import { existsSync, readdirSync, statSync } from 'fs'
+import { readdirSync, statSync, type Stats } from 'fs'
 import { basename, join, relative } from 'path'
 
 import type { ContentInventory, LocalFileReference } from './contentInventory'
 import { PUBLIC_DIR, REPO_ROOT, normalizeExternalUrl } from './contentInventory'
 import { SITEMAP_URL, getPublicRouteUrls } from './siteManifest'
+
+interface PublicFileEntry
+{
+  path: string
+  diskPath: string
+  sizeBytes: number
+}
 
 export type PublicFileCategory =
   | LocalFileReference['category']
@@ -49,9 +56,10 @@ export interface AssetValidationResult
   }
 }
 
-function listPublicFiles(dir: string): string[]
+// walk dir, capturing each file's url-path, disk-path, & size in one pass
+function listPublicFiles(dir: string): PublicFileEntry[]
 {
-  const results: string[] = []
+  const results: PublicFileEntry[] = []
 
   for (const entry of readdirSync(dir, { withFileTypes: true }))
   {
@@ -63,10 +71,35 @@ function listPublicFiles(dir: string): string[]
       continue
     }
 
-    results.push('/' + relative(PUBLIC_DIR, fullPath).replace(/\\/g, '/'))
+    const stats: Stats = statSync(fullPath)
+    results.push({
+      path: '/' + relative(PUBLIC_DIR, fullPath).replace(/\\/g, '/'),
+      diskPath: fullPath,
+      sizeBytes: stats.size,
+    })
   }
 
   return results
+}
+
+// resolve disk path; treat ENOENT as "missing", rethrow anything else
+function tryStatFile(filePath: string): Stats | undefined
+{
+  try
+  {
+    return statSync(filePath)
+  }
+  catch (error)
+  {
+    if (
+      error instanceof Error &&
+      (error as NodeJS.ErrnoException).code === 'ENOENT'
+    )
+    {
+      return undefined
+    }
+    throw error
+  }
 }
 
 function getDiskPath(reference: LocalFileReference): string
@@ -106,7 +139,7 @@ export function validateAssetInventory(
 
   for (const reference of inventory.localFiles)
   {
-    if (existsSync(getDiskPath(reference)))
+    if (tryStatFile(getDiskPath(reference)) !== undefined)
     {
       found.push(reference)
       continue
@@ -121,18 +154,15 @@ export function validateAssetInventory(
   }
 
   const classifiedPublicFiles = listPublicFiles(PUBLIC_DIR)
-    .sort((left, right) => left.localeCompare(right))
-    .map((path) =>
+    .sort((left, right) => left.path.localeCompare(right.path))
+    .map((entry) =>
     {
-      const category = getPublicFileCategory(path, referenceMap)
-      const sizeBytes = statSync(
-        join(PUBLIC_DIR, ...path.split('/').filter(Boolean))
-      ).size
+      const category = getPublicFileCategory(entry.path, referenceMap)
       return {
-        path,
+        path: entry.path,
         category,
-        sizeBytes,
-        sources: referenceMap.get(path)?.sources ?? [],
+        sizeBytes: entry.sizeBytes,
+        sources: referenceMap.get(entry.path)?.sources ?? [],
       }
     })
 

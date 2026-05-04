@@ -1,24 +1,28 @@
 // src/sections/education/components/EducationCard.tsx
 // compact credential-style education row
 
-import { InteractiveCard } from '~/shared/components/layout/InteractiveCard'
-import type { Education } from '~/shared/types'
-import { CARD_HOVER_BACKDROP } from '~/shared/utils/classNames'
-import { formatDateSpan } from '~/shared/utils/dateSpan'
-import { PennStateLogo, PittLogo } from './SchoolLogo'
+import type { ComponentType } from 'react'
 
-// resolve a logo for the given education entry id
-function renderSchoolLogo(educationId: string)
+import { InteractiveCard } from '~/shared/components/layout/InteractiveCard'
+import type { Education, EducationLogo } from '~/shared/types'
+import { formatDateSpan } from '~/shared/utils/dateSpan'
+import {
+  PennStateLogo,
+  PittLogo,
+} from '~/sections/education/components/SchoolLogo'
+
+interface SchoolLogoComponentProps
 {
-  switch (educationId)
-  {
-    case 'university-of-pittsburgh-mscs':
-      return <PittLogo />
-    case 'pennsylvania-state-university-bscs':
-      return <PennStateLogo />
-    default:
-      return null
-  }
+  className?: string
+}
+
+// registry mapping logo id → component
+const SCHOOL_LOGO_REGISTRY: Record<
+  EducationLogo,
+  ComponentType<SchoolLogoComponentProps>
+> = {
+  pitt: PittLogo,
+  'penn-state': PennStateLogo,
 }
 
 // props for education row
@@ -30,18 +34,16 @@ interface EducationCardProps
 // compact education row w/ logo, school, degree, & date
 export function EducationCard({ education }: EducationCardProps)
 {
-  const dateLabel = education.isExpected
-    ? `${formatDateSpan(education.period)} (expected)`
-    : formatDateSpan(education.period)
+  const dateLabel = formatDateSpan(education.period, {
+    expected: education.isExpected,
+  })
 
-  const logo = renderSchoolLogo(education.id)
+  const Logo = education.logo ? SCHOOL_LOGO_REGISTRY[education.logo] : undefined
 
   return (
-    <InteractiveCard href={education.url}>
-      <div className={CARD_HOVER_BACKDROP} />
-
+    <InteractiveCard href={education.url} withHoverBackdrop>
       <div className="relative z-10 flex items-center gap-3">
-        {logo && <div className="h-12 w-12 shrink-0">{logo}</div>}
+        {Logo && <Logo className="h-12 w-12 shrink-0" />}
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-2">

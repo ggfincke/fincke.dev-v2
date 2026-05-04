@@ -25,6 +25,15 @@ describe('content inventory', () =>
     )
   })
 
+  it('does not inventory click-to-reveal phone data as a static URL', () =>
+  {
+    const inventory = getContentInventory()
+
+    expect(
+      inventory.externalUrls.some((entry) => entry.url.startsWith('tel:'))
+    ).toBe(false)
+  })
+
   it('collects runtime, deployment, retained, and root-level local files', () =>
   {
     const inventory = getContentInventory()

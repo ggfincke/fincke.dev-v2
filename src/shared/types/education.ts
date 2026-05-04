@@ -1,12 +1,20 @@
 // src/shared/types/education.ts
 // education entry types
 
-import type { DateSpan } from './dates'
+import type { DateSpan } from '~/shared/types/dates'
+
+// known education entry ids — narrow union derived from EDUCATION content
+export type EducationId =
+  | 'university-of-pittsburgh-mscs'
+  | 'pennsylvania-state-university-bscs'
+
+// known logo identifiers (registry keys for school logos)
+export type EducationLogo = 'pitt' | 'penn-state'
 
 // education entry shape
 export interface Education
 {
-  id: string
+  id: EducationId
   school: string
   degree: string
   location: string
@@ -14,4 +22,5 @@ export interface Education
   isExpected?: boolean
   honors?: string
   url?: string
+  logo?: EducationLogo
 }

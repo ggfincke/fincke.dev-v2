@@ -2,8 +2,11 @@
 // education timeline section for the home page
 
 import { EDUCATION } from '~/content/education'
-import { ANIMATION_DELAYS, staggerDelay } from '~/shared/utils/animationConfig'
-import { EducationCard } from './EducationCard'
+import {
+  ANIMATION_DELAYS,
+  getStaggerStyle,
+} from '~/shared/utils/animationConfig'
+import { EducationCard } from '~/sections/education/components/EducationCard'
 
 // education section w/ school cards
 export function EducationHistory()
@@ -14,13 +17,11 @@ export function EducationHistory()
         <div
           key={entry.id}
           className="animate-slide-in-up opacity-0"
-          style={{
-            animationDelay: staggerDelay(
-              ANIMATION_DELAYS.education.base,
-              ANIMATION_DELAYS.education.step,
-              index
-            ),
-          }}
+          style={getStaggerStyle(
+            ANIMATION_DELAYS.education.base,
+            ANIMATION_DELAYS.education.step,
+            index
+          )}
         >
           <EducationCard education={entry} />
         </div>

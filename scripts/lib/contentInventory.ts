@@ -1,12 +1,17 @@
 // scripts/lib/contentInventory.ts
 // canonical inventory of content links, local files, & deployment metadata
 
-import { existsSync, readFileSync } from 'fs'
+import { readFileSync } from 'fs'
 import { join } from 'path'
 
 import { WORK_EXPERIENCE } from '../../src/content/experience'
 import { SOCIAL_LINKS } from '../../src/content/home'
 import { projects } from '../../src/content/projects'
+import {
+  PENN_STATE_LOGO_PATH,
+  PITT_LOGO_PATH,
+} from '../../src/sections/education/components/schoolLogos.paths'
+import { RESUME_PATH } from '../../src/sections/experience/components/jobHistory.paths'
 import { SITE_ORIGIN } from './siteManifest'
 
 export type LocalFileCategory = 'runtime' | 'deployment' | 'retained'
@@ -42,6 +47,15 @@ interface RawLocalFileReference
   storage: LocalFileStorage
 }
 
+interface IndexHtmlExternalAttributeSource
+{
+  tagName: 'link' | 'meta'
+  matchAttribute: 'rel' | 'property' | 'name'
+  matchValue: string
+  urlAttribute: 'href' | 'content'
+  source: string
+}
+
 export interface ContentInventory
 {
   externalUrls: ExternalUrlReference[]
@@ -57,19 +71,19 @@ const ROOT_LEVEL_LOCAL_FILES = new Set(['/thumbnail.ico'])
 
 const MANUAL_RUNTIME_LOCAL_FILES: ReadonlyArray<RawLocalFileReference> = [
   {
-    path: '/documents/garrett_fincke_resume.pdf',
+    path: RESUME_PATH,
     category: 'runtime',
     source: 'JobHistory resume download',
     storage: 'public',
   },
   {
-    path: '/assets/logos/schools/pitt.png',
+    path: PITT_LOGO_PATH,
     category: 'runtime',
     source: 'EducationCard Pitt logo',
     storage: 'public',
   },
   {
-    path: '/assets/logos/schools/penn-state.png',
+    path: PENN_STATE_LOGO_PATH,
     category: 'runtime',
     source: 'EducationCard Penn State logo',
     storage: 'public',
@@ -106,16 +120,64 @@ const DEPLOYMENT_LOCAL_FILES: ReadonlyArray<RawLocalFileReference> = [
   },
 ]
 
+const INDEX_HTML_EXTERNAL_ATTRIBUTE_SOURCES: ReadonlyArray<IndexHtmlExternalAttributeSource> =
+  [
+    {
+      tagName: 'link',
+      matchAttribute: 'rel',
+      matchValue: 'canonical',
+      urlAttribute: 'href',
+      source: 'index.html canonical',
+    },
+    {
+      tagName: 'meta',
+      matchAttribute: 'property',
+      matchValue: 'og:url',
+      urlAttribute: 'content',
+      source: 'index.html og:url',
+    },
+    {
+      tagName: 'meta',
+      matchAttribute: 'property',
+      matchValue: 'og:image',
+      urlAttribute: 'content',
+      source: 'index.html og:image',
+    },
+    {
+      tagName: 'meta',
+      matchAttribute: 'name',
+      matchValue: 'twitter:url',
+      urlAttribute: 'content',
+      source: 'index.html twitter:url',
+    },
+    {
+      tagName: 'meta',
+      matchAttribute: 'name',
+      matchValue: 'twitter:image',
+      urlAttribute: 'content',
+      source: 'index.html twitter:image',
+    },
+  ]
+
 function readTextFileIfExists(relativePath: string): string
 {
   const filePath = join(REPO_ROOT, relativePath)
 
-  if (!existsSync(filePath))
+  try
   {
-    return ''
+    return readFileSync(filePath, 'utf8')
   }
-
-  return readFileSync(filePath, 'utf8')
+  catch (error)
+  {
+    if (
+      error instanceof Error &&
+      (error as NodeJS.ErrnoException).code === 'ENOENT'
+    )
+    {
+      return ''
+    }
+    throw error
+  }
 }
 
 function addSource(sources: string[], source: string)
@@ -221,20 +283,76 @@ function addLocalReference(
   })
 }
 
-function extractSingleAttribute(
-  html: string,
-  pattern: RegExp,
-  source: string
-): RawExternalUrlReference[]
+function getTagAttribute(tag: string, name: string): string | undefined
 {
-  const match = html.match(pattern)
+  return tag.match(new RegExp(`\\s${name}="([^"]*)"`, 'i'))?.[1]
+}
 
-  if (!match?.[1])
+function matchesTagAttribute(
+  tag: string,
+  name: string,
+  expectedValue: string
+): boolean
+{
+  return getTagAttribute(tag, name)?.toLowerCase() === expectedValue
+}
+
+function extractIndexHtmlTagReferences(indexHtml: string): {
+  externalUrls: RawExternalUrlReference[]
+  localFiles: RawLocalFileReference[]
+}
+{
+  const externalUrls: RawExternalUrlReference[] = []
+  const localFiles: RawLocalFileReference[] = []
+
+  for (const match of indexHtml.matchAll(/<(link|meta)\b[^>]*>/gi))
   {
-    return []
+    const tag = match[0]
+    const tagName = match[1]?.toLowerCase()
+
+    if (tagName !== 'link' && tagName !== 'meta')
+    {
+      continue
+    }
+
+    for (const source of INDEX_HTML_EXTERNAL_ATTRIBUTE_SOURCES)
+    {
+      if (
+        source.tagName !== tagName ||
+        !matchesTagAttribute(tag, source.matchAttribute, source.matchValue)
+      )
+      {
+        continue
+      }
+
+      const url = getTagAttribute(tag, source.urlAttribute)
+      if (url)
+      {
+        externalUrls.push({ url, source: source.source })
+      }
+    }
+
+    if (tagName !== 'link' || !matchesTagAttribute(tag, 'rel', 'icon'))
+    {
+      continue
+    }
+
+    const href = getTagAttribute(tag, 'href')
+    if (!href)
+    {
+      continue
+    }
+
+    const path = normalizeLocalPath(href)
+    localFiles.push({
+      path,
+      category: 'runtime',
+      source: 'index.html favicon',
+      storage: getStorageForPath(path),
+    })
   }
 
-  return [{ url: match[1], source }]
+  return { externalUrls, localFiles }
 }
 
 export function extractJsonLdMetadataUrls(
@@ -295,48 +413,8 @@ export function extractIndexHtmlReferences(indexHtml: string): {
   localFiles: RawLocalFileReference[]
 }
 {
-  const externalUrls: RawExternalUrlReference[] = [
-    ...extractSingleAttribute(
-      indexHtml,
-      /<link[^>]+rel="canonical"[^>]+href="([^"]+)"/i,
-      'index.html canonical'
-    ),
-    ...extractSingleAttribute(
-      indexHtml,
-      /<meta[^>]+property="og:url"[^>]+content="([^"]+)"/i,
-      'index.html og:url'
-    ),
-    ...extractSingleAttribute(
-      indexHtml,
-      /<meta[^>]+property="og:image"[^>]+content="([^"]+)"/i,
-      'index.html og:image'
-    ),
-    ...extractSingleAttribute(
-      indexHtml,
-      /<meta[^>]+name="twitter:url"[^>]+content="([^"]+)"/i,
-      'index.html twitter:url'
-    ),
-    ...extractSingleAttribute(
-      indexHtml,
-      /<meta[^>]+name="twitter:image"[^>]+content="([^"]+)"/i,
-      'index.html twitter:image'
-    ),
-    ...extractJsonLdMetadataUrls(indexHtml),
-  ]
-
-  const localFiles: RawLocalFileReference[] = []
-  const iconMatch = indexHtml.match(/<link[^>]+rel="icon"[^>]+href="([^"]+)"/i)
-
-  if (iconMatch?.[1])
-  {
-    const path = normalizeLocalPath(iconMatch[1])
-    localFiles.push({
-      path,
-      category: 'runtime',
-      source: 'index.html favicon',
-      storage: getStorageForPath(path),
-    })
-  }
+  const { externalUrls, localFiles } = extractIndexHtmlTagReferences(indexHtml)
+  externalUrls.push(...extractJsonLdMetadataUrls(indexHtml))
 
   for (const reference of externalUrls)
   {
@@ -372,7 +450,20 @@ export function extractSitemapUrls(sitemapXml: string): string[]
   )
 }
 
+// inventory is derived from static content; cache after first computation
+let cachedInventory: ContentInventory | undefined
+
 export function getContentInventory(): ContentInventory
+{
+  if (cachedInventory !== undefined)
+  {
+    return cachedInventory
+  }
+  cachedInventory = computeContentInventory()
+  return cachedInventory
+}
+
+function computeContentInventory(): ContentInventory
 {
   const externalReferences = new Map<string, ExternalUrlReference>()
   const localReferences = new Map<string, LocalFileReference>()
@@ -431,6 +522,11 @@ export function getContentInventory(): ContentInventory
 
   for (const socialLink of SOCIAL_LINKS)
   {
+    if (!('url' in socialLink))
+    {
+      continue
+    }
+
     addExternalReference(
       externalReferences,
       socialLink.url,

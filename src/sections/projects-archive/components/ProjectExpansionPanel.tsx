@@ -1,7 +1,7 @@
 // src/sections/projects-archive/components/ProjectExpansionPanel.tsx
 // shared expandable panel wrapper for project details
 
-import type { ReactNode } from 'react'
+import { memo, useRef, type ReactNode } from 'react'
 
 import { MOTION_CLASSES } from '~/shared/utils/animationConfig'
 
@@ -15,16 +15,24 @@ interface ProjectExpansionPanelProps
 }
 
 // shared animated expansion panel for mobile & desktop archive layouts
-export function ProjectExpansionPanel({
+function ProjectExpansionPanelImpl({
   expanded,
   id,
   label,
   children,
 }: ProjectExpansionPanelProps)
 {
+  // latch once-expanded so children mount only after first open; keeps the
+  // close animation but skips rendering 24 hidden detail panels on initial load
+  const hasOpenedRef = useRef(expanded)
+  if (expanded)
+  {
+    hasOpenedRef.current = true
+  }
+
   return (
     <div
-      className={`grid transition-[grid-template-rows] duration-300 ${MOTION_CLASSES.emphasizedOut} ${expanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+      className={`grid ${MOTION_CLASSES.emphasizedGridRows} ${expanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
     >
       <div className="overflow-hidden">
         <div
@@ -35,9 +43,11 @@ export function ProjectExpansionPanel({
           inert={!expanded}
           className={expanded ? 'expand-content-enter' : undefined}
         >
-          {children}
+          {hasOpenedRef.current ? children : null}
         </div>
       </div>
     </div>
   )
 }
+
+export const ProjectExpansionPanel = memo(ProjectExpansionPanelImpl)

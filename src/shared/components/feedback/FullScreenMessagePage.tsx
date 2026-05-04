@@ -10,35 +10,22 @@ import { FULL_SCREEN_MESSAGE_ACTION_CLASSES } from '~/shared/utils/classNames'
 interface FullScreenMessagePageProps
 {
   visual?: ReactNode
-  title: ReactNode
-  description: ReactNode
-  secondaryDescription?: ReactNode
+  // pre-styled <h1> & <p> elements composed by the caller
+  children: ReactNode
   homeLabel?: string
-  titleClassName?: string
-  descriptionClassName?: string
-  secondaryDescriptionClassName?: string
 }
 
 // centered full-screen feedback page shell
 export function FullScreenMessagePage({
   visual,
-  title,
-  description,
-  secondaryDescription,
+  children,
   homeLabel = 'Go home',
-  titleClassName = 'text-2xl font-bold text-[var(--fg)]',
-  descriptionClassName = 'mt-4 max-w-md text-[var(--muted)]',
-  secondaryDescriptionClassName = 'mt-2 max-w-md text-[var(--muted)]',
 }: FullScreenMessagePageProps)
 {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg)] px-4 text-center text-[var(--muted)]">
       {visual}
-      <h1 className={titleClassName}>{title}</h1>
-      <p className={descriptionClassName}>{description}</p>
-      {secondaryDescription && (
-        <p className={secondaryDescriptionClassName}>{secondaryDescription}</p>
-      )}
+      {children}
       <Link to="/" className={FULL_SCREEN_MESSAGE_ACTION_CLASSES}>
         {homeLabel}
       </Link>
