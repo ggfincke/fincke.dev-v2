@@ -5,6 +5,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.0] - 2026-05-03
+
+### Added
+
+- Education section on home page with `EducationCard`, `EducationHistory`, and `SchoolLogo` components, typed education content, and Penn State / Pitt logo assets
+- Tier List Builder project entry and image asset
+- Sortable desktop table column headers on the projects archive (`SortableHeader` component, `projectSort` utility)
+- `NestedInteractionBoundary` for safer nested interactive elements
+- Click-to-reveal phone contact in social links
+- Local brand icon set: `BrandIcon`, `EmailIcon`, `PhoneIcon`, `InstagramIcon`, `LinkedInIcon`, `MediumIcon`, `XIcon`, `YouTubeIcon` (plus refreshed `GitHubIcon`)
+- Shared CLI formatting helpers (`scripts/lib/cliFormat.ts`) and dev-server health checks (`scripts/lib/devServer.ts`) for content tooling
+- Per-host concurrency in the link checker
+- `textHighlight` utility with regression tests; new `dateSpan` and `textHighlight` test coverage
+- Path-alias barrel exports for school logos and job history assets
+
+### Changed
+
+- Refreshed home page bio, highlights, and resume assets
+- Updated MDX Preview project details and promoted Tier List Builder into the archive
+- Updated Westinghouse experience to reflect current role
+- New public resume path (`garrett_fincke_resume.pdf`) and refreshed `resume-master.pdf`
+- Stronger type safety for education content and project ID constants
+- Standardized barrel exports with path aliases across content and shared modules
+- Simplified card layouts (`FeaturedProjectCard`, `JobCard`, `ProjectMobileCard`)
+- More resilient GitHub release badge caching in `VersionBadge`
+- Cached project technology lookups in selectors
+- Reusable project link rendering via expanded `ProjectLinks`
+- Stronger asset inventory validation and dev-server checks for browser scripts
+- Added `npmjs.com` to anti-bot hosts in link policy
+- Reverted screenshots dev-server port to `5173`
+
+### Removed
+
+- `resume-selected.pdf` (replaced by `garrett_fincke_resume.pdf`)
+
 ## [2.6.0] - 2026-03-29
 
 ### Added
