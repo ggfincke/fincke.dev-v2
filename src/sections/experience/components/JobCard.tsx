@@ -17,24 +17,22 @@ export function JobCard({ job }: JobCardProps)
 {
   return (
     <InteractiveCard href={job.link} withHoverBackdrop>
-      <div className="relative z-10">
-        <JobCompanyHeader company={job.company} period={job.period} />
+      <JobCompanyHeader company={job.company} period={job.period} />
 
-        <div className="mb-1 text-sm text-[var(--yellow)]">{job.title}</div>
+      <div className="mb-1 text-sm text-[var(--yellow)]">{job.title}</div>
 
-        <p className="text-sm leading-relaxed text-[var(--muted)]">
-          {job.description}
-        </p>
+      <p className="text-sm leading-relaxed text-[var(--muted)]">
+        {job.description}
+      </p>
 
-        {job.technologies && job.technologies.length > 0 && (
-          <TechPills
-            technologies={job.technologies}
-            size="sm"
-            as="ul"
-            className="mt-2 flex flex-wrap gap-2"
-          />
-        )}
-      </div>
+      {job.technologies && job.technologies.length > 0 && (
+        <TechPills
+          technologies={job.technologies}
+          size="sm"
+          as="ul"
+          className="mt-2 flex flex-wrap gap-2"
+        />
+      )}
     </InteractiveCard>
   )
 }

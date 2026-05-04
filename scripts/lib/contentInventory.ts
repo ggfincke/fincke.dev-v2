@@ -4,14 +4,14 @@
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
-import { WORK_EXPERIENCE } from '../../src/content/experience'
-import { SOCIAL_LINKS } from '../../src/content/home'
-import { projects } from '../../src/content/projects'
+import { WORK_EXPERIENCE } from '~/content/experience'
+import { SOCIAL_LINKS } from '~/content/home'
+import { projects } from '~/content/projects'
 import {
   PENN_STATE_LOGO_PATH,
   PITT_LOGO_PATH,
-} from '../../src/sections/education/components/schoolLogos.paths'
-import { RESUME_PATH } from '../../src/sections/experience/components/jobHistory.paths'
+} from '~/sections/education/components/schoolLogos.paths'
+import { RESUME_PATH } from '~/sections/experience/components/jobHistory.paths'
 import { SITE_ORIGIN } from './siteManifest'
 
 export type LocalFileCategory = 'runtime' | 'deployment' | 'retained'

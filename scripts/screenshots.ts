@@ -5,10 +5,10 @@
 import { chromium } from 'playwright'
 import { mkdirSync, statSync } from 'fs'
 import { join } from 'path'
-import { MAX_ANIMATION_DURATION_MS } from '../src/shared/utils/animationConfig'
 import { printDivider, printTable } from './lib/cliFormat'
 import { requireRunningServer } from './lib/devServer'
 import { PUBLIC_ROUTES } from './lib/siteManifest'
+import { MAX_ANIMATION_DURATION_MS } from '~/shared/utils/animationConfig'
 
 const PORT = process.env.PORT ?? '5174'
 const BASE_URL = `http://localhost:${PORT}`

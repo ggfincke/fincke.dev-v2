@@ -15,6 +15,7 @@ interface InteractiveCardProps
   href?: string
   children: ReactNode
   className?: string
+  contentClassName?: string
   openInNewTab?: boolean
   withHoverBackdrop?: boolean
 }
@@ -24,18 +25,30 @@ export function InteractiveCard({
   href,
   children,
   className,
+  contentClassName,
   openInNewTab = true,
   withHoverBackdrop = false,
 }: InteractiveCardProps)
 {
   const classes = cn(BASE_CLASSES, className)
+  const content =
+    withHoverBackdrop || contentClassName ? (
+      <div
+        className={cn(withHoverBackdrop && 'relative z-10', contentClassName)}
+      >
+        {children}
+      </div>
+    ) : (
+      children
+    )
+
   const inner = withHoverBackdrop ? (
     <>
       <div className={CARD_HOVER_BACKDROP} />
-      {children}
+      {content}
     </>
   ) : (
-    children
+    content
   )
 
   if (href)
