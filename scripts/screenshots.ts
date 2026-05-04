@@ -1,6 +1,6 @@
 // scripts/screenshots.ts
 // takes full-page screenshots of the site at various viewport sizes
-// Usage: npm run screenshots (requires dev server). Override port via PORT env var (default 5174).
+// Usage: npm run screenshots (requires dev server). Override port via PORT env var (default 5173).
 
 import { chromium } from 'playwright'
 import { mkdirSync, statSync } from 'fs'
@@ -10,7 +10,7 @@ import { requireRunningServer } from './lib/devServer'
 import { PUBLIC_ROUTES } from './lib/siteManifest'
 import { MAX_ANIMATION_DURATION_MS } from '~/shared/utils/animationConfig'
 
-const PORT = process.env.PORT ?? '5174'
+const PORT = process.env.PORT ?? '5173'
 const BASE_URL = `http://localhost:${PORT}`
 const OUT_DIR = join(import.meta.dirname, '..', 'screenshots')
 // derived from runtime stagger config so this stays correct when delays change

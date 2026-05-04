@@ -34,6 +34,12 @@ describe('link policy', () =>
       reason: 'anti-bot host',
     })
     expect(
+      getLinkPolicy('https://www.npmjs.com/package/mdx-forge')
+    ).toMatchObject({
+      expectation: 'warn',
+      reason: 'anti-bot host',
+    })
+    expect(
       getLinkPolicy('https://github.com/ggfincke/fincke.dev-v2')
     ).toMatchObject({
       expectation: 'fail',

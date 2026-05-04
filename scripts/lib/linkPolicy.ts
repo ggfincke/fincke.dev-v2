@@ -35,7 +35,9 @@ function isAntiBotHost(hostname: string): boolean
     hostname === 'medium.com' ||
     hostname.endsWith('.medium.com') ||
     hostname === 'linkedin.com' ||
-    hostname.endsWith('.linkedin.com')
+    hostname.endsWith('.linkedin.com') ||
+    hostname === 'npmjs.com' ||
+    hostname.endsWith('.npmjs.com')
   )
 }
 
