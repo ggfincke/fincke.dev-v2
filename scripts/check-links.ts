@@ -4,15 +4,18 @@
 
 import type { ExternalUrlReference } from './lib/contentInventory'
 
+import { formatSources, printDivider } from './lib/cliFormat'
 import { getContentInventory } from './lib/contentInventory'
 import {
+  getHostKey,
   getLinkPolicy,
+  preferGetForHost,
   shouldFailLinkCheck,
   shouldRetryWithGet,
 } from './lib/linkPolicy'
 
 const TIMEOUT = 10_000
-const BATCH_SIZE = 5
+const PER_HOST_CONCURRENCY = 2
 const USER_AGENT =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) ' +
   'AppleWebKit/537.36 (KHTML, like Gecko) ' +
@@ -44,26 +47,27 @@ async function checkUrl(url: string): Promise<{ ok: boolean; detail: string }>
 {
   try
   {
-    const headResponse = await requestUrl(url, 'HEAD')
-
-    if (headResponse.ok)
+    const startsWithGet = preferGetForHost(url)
+    if (!startsWithGet)
     {
-      return { ok: true, detail: `${headResponse.status}` }
-    }
-
-    if (!shouldRetryWithGet(headResponse.status))
-    {
-      return { ok: false, detail: `${headResponse.status}` }
+      const headResponse = await requestUrl(url, 'HEAD')
+      if (headResponse.ok)
+      {
+        return { ok: true, detail: `${headResponse.status}` }
+      }
+      if (!shouldRetryWithGet(headResponse.status))
+      {
+        return { ok: false, detail: `${headResponse.status}` }
+      }
     }
 
     const getResponse = await requestUrl(url, 'GET')
-
+    const note = startsWithGet ? '' : ' (GET fallback)'
     if (getResponse.ok)
     {
-      return { ok: true, detail: `${getResponse.status} (GET fallback)` }
+      return { ok: true, detail: `${getResponse.status}${note}` }
     }
-
-    return { ok: false, detail: `${getResponse.status} (GET fallback)` }
+    return { ok: false, detail: `${getResponse.status}${note}` }
   }
   catch (error)
   {
@@ -75,20 +79,55 @@ async function checkUrl(url: string): Promise<{ ok: boolean; detail: string }>
   }
 }
 
-async function checkInBatches(
+// run async work over an array w/ a fixed concurrency cap
+async function mapWithConcurrency<T, R>(
+  items: ReadonlyArray<T>,
+  limit: number,
+  fn: (item: T) => Promise<R>
+): Promise<R[]>
+{
+  const results: R[] = new Array(items.length)
+  let cursor = 0
+  const workers = Array.from(
+    { length: Math.min(limit, items.length) },
+    async () =>
+    {
+      while (cursor < items.length)
+      {
+        const index = cursor++
+        results[index] = await fn(items[index])
+      }
+    }
+  )
+  await Promise.all(workers)
+  return results
+}
+
+async function checkByHost(
   entries: ReadonlyArray<ExternalUrlReference>
 ): Promise<LinkResult[]>
 {
-  const results: LinkResult[] = []
-
-  for (let index = 0; index < entries.length; index += BATCH_SIZE)
+  // bucket by hostname so each host gets its own bounded worker pool
+  const buckets = new Map<string, ExternalUrlReference[]>()
+  for (const entry of entries)
   {
-    const batch = entries.slice(index, index + BATCH_SIZE)
-    const batchResults = await Promise.all(batch.map(checkEntry))
-    results.push(...batchResults)
+    const host = getHostKey(entry.url)
+    let bucket = buckets.get(host)
+    if (!bucket)
+    {
+      bucket = []
+      buckets.set(host, bucket)
+    }
+    bucket.push(entry)
   }
 
-  return results
+  // process each host bucket w/ limited concurrency, in parallel across hosts
+  const hostResults = await Promise.all(
+    Array.from(buckets.values(), (bucket) =>
+      mapWithConcurrency(bucket, PER_HOST_CONCURRENCY, checkEntry)
+    )
+  )
+  return hostResults.flat()
 }
 
 async function checkEntry(entry: ExternalUrlReference): Promise<LinkResult>
@@ -129,24 +168,19 @@ async function checkEntry(entry: ExternalUrlReference): Promise<LinkResult>
   }
 }
 
-function formatSources(sources: string[]): string
-{
-  return sources.join(' | ')
-}
-
 async function main()
 {
   const inventory = getContentInventory()
 
   console.log(`\nChecking ${inventory.externalUrls.length} external URLs...\n`)
 
-  const results = await checkInBatches(inventory.externalUrls)
+  const results = await checkByHost(inventory.externalUrls)
   const ok = results.filter((result) => result.status === 'ok')
   const failed = results.filter((result) => result.status === 'fail')
   const warned = results.filter((result) => result.status === 'warn')
   const skipped = results.filter((result) => result.status === 'skip')
 
-  console.log('\n' + '='.repeat(96))
+  printDivider(96)
 
   if (failed.length > 0)
   {

@@ -3,14 +3,14 @@
 
 import type { AnchorHTMLAttributes, ReactNode } from 'react'
 
-import { ICON_LINK_CLASSES } from '~/shared/utils/classNames'
+import { cn, ICON_LINK_CLASSES } from '~/shared/utils/classNames'
 import { getNewTabLinkProps } from '~/shared/utils/linkProps'
 
 // props for icon link
 interface IconLinkProps
   extends Omit<
     AnchorHTMLAttributes<HTMLAnchorElement>,
-    'aria-label' | 'children' | 'className' | 'href'
+    'aria-label' | 'children' | 'className' | 'href' | 'rel' | 'target'
   >
   {
   href: string
@@ -25,7 +25,7 @@ export function IconLink({
   href,
   label,
   children,
-  className = '',
+  className,
   openInNewTab = true,
   ...props
 }: IconLinkProps)
@@ -34,9 +34,9 @@ export function IconLink({
     <a
       href={href}
       aria-label={label}
-      className={`${ICON_LINK_CLASSES} ${className}`.trim()}
-      {...getNewTabLinkProps(openInNewTab)}
+      className={cn(ICON_LINK_CLASSES, className)}
       {...props}
+      {...getNewTabLinkProps(openInNewTab)}
     >
       {children}
     </a>

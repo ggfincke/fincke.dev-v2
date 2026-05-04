@@ -4,8 +4,7 @@
 import { InteractiveCard } from '~/shared/components/layout/InteractiveCard'
 import { TechPills } from '~/shared/components/ui/TechPills'
 import type { WorkExperience } from '~/shared/types'
-import { CARD_HOVER_BACKDROP } from '~/shared/utils/classNames'
-import { JobCompanyHeader } from './JobCompanyHeader'
+import { JobCompanyHeader } from '~/sections/experience/components/JobCompanyHeader'
 
 // props for job experience card
 interface JobCardProps
@@ -17,29 +16,23 @@ interface JobCardProps
 export function JobCard({ job }: JobCardProps)
 {
   return (
-    <InteractiveCard href={job.link}>
-      {/* hover backdrop */}
-      <div className={CARD_HOVER_BACKDROP} />
+    <InteractiveCard href={job.link} withHoverBackdrop>
+      <JobCompanyHeader company={job.company} period={job.period} />
 
-      {/* card content */}
-      <div className="relative z-10">
-        <JobCompanyHeader company={job.company} period={job.period} />
+      <div className="mb-1 text-sm text-[var(--yellow)]">{job.title}</div>
 
-        <div className="mb-1 text-sm text-[var(--yellow)]">{job.title}</div>
+      <p className="text-sm leading-relaxed text-[var(--muted)]">
+        {job.description}
+      </p>
 
-        <p className="text-sm leading-relaxed text-[var(--muted)]">
-          {job.description}
-        </p>
-
-        {job.technologies && job.technologies.length > 0 && (
-          <TechPills
-            technologies={job.technologies}
-            size="sm"
-            as="ul"
-            className="mt-2 flex flex-wrap gap-2"
-          />
-        )}
-      </div>
+      {job.technologies && job.technologies.length > 0 && (
+        <TechPills
+          technologies={job.technologies}
+          size="sm"
+          as="ul"
+          className="mt-2 flex flex-wrap gap-2"
+        />
+      )}
     </InteractiveCard>
   )
 }

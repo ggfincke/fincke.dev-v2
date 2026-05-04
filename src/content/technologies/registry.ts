@@ -38,6 +38,11 @@ const TECHNOLOGIES = [
     aliases: ['Continuous Integration', 'Continuous Delivery'],
   },
   { id: 'cli', label: 'CLI', category: 'tooling' },
+  {
+    id: 'cloudflare-workers',
+    label: 'Cloudflare Workers',
+    category: 'infra',
+  },
   { id: 'cloudwatch', label: 'CloudWatch', category: 'infra' },
   { id: 'cnn', label: 'CNN', category: 'data' },
   { id: 'comlink', label: 'Comlink', category: 'framework' },
@@ -64,6 +69,7 @@ const TECHNOLOGIES = [
     label: 'Django REST Framework',
     category: 'framework',
   },
+  { id: 'dnd-kit', label: 'dnd-kit', category: 'framework' },
   { id: 'docker', label: 'Docker', category: 'infra' },
   {
     id: 'docker-compose',
@@ -96,6 +102,11 @@ const TECHNOLOGIES = [
   { id: 'h2', label: 'H2', category: 'infra' },
   { id: 'healthkit', label: 'HealthKit', category: 'framework' },
   {
+    id: 'html-to-image',
+    label: 'html-to-image',
+    category: 'tooling',
+  },
+  {
     id: 'huggingface',
     label: 'HuggingFace',
     category: 'data',
@@ -104,6 +115,7 @@ const TECHNOLOGIES = [
   { id: 'ios', label: 'iOS', category: 'platform' },
   { id: 'java', label: 'Java', category: 'language' },
   { id: 'json', label: 'JSON', category: 'tooling' },
+  { id: 'jspdf', label: 'jsPDF', category: 'tooling' },
   { id: 'jupyter', label: 'Jupyter', category: 'data' },
   { id: 'jwt', label: 'JWT', category: 'infra' },
   { id: 'katex', label: 'KaTeX', category: 'tooling' },
@@ -142,6 +154,7 @@ const TECHNOLOGIES = [
     category: 'platform',
   },
   { id: 'pgvector', label: 'pgvector', category: 'infra' },
+  { id: 'playwright', label: 'Playwright', category: 'tooling' },
   {
     id: 'postgresql',
     label: 'PostgreSQL',
@@ -149,6 +162,7 @@ const TECHNOLOGIES = [
     aliases: ['Postgres'],
   },
   { id: 'prettier', label: 'Prettier', category: 'tooling' },
+  { id: 'pwa', label: 'PWA', category: 'platform' },
   { id: 'python', label: 'Python', category: 'language' },
   {
     id: 'random-fourier-features',
@@ -249,6 +263,7 @@ const TECHNOLOGIES = [
     label: 'Xilinx Vivado',
     category: 'tooling',
   },
+  { id: 'zustand', label: 'Zustand', category: 'framework' },
 ] as const satisfies readonly TechnologyDefinition<string>[]
 
 export type TechnologyId = (typeof TECHNOLOGIES)[number]['id']

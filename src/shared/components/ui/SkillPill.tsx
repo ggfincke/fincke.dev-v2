@@ -16,6 +16,8 @@ import { FOCUS_RING_CLASSES } from '~/shared/utils/classNames'
 // default hover delay in ms
 const DEFAULT_HOVER_DELAY = 150
 
+const EMPTY_PROJECTS: readonly Project[] = []
+
 // props for skill pill
 interface SkillPillProps
 {
@@ -23,7 +25,7 @@ interface SkillPillProps
   size?: 'xs' | 'sm' | 'md'
   className?: string
   showProjectsOnHover?: boolean
-  getRelatedProjects?: (technologyId: TechnologyId) => Project[]
+  getRelatedProjects?: (technologyId: TechnologyId) => readonly Project[]
   hoverDelay?: number
 }
 
@@ -39,7 +41,6 @@ export function SkillPill({
 {
   const [isHovered, setIsHovered] = useState(false)
   const [showTooltip, setShowTooltip] = useState(false)
-  const [relatedProjects, setRelatedProjects] = useState<Project[]>([])
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const spanRef = useRef<HTMLSpanElement>(null)
@@ -47,44 +48,33 @@ export function SkillPill({
   const technology = getTechnology(technologyId)
   const label = technology.label
 
-  // manage tooltip visibility & related projects on hover
+  const isInteractive = showProjectsOnHover && Boolean(getRelatedProjects)
+  const relatedProjects =
+    isInteractive && isHovered && getRelatedProjects
+      ? getRelatedProjects(technologyId)
+      : EMPTY_PROJECTS
+
+  // delay showing tooltip until hover sticks
   useEffect(() =>
   {
-    if (showProjectsOnHover && isHovered && getRelatedProjects)
+    if (!isInteractive || !isHovered)
     {
-      const projects = getRelatedProjects(technologyId)
-      setRelatedProjects(projects)
-
-      hoverTimeoutRef.current = setTimeout(() =>
-      {
-        setShowTooltip(true)
-      }, hoverDelay)
-    }
-    else
-    {
-      if (hoverTimeoutRef.current)
-      {
-        clearTimeout(hoverTimeoutRef.current)
-        hoverTimeoutRef.current = null
-      }
       setShowTooltip(false)
+      return
     }
+
+    const timeoutId = setTimeout(() =>
+    {
+      setShowTooltip(true)
+    }, hoverDelay)
+    hoverTimeoutRef.current = timeoutId
 
     return () =>
     {
-      if (hoverTimeoutRef.current)
-      {
-        clearTimeout(hoverTimeoutRef.current)
-        hoverTimeoutRef.current = null
-      }
+      clearTimeout(timeoutId)
+      hoverTimeoutRef.current = null
     }
-  }, [
-    getRelatedProjects,
-    hoverDelay,
-    isHovered,
-    showProjectsOnHover,
-    technologyId,
-  ])
+  }, [hoverDelay, isHovered, isInteractive])
 
   const sizeClasses = {
     xs: 'px-2 py-1 text-xs',

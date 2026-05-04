@@ -15,19 +15,35 @@ export interface HeroContent
   name: string
 }
 
-// social media link shape
-export interface SocialLink
+type SocialLinkIcon =
+  | 'email'
+  | 'github'
+  | 'linkedin'
+  | 'phone'
+  | 'medium'
+  | 'instagram'
+  | 'twitter'
+  | 'youtube'
+
+interface BaseSocialLink
 {
   label: string
+  icon: SocialLinkIcon
+}
+
+// URL-backed social link shape
+export interface UrlSocialLink extends BaseSocialLink
+{
+  icon: Exclude<SocialLinkIcon, 'phone'>
   url: string
   openInNewTab: boolean
-  icon:
-    | 'email'
-    | 'github'
-    | 'linkedin'
-    | 'phone'
-    | 'medium'
-    | 'instagram'
-    | 'twitter'
-    | 'youtube'
 }
+
+// click-to-reveal phone entry; no URL lives in shared content
+export interface PhoneSocialLink extends BaseSocialLink
+{
+  icon: 'phone'
+}
+
+// social media link shape
+export type SocialLink = UrlSocialLink | PhoneSocialLink

@@ -3,6 +3,11 @@
 
 import type { DateSpan, YearMonth } from '~/shared/types'
 
+interface FormatDateSpanOptions
+{
+  expected?: boolean
+}
+
 const MONTH_LABELS = [
   'Jan',
   'Feb',
@@ -18,7 +23,8 @@ const MONTH_LABELS = [
   'Dec',
 ] as const
 
-function getCurrentYearMonth(): YearMonth
+// expose so callers can compute "now" once & thread it through hot loops
+export function getCurrentYearMonth(): YearMonth
 {
   const now = new Date()
 
@@ -28,7 +34,8 @@ function getCurrentYearMonth(): YearMonth
   }
 }
 
-function getYearMonthValue(value: YearMonth): number
+// integer key (YYYYMM) for ordered comparison of YearMonth values
+export function getYearMonthValue(value: YearMonth): number
 {
   return value.year * 100 + value.month
 }
@@ -48,19 +55,27 @@ export function formatYearMonth(value: YearMonth): string
   return `${MONTH_LABELS[value.month - 1]} ${value.year}`
 }
 
-export function formatDateSpan(period: DateSpan): string
+export function formatDateSpan(
+  period: DateSpan,
+  options: FormatDateSpanOptions = {}
+): string
 {
+  let label: string
+
   if (period.isCurrent)
   {
-    return `${formatYearMonth(period.start)} – Present`
+    label = `${formatYearMonth(period.start)} – Present`
   }
-
-  if (period.end)
+  else if (period.end)
   {
-    return `${formatYearMonth(period.start)} – ${formatYearMonth(period.end)}`
+    label = `${formatYearMonth(period.start)} – ${formatYearMonth(period.end)}`
+  }
+  else
+  {
+    label = formatYearMonth(period.start)
   }
 
-  return formatYearMonth(period.start)
+  return options.expected ? `${label} (expected)` : label
 }
 
 export function getDateSpanStartYear(period: DateSpan): string

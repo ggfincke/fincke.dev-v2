@@ -5,8 +5,10 @@
 
 import { launch } from 'chrome-launcher'
 import lighthouse from 'lighthouse'
-import { existsSync, mkdirSync, writeFileSync } from 'fs'
+import { mkdirSync, writeFileSync } from 'fs'
 import { join } from 'path'
+import { printDivider, printTable } from './lib/cliFormat'
+import { requireRunningServer } from './lib/devServer'
 import { PUBLIC_ROUTES } from './lib/siteManifest'
 
 const BASE_URL = 'http://localhost:4173'
@@ -19,109 +21,101 @@ const CATEGORIES = [
   'seo',
 ] as const
 
-async function checkServer(): Promise<boolean>
+interface RouteResult
 {
-  try
-  {
-    const res = await fetch(BASE_URL)
-    return res.ok
-  }
-  catch
-  {
-    return false
-  }
+  route: string
+  scores: Record<string, string>
+  error?: string
 }
 
 async function main()
 {
-  const serverUp = await checkServer()
-  if (!serverUp)
-  {
-    console.error(
-      `\nPreview server not reachable at ${BASE_URL}` +
-        `\nRun "npm run build && npm run preview" first, then try again.\n`
-    )
-    process.exit(1)
-  }
+  await requireRunningServer(
+    BASE_URL,
+    'Run "npm run build && npm run preview" first, then try again.'
+  )
 
-  if (!existsSync(REPORTS_DIR)) mkdirSync(REPORTS_DIR, { recursive: true })
+  mkdirSync(REPORTS_DIR, { recursive: true })
 
   const chrome = await launch({
     chromeFlags: ['--headless=new', '--no-sandbox', '--disable-gpu'],
   })
-  const results: {
-    route: string
-    scores: Record<string, string>
-    error?: string
-  }[] = []
 
-  for (const route of PUBLIC_ROUTES)
+  try
   {
-    const url = `${BASE_URL}${route.path}`
-    console.log(`\nAuditing ${url}...`)
+    const results: RouteResult[] = []
 
-    const result = await lighthouse(url, {
-      port: chrome.port,
-      output: 'html',
-      logLevel: 'error',
-      onlyCategories: [...CATEGORIES],
-    })
-
-    if (!result)
+    for (const route of PUBLIC_ROUTES)
     {
-      console.error(`  Lighthouse returned no result for ${url}`)
-      continue
+      const url = `${BASE_URL}${route.path}`
+      console.log(`\nAuditing ${url}...`)
+
+      const result = await lighthouse(url, {
+        port: chrome.port,
+        output: 'html',
+        logLevel: 'error',
+        onlyCategories: [...CATEGORIES],
+      })
+
+      if (!result)
+      {
+        console.error(`  Lighthouse returned no result for ${url}`)
+        continue
+      }
+
+      const reportPath = join(REPORTS_DIR, `lighthouse-${route.slug}.html`)
+      writeFileSync(reportPath, result.report as string)
+      console.log(`  Report saved: ${reportPath}`)
+
+      // check for runtime errors (e.g. NO_FCP from opacity-0 animations)
+      const runtimeError = result.lhr.runtimeError
+      if (runtimeError?.code)
+      {
+        console.log(`  Warning: ${runtimeError.code} — ${runtimeError.message}`)
+      }
+
+      const scores: Record<string, string> = {}
+      for (const cat of CATEGORIES)
+      {
+        const category = result.lhr.categories[cat]
+        scores[cat] =
+          category?.score !== null
+            ? String(Math.round(category!.score * 100))
+            : 'N/A'
+      }
+      results.push({ route: route.slug, scores, error: runtimeError?.code })
     }
 
-    const reportPath = join(REPORTS_DIR, `lighthouse-${route.slug}.html`)
-    writeFileSync(reportPath, result.report as string)
-    console.log(`  Report saved: ${reportPath}`)
-
-    // check for runtime errors (e.g. NO_FCP from opacity-0 animations)
-    const runtimeError = result.lhr.runtimeError
-    if (runtimeError?.code)
-    {
-      console.log(`  Warning: ${runtimeError.code} — ${runtimeError.message}`)
-    }
-
-    const scores: Record<string, string> = {}
-    for (const cat of CATEGORIES)
-    {
-      const category = result.lhr.categories[cat]
-      scores[cat] =
-        category?.score !== null
-          ? String(Math.round(category!.score * 100))
-          : 'N/A'
-    }
-    results.push({ route: route.slug, scores, error: runtimeError?.code })
+    printDivider(72)
+    printTable(results, [
+      { header: 'Route', width: 14, format: (r) => r.route },
+      {
+        header: 'Performance',
+        width: 16,
+        format: (r) => r.scores['performance'],
+      },
+      {
+        header: 'Accessibility',
+        width: 16,
+        format: (r) => r.scores['accessibility'],
+      },
+      {
+        header: 'Best Practices',
+        width: 18,
+        format: (r) => r.scores['best-practices'],
+      },
+      {
+        header: 'SEO',
+        format: (r) => r.scores['seo'] + (r.error ? `  (${r.error})` : ''),
+      },
+    ])
+    console.log('='.repeat(72))
+    console.log(`\nReports saved to ${REPORTS_DIR}\n`)
   }
-
-  await chrome.kill()
-
-  // summary table
-  console.log('\n' + '='.repeat(72))
-  console.log(
-    'Route'.padEnd(14) +
-      'Performance'.padEnd(16) +
-      'Accessibility'.padEnd(16) +
-      'Best Practices'.padEnd(18) +
-      'SEO'
-  )
-  console.log('-'.repeat(72))
-  for (const r of results)
+  finally
   {
-    const note = r.error ? `  (${r.error})` : ''
-    console.log(
-      r.route.padEnd(14) +
-        r.scores['performance'].padEnd(16) +
-        r.scores['accessibility'].padEnd(16) +
-        r.scores['best-practices'].padEnd(18) +
-        r.scores['seo'] +
-        note
-    )
+    await chrome.kill()
   }
-  console.log('='.repeat(72))
-  console.log(`\nReports saved to ${REPORTS_DIR}\n`)
 }
 
 main()

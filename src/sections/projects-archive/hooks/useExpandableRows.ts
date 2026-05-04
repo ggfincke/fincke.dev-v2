@@ -8,7 +8,7 @@ export function useExpandableRows<T>()
 {
   const [expandedRows, setExpandedRows] = useState(() => new Set<T>())
 
-  // toggle row expansion state
+  // stable toggle so memoized rows can depend on it
   const toggleRow = useCallback((id: T) =>
   {
     setExpandedRows((prev) =>
@@ -28,14 +28,7 @@ export function useExpandableRows<T>()
     })
   }, [])
 
-  // check if row is expanded
-  const isExpanded = useCallback(
-    (id: T) =>
-    {
-      return expandedRows.has(id)
-    },
-    [expandedRows]
-  )
+  const isExpanded = (id: T) => expandedRows.has(id)
 
   return {
     toggleRow,

@@ -1,38 +1,44 @@
 // tests/ui/aboutHighlighting.test.tsx
 // focused About highlighting coverage for curated registry-backed terms
 
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
 import { About } from '~/sections/home/components/About'
+import { renderWithRouter } from './render'
 
 describe('About highlighting', () =>
 {
   it('highlights curated registry-backed terms and leaves unrelated prose plain', () =>
   {
-    const { container } = render(<About />)
+    renderWithRouter(<About />)
 
     const uiKit = screen.getByText('UIKit')
     const postgres = screen.getByText('Postgres')
     const githubActions = screen.getByText('GitHub Actions')
+    const docker = screen.getByText('Docker')
+    const scaleAi = screen.getByText('Scale AI')
+    const aiInfrastructure = screen.getByText('AI infrastructure')
 
     expect(uiKit.tagName).toBe('SPAN')
-    expect(uiKit).toHaveClass('text-[var(--blue)]')
+    expect(uiKit).toHaveStyle({ color: 'var(--blue)' })
 
     expect(postgres.tagName).toBe('SPAN')
-    expect(postgres).toHaveClass('text-[var(--purple)]')
+    expect(postgres).toHaveStyle({ color: 'var(--purple)' })
 
     expect(githubActions.tagName).toBe('SPAN')
-    expect(githubActions).toHaveClass('text-[var(--purple)]')
+    expect(githubActions).toHaveStyle({ color: 'var(--orange)' })
 
-    expect(
-      container.querySelector(
-        'span.text-\\[var\\(--blue\\)\\], span.text-\\[var\\(--purple\\)\\], span.text-\\[var\\(--green\\)\\]'
-      )
-    ).not.toBeNull()
-    expect(
-      screen.queryByText('Docker', { selector: 'span' })
-    ).not.toBeInTheDocument()
+    expect(docker.tagName).toBe('SPAN')
+    expect(docker).toHaveStyle({ color: 'var(--purple)' })
+
+    expect(scaleAi.tagName).toBe('SPAN')
+    expect(scaleAi).toHaveStyle({ color: 'var(--red)' })
+
+    expect(aiInfrastructure.tagName).toBe('SPAN')
+    expect(aiInfrastructure).toHaveStyle({ color: 'var(--yellow)' })
+
+    expect(screen.queryByText('Ironman')).not.toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: 'garrettfincke@gmail.com' })
     ).toHaveAttribute('href', 'mailto:garrettfincke@gmail.com')

@@ -8,7 +8,13 @@ import '~/styles/globals.css'
 import { router } from '~/app/router'
 
 // * Initialize & mount React app
-createRoot(document.getElementById('root')!).render(
+const rootElement = document.getElementById('root')
+if (!rootElement)
+{
+  throw new Error('#root not found in index.html')
+}
+
+createRoot(rootElement).render(
   <StrictMode>
     <RouterProvider router={router} />
   </StrictMode>

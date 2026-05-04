@@ -1,45 +1,50 @@
 // src/sections/projects-archive/components/ProjectTableRow.tsx
 // desktop table row for project
 
+import { memo } from 'react'
+
 import { ProjectLinks } from '~/shared/components/layout/ProjectLinks'
 import { ProjectIdentity } from '~/shared/components/projects/ProjectIdentity'
 import { ProjectTechnologies } from '~/shared/components/projects/ProjectTechnologies'
 import { StatusCircle } from '~/shared/components/ui/StatusCircle'
-import type { Project } from '~/shared/types'
-import { ANIMATION_DELAYS, staggerDelay } from '~/shared/utils/animationConfig'
+import type { Project, ProjectId } from '~/shared/types'
+import {
+  ANIMATION_DELAYS,
+  getStaggerStyle,
+} from '~/shared/utils/animationConfig'
 import { getNestedInteractionProps } from '~/shared/utils/interaction'
-import { getProjectViewModel } from '~/shared/utils/projectViewModel'
-import { ExpandToggle } from './ExpandToggle'
+import type { ProjectViewModel } from '~/shared/utils/projectViewModel'
+import { ExpandToggle } from '~/sections/projects-archive/components/ExpandToggle'
 
 // props for project table row
 interface ProjectTableRowProps
 {
   project: Project
+  viewModel: ProjectViewModel
   expanded: boolean
-  onToggle: () => void
+  toggleRow: (id: ProjectId) => void
   index: number
 }
 
 // desktop table row for project
-export function ProjectTableRow({
+function ProjectTableRowImpl({
   project,
+  viewModel,
   expanded,
-  onToggle,
+  toggleRow,
   index,
 }: ProjectTableRowProps)
 {
-  const viewModel = getProjectViewModel(project)
+  const onToggle = () => toggleRow(project.id)
 
   return (
     <tr
       className={`group/row cursor-pointer transition-colors hover:bg-[var(--card)]/40 hover:shadow-[inset_3px_0_0_var(--accent)] animate-slide-in-up opacity-0 ${expanded ? 'border-b-0' : 'border-b border-[var(--border)]'}`}
-      style={{
-        animationDelay: staggerDelay(
-          ANIMATION_DELAYS.projectsArchive.desktop.base,
-          ANIMATION_DELAYS.projectsArchive.desktop.step,
-          index
-        ),
-      }}
+      style={getStaggerStyle(
+        ANIMATION_DELAYS.projectsArchive.desktop.base,
+        ANIMATION_DELAYS.projectsArchive.desktop.step,
+        index
+      )}
       onClick={onToggle}
     >
       <td
@@ -81,21 +86,21 @@ export function ProjectTableRow({
           className="flex flex-wrap gap-2 items-center max-w-md"
         />
       </td>
-      <td className="py-4 pl-4 pr-4 opacity-60 group-hover/row:opacity-100 transition-opacity">
-        <div
-          role="presentation"
-          {...getNestedInteractionProps<HTMLDivElement>()}
-        >
-          <ProjectLinks
-            repoUrl={project.repoUrl}
-            liveUrl={project.liveUrl}
-            additionalLinks={project.additionalLinks}
-            variant="icon"
-            className="flex space-x-4"
-            contextLabel={project.title}
-          />
-        </div>
+      <td
+        className="py-4 pl-4 pr-4 opacity-60 group-hover/row:opacity-100 transition-opacity"
+        {...getNestedInteractionProps<HTMLTableCellElement>()}
+      >
+        <ProjectLinks
+          repoUrl={project.repoUrl}
+          liveUrl={project.liveUrl}
+          additionalLinks={project.additionalLinks}
+          variant="icon"
+          className="flex space-x-4"
+          contextLabel={project.title}
+        />
       </td>
     </tr>
   )
 }
+
+export const ProjectTableRow = memo(ProjectTableRowImpl)

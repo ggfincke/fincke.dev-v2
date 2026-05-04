@@ -1,10 +1,10 @@
 // tests/ui/navigationContracts.test.tsx
 // shared navigation/link primitive coverage for phase 4
 
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 
-import { projects } from '~/content/projects'
 import { ActionLink } from '~/shared/components/ui/ActionLink'
 import { ExternalLink } from '~/shared/components/ui/ExternalLink'
 import { FullScreenMessagePage } from '~/shared/components/feedback/FullScreenMessagePage'
@@ -13,11 +13,10 @@ import { JobHistory } from '~/sections/experience/components/JobHistory'
 import { FeaturedProjects } from '~/sections/featured-projects/components/FeaturedProjects'
 import { SocialLinks } from '~/sections/home/components/SocialLinks'
 import { ProjectLinks } from '~/shared/components/layout/ProjectLinks'
+import { getProjectFixture } from '../fixtures'
 import { renderWithRouter } from './render'
 
-const portfolioProject = projects.find(
-  (project) => project.id === 'portfolio-website-v2'
-)
+const portfolioProject = getProjectFixture('portfolio-website-v2')
 
 describe('shared navigation primitives', () =>
 {
@@ -33,8 +32,8 @@ describe('shared navigation primitives', () =>
 
     unmount()
 
-    render(
-      <ActionLink href="/documents/resume-selected.pdf" openInNewTab>
+    renderWithRouter(
+      <ActionLink href="/documents/garrett_fincke_resume.pdf" openInNewTab>
         View Full Resume
       </ActionLink>
     )
@@ -49,7 +48,7 @@ describe('shared navigation primitives', () =>
 
   it('applies shared external-link and icon-link contracts', () =>
   {
-    const { unmount } = render(
+    const { unmount } = renderWithRouter(
       <ExternalLink href="https://example.com">Read more</ExternalLink>
     )
 
@@ -63,7 +62,7 @@ describe('shared navigation primitives', () =>
 
     unmount()
 
-    render(
+    renderWithRouter(
       <IconLink
         href="mailto:test@example.com"
         label="Email"
@@ -81,11 +80,10 @@ describe('shared navigation primitives', () =>
   it('renders the shared full-screen feedback shell', () =>
   {
     renderWithRouter(
-      <FullScreenMessagePage
-        visual={<div aria-hidden="true">404</div>}
-        title="Page not found"
-        description="The page does not exist."
-      />
+      <FullScreenMessagePage visual={<div aria-hidden="true">404</div>}>
+        <h1>Page not found</h1>
+        <p>The page does not exist.</p>
+      </FullScreenMessagePage>
     )
 
     expect(
@@ -107,7 +105,7 @@ describe('phase 4 consumer regressions', () =>
 
     expect(
       screen.getByRole('link', { name: 'View Full Resume' })
-    ).toHaveAttribute('href', '/documents/resume-selected.pdf')
+    ).toHaveAttribute('href', '/documents/garrett_fincke_resume.pdf')
 
     unmount()
 
@@ -120,31 +118,31 @@ describe('phase 4 consumer regressions', () =>
 
   it('adds project context to icon-only project links', () =>
   {
-    expect(portfolioProject).toBeDefined()
-
-    render(
+    renderWithRouter(
       <ProjectLinks
-        repoUrl={portfolioProject!.repoUrl}
-        liveUrl={portfolioProject!.liveUrl}
+        repoUrl={portfolioProject.repoUrl}
+        liveUrl={portfolioProject.liveUrl}
         variant="icon"
-        contextLabel={portfolioProject!.title}
+        contextLabel={portfolioProject.title}
       />
     )
 
     expect(
       screen.getByRole('link', {
-        name: `Open GitHub repository for ${portfolioProject!.title}`,
+        name: `Open GitHub repository for ${portfolioProject.title}`,
       })
     ).toBeInTheDocument()
     expect(
       screen.getByRole('link', {
-        name: `Open Live Site for ${portfolioProject!.title}`,
+        name: `Open Live Site for ${portfolioProject.title}`,
       })
     ).toBeInTheDocument()
   })
 
-  it('drives social-link new-tab behavior from content data', () =>
+  it('drives social-link new-tab behavior from content data', async () =>
   {
+    const user = userEvent.setup()
+
     renderWithRouter(<SocialLinks />)
 
     expect(screen.getByRole('link', { name: 'Email' })).not.toHaveAttribute(
@@ -154,5 +152,14 @@ describe('phase 4 consumer regressions', () =>
       'target',
       '_blank'
     )
+    expect(
+      screen.queryByRole('link', { name: 'Phone' })
+    ).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Show phone number' }))
+
+    expect(
+      screen.getByRole('link', { name: '+1 (724) 777-7186' })
+    ).toHaveAttribute('href', 'tel:+17247777186')
   })
 })

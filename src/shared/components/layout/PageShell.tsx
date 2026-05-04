@@ -3,6 +3,8 @@
 
 import type { ReactNode } from 'react'
 
+import { cn } from '~/shared/utils/classNames'
+
 // props for page shell
 interface PageShellProps
 {
@@ -14,12 +16,12 @@ interface PageShellProps
 // shared main landmark & width container for top-level pages
 export function PageShell({
   children,
-  className = '',
+  className,
   mainId = 'main-content',
 }: PageShellProps)
 {
   return (
-    <main id={mainId} className={`mx-auto max-w-7xl px-4 ${className}`.trim()}>
+    <main id={mainId} className={cn('mx-auto max-w-7xl px-4', className)}>
       {children}
     </main>
   )

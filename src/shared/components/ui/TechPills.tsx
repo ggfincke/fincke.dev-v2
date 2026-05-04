@@ -3,7 +3,7 @@
 
 import type { TechnologyId } from '~/content/technologies'
 import type { Project } from '~/shared/types'
-import { SkillPill } from './SkillPill'
+import { SkillPill } from '~/shared/components/ui/SkillPill'
 
 // props for technology pills
 interface TechPillsProps
@@ -12,7 +12,7 @@ interface TechPillsProps
   maxVisible?: number
   size?: 'xs' | 'sm' | 'md'
   showProjectsOnHover?: boolean
-  getRelatedProjects?: (technologyId: TechnologyId) => Project[]
+  getRelatedProjects?: (technologyId: TechnologyId) => readonly Project[]
   className?: string
   as?: 'div' | 'ul'
 }

@@ -21,9 +21,25 @@ const rule = {
   {
     const sourceCode = context.sourceCode ?? context.getSourceCode()
 
-    // regex patterns for standalone words
     const andPattern = /\band\b/gi
     const withPattern = /\bwith\b/gi
+
+    function getReplacement(text, pattern, replacement)
+    {
+      pattern.lastIndex = 0
+      const nextText = text.replace(pattern, replacement)
+      return nextText === text ? null : nextText
+    }
+
+    function replaceCommentText(fixer, comment, nextText)
+    {
+      if (comment.type === 'Line')
+      {
+        return fixer.replaceText(comment, `//${nextText}`)
+      }
+
+      return fixer.replaceText(comment, `/*${nextText}*/`)
+    }
 
     return {
       Program()
@@ -33,49 +49,30 @@ const rule = {
         for (const comment of comments)
         {
           const text = comment.value
+          const textWithoutAnd = getReplacement(text, andPattern, '&')
 
-          // check for "&" violations
-          andPattern.lastIndex = 0
-          if (andPattern.test(text))
+          if (textWithoutAnd)
           {
-            andPattern.lastIndex = 0
             context.report({
               loc: comment.loc,
               messageId: 'useAmpersand',
               fix(fixer)
               {
-                const newText = text.replace(andPattern, '&')
-                if (comment.type === 'Line')
-                {
-                  return fixer.replaceText(comment, `//${newText}`)
-                }
-                else
-                {
-                  return fixer.replaceText(comment, `/*${newText}*/`)
-                }
+                return replaceCommentText(fixer, comment, textWithoutAnd)
               },
             })
           }
 
-          // check for "w/" violations
-          withPattern.lastIndex = 0
-          if (withPattern.test(text))
+          const textWithoutWith = getReplacement(text, withPattern, 'w/')
+
+          if (textWithoutWith)
           {
-            withPattern.lastIndex = 0
             context.report({
               loc: comment.loc,
               messageId: 'useWith',
               fix(fixer)
               {
-                const newText = text.replace(withPattern, 'w/')
-                if (comment.type === 'Line')
-                {
-                  return fixer.replaceText(comment, `//${newText}`)
-                }
-                else
-                {
-                  return fixer.replaceText(comment, `/*${newText}*/`)
-                }
+                return replaceCommentText(fixer, comment, textWithoutWith)
               },
             })
           }

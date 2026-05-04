@@ -9,6 +9,6 @@ export {
   getTechnologyTerms,
   resolveTechnologyId,
   TECHNOLOGY_REGISTRY,
-} from './registry'
+} from '~/content/technologies/registry'
 
-export type { TechnologyId } from './registry'
+export type { TechnologyId } from '~/content/technologies/registry'

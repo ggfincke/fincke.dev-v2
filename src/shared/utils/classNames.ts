@@ -1,6 +1,12 @@
 // src/shared/utils/classNames.ts
 // common CSS class combinations for consistent styling
 
+// merge class fragments, dropping falsy values; collapses extra whitespace
+export function cn(...parts: Array<string | false | null | undefined>): string
+{
+  return parts.filter(Boolean).join(' ').replace(/\s+/g, ' ').trim()
+}
+
 export const FOCUS_RING_CLASSES =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]'
 

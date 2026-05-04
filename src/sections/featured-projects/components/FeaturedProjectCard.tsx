@@ -6,8 +6,7 @@ import { ProjectIdentity } from '~/shared/components/projects/ProjectIdentity'
 import { ProjectTechnologies } from '~/shared/components/projects/ProjectTechnologies'
 import type { Project } from '~/shared/types'
 import { getProjectViewModel } from '~/shared/utils/projectViewModel'
-import { CARD_HOVER_BACKDROP } from '~/shared/utils/classNames'
-import { FeaturedProjectImage } from './FeaturedProjectImage'
+import { FeaturedProjectImage } from '~/sections/featured-projects/components/FeaturedProjectImage'
 
 // props for featured project card
 interface FeaturedProjectCardProps
@@ -21,21 +20,21 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps)
   const viewModel = getProjectViewModel(project)
 
   return (
-    <InteractiveCard href={viewModel.primaryHref} className="flex gap-4">
-      {/* hover backdrop */}
-      <div className={CARD_HOVER_BACKDROP} />
-
+    <InteractiveCard
+      href={viewModel.primaryHref}
+      contentClassName="flex gap-4"
+      withHoverBackdrop
+    >
       {/* project image */}
       {project.imagePath && (
         <FeaturedProjectImage
           imagePath={project.imagePath}
-          imageAlt={project.imageAlt}
-          title={project.title}
+          imageAlt={viewModel.imageAlt}
         />
       )}
 
       {/* project info */}
-      <div className="relative z-10 flex-1">
+      <div className="flex-1">
         <ProjectIdentity
           title={project.title}
           variant="featured"

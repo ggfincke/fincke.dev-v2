@@ -2,8 +2,38 @@
 // project & collaborator types
 
 import type { TechnologyId } from '~/content/technologies'
+import type { DateSpan } from '~/shared/types/dates'
 
-import type { DateSpan } from './dates'
+// known project entry ids
+export const PROJECT_IDS = [
+  'tierlistbuilder',
+  'mdx-preview-for-vs-code',
+  'opencode-to-ccusage',
+  'reactive-workbench',
+  'swimmate-v2',
+  'portfolio-website-v2',
+  'minecart',
+  'hopper',
+  'loom',
+  'trackbasket',
+  'portfolio-website-v1',
+  'instock',
+  'deep-learning-architecture-comparison-and-analysis-for-cifar-10',
+  'computer-architecture-projects',
+  'tcghub',
+  'traditional-machine-learning-methods-exploration-for-mnist',
+  'covid-19-case-surveillance-analysis',
+  'betterbettor',
+  'swimmate',
+  'optimus',
+  'ios-application-development-projects',
+  'memory-management-and-threading-in-c',
+  'usbap',
+  'mips-processor',
+  'jbod-storage-system-with-caching-and-network-communication',
+] as const
+
+export type ProjectId = (typeof PROJECT_IDS)[number]
 
 // project lifecycle status union type
 export type ProjectStatus =
@@ -42,7 +72,7 @@ export interface ExternalLink
 // project entry shape
 export interface Project
 {
-  id: string
+  id: ProjectId
   title: string
   tagline?: string
   period: DateSpan

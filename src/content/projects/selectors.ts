@@ -3,8 +3,7 @@
 
 import type { TechnologyId } from '~/content/technologies'
 import type { Project } from '~/shared/types'
-
-import { projects } from './all'
+import { projects } from '~/content/projects/all'
 
 // get featured projects filtered by viewport tier & global feature order
 export const getFeaturedProjects = (includeWide = false): Project[] =>
@@ -31,13 +30,32 @@ export const getAllProjects = (): Project[] =>
   return projects
 }
 
-// get projects filtered by canonical technology id
+// reverse index: technology id → projects that use it
+const PROJECTS_BY_TECHNOLOGY: ReadonlyMap<TechnologyId, Project[]> = (() =>
+{
+  const index = new Map<TechnologyId, Project[]>()
+  for (const project of projects)
+  {
+    for (const technologyId of project.technologies)
+    {
+      let bucket = index.get(technologyId)
+      if (!bucket)
+      {
+        bucket = []
+        index.set(technologyId, bucket)
+      }
+      bucket.push(project)
+    }
+  }
+  return index
+})()
+
+const EMPTY_PROJECT_LIST: readonly Project[] = Object.freeze([])
+
+// get projects filtered by canonical technology id (O(1) lookup)
 export const getProjectsByTechnology = (
   technologyId: TechnologyId
-): Project[] =>
+): readonly Project[] =>
 {
-  return projects.filter((project) =>
-  {
-    return project.technologies.includes(technologyId)
-  })
+  return PROJECTS_BY_TECHNOLOGY.get(technologyId) ?? EMPTY_PROJECT_LIST
 }

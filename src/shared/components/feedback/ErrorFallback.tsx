@@ -29,8 +29,9 @@ export function ErrorFallback()
           !
         </div>
       }
-      title={title}
-      description={message}
-    />
+    >
+      <h1 className="text-2xl font-bold text-[var(--fg)]">{title}</h1>
+      <p className="mt-4 max-w-md text-[var(--muted)]">{message}</p>
+    </FullScreenMessagePage>
   )
 }
