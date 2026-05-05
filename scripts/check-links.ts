@@ -2,18 +2,18 @@
 // validates external URLs from content, metadata, & deployment files
 // Usage: npm run check-links
 
-import type { ExternalUrlReference } from './lib/contentInventory'
+import type { ExternalUrlReference } from '~/scripts/lib/contentInventory'
 
-import { mapWithConcurrency } from './lib/async'
-import { formatSources, printDivider } from './lib/cliFormat'
-import { getContentInventory } from './lib/contentInventory'
+import { mapWithConcurrency } from '~/scripts/lib/async'
+import { formatSources, printDivider } from '~/scripts/lib/cliFormat'
+import { getContentInventory } from '~/scripts/lib/contentInventory'
 import {
   getHostKey,
   getLinkPolicy,
   preferGetForHost,
   shouldFailLinkCheck,
   shouldRetryWithGet,
-} from './lib/linkPolicy'
+} from '~/scripts/lib/linkPolicy'
 
 const TIMEOUT = 10_000
 const PER_HOST_CONCURRENCY = 2

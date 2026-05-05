@@ -12,10 +12,17 @@ import {
 import { WORK_EXPERIENCE } from '~/content/experience'
 import { SOCIAL_LINKS } from '~/content/home'
 import { projects } from '~/content/projects'
-import { SITE_ORIGIN } from './siteManifest'
+import type {
+  PublicAssetCategory,
+  PublicAssetStorage,
+} from '~/shared/types/assets'
+import { PUBLIC_DIR, REPO_ROOT } from '~/scripts/lib/paths'
+import { SITE_ORIGIN } from '~/scripts/lib/siteManifest'
 
-export type LocalFileCategory = 'runtime' | 'deployment' | 'retained'
-export type LocalFileStorage = 'public' | 'repo-root'
+export { PUBLIC_DIR, REPO_ROOT }
+
+export type LocalFileCategory = PublicAssetCategory
+export type LocalFileStorage = PublicAssetStorage
 
 export interface ExternalUrlReference
 {
@@ -63,9 +70,6 @@ export interface ContentInventory
   robotsSitemapUrls: string[]
   sitemapUrls: string[]
 }
-
-export const REPO_ROOT = join(import.meta.dirname, '..', '..')
-export const PUBLIC_DIR = join(REPO_ROOT, 'public')
 
 const ROOT_LEVEL_LOCAL_FILES = new Set(['/thumbnail.ico'])
 

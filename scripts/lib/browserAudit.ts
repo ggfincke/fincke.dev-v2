@@ -3,17 +3,14 @@
 
 import { join } from 'node:path'
 
+import { REPO_ROOT } from '~/scripts/lib/paths'
+
 export const DEFAULT_DEV_PORT = '5173'
 export const DEFAULT_PREVIEW_PORT = '4173'
 export const LOCALHOST = '127.0.0.1'
 
-export const REPORTS_DIR = join(import.meta.dirname, '..', '..', 'reports')
-export const SCREENSHOTS_DIR = join(
-  import.meta.dirname,
-  '..',
-  '..',
-  'screenshots'
-)
+export const REPORTS_DIR = join(REPO_ROOT, 'reports')
+export const SCREENSHOTS_DIR = join(REPO_ROOT, 'screenshots')
 
 export const PLAYWRIGHT_LAUNCH_ARGS = ['--no-sandbox', '--disable-gpu'] as const
 

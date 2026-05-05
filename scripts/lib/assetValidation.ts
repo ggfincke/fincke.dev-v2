@@ -4,9 +4,16 @@
 import { readdirSync, statSync, type Stats } from 'fs'
 import { basename, join, relative } from 'path'
 
-import type { ContentInventory, LocalFileReference } from './contentInventory'
-import { PUBLIC_DIR, REPO_ROOT, normalizeExternalUrl } from './contentInventory'
-import { SITEMAP_URL, getPublicRouteUrls } from './siteManifest'
+import type {
+  ContentInventory,
+  LocalFileReference,
+} from '~/scripts/lib/contentInventory'
+import {
+  PUBLIC_DIR,
+  REPO_ROOT,
+  normalizeExternalUrl,
+} from '~/scripts/lib/contentInventory'
+import { SITEMAP_URL, getPublicRouteUrls } from '~/scripts/lib/siteManifest'
 
 interface PublicFileEntry
 {

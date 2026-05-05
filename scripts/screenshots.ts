@@ -6,17 +6,17 @@
 import { chromium } from 'playwright'
 import { mkdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
-import { mapWithConcurrency } from './lib/async'
+import { mapWithConcurrency } from '~/scripts/lib/async'
 import {
   DEFAULT_DEV_PORT,
   getLocalBaseUrl,
   getRouteUrl,
   PLAYWRIGHT_LAUNCH_ARGS,
   SCREENSHOTS_DIR,
-} from './lib/browserAudit'
-import { printDivider, printTable } from './lib/cliFormat'
-import { requireRunningServer } from './lib/devServer'
-import { PUBLIC_ROUTES } from './lib/siteManifest'
+} from '~/scripts/lib/browserAudit'
+import { printDivider, printTable } from '~/scripts/lib/cliFormat'
+import { requireRunningServer } from '~/scripts/lib/devServer'
+import { PUBLIC_ROUTES } from '~/scripts/lib/siteManifest'
 import { MAX_ANIMATION_DURATION_MS } from '~/shared/utils/animationConfig'
 
 const BASE_URL = getLocalBaseUrl(DEFAULT_DEV_PORT)
