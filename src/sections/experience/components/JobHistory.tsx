@@ -1,7 +1,7 @@
 // src/sections/experience/components/JobHistory.tsx
 // brief job history w/ link to full resume
 
-import { RESUME_ASSET } from '~/content/assets'
+import { RESUME_PATH } from '~/content/assets'
 import { EXPERIENCE_CONTENT, WORK_EXPERIENCE } from '~/content/experience'
 import { ActionLink } from '~/shared/components/ui/ActionLink'
 import { ArrowIcon } from '~/shared/components/ui/icons'
@@ -37,7 +37,7 @@ export function JobHistory()
 
         {/* resume link */}
         <ActionLink
-          href={RESUME_ASSET.path}
+          href={RESUME_PATH}
           openInNewTab
           icon={<ArrowIcon />}
           className="animate-slide-in-up opacity-0"
