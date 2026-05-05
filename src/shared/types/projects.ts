@@ -47,45 +47,81 @@ export type ProjectStatus =
 // featured project presentation tier
 export type ProjectFeatureTier = 'default' | 'wide'
 
+// explicit availability state for project links/media
+export const PROJECT_RESOURCE_AVAILABILITIES = [
+  'available',
+  'private',
+  'archived',
+  'not-applicable',
+  'pending',
+] as const
+
+export type ProjectResourceAvailability =
+  (typeof PROJECT_RESOURCE_AVAILABILITIES)[number]
+
+export interface ProjectResourceState
+{
+  readonly availability: ProjectResourceAvailability
+  readonly note?: string
+}
+
+export interface ProjectContentStatus
+{
+  readonly links: ProjectResourceState
+  readonly media: ProjectResourceState
+}
+
+export interface ProjectsContent
+{
+  readonly featuredHeading: string
+  readonly archiveCtaLabel: string
+  readonly archiveBackLabel: string
+  readonly archiveTitle: string
+  readonly archiveDescription: string
+  readonly archiveListHeading: string
+  readonly archiveFooter: string
+}
+
 // featured project metadata
 export interface ProjectFeature
 {
-  tier: ProjectFeatureTier
+  readonly tier: ProjectFeatureTier
   // globally unique ordering across all featured projects
-  order: number
+  readonly order: number
 }
 
 // collaborator entry shape
 export interface Collaborator
 {
-  name: string
-  url?: string
+  readonly name: string
+  readonly url?: string
 }
 
 // external link shape
 export interface ExternalLink
 {
-  url: string
-  label: string
+  readonly url: string
+  readonly label: string
 }
 
 // project entry shape
 export interface Project
 {
-  id: ProjectId
-  title: string
-  tagline?: string
-  period: DateSpan
-  status: ProjectStatus
-  madeFor: string
-  feature?: ProjectFeature
+  readonly id: ProjectId
+  readonly title: string
+  readonly tagline?: string
+  readonly period: DateSpan
+  readonly status: ProjectStatus
+  readonly madeFor: string
+  readonly feature?: ProjectFeature
+  readonly contentStatus: ProjectContentStatus
 
-  bulletPoints: string[]
-  technologies: TechnologyId[]
-  imagePath?: string
-  imageAlt?: string
-  repoUrl?: string
-  liveUrl?: string
-  additionalLinks?: ExternalLink[]
-  collaborators?: Collaborator[]
+  readonly bulletPoints: readonly string[]
+  readonly technologies: readonly TechnologyId[]
+  readonly imagePath?: string
+  readonly imageAlt?: string
+  readonly repoUrl?: string
+  readonly liveUrl?: string
+  readonly additionalLinks?: readonly ExternalLink[]
+  readonly collaborators?: readonly Collaborator[]
 }
