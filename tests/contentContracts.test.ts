@@ -18,7 +18,9 @@ import { WORK_EXPERIENCE_IDS } from '~/shared/types/experience'
 import { PROJECT_IDS } from '~/shared/types/projects'
 import { getYearMonthValue } from '~/shared/utils/dateSpan'
 
-type FeaturedProject = Project & { readonly feature: ProjectFeature }
+type FeaturedProject<T extends Project = Project> = T & {
+  readonly feature: ProjectFeature
+}
 
 const UNAVAILABLE_RESOURCE_STATES = new Set<ProjectResourceAvailability>([
   'private',
@@ -27,7 +29,9 @@ const UNAVAILABLE_RESOURCE_STATES = new Set<ProjectResourceAvailability>([
   'pending',
 ])
 
-function hasFeature(project: Project): project is FeaturedProject
+function hasFeature<T extends Project>(
+  project: T
+): project is FeaturedProject<T>
 {
   return Boolean(project.feature)
 }
