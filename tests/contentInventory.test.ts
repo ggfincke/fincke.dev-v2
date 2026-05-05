@@ -1,7 +1,16 @@
 // tests/contentInventory.test.ts
 // coverage for shared content & metadata inventory
 
+import { existsSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
+
 import { describe, expect, it } from 'vitest'
+
+import {
+  DEPLOYMENT_PUBLIC_ASSETS,
+  PUBLIC_RUNTIME_ASSETS,
+  RETAINED_PUBLIC_ASSETS,
+} from '~/content/assets'
 
 import {
   getContentInventory,
@@ -63,6 +72,50 @@ describe('content inventory', () =>
     expect(localFiles.get('/sitemap.xml')).toMatchObject({
       category: 'deployment',
     })
+  })
+
+  it('keeps manual asset metadata out of component directories', () =>
+  {
+    const source = readFileSync(
+      join(process.cwd(), 'scripts/lib/contentInventory.ts'),
+      'utf8'
+    )
+    const inventory = getContentInventory()
+    const localFiles = new Map(
+      inventory.localFiles.map((reference) => [reference.path, reference])
+    )
+
+    expect(source).toContain('~/content/assets')
+    expect(source).not.toMatch(/~\/sections\/[^'"]*\/components/)
+    expect(
+      existsSync(
+        join(
+          process.cwd(),
+          'src/sections/education/components/schoolLogos.paths.ts'
+        )
+      )
+    ).toBe(false)
+    expect(
+      existsSync(
+        join(
+          process.cwd(),
+          'src/sections/experience/components/jobHistory.paths.ts'
+        )
+      )
+    ).toBe(false)
+
+    for (const asset of [
+      ...PUBLIC_RUNTIME_ASSETS,
+      ...RETAINED_PUBLIC_ASSETS,
+      ...DEPLOYMENT_PUBLIC_ASSETS,
+    ])
+    {
+      expect(localFiles.get(asset.path)).toMatchObject({
+        category: asset.category,
+        storage: asset.storage,
+        sources: expect.arrayContaining([asset.source]),
+      })
+    }
   })
 
   it('collects robots and sitemap urls from shipped deployment files', () =>

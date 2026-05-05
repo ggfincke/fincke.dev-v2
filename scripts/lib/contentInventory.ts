@@ -4,14 +4,14 @@
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
+import {
+  DEPLOYMENT_PUBLIC_ASSETS,
+  PUBLIC_RUNTIME_ASSETS,
+  RETAINED_PUBLIC_ASSETS,
+} from '~/content/assets'
 import { WORK_EXPERIENCE } from '~/content/experience'
 import { SOCIAL_LINKS } from '~/content/home'
 import { projects } from '~/content/projects'
-import {
-  PENN_STATE_LOGO_PATH,
-  PITT_LOGO_PATH,
-} from '~/sections/education/components/schoolLogos.paths'
-import { RESUME_PATH } from '~/sections/experience/components/jobHistory.paths'
 import { SITE_ORIGIN } from './siteManifest'
 
 export type LocalFileCategory = 'runtime' | 'deployment' | 'retained'
@@ -68,57 +68,6 @@ export const REPO_ROOT = join(import.meta.dirname, '..', '..')
 export const PUBLIC_DIR = join(REPO_ROOT, 'public')
 
 const ROOT_LEVEL_LOCAL_FILES = new Set(['/thumbnail.ico'])
-
-const MANUAL_RUNTIME_LOCAL_FILES: ReadonlyArray<RawLocalFileReference> = [
-  {
-    path: RESUME_PATH,
-    category: 'runtime',
-    source: 'JobHistory resume download',
-    storage: 'public',
-  },
-  {
-    path: PITT_LOGO_PATH,
-    category: 'runtime',
-    source: 'EducationCard Pitt logo',
-    storage: 'public',
-  },
-  {
-    path: PENN_STATE_LOGO_PATH,
-    category: 'runtime',
-    source: 'EducationCard Penn State logo',
-    storage: 'public',
-  },
-]
-
-const MANUAL_RETAINED_LOCAL_FILES: ReadonlyArray<RawLocalFileReference> = [
-  {
-    path: '/documents/resume-master.pdf',
-    category: 'retained',
-    source: 'retained manual resume source',
-    storage: 'public',
-  },
-  {
-    path: '/assets/logos/brand/fincke-logo.svg',
-    category: 'retained',
-    source: 'retained brand asset',
-    storage: 'public',
-  },
-]
-
-const DEPLOYMENT_LOCAL_FILES: ReadonlyArray<RawLocalFileReference> = [
-  {
-    path: '/robots.txt',
-    category: 'deployment',
-    source: 'deployment robots.txt',
-    storage: 'public',
-  },
-  {
-    path: '/sitemap.xml',
-    category: 'deployment',
-    source: 'deployment sitemap.xml',
-    storage: 'public',
-  },
-]
 
 const INDEX_HTML_EXTERNAL_ATTRIBUTE_SOURCES: ReadonlyArray<IndexHtmlExternalAttributeSource> =
   [
@@ -548,17 +497,17 @@ function computeContentInventory(): ContentInventory
     )
   }
 
-  for (const reference of MANUAL_RUNTIME_LOCAL_FILES)
+  for (const reference of PUBLIC_RUNTIME_ASSETS)
   {
     addLocalReference(localReferences, reference)
   }
 
-  for (const reference of MANUAL_RETAINED_LOCAL_FILES)
+  for (const reference of RETAINED_PUBLIC_ASSETS)
   {
     addLocalReference(localReferences, reference)
   }
 
-  for (const reference of DEPLOYMENT_LOCAL_FILES)
+  for (const reference of DEPLOYMENT_PUBLIC_ASSETS)
   {
     addLocalReference(localReferences, reference)
   }

@@ -1,40 +1,27 @@
 // src/sections/education/components/SchoolLogo.tsx
 // official school logos rendered as bitmap assets
 
-import {
-  PENN_STATE_LOGO_PATH,
-  PITT_LOGO_PATH,
-} from '~/sections/education/components/schoolLogos.paths'
+import { SCHOOL_LOGO_ASSETS } from '~/content/assets'
+import type { EducationLogo } from '~/shared/types'
 import { cn } from '~/shared/utils/classNames'
 
 interface SchoolLogoProps
 {
+  logo: EducationLogo
   className?: string
 }
 
 const LOGO_CLASSES = 'object-contain'
 
-// university of pittsburgh seal
-export function PittLogo({ className }: SchoolLogoProps)
+// official school logo bitmap
+export function SchoolLogo({ logo, className }: SchoolLogoProps)
 {
-  return (
-    <img
-      src={PITT_LOGO_PATH}
-      alt="University of Pittsburgh"
-      className={cn(LOGO_CLASSES, className)}
-      loading="lazy"
-      decoding="async"
-    />
-  )
-}
+  const asset = SCHOOL_LOGO_ASSETS[logo]
 
-// penn state nittany lion shield
-export function PennStateLogo({ className }: SchoolLogoProps)
-{
   return (
     <img
-      src={PENN_STATE_LOGO_PATH}
-      alt="The Pennsylvania State University"
+      src={asset.path}
+      alt={asset.alt}
       className={cn(LOGO_CLASSES, className)}
       loading="lazy"
       decoding="async"
