@@ -147,11 +147,11 @@ Project, work, and education IDs are contract-tested against their authored arra
 - A separate scheduled/manual GitHub Actions workflow runs `npm run content:health`
 - The full screenshot sweep remains manual review; CI only captures the lightweight smoke screenshot matrix
 - Release tags must be reachable from `main`
-- Stable release tags promote the exact tagged commit to `prod` with a normal fast-forward push
+- Stable release tags open a pull request that promotes the exact tagged commit to `prod`
 
 ## Deployment
 
-`main` is the integration branch. `prod` is the production branch and should be the Cloudflare production deployment source. Stable `v*` tags promote to `prod`; prerelease tags create GitHub prereleases without moving production. Generate a static bundle with `npm run build` and deploy the `dist/` output to the static host of your choice.
+`main` is the integration branch. `prod` is the production branch and should be the Cloudflare production deployment source. Stable `v*` tags open a pull request to promote the tagged commit to `prod`; prerelease tags create GitHub prereleases without moving production. Generate a static bundle with `npm run build` and deploy the `dist/` output to the static host of your choice.
 
 ## Contributing
 
