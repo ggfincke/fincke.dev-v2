@@ -5,10 +5,14 @@ export {
   getTechnology,
   getTechnologyBackgroundColor,
   getTechnologyColor,
+  getTechnologyDisplay,
   getTechnologyIds,
   getTechnologyTerms,
   resolveTechnologyId,
   TECHNOLOGY_REGISTRY,
 } from '~/content/technologies/registry'
 
-export type { TechnologyId } from '~/content/technologies/registry'
+export type {
+  TechnologyDisplay,
+  TechnologyId,
+} from '~/content/technologies/registry'

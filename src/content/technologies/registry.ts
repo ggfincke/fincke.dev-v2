@@ -347,3 +347,26 @@ export function getTechnologyBackgroundColor(
 {
   return CATEGORY_BG_VAR[getTechnology(technologyId).category]
 }
+
+export interface TechnologyDisplay
+{
+  readonly label: string
+  readonly category: TechnologyCategory
+  readonly textColor: string
+  readonly bgColor: string
+}
+
+export function getTechnologyDisplay(
+  technologyId: TechnologyId
+): TechnologyDisplay
+{
+  const technology = getTechnology(technologyId)
+  const { category } = technology
+
+  return {
+    label: technology.label,
+    category,
+    textColor: CATEGORY_COLOR_VAR[category],
+    bgColor: CATEGORY_BG_VAR[category],
+  }
+}
