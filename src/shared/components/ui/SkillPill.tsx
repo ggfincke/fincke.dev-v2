@@ -1,7 +1,7 @@
 // src/shared/components/ui/SkillPill.tsx
 // skill badge w/ optional tooltip showing related projects
 
-import { type RefObject, useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 
 import { getTechnologyDisplay, type TechnologyId } from '~/content/technologies'
 import { SkillTooltip } from '~/shared/components/feedback/SkillTooltip'
@@ -36,7 +36,7 @@ export function SkillPill({
 {
   const [isTriggerActive, setIsTriggerActive] = useState(false)
   const [showTooltip, setShowTooltip] = useState(false)
-  const triggerRef = useRef<HTMLSpanElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
   const tooltipId = useId()
   const { label, textColor, bgColor } = getTechnologyDisplay(technologyId)
 
@@ -75,54 +75,40 @@ export function SkillPill({
   const interactiveClasses = hasTooltip
     ? `cursor-help ${isTriggerActive ? 'underline decoration-dotted underline-offset-2 brightness-125' : ''} hover:underline hover:decoration-dotted hover:underline-offset-2 hover:brightness-125 ${FOCUS_RING_CLASSES}`
     : 'hover:brightness-125'
+  const pillStyle = { color: textColor, backgroundColor: bgColor }
+  const pillClasses = `inline-flex items-center justify-center whitespace-nowrap rounded-full transition-[background-color,color,filter,text-decoration-color] duration-200 ${interactiveClasses} ${sizeClasses[size]} ${className}`
 
-  const commonProps = {
-    style: {
-      color: textColor,
-      backgroundColor: bgColor,
-    },
-    className: `inline-flex items-center justify-center whitespace-nowrap rounded-full transition-[background-color,color,filter,text-decoration-color] duration-200 ${interactiveClasses} ${sizeClasses[size]} ${className}`,
-    'aria-label': label,
-    'aria-describedby': showTooltip ? tooltipId : undefined,
-  }
-
-  const activateTooltipTrigger = () =>
+  if (!hasTooltip)
   {
-    setIsTriggerActive(true)
+    return (
+      <span style={pillStyle} className={pillClasses} aria-label={label}>
+        {label}
+      </span>
+    )
   }
-
-  const deactivateTooltipTrigger = () =>
-  {
-    setIsTriggerActive(false)
-  }
-
-  const tooltipTriggerProps = hasTooltip
-    ? {
-        tabIndex: 0,
-        onMouseEnter: activateTooltipTrigger,
-        onMouseLeave: deactivateTooltipTrigger,
-        onFocus: activateTooltipTrigger,
-        onBlur: deactivateTooltipTrigger,
-      }
-    : {}
 
   return (
     <>
-      <span
-        ref={hasTooltip ? triggerRef : undefined}
-        {...commonProps}
-        {...tooltipTriggerProps}
+      <button
+        ref={triggerRef}
+        type="button"
+        style={pillStyle}
+        className={`appearance-none border-0 ${pillClasses}`}
+        aria-label={label}
+        aria-describedby={showTooltip ? tooltipId : undefined}
+        onMouseEnter={() => setIsTriggerActive(true)}
+        onMouseLeave={() => setIsTriggerActive(false)}
+        onFocus={() => setIsTriggerActive(true)}
+        onBlur={() => setIsTriggerActive(false)}
       >
         {label}
-      </span>
-      {hasTooltip && (
-        <SkillTooltip
-          id={tooltipId}
-          projects={relatedProjects}
-          isVisible={showTooltip}
-          targetRef={triggerRef as RefObject<HTMLElement | null>}
-        />
-      )}
+      </button>
+      <SkillTooltip
+        id={tooltipId}
+        projects={relatedProjects}
+        isVisible={showTooltip}
+        targetRef={triggerRef}
+      />
     </>
   )
 }

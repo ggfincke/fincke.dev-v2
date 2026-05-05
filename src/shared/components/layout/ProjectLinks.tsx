@@ -1,7 +1,7 @@
 // src/shared/components/layout/ProjectLinks.tsx
 // shared links renderer for project repository & live links
 
-import type { ComponentType, ReactNode } from 'react'
+import type { ComponentType } from 'react'
 
 import type { ExternalLink } from '~/shared/types'
 import { ExternalLink as ExternalAnchor } from '~/shared/components/ui/ExternalLink'
@@ -162,7 +162,7 @@ export function ProjectLinks({
             >
               <Icon size={buttonIconSize} /> {label}
             </ExternalAnchor>
-          ) as ReactNode
+          )
         })}
       </div>
     )
