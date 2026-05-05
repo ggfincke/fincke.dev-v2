@@ -2,9 +2,9 @@
 // validates local runtime/deployment assets & classifies retained/orphaned files
 // Usage: npm run validate-assets
 
-import { formatSources, printSection } from './lib/cliFormat'
-import { getContentInventory } from './lib/contentInventory'
-import { validateAssetInventory } from './lib/assetValidation'
+import { validateAssetInventory } from '~/scripts/lib/assetValidation'
+import { formatSources, printSection } from '~/scripts/lib/cliFormat'
+import { getContentInventory } from '~/scripts/lib/contentInventory'
 
 function main()
 {

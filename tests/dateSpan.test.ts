@@ -9,7 +9,7 @@ import {
   formatDateSpan,
 } from '~/shared/utils/dateSpan'
 
-import { REFERENCE_NOW } from './fixtures'
+import { REFERENCE_NOW } from '~/tests/fixtures'
 
 describe('date span utilities', () =>
 {

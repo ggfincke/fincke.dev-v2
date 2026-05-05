@@ -38,6 +38,7 @@ public/assets
 
 # Documentation that should preserve formatting
 CHANGELOG.md
+dev-docs/
 
 # LaTeX files
 *.tex

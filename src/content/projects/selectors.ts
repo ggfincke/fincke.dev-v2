@@ -6,49 +6,61 @@ import type { Project } from '~/shared/types'
 import { projects } from '~/content/projects/all'
 
 // get featured projects filtered by viewport tier & global feature order
-export const getFeaturedProjects = (includeWide = false): Project[] =>
+export const getFeaturedProjects = (
+  includeWide = false
+): readonly Project[] =>
 {
-  return projects
-    .filter((project) =>
-    {
-      if (!project.feature)
+  return Object.freeze(
+    projects
+      .filter((project) =>
       {
-        return false
-      }
+        if (!project.feature)
+        {
+          return false
+        }
 
-      return includeWide || project.feature.tier === 'default'
-    })
-    .sort((left, right) =>
-    {
-      return (left.feature?.order ?? 0) - (right.feature?.order ?? 0)
-    })
+        return includeWide || project.feature.tier === 'default'
+      })
+      .sort((left, right) =>
+      {
+        return (left.feature?.order ?? 0) - (right.feature?.order ?? 0)
+      })
+  )
 }
 
 // get all projects
-export const getAllProjects = (): Project[] =>
+export const getAllProjects = (): readonly Project[] =>
 {
   return projects
 }
 
 // reverse index: technology id → projects that use it
-const PROJECTS_BY_TECHNOLOGY: ReadonlyMap<TechnologyId, Project[]> = (() =>
-{
-  const index = new Map<TechnologyId, Project[]>()
-  for (const project of projects)
+const PROJECTS_BY_TECHNOLOGY: ReadonlyMap<TechnologyId, readonly Project[]> =
+  (() =>
   {
-    for (const technologyId of project.technologies)
+    const index = new Map<TechnologyId, Project[]>()
+    for (const project of projects)
     {
-      let bucket = index.get(technologyId)
-      if (!bucket)
+      for (const technologyId of project.technologies)
       {
-        bucket = []
-        index.set(technologyId, bucket)
+        let bucket = index.get(technologyId)
+        if (!bucket)
+        {
+          bucket = []
+          index.set(technologyId, bucket)
+        }
+        bucket.push(project)
       }
-      bucket.push(project)
     }
-  }
-  return index
-})()
+    const readonlyIndex = new Map<TechnologyId, readonly Project[]>()
+
+    for (const [technologyId, projectList] of index)
+    {
+      readonlyIndex.set(technologyId, Object.freeze(projectList))
+    }
+
+    return readonlyIndex
+  })()
 
 const EMPTY_PROJECT_LIST: readonly Project[] = Object.freeze([])
 

@@ -7,7 +7,7 @@ import { ExternalLink } from '~/shared/components/ui/ExternalLink'
 import { CARD_HOVER_BACKDROP, cn } from '~/shared/utils/classNames'
 
 const BASE_CLASSES =
-  'group relative block p-1 transition-all lg:hover:!opacity-100 lg:group-hover/list:opacity-50'
+  'group relative block p-1 transition-opacity lg:hover:!opacity-100 lg:group-hover/list:opacity-50'
 
 // props for interactive card
 interface InteractiveCardProps

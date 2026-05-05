@@ -24,6 +24,16 @@ This repo uses the built-in Playwright screenshot script in `scripts/screenshots
 
 The script expects the dev server at `http://localhost:5173`.
 
+For a lightweight route smoke pass, run:
+
+```bash
+npm run screenshots:smoke
+```
+
+Smoke mode captures a small representative viewport matrix and uses reduced
+motion so CI can verify that each public route renders non-empty main content
+without waiting for the full visual review sweep.
+
 ## What It Captures
 
 - Every public route from `scripts/lib/siteManifest.ts`
@@ -32,12 +42,16 @@ The script expects the dev server at `http://localhost:5173`.
 
 Output is written to the repo-root `screenshots/` directory. That directory is gitignored and meant for manual review, not source control.
 
+Smoke output is written under `screenshots/smoke/`.
+
 ## Source of Truth
 
 If you need to change screenshot behavior, update the script rather than this doc:
 
 - Routes: `scripts/lib/siteManifest.ts`
 - Viewports, wait timing, output naming: `scripts/screenshots.ts`
+- Local server origin, output root, and Playwright launch flags:
+  `scripts/lib/browserAudit.ts`
 
 ## Review Expectations
 
@@ -50,6 +64,7 @@ Use screenshot runs for manual regression review of:
 
 ## Important Notes
 
-- `npm run screenshots` is a manual review tool and is not part of `npm run ci:check`
-- The screenshot script checks that the dev server is reachable before capturing
-- For production-style audits, use `npm run build && npm run preview` plus `npm run lighthouse`
+- `npm run screenshots` is the full manual review tool and is not part of `npm run ci:check`
+- CI runs `npm run screenshots:smoke` as part of the separate browser verification job
+- The screenshot script polls until the local server is reachable before capturing
+- For production-style route audits, use `npm run build && npm run preview` plus `npm run browser:check`

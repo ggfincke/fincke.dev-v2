@@ -2,8 +2,9 @@
 // project portfolio data
 
 import type { Project } from '~/shared/types'
+import { deepFreeze } from '~/shared/utils/deepFreeze'
 
-export const projects: Project[] = [
+export const projects = deepFreeze([
   {
     id: 'tierlistbuilder',
     title: 'Tier List Builder',
@@ -18,6 +19,10 @@ export const projects: Project[] = [
     },
     status: 'live',
     madeFor: 'Personal',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: { availability: 'available' },
+    },
     bulletPoints: [
       'Built snapshot-based drag-and-drop on @dnd-kit w/ bulk multi-drag, fan-out FLIP animation, and a 3-state keyboard controller (browse, pickup, drag) for full keyboard interaction',
       'Shipped multi-board workspace with autosave, labeled undo/redo with toast feedback, content-addressed IndexedDB image blobs, and storage-quota-aware resilience',
@@ -61,6 +66,10 @@ export const projects: Project[] = [
     feature: {
       tier: 'default',
       order: 1,
+    },
+    contentStatus: {
+      links: { availability: 'available' },
+      media: { availability: 'available' },
     },
     bulletPoints: [
       'Built the VS Code extension as a 5-package npm-workspace monorepo with dual-mode rendering (Safe HTML / Trusted JS), workspace-trust gating, dynamic CSP generation, and path-traversal prevention',
@@ -116,6 +125,13 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Personal',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: {
+        availability: 'not-applicable',
+        note: 'CLI utility currently represented with text-only project details.',
+      },
+    },
     bulletPoints: [
       'Converted OpenCode session data into ccusage JSONL with per-project or per-directory grouping',
       'Built report workflow that merges OpenCode and Claude Code usage data for unified metrics',
@@ -139,6 +155,16 @@ export const projects: Project[] = [
     },
     status: 'paused',
     madeFor: 'Personal',
+    contentStatus: {
+      links: {
+        availability: 'pending',
+        note: 'Paused extension work is not published to a public repository or marketplace yet.',
+      },
+      media: {
+        availability: 'pending',
+        note: 'Screenshots will be captured when the extension work resumes.',
+      },
+    },
     bulletPoints: [
       'Built rule engine with first-match-wins evaluation, overlap detection, and mode bundles for predictable, reusable automation',
       'Implemented 15+ action types (themes, panels, layout, notifications, tasks/commands, profiles) and 17+ condition types (file patterns, language, debug/test state, Git branch, time of day, diagnostics)',
@@ -164,6 +190,13 @@ export const projects: Project[] = [
     feature: {
       tier: 'default',
       order: 2,
+    },
+    contentStatus: {
+      links: {
+        availability: 'private',
+        note: 'Mobile and backend repositories remain private while the platform is in development.',
+      },
+      media: { availability: 'available' },
     },
     bulletPoints: [
       'Built Django REST API with JWT auth, OpenAPI docs, and PostgreSQL + pgvector for semantic search and workout library retrieval',
@@ -204,6 +237,10 @@ export const projects: Project[] = [
     },
     status: 'live',
     madeFor: 'Personal',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: { availability: 'available' },
+    },
     bulletPoints: [
       'Complete redesign with Vite 7 + React 19 + TypeScript + Tailwind CSS 4.0 for pure client‑side architecture',
       'Section‑based organization: each feature isolated with its own components, content, and utilities for maximum modularity',
@@ -244,6 +281,13 @@ export const projects: Project[] = [
       tier: 'wide',
       order: 3,
     },
+    contentStatus: {
+      links: {
+        availability: 'private',
+        note: 'Discord bot deployment and server-management code are not published publicly.',
+      },
+      media: { availability: 'available' },
+    },
     bulletPoints: [
       'Built interactive Discord dashboards (buttons, modals, select menus) for status, start/stop/restart, logs, backups, and configuration',
       'Implemented provider abstraction for local Docker and AWS EC2 with runtime switching, health checks, and live status via RCON and mcstatus.io',
@@ -282,6 +326,13 @@ export const projects: Project[] = [
     },
     status: 'paused',
     madeFor: 'Personal',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: {
+        availability: 'not-applicable',
+        note: 'Backend and marketplace-integration project has no stable public UI capture.',
+      },
+    },
     bulletPoints: [
       'Orchestrates products, listings, orders, and fees across marketplaces with Java/Spring Boot core and a Go connector service',
       'JWT auth with access/refresh tokens, role‑based authorization (ADMIN/USER/API CLIENT), secure rotation, and Spring Security guards',
@@ -323,6 +374,10 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Personal',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: { availability: 'available' },
+    },
     bulletPoints: [
       'Built Typer-based command suite (sectionize, tailor, generate, apply) with configurable defaults and themed help UI',
       'Implemented structured JSON edit pipeline with interactive diff resolution, risk/on-error policies, and format-preserving DOCX/LaTeX/Typst handling',
@@ -366,6 +421,10 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Bolt Hackathon',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: { availability: 'available' },
+    },
     bulletPoints: [
       'Chat‑to‑basket turns natural language into structured baskets using Supabase and OpenAI',
       'Advanced crawling with CAPTCHA handling, anti‑bot countermeasures, normalization, and real‑time updates',
@@ -406,6 +465,10 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Personal',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: { availability: 'available' },
+    },
     bulletPoints: [
       'Next.js + TypeScript + Tailwind; responsive UI with subtle motion',
       'Custom component system, accessibility and performance‑first design',
@@ -440,6 +503,16 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Personal',
+    contentStatus: {
+      links: {
+        availability: 'archived',
+        note: 'Precursor project is retained as portfolio history without a public repository or live deployment.',
+      },
+      media: {
+        availability: 'archived',
+        note: 'No stable screenshot was retained for the archived precursor project.',
+      },
+    },
     bulletPoints: [
       'Optimized detection for restocks and price changes on high‑velocity products',
       'Django + PostgreSQL core with Redis/Celery microservices and Selenium scraping',
@@ -473,6 +546,10 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Penn State',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: { availability: 'available' },
+    },
     bulletPoints: [
       'DenseNet121 topped at 74% test accuracy vs CNN 69%, RFM 51.6%, ResNet50 47%',
       'Documented optimization challenges, loss/accuracy curves, and future work; full metric suite and confusion matrices',
@@ -532,6 +609,16 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Penn State',
+    contentStatus: {
+      links: {
+        availability: 'not-applicable',
+        note: 'Course project collection is summarized without publishing separate artifacts.',
+      },
+      media: {
+        availability: 'not-applicable',
+        note: 'Architecture experiments are represented by text rather than a UI screenshot.',
+      },
+    },
     bulletPoints: [
       'Framework to explore multi‑dimensional cache/memory configs with automated validation and evaluation across benchmarks',
       'Branch predictors: static, 1‑bit/2‑bit, bimodal, gshare, and hybrid with chooser; accuracy and misprediction analysis',
@@ -562,6 +649,10 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Penn State',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: { availability: 'available' },
+    },
     bulletPoints: [
       'React marketplace with live data integration and custom SQLite schema in BCNF',
       'Hand‑written SQL queries, filtering/search for sets & rarities, responsive UI (scored >100%)',
@@ -592,6 +683,10 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Penn State',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: { availability: 'available' },
+    },
     bulletPoints: [
       'KNN 94.4%, Logistic Regression 91.1%, SVM (RBF) 95.3% on a 10k‑image subset; precision/recall/F1 with confusion matrices',
       'Preprocessing: normalization to [0,1], 784‑D flattening, stratified train/test; K‑Means + PCA for unsupervised analysis (100% grade)',
@@ -627,6 +722,16 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Penn State',
+    contentStatus: {
+      links: {
+        availability: 'not-applicable',
+        note: 'Course data-analysis submission is summarized without public artifacts.',
+      },
+      media: {
+        availability: 'not-applicable',
+        note: 'Analysis work is represented by project details rather than retained screenshots.',
+      },
+    },
     bulletPoints: [
       'End‑to‑end data science with pandas/NumPy/sklearn; multiple ML models (linear/logistic regression, SVM, KNN, trees)',
       'Final surveillance analysis project with comprehensive preprocessing, visualization, and 100% score',
@@ -666,6 +771,16 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Penn State',
+    contentStatus: {
+      links: {
+        availability: 'not-applicable',
+        note: 'Course dApp submission is summarized without a maintained public deployment.',
+      },
+      media: {
+        availability: 'archived',
+        note: 'No reliable screenshot was retained for the completed course project.',
+      },
+    },
     bulletPoints: [
       'Solidity smart contracts with automated payouts and odds; MetaMask wallet integration',
       'Modern Next.js/React front‑end with real‑time betting UX',
@@ -695,6 +810,10 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Penn State',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: { availability: 'available' },
+    },
     bulletPoints: [
       'Comprehensive swimming app to track, plan, and save workouts with history and progress visualization',
       'HealthKit + SwiftUI components for workout entry, lap timing, and analytics with Swift Charts',
@@ -731,6 +850,16 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Personal',
+    contentStatus: {
+      links: {
+        availability: 'archived',
+        note: 'Experimental bot code and deployment are no longer published publicly.',
+      },
+      media: {
+        availability: 'archived',
+        note: 'No stable screenshot was retained for the archived Discord bot.',
+      },
+    },
     bulletPoints: [
       'Local inference with a custom‑trained seq2seq model (HuggingFace Transformers)',
       'Rich Discord interactions, emote reactions, user triggers, and mode controls',
@@ -760,6 +889,16 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Penn State',
+    contentStatus: {
+      links: {
+        availability: 'not-applicable',
+        note: 'Course project collection is summarized without publishing individual app repositories.',
+      },
+      media: {
+        availability: 'not-applicable',
+        note: 'Multiple app exercises are represented by text instead of one canonical screenshot.',
+      },
+    },
     bulletPoints: [
       'LionSpell word game, Pentominoes with drag/3D rotation, and campus map apps (SwiftUI Map + UIKit MKMapView)',
       'Pokédex with type filtering and persistence; 98% average across projects',
@@ -798,6 +937,13 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Penn State',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: {
+        availability: 'not-applicable',
+        note: 'Systems programming coursework has no meaningful visual media asset.',
+      },
+    },
     bulletPoints: [
       'Page replacement simulator (FIFO/LRU/optimal) with demand paging',
       'Thread scheduler with cooperative & preemptive modes, round‑robin/priority, and mutex sync',
@@ -833,6 +979,16 @@ export const projects: Project[] = [
     },
     status: 'experimental',
     madeFor: 'Personal',
+    contentStatus: {
+      links: {
+        availability: 'archived',
+        note: 'Experimental scraper code is not currently published.',
+      },
+      media: {
+        availability: 'not-applicable',
+        note: 'Data scraper project has no stable UI or media artifact.',
+      },
+    },
     bulletPoints: [
       'Scrapes DraftKings/FanDuel markets (moneyline/spreads/totals) and normalizes for downstream analytics',
       'Foundational tooling for betting analytics and opportunity detection',
@@ -863,6 +1019,13 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Penn State',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: {
+        availability: 'not-applicable',
+        note: 'Hardware design coursework has no canonical runtime screenshot.',
+      },
+    },
     bulletPoints: [
       'Full instruction set (arith/logic/memory/branch/jump) with Harvard organization',
       'Modular ALU, control, register file, and memory; comprehensive test coverage (100%)',
@@ -891,6 +1054,13 @@ export const projects: Project[] = [
     },
     status: 'complete',
     madeFor: 'Penn State',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: {
+        availability: 'not-applicable',
+        note: 'Storage-system coursework has no meaningful visual media asset.',
+      },
+    },
     bulletPoints: [
       'Complete JBOD storage across multiple disks with LFU caching',
       'TCP/IP client‑server architecture and robust protocol handling',
@@ -905,4 +1075,4 @@ export const projects: Project[] = [
     ],
     repoUrl: 'https://github.com/ggfincke/CMPSC311_projects',
   },
-]
+] satisfies Project[])

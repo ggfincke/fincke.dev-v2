@@ -3,24 +3,33 @@
 
 import type { DateSpan } from '~/shared/types/dates'
 
-// known education entry ids — narrow union derived from EDUCATION content
-export type EducationId =
-  | 'university-of-pittsburgh-mscs'
-  | 'pennsylvania-state-university-bscs'
+// known education entry ids
+export const EDUCATION_IDS = [
+  'university-of-pittsburgh-mscs',
+  'pennsylvania-state-university-bscs',
+] as const
+
+export type EducationId = (typeof EDUCATION_IDS)[number]
 
 // known logo identifiers (registry keys for school logos)
 export type EducationLogo = 'pitt' | 'penn-state'
 
+// education section copy
+export interface EducationContent
+{
+  readonly heading: string
+}
+
 // education entry shape
 export interface Education
 {
-  id: EducationId
-  school: string
-  degree: string
-  location: string
-  period: DateSpan
-  isExpected?: boolean
-  honors?: string
-  url?: string
-  logo?: EducationLogo
+  readonly id: EducationId
+  readonly school: string
+  readonly degree: string
+  readonly location: string
+  readonly period: DateSpan
+  readonly isExpected?: boolean
+  readonly honors?: string
+  readonly url?: string
+  readonly logo?: EducationLogo
 }

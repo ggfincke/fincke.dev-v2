@@ -4,7 +4,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 import type { SocialLink } from '~/shared/types'
-import { SOCIAL_LINKS } from '~/content/home'
+import { SOCIAL_LINKS, SOCIAL_LINKS_CONTENT } from '~/content/home'
 import { IconLink } from '~/shared/components/ui/IconLink'
 import {
   EmailIcon,
@@ -78,7 +78,11 @@ function PhoneRevealButton()
       <button
         type="button"
         onClick={() => setRevealed((current) => !current)}
-        aria-label={revealed ? 'Hide phone number' : 'Show phone number'}
+        aria-label={
+          revealed
+            ? SOCIAL_LINKS_CONTENT.hidePhoneLabel
+            : SOCIAL_LINKS_CONTENT.showPhoneLabel
+        }
         aria-expanded={revealed}
         className={ICON_LINK_CLASSES}
       >
@@ -109,7 +113,7 @@ export function SocialLinks()
 {
   return (
     <nav
-      aria-label="Social media links"
+      aria-label={SOCIAL_LINKS_CONTENT.ariaLabel}
       className="animate-slide-in-left flex gap-4 opacity-0"
       style={{ animationDelay: ANIMATION_DELAYS.socialLinks }}
     >

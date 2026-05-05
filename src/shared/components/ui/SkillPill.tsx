@@ -1,14 +1,9 @@
 // src/shared/components/ui/SkillPill.tsx
 // skill badge w/ optional tooltip showing related projects
 
-import { type RefObject, useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 
-import {
-  getTechnology,
-  getTechnologyBackgroundColor,
-  getTechnologyColor,
-  type TechnologyId,
-} from '~/content/technologies'
+import { getTechnologyDisplay, type TechnologyId } from '~/content/technologies'
 import { SkillTooltip } from '~/shared/components/feedback/SkillTooltip'
 import type { Project } from '~/shared/types'
 import { FOCUS_RING_CLASSES } from '~/shared/utils/classNames'
@@ -39,25 +34,22 @@ export function SkillPill({
   hoverDelay = DEFAULT_HOVER_DELAY,
 }: SkillPillProps)
 {
-  const [isHovered, setIsHovered] = useState(false)
+  const [isTriggerActive, setIsTriggerActive] = useState(false)
   const [showTooltip, setShowTooltip] = useState(false)
-  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const spanRef = useRef<HTMLSpanElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
   const tooltipId = useId()
-  const technology = getTechnology(technologyId)
-  const label = technology.label
+  const { label, textColor, bgColor } = getTechnologyDisplay(technologyId)
 
-  const isInteractive = showProjectsOnHover && Boolean(getRelatedProjects)
+  const hasTooltip = showProjectsOnHover && Boolean(getRelatedProjects)
   const relatedProjects =
-    isInteractive && isHovered && getRelatedProjects
+    hasTooltip && isTriggerActive && getRelatedProjects
       ? getRelatedProjects(technologyId)
       : EMPTY_PROJECTS
 
   // delay showing tooltip until hover sticks
   useEffect(() =>
   {
-    if (!isInteractive || !isHovered)
+    if (!hasTooltip || !isTriggerActive)
     {
       setShowTooltip(false)
       return
@@ -67,14 +59,12 @@ export function SkillPill({
     {
       setShowTooltip(true)
     }, hoverDelay)
-    hoverTimeoutRef.current = timeoutId
 
     return () =>
     {
       clearTimeout(timeoutId)
-      hoverTimeoutRef.current = null
     }
-  }, [hoverDelay, isHovered, isInteractive])
+  }, [hasTooltip, hoverDelay, isTriggerActive])
 
   const sizeClasses = {
     xs: 'px-2 py-1 text-xs',
@@ -82,69 +72,43 @@ export function SkillPill({
     md: 'px-3 py-1 text-sm',
   } as const
 
-  const textColor = getTechnologyColor(technologyId)
-  const bgColor = getTechnologyBackgroundColor(technologyId)
-
-  const interactiveClasses = showProjectsOnHover
-    ? `cursor-help ${isHovered ? 'underline decoration-dotted underline-offset-2 brightness-125' : ''} hover:underline hover:decoration-dotted hover:underline-offset-2 hover:brightness-125 ${FOCUS_RING_CLASSES}`
+  const interactiveClasses = hasTooltip
+    ? `cursor-help ${isTriggerActive ? 'underline decoration-dotted underline-offset-2 brightness-125' : ''} hover:underline hover:decoration-dotted hover:underline-offset-2 hover:brightness-125 ${FOCUS_RING_CLASSES}`
     : 'hover:brightness-125'
+  const pillStyle = { color: textColor, backgroundColor: bgColor }
+  const pillClasses = `inline-flex items-center justify-center whitespace-nowrap rounded-full transition-[background-color,color,filter,text-decoration-color] duration-200 ${interactiveClasses} ${sizeClasses[size]} ${className}`
 
-  const commonProps = {
-    style: {
-      color: textColor,
-      backgroundColor: bgColor,
-    },
-    className: `rounded-full inline-flex items-center justify-center whitespace-nowrap transition-all duration-200 ${interactiveClasses} ${sizeClasses[size]} ${className}`,
-    'aria-label': label,
-    'aria-describedby': showTooltip ? tooltipId : undefined,
-    onMouseEnter: () =>
-    {
-      if (showProjectsOnHover)
-      {
-        setIsHovered(true)
-      }
-    },
-    onMouseLeave: () =>
-    {
-      setIsHovered(false)
-    },
-    onFocus: () =>
-    {
-      if (showProjectsOnHover)
-      {
-        setIsHovered(true)
-      }
-    },
-    onBlur: () =>
-    {
-      setIsHovered(false)
-    },
+  if (!hasTooltip)
+  {
+    return (
+      <span style={pillStyle} className={pillClasses} aria-label={label}>
+        {label}
+      </span>
+    )
   }
 
   return (
     <>
-      {showProjectsOnHover ? (
-        <button
-          type="button"
-          ref={buttonRef}
-          {...commonProps}
-          className={`${commonProps.className} appearance-none border-0`}
-        >
-          {label}
-        </button>
-      ) : (
-        <span ref={spanRef} {...commonProps}>
-          {label}
-        </span>
-      )}
-      {showProjectsOnHover && (
-        <SkillTooltip
-          id={tooltipId}
-          projects={relatedProjects}
-          isVisible={showTooltip}
-          targetRef={buttonRef as RefObject<HTMLElement | null>}
-        />
-      )}
+      <button
+        ref={triggerRef}
+        type="button"
+        style={pillStyle}
+        className={`appearance-none border-0 ${pillClasses}`}
+        aria-label={label}
+        aria-describedby={showTooltip ? tooltipId : undefined}
+        onMouseEnter={() => setIsTriggerActive(true)}
+        onMouseLeave={() => setIsTriggerActive(false)}
+        onFocus={() => setIsTriggerActive(true)}
+        onBlur={() => setIsTriggerActive(false)}
+      >
+        {label}
+      </button>
+      <SkillTooltip
+        id={tooltipId}
+        projects={relatedProjects}
+        isVisible={showTooltip}
+        targetRef={triggerRef}
+      />
     </>
   )
 }

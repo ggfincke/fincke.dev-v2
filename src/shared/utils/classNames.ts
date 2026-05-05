@@ -19,7 +19,7 @@ export const ICON_LINK_CLASSES = `rounded-sm text-[var(--muted)] transition-colo
 
 export const FULL_SCREEN_MESSAGE_ACTION_CLASSES = `mt-8 inline-flex items-center gap-2 rounded-lg border border-[var(--accent)] px-6 py-3 text-sm font-medium text-[var(--accent)] transition-colors hover:bg-[var(--accent)] hover:text-[var(--accent-contrast)] ${FOCUS_RING_CLASSES}`
 
-const baseButtonClasses = `inline-flex items-center gap-2 rounded-lg transition-all duration-200 ${FOCUS_RING_CLASSES}`
+const baseButtonClasses = `inline-flex items-center gap-2 rounded-lg transition-[background-color,color,box-shadow] duration-200 ${FOCUS_RING_CLASSES}`
 
 const buttonSizes = {
   sm: 'px-3 py-1 text-sm',

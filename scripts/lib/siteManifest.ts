@@ -1,24 +1,11 @@
 // scripts/lib/siteManifest.ts
 // shared site metadata for script consumers
 
-export interface PublicRoute
-{
-  path: string
-  slug: string
-}
+import { PUBLIC_ROUTES, type PublicRoute } from '~/shared/routing/publicRoutes'
+
+export { PUBLIC_ROUTES, type PublicRoute }
 
 export const SITE_ORIGIN = 'https://fincke.dev'
-
-export const PUBLIC_ROUTES = [
-  {
-    path: '/',
-    slug: 'home',
-  },
-  {
-    path: '/projects',
-    slug: 'projects',
-  },
-] as const satisfies ReadonlyArray<PublicRoute>
 
 export const SITEMAP_URL = new URL('/sitemap.xml', SITE_ORIGIN).toString()
 

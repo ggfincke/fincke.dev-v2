@@ -16,5 +16,5 @@ export interface TechnologyDefinition<TId extends string = string>
   id: TId
   label: string
   category: TechnologyCategory
-  aliases?: string[]
+  aliases?: readonly string[]
 }

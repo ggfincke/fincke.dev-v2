@@ -4,15 +4,20 @@
 // about section content shape
 export interface AboutContent
 {
-  heading: string
-  paragraphs: string[]
-  email: string
+  readonly heading: string
+  readonly paragraphs: readonly string[]
+  readonly email: string
+  readonly contact: {
+    readonly prefix: string
+    readonly suffix: string
+  }
 }
 
 // hero section content shape
 export interface HeroContent
 {
-  name: string
+  readonly name: string
+  readonly tagline: string
 }
 
 type SocialLinkIcon =
@@ -27,23 +32,30 @@ type SocialLinkIcon =
 
 interface BaseSocialLink
 {
-  label: string
-  icon: SocialLinkIcon
+  readonly label: string
+  readonly icon: SocialLinkIcon
 }
 
 // URL-backed social link shape
 export interface UrlSocialLink extends BaseSocialLink
 {
-  icon: Exclude<SocialLinkIcon, 'phone'>
-  url: string
-  openInNewTab: boolean
+  readonly icon: Exclude<SocialLinkIcon, 'phone'>
+  readonly url: string
+  readonly openInNewTab: boolean
 }
 
 // click-to-reveal phone entry; no URL lives in shared content
 export interface PhoneSocialLink extends BaseSocialLink
 {
-  icon: 'phone'
+  readonly icon: 'phone'
 }
 
 // social media link shape
 export type SocialLink = UrlSocialLink | PhoneSocialLink
+
+export interface SocialLinksContent
+{
+  readonly ariaLabel: string
+  readonly showPhoneLabel: string
+  readonly hidePhoneLabel: string
+}

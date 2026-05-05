@@ -11,25 +11,43 @@ export interface ProjectViewModel
   startYear: string
   periodLabel: string
   hasLinks: boolean
+  hasMedia: boolean
+  imagePath?: string
   detailsId: string
   detailsLabel: string
   imageAlt: string
 }
 
+// project records are deep-frozen at the content boundary, so the view model
+// is a pure function of stable input — cache it per project to keep memo'd
+// children stable across re-renders.
+const VIEW_MODEL_CACHE = new WeakMap<Project, ProjectViewModel>()
+
 // derive stable project view metadata from authored content
 export function getProjectViewModel(project: Project): ProjectViewModel
 {
-  return {
-    primaryHref: project.liveUrl ?? project.repoUrl,
+  const cached = VIEW_MODEL_CACHE.get(project)
+
+  if (cached)
+  {
+    return cached
+  }
+
+  const hasLinks = project.contentStatus.links.availability === 'available'
+  const hasMedia = project.contentStatus.media.availability === 'available'
+
+  const viewModel: ProjectViewModel = {
+    primaryHref: hasLinks ? (project.liveUrl ?? project.repoUrl) : undefined,
     startYear: getDateSpanStartYear(project.period),
     periodLabel: formatDateSpan(project.period),
-    hasLinks: Boolean(
-      project.repoUrl ||
-        project.liveUrl ||
-        (project.additionalLinks && project.additionalLinks.length > 0)
-    ),
+    hasLinks,
+    hasMedia,
+    imagePath: hasMedia ? project.imagePath : undefined,
     detailsId: `project-details-${project.id}`,
     detailsLabel: `Details for ${project.title}`,
     imageAlt: project.imageAlt ?? `${project.title} screenshot`,
   }
+
+  VIEW_MODEL_CACHE.set(project, viewModel)
+  return viewModel
 }

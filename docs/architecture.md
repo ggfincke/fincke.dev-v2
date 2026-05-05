@@ -28,6 +28,8 @@ Current `package.json` versions:
   Lazy-loads `ProjectsArchivePage`
 - `*`
   Renders `NotFoundPage`
+- `src/shared/routing/publicRoutes.ts`
+  Canonical public route paths and slugs consumed by the React router and script manifest helpers
 
 ### Shared App Chrome
 
@@ -49,7 +51,12 @@ Current `package.json` versions:
 
 ## Content Sources of Truth
 
-All authored site content lives under `src/content/`. Components consume typed records instead of owning copy or taxonomy data locally.
+All authored site content lives under `src/content/`. Components consume typed records instead of owning copy, taxonomy data, or public asset paths locally.
+
+### Assets
+
+- `src/content/assets/publicAssets.ts`
+  Content-owned public asset metadata for runtime, retained, and deployment files. Components and scripts import asset paths from this boundary, not from section component folders.
 
 ### Home
 
@@ -61,12 +68,18 @@ All authored site content lives under `src/content/`. Components consume typed r
 
 - `src/content/experience/workExperience.ts`
 
+### Education
+
+- `src/content/education/education.ts`
+
 ### Projects
 
+- `src/content/projects/copy.ts`
+  Featured-project CTA and archive page copy
 - `src/content/projects/all.ts`
-  Authored project records
+  Authored project records, exposed as deeply frozen readonly data. Each project owns explicit `contentStatus.links` and `contentStatus.media` metadata so private, archived, pending, and intentionally text-only entries do not look like unfinished content.
 - `src/content/projects/selectors.ts`
-  Derived project views:
+  Derived readonly project views:
   `getAllProjects()`, `getFeaturedProjects()`, `getProjectsByTechnology()`
 
 ### Technologies
@@ -87,20 +100,26 @@ Typed contracts live under `src/shared/types/`.
 - `dates.ts`
   `YearMonth` and `DateSpan` for month-precision periods
 - `home.ts`
-  `HeroContent`, `AboutContent`, `SocialLink`
+  `HeroContent`, `AboutContent`, `SocialLink`, `SocialLinksContent`
+- `assets.ts`
+  Public asset metadata contracts
+- `education.ts`
+  `EDUCATION_IDS`, `Education`, `EducationId`, `EducationLogo`
 - `experience.ts`
-  `WorkExperience`
+  `WORK_EXPERIENCE_IDS`, `WorkExperience`, `WorkExperienceId`
 - `projects.ts`
-  `Project`, `ProjectFeature`, `ProjectStatus`, collaborator and external-link types
+  `PROJECT_IDS`, `Project`, `ProjectFeature`, `ProjectStatus`, collaborator and external-link types
 - `technology.ts`
   `TechnologyCategory` and `TechnologyDefinition`
 
 ### Important Content Rules
 
-- Projects and work experience use stable authored `id`s
+- Projects, work experience, and education use stable authored `id`s
 - Projects and work experience reference technologies by canonical `TechnologyId`
-- Project and work-history dates use structured `DateSpan` values, not display-string parsing
+- Project, work-history, and education dates use structured `DateSpan` values, not display-string parsing
+- Project link/media availability must be explicit through `contentStatus`; `available` must have corresponding URLs/media, and unavailable states must include a reason
 - Featured project selection is authored directly on project records through `feature`, and `feature.order` is globally unique across featured entries
+- Authored project, work, education, home copy, and asset metadata records are deeply frozen; selectors expose readonly project lists to prevent accidental mutation of canonical content order
 
 ## Shared Presentation Contracts
 
@@ -109,11 +128,13 @@ Typed contracts live under `src/shared/types/`.
 - `src/shared/components/projects/ProjectIdentity.tsx`
   Shared title/collaborator block for featured and archive variants
 - `src/shared/components/projects/ProjectTechnologies.tsx`
-  Shared technology rendering and related-project tooltip wiring
+  Shared technology rendering and related-project tooltip wiring. Technology
+  pills with related-project previews are tooltip-only text/focus triggers; they
+  should not expose button semantics unless a real press action is added.
 - `src/shared/components/projects/ProjectCollaborators.tsx`
   Shared collaborator rendering
 - `src/shared/utils/projectViewModel.ts`
-  Shared derived project display metadata
+  Shared derived project display metadata, including link/media presence from explicit project `contentStatus`
 - `src/shared/components/layout/ProjectLinks.tsx`
   Shared project link presentation
 
@@ -135,7 +156,7 @@ Typed contracts live under `src/shared/types/`.
 - `src/shared/utils/projectLinks.ts`
   Shared link-label logic for project actions
 - `src/shared/utils/interaction.ts`
-  Nested click/key handling helpers for archive interactions
+  Nested click/key handling helpers for desktop archive row interactions
 - `src/shared/utils/breakpoints.ts`
   Shared breakpoint tokens
 - `src/shared/utils/animationConfig.ts`
@@ -158,6 +179,12 @@ Typed contracts live under `src/shared/types/`.
 - `components/JobCard.tsx`
 - `components/JobCompanyHeader.tsx`
 
+### `src/sections/education`
+
+- `components/EducationHistory.tsx`
+- `components/EducationCard.tsx`
+- `components/SchoolLogo.tsx`
+
 ### `src/sections/featured-projects`
 
 - `components/FeaturedProjects.tsx`
@@ -169,6 +196,9 @@ Typed contracts live under `src/shared/types/`.
 - `components/ProjectsTable.tsx`
 - `components/ProjectTableRow.tsx`
 - `components/ProjectMobileCard.tsx`
+  Semantic mobile archive summary card. The card is an `article`; expansion is
+  owned by the header button, and project links/technology tooltip triggers sit
+  outside that button.
 - `components/ProjectExpandedDetails.tsx`
 - `components/ProjectExpansionPanel.tsx`
 - `components/ExpandToggle.tsx`
@@ -184,10 +214,17 @@ Typed contracts live under `src/shared/types/`.
 - `npm run typecheck`
 - `npm test`
 - `npm run validate-assets`
+- `npm run bundle`
 - `npm run build`
 - `npm run ci:check`
+- `npm run browser:check`
 
-`ci:check` is the primary CI/release gate.
+`ci:check` is the primary CI/release gate. It runs each expensive concern once: formatting, linting, type checking, tests, asset validation, and production bundling.
+
+`browser:check` is the browser route gate. CI runs it in a dedicated job after
+`ci:check` against a Vite preview server, so axe, Lighthouse, and smoke
+screenshots exercise production-built route output without slowing the main
+deterministic check job.
 
 ### Live and Manual Checks
 
@@ -195,40 +232,73 @@ Typed contracts live under `src/shared/types/`.
   Live external-link validation
 - `npm run content:health`
   Asset validation plus live link check
+- `npm run audit:accessibility`
+  Axe accessibility audit against every public route
 - `npm run screenshots`
-  Playwright route/viewport capture against the dev server
+  Full Playwright route/viewport capture against the dev server
+- `npm run screenshots:smoke`
+  Lightweight Playwright route/viewport capture for CI browser smoke coverage
 - `npm run lighthouse`
-  Lighthouse audits against the preview server
+  Reduced-motion Lighthouse audits against the preview server
 
 ### Script Sources of Truth
 
+- `src/shared/routing/publicRoutes.ts`
+  Canonical public route manifest consumed by both the router and scripts
+- `src/content/assets/publicAssets.ts`
+  Content-owned runtime/retained/deployment asset metadata consumed by UI and scripts
 - `scripts/lib/siteManifest.ts`
-  Shared public route manifest for screenshots, Lighthouse, and sitemap validation
+  Site origin and public route URL helpers for screenshots, Lighthouse, and sitemap validation
+- `scripts/lib/browserAudit.ts`
+  Shared local browser-audit origins, output directories, and launch flags
 - `scripts/lib/contentInventory.ts`
   Shared inventory of external URLs and local assets
 - `scripts/lib/assetValidation.ts`
   Asset categorization and validation rules
 - `scripts/lib/linkPolicy.ts`
   Hard-fail, soft-fail, and skip policy for link checks
+- `scripts/lib/async.ts`
+  Shared bounded-concurrency helper for script workloads that must preserve
+  input ordering
+- `scripts/lib/devServer.ts`
+  Shared polling probe for browser scripts that need a local dev or preview
+  server before they can run
+
+### Documentation Sources of Truth
+
+- `docs/architecture.md`
+  Canonical architecture, ownership, and verification reference
+- `docs/screenshots.md`
+  Canonical Playwright screenshot workflow
+- `dev-docs/`
+  Ignored local working space for audits, templates, and implementation
+  planning notes
+
+Do not depend on `dev-docs/` for repository source-of-truth documentation.
+Internal audits may reference public docs, but the maintained copy belongs in
+`docs/`.
+
+### Release Branching
+
+- `main`
+  Integration branch for ordinary development and pull requests
+- `prod`
+  Production branch for Cloudflare deployment
+- `v*` tags
+  Release intent; the release workflow validates the tag commit and promotes stable tags to `prod`
+
+Release tags must point at commits already reachable from `main`. For stable tags, the release workflow refuses to move `prod` unless the existing `prod` branch is an ancestor of the tagged commit, so production advances only by normal fast-forward promotion. Prerelease tags create GitHub prereleases without moving `prod`.
 
 ## Tests
 
-Tests live under `tests/`.
+Tests live under `tests/` and intentionally stay small for a portfolio site.
+The Vitest suite runs in Node and covers only high-signal contracts:
 
-- Node-side suites cover:
-  technology registry invariants,
-  project selectors,
-  structured date helpers,
-  content inventory,
-  asset validation,
-  link policy,
-  content contracts,
-  project view-model derivation
-- `tests/ui/` uses Vitest + React Testing Library + jsdom for:
-  app chrome,
-  navigation contracts,
-  archive interactions,
-  shared project-surface behavior
+- authored content IDs, featured ordering, date ranges, and explicit project link/media availability
+- canonical technology registry coverage and aliases
+- project selectors and view-model derivation
+- structured date and static-prose highlighting helpers
+- asset validation and external-link policy helpers
 
 ## Current Directory Map
 
@@ -236,11 +306,14 @@ Tests live under `tests/`.
 src/
 ├── app/
 ├── content/
+│   ├── assets/
+│   ├── education/
 │   ├── experience/
 │   ├── home/
 │   ├── projects/
 │   └── technologies/
 ├── sections/
+│   ├── education/
 │   ├── experience/
 │   ├── featured-projects/
 │   ├── home/
@@ -261,4 +334,5 @@ src/
 
 - Treat `src/content/**/*` and `scripts/lib/*` as the primary source of truth for content and operational metadata
 - Prefer updating this document only when architectural ownership or shared contracts change
+- Keep canonical maintainer docs in `docs/`; treat `dev-docs/` as ignored local working space only
 - Do not reintroduce docs for deleted historical structures such as section-local content folders, title-based featured selectors, or string-parsed project dates

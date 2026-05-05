@@ -7,4 +7,4 @@ export type {
   AboutHighlightConfig,
   AboutPhraseHighlight,
 } from '~/content/home/about'
-export { SOCIAL_LINKS } from '~/content/home/socialLinks'
+export { SOCIAL_LINKS, SOCIAL_LINKS_CONTENT } from '~/content/home/socialLinks'

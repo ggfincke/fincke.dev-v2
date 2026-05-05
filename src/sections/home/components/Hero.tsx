@@ -16,7 +16,7 @@ export function Hero()
         {HERO_CONTENT.name}
       </h1>
       <p className="mt-1 text-base text-[var(--muted)]">
-        Software Engineer · AI/LLM + Full-Stack · Pittsburgh, PA
+        {HERO_CONTENT.tagline}
       </p>
     </div>
   )

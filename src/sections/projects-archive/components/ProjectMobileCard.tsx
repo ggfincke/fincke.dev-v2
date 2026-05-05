@@ -3,13 +3,11 @@
 
 import { memo } from 'react'
 
-import { NestedInteractionBoundary } from '~/shared/components/layout/NestedInteractionBoundary'
 import { ProjectLinks } from '~/shared/components/layout/ProjectLinks'
-import { ProjectIdentity } from '~/shared/components/projects/ProjectIdentity'
+import { ProjectCollaborators } from '~/shared/components/projects/ProjectCollaborators'
 import { ProjectTechnologies } from '~/shared/components/projects/ProjectTechnologies'
 import { StatusCircle } from '~/shared/components/ui/StatusCircle'
 import type { Project, ProjectId } from '~/shared/types'
-import { getKeyboardActivationProps } from '~/shared/utils/interaction'
 import type { ProjectViewModel } from '~/shared/utils/projectViewModel'
 import { ExpandToggle } from '~/sections/projects-archive/components/ExpandToggle'
 
@@ -31,69 +29,59 @@ function ProjectMobileCardImpl({
 }: ProjectMobileCardProps)
 {
   const onToggle = () => toggleRow(project.id)
-  const keyboardActivationProps =
-    getKeyboardActivationProps<HTMLDivElement>(onToggle)
+  const titleId = `${viewModel.detailsId}-summary-title`
 
   return (
-    <div
-      className={`rounded-lg px-4 py-3 cursor-pointer transition-[border-color,background-color] duration-200 hover:bg-[var(--card)]/50 ${expanded ? 'border border-[var(--accent)]/30 bg-[var(--card)]/50' : 'border border-[var(--border)] bg-[var(--card)]/30'}`}
-      onClick={onToggle}
-      onKeyDown={keyboardActivationProps.onKeyDown}
-      role="button"
-      tabIndex={0}
-      aria-expanded={expanded}
-      aria-controls={viewModel.detailsId}
-      aria-label={`Toggle details for ${project.title}`}
+    <article
+      className={`group rounded-lg px-4 py-3 transition-[border-color,background-color] duration-200 hover:bg-[var(--card)]/50 ${expanded ? 'border border-[var(--accent)]/30 bg-[var(--card)]/50' : 'border border-[var(--border)] bg-[var(--card)]/30'}`}
+      aria-labelledby={titleId}
     >
-      {/* row 1: year, title, toggle */}
       <div className="flex items-start justify-between gap-4">
-        <div className="text-[var(--muted)] font-mono text-sm font-medium min-w-[3rem]">
+        <span className="min-w-[3rem] text-sm font-medium font-mono text-[var(--muted)]">
           {viewModel.startYear}
-        </div>
-        <div className="flex-1">
-          <ProjectIdentity
-            title={project.title}
-            collaborators={project.collaborators}
-            variant="archive"
-            titleClassName="font-semibold text-[var(--fg)] text-lg"
-            collaboratorsClassName="mt-0.5 block text-sm text-[var(--muted)]"
-          />
-        </div>
-        <NestedInteractionBoundary>
-          <ExpandToggle
-            expanded={expanded}
-            onToggle={onToggle}
-            controlsId={viewModel.detailsId}
-            title={project.title}
-          />
-        </NestedInteractionBoundary>
+        </span>
+        <h3
+          id={titleId}
+          className="min-w-0 flex-1 text-lg font-semibold text-[var(--fg)] transition-colors duration-150 group-hover:text-[var(--accent)]"
+        >
+          {project.title}
+        </h3>
+        <ExpandToggle
+          expanded={expanded}
+          onToggle={onToggle}
+          controlsId={viewModel.detailsId}
+          title={project.title}
+        />
       </div>
 
-      {/* row 2: status, tech pills, links */}
+      {project.collaborators && project.collaborators.length > 0 && (
+        <ProjectCollaborators
+          collaborators={project.collaborators}
+          prefix="with "
+          className="mt-0.5 ml-[3rem] block pl-4 text-sm text-[var(--muted)]"
+        />
+      )}
+
       <div className="flex items-center gap-2 mt-2 ml-[3rem] pl-4">
         <StatusCircle status={project.status} size={22} />
-        <NestedInteractionBoundary className="flex-1 min-w-0">
-          <ProjectTechnologies
-            technologies={project.technologies}
-            maxVisible={2}
-            size="xs"
-            showRelatedProjects
-            className="flex flex-wrap gap-1.5 items-center"
-          />
-        </NestedInteractionBoundary>
-        <NestedInteractionBoundary className="flex-shrink-0">
-          <ProjectLinks
-            repoUrl={project.repoUrl}
-            liveUrl={project.liveUrl}
-            additionalLinks={project.additionalLinks}
-            variant="icon"
-            size="sm"
-            className="flex space-x-3"
-            contextLabel={project.title}
-          />
-        </NestedInteractionBoundary>
+        <ProjectTechnologies
+          technologies={project.technologies}
+          maxVisible={2}
+          size="xs"
+          showRelatedProjects
+          className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5"
+        />
+        <ProjectLinks
+          repoUrl={project.repoUrl}
+          liveUrl={project.liveUrl}
+          additionalLinks={project.additionalLinks}
+          variant="icon"
+          size="sm"
+          className="flex flex-shrink-0 space-x-3"
+          contextLabel={project.title}
+        />
       </div>
-    </div>
+    </article>
   )
 }
 

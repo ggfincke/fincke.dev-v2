@@ -7,7 +7,7 @@ import type { Collaborator } from '~/shared/types'
 // props for project collaborator text
 interface ProjectCollaboratorsProps
 {
-  collaborators: Collaborator[]
+  collaborators: readonly Collaborator[]
   prefix?: string
   className?: string
 }
