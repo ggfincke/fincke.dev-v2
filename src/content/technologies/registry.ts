@@ -298,22 +298,26 @@ function normalizeTechnologyLabel(value: string): string
 }
 
 const TECHNOLOGY_ID_BY_TERM = Object.freeze(
-  TECHNOLOGIES.reduce<Record<string, TechnologyId>>((map, technology) =>
-  {
-    map[normalizeTechnologyLabel(technology.label)] = technology.id
-
-    const aliases = 'aliases' in technology ? technology.aliases : undefined
-
-    for (const alias of aliases ?? [])
+  getTechnologyIds().reduce<Record<string, TechnologyId>>(
+    (map, technologyId) =>
     {
-      map[normalizeTechnologyLabel(alias)] = technology.id
-    }
+      const technology = getTechnology(technologyId)
+      map[normalizeTechnologyLabel(technology.label)] = technology.id
 
-    return map
-  }, {})
+      for (const alias of technology.aliases ?? [])
+      {
+        map[normalizeTechnologyLabel(alias)] = technology.id
+      }
+
+      return map
+    },
+    {}
+  )
 )
 
-export function getTechnology(technologyId: TechnologyId)
+export function getTechnology(
+  technologyId: TechnologyId
+): TechnologyDefinition<TechnologyId>
 {
   return TECHNOLOGY_REGISTRY[technologyId]
 }
@@ -326,9 +330,8 @@ export function getTechnologyIds(): TechnologyId[]
 export function getTechnologyTerms(technologyId: TechnologyId): string[]
 {
   const technology = getTechnology(technologyId)
-  const aliases = 'aliases' in technology ? technology.aliases : undefined
 
-  return [technology.label, ...(aliases ?? [])]
+  return [technology.label, ...(technology.aliases ?? [])]
 }
 
 export function resolveTechnologyId(value: string): TechnologyId | undefined
