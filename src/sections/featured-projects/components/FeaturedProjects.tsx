@@ -3,10 +3,11 @@
 
 import { useMemo } from 'react'
 
-import { getFeaturedProjects } from '~/content/projects'
+import { getFeaturedProjects, PROJECTS_CONTENT } from '~/content/projects'
 import { ActionLink } from '~/shared/components/ui/ActionLink'
 import { ArrowIcon } from '~/shared/components/ui/icons'
 import { useMediaQuery } from '~/shared/hooks/useMediaQuery'
+import { PUBLIC_ROUTE_PATHS } from '~/shared/routing/publicRoutes'
 import {
   ANIMATION_DELAYS,
   getStaggerStyle,
@@ -25,35 +26,40 @@ export function FeaturedProjects()
   )
 
   return (
-    <>
-      {/* project cards */}
-      {featured.map((project, index) => (
-        <div
-          key={project.id}
+    <section aria-labelledby="featured-projects-heading">
+      <h2 id="featured-projects-heading" className="sr-only">
+        {PROJECTS_CONTENT.featuredHeading}
+      </h2>
+      <div className="space-y-3 min-[1728px]:space-y-4">
+        {/* project cards */}
+        {featured.map((project, index) => (
+          <div
+            key={project.id}
+            className="animate-slide-in-up opacity-0"
+            style={getStaggerStyle(
+              ANIMATION_DELAYS.featuredProjects.base,
+              ANIMATION_DELAYS.featuredProjects.step,
+              index
+            )}
+          >
+            <FeaturedProjectCard project={project} />
+          </div>
+        ))}
+
+        {/* archive link */}
+        <ActionLink
+          to={PUBLIC_ROUTE_PATHS.projects}
+          icon={<ArrowIcon />}
           className="animate-slide-in-up opacity-0"
           style={getStaggerStyle(
             ANIMATION_DELAYS.featuredProjects.base,
             ANIMATION_DELAYS.featuredProjects.step,
-            index
+            featured.length
           )}
         >
-          <FeaturedProjectCard project={project} />
-        </div>
-      ))}
-
-      {/* archive link */}
-      <ActionLink
-        to="/projects"
-        icon={<ArrowIcon />}
-        className="animate-slide-in-up opacity-0"
-        style={getStaggerStyle(
-          ANIMATION_DELAYS.featuredProjects.base,
-          ANIMATION_DELAYS.featuredProjects.step,
-          featured.length
-        )}
-      >
-        View All Projects
-      </ActionLink>
-    </>
+          {PROJECTS_CONTENT.archiveCtaLabel}
+        </ActionLink>
+      </div>
+    </section>
   )
 }

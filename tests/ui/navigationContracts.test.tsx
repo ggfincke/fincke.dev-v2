@@ -5,6 +5,10 @@ import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 
+import { RESUME_ASSET } from '~/content/assets'
+import { EXPERIENCE_CONTENT } from '~/content/experience'
+import { SOCIAL_LINKS_CONTENT } from '~/content/home'
+import { PROJECTS_CONTENT } from '~/content/projects'
 import { ActionLink } from '~/shared/components/ui/ActionLink'
 import { ExternalLink } from '~/shared/components/ui/ExternalLink'
 import { FullScreenMessagePage } from '~/shared/components/feedback/FullScreenMessagePage'
@@ -13,6 +17,7 @@ import { JobHistory } from '~/sections/experience/components/JobHistory'
 import { FeaturedProjects } from '~/sections/featured-projects/components/FeaturedProjects'
 import { SocialLinks } from '~/sections/home/components/SocialLinks'
 import { ProjectLinks } from '~/shared/components/layout/ProjectLinks'
+import { PUBLIC_ROUTE_PATHS } from '~/shared/routing/publicRoutes'
 import { getProjectFixture } from '../fixtures'
 import { renderWithRouter } from './render'
 
@@ -23,26 +28,28 @@ describe('shared navigation primitives', () =>
   it('renders internal and href-based action links correctly', () =>
   {
     const { unmount } = renderWithRouter(
-      <ActionLink to="/projects">View All Projects</ActionLink>
-    )
-
-    expect(
-      screen.getByRole('link', { name: 'View All Projects' })
-    ).toHaveAttribute('href', '/projects')
-
-    unmount()
-
-    renderWithRouter(
-      <ActionLink href="/documents/garrett_fincke_resume.pdf" openInNewTab>
-        View Full Resume
+      <ActionLink to={PUBLIC_ROUTE_PATHS.projects}>
+        {PROJECTS_CONTENT.archiveCtaLabel}
       </ActionLink>
     )
 
     expect(
-      screen.getByRole('link', { name: 'View Full Resume' })
+      screen.getByRole('link', { name: PROJECTS_CONTENT.archiveCtaLabel })
+    ).toHaveAttribute('href', PUBLIC_ROUTE_PATHS.projects)
+
+    unmount()
+
+    renderWithRouter(
+      <ActionLink href={RESUME_ASSET.path} openInNewTab>
+        {EXPERIENCE_CONTENT.resumeCtaLabel}
+      </ActionLink>
+    )
+
+    expect(
+      screen.getByRole('link', { name: EXPERIENCE_CONTENT.resumeCtaLabel })
     ).toHaveAttribute('target', '_blank')
     expect(
-      screen.getByRole('link', { name: 'View Full Resume' })
+      screen.getByRole('link', { name: EXPERIENCE_CONTENT.resumeCtaLabel })
     ).toHaveAttribute('rel', 'noopener noreferrer')
   })
 
@@ -104,16 +111,16 @@ describe('phase 4 consumer regressions', () =>
     const { unmount } = renderWithRouter(<JobHistory />)
 
     expect(
-      screen.getByRole('link', { name: 'View Full Resume' })
-    ).toHaveAttribute('href', '/documents/garrett_fincke_resume.pdf')
+      screen.getByRole('link', { name: EXPERIENCE_CONTENT.resumeCtaLabel })
+    ).toHaveAttribute('href', RESUME_ASSET.path)
 
     unmount()
 
     renderWithRouter(<FeaturedProjects />)
 
     expect(
-      screen.getByRole('link', { name: 'View All Projects' })
-    ).toHaveAttribute('href', '/projects')
+      screen.getByRole('link', { name: PROJECTS_CONTENT.archiveCtaLabel })
+    ).toHaveAttribute('href', PUBLIC_ROUTE_PATHS.projects)
   })
 
   it('adds project context to icon-only project links', () =>
@@ -156,7 +163,11 @@ describe('phase 4 consumer regressions', () =>
       screen.queryByRole('link', { name: 'Phone' })
     ).not.toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: 'Show phone number' }))
+    await user.click(
+      screen.getByRole('button', {
+        name: SOCIAL_LINKS_CONTENT.showPhoneLabel,
+      })
+    )
 
     expect(
       screen.getByRole('link', { name: '+1 (724) 777-7186' })

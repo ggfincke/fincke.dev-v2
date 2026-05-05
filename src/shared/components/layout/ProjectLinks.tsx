@@ -35,7 +35,7 @@ interface ProjectLinksProps
 {
   repoUrl?: string
   liveUrl?: string
-  additionalLinks?: ExternalLink[]
+  additionalLinks?: readonly ExternalLink[]
   variant?: ProjectLinksVariant
   size?: 'sm' | 'md'
   liveLabel?: string
@@ -63,7 +63,7 @@ function getLiveIconLabel(resolvedLiveLabel: string, contextLabel?: string)
 function buildLinks(
   repoUrl: string | undefined,
   liveUrl: string | undefined,
-  additionalLinks: ExternalLink[] | undefined,
+  additionalLinks: readonly ExternalLink[] | undefined,
   resolvedLiveLabel: string | undefined,
   contextLabel?: string
 ): ResolvedLink[]

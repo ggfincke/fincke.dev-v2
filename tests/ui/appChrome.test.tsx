@@ -6,6 +6,10 @@ import { createRoutesFromElements, data, Route } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 
 import { appRoutes } from '~/app/router'
+import { EDUCATION_CONTENT } from '~/content/education'
+import { EXPERIENCE_CONTENT } from '~/content/experience'
+import { ABOUT_CONTENT } from '~/content/home'
+import { PROJECTS_CONTENT } from '~/content/projects'
 import { ErrorFallback } from '~/shared/components/feedback/ErrorFallback'
 import { renderRouteTree } from './render'
 
@@ -19,7 +23,27 @@ describe('app chrome routes', () =>
       screen.getByRole('link', { name: 'Skip to content' })
     ).toBeInTheDocument()
     expect(screen.getByRole('main')).toBeInTheDocument()
-    expect(screen.getByRole('region', { name: 'About' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('region', { name: ABOUT_CONTENT.heading })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: EDUCATION_CONTENT.heading,
+      })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: EXPERIENCE_CONTENT.heading,
+      })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: PROJECTS_CONTENT.featuredHeading,
+      })
+    ).toBeInTheDocument()
   })
 
   it('renders the shared skip link and archive content on the projects route', async () =>
@@ -27,12 +51,20 @@ describe('app chrome routes', () =>
     renderRouteTree(appRoutes, ['/projects'])
 
     expect(
-      await screen.findByRole('heading', { name: 'All Projects' })
+      await screen.findByRole('heading', {
+        name: PROJECTS_CONTENT.archiveTitle,
+      })
     ).toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: 'Skip to content' })
     ).toBeInTheDocument()
     expect(screen.getByRole('main')).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: PROJECTS_CONTENT.archiveListHeading,
+      })
+    ).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Back' })).toHaveAttribute(
       'href',
       '/'

@@ -8,7 +8,7 @@ import { TechPills } from '~/shared/components/ui/TechPills'
 // props for project technology list
 interface ProjectTechnologiesProps
 {
-  technologies: TechnologyId[]
+  technologies: readonly TechnologyId[]
   maxVisible?: number
   size?: 'xs' | 'sm' | 'md'
   className?: string

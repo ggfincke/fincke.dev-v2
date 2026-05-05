@@ -26,7 +26,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps)
       withHoverBackdrop
     >
       {/* project image */}
-      {project.imagePath && (
+      {viewModel.hasMedia && project.imagePath && (
         <FeaturedProjectImage
           imagePath={project.imagePath}
           imageAlt={viewModel.imageAlt}
