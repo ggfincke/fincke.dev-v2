@@ -11,10 +11,37 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 import prettier from 'eslint-plugin-prettier/recommended'
 import localRules from '@ggfincke/eslint-config/rules'
 
+const typeImportRules = {
+  '@typescript-eslint/consistent-type-imports': [
+    'error',
+    {
+      prefer: 'type-imports',
+      disallowTypeAnnotations: true,
+      fixStyle: 'separate-type-imports',
+    },
+  ],
+}
+
+const projectRules = {
+  // custom comment style rules
+  'ggfincke/no-jsdoc-blocks': 'error',
+  'ggfincke/file-header': 'error',
+  'ggfincke/comment-style-guide': 'warn',
+  'no-inline-comments': 'error',
+  // enforce type imports w/ verbatimModuleSyntax
+  ...typeImportRules,
+}
+
+const baseTypeScriptExtends = [
+  js.configs.recommended,
+  tseslint.configs.recommended,
+  prettier,
+]
+
 export default defineConfig([
   globalIgnores(['dist']),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['src/**/*.{ts,tsx}'],
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
@@ -24,32 +51,63 @@ export default defineConfig([
       prettier,
     ],
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 2022,
       globals: globals.browser,
     },
     plugins: {
       ggfincke: localRules,
     },
     rules: {
-      // custom comment style rules
-      'ggfincke/no-jsdoc-blocks': 'error',
-      'ggfincke/file-header': 'error',
-      'ggfincke/comment-style-guide': 'warn',
-      'no-inline-comments': 'error',
-      // enforce type imports w/ verbatimModuleSyntax
-      '@typescript-eslint/consistent-type-imports': [
-        'error',
-        {
-          prefer: 'type-imports',
-          disallowTypeAnnotations: true,
-          fixStyle: 'separate-type-imports',
-        },
-      ],
+      ...projectRules,
       // allow tabIndex on non-interactive elements for tooltip keyboard access
       'jsx-a11y/no-noninteractive-tabindex': [
         'warn',
         { tags: [], roles: [], allowExpressionValues: true },
       ],
     },
+  },
+  {
+    files: ['tests/ui/**/*.{ts,tsx}', 'vitest.setup.ts'],
+    extends: [
+      ...baseTypeScriptExtends,
+      reactHooks.configs['recommended-latest'],
+      jsxA11y.flatConfigs.recommended,
+    ],
+    languageOptions: {
+      ecmaVersion: 2022,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+    plugins: {
+      ggfincke: localRules,
+    },
+    rules: projectRules,
+  },
+  {
+    files: ['tests/**/*.{ts,tsx}'],
+    ignores: ['tests/ui/**'],
+    extends: baseTypeScriptExtends,
+    languageOptions: {
+      ecmaVersion: 2022,
+      globals: globals.node,
+    },
+    plugins: {
+      ggfincke: localRules,
+    },
+    rules: projectRules,
+  },
+  {
+    files: ['scripts/**/*.ts', 'vite.config.ts', 'vitest.config.ts'],
+    extends: baseTypeScriptExtends,
+    languageOptions: {
+      ecmaVersion: 2023,
+      globals: globals.node,
+    },
+    plugins: {
+      ggfincke: localRules,
+    },
+    rules: projectRules,
   },
 ])
