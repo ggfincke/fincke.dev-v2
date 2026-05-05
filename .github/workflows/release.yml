@@ -12,15 +12,29 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
           node-version: '22'
           cache: 'npm'
+
+      - name: Verify tag is reachable from main
+        run: |
+          git fetch --prune origin +refs/heads/main:refs/remotes/origin/main
+          git merge-base --is-ancestor HEAD origin/main
+
       - run: npm ci
       - run: npm run ci:check
 
-      - name: Push to main branch
-        run: git push origin HEAD:main --force
+      - name: Promote stable release to prod branch
+        if: ${{ !contains(github.ref_name, '-') }}
+        run: |
+          git fetch --prune origin +refs/heads/prod:refs/remotes/origin/prod || true
+          if git show-ref --verify --quiet refs/remotes/origin/prod; then
+            git merge-base --is-ancestor origin/prod HEAD
+          fi
+          git push origin HEAD:refs/heads/prod
 
       - name: Get version from tag
         id: version
@@ -39,6 +53,6 @@ jobs:
           name: v${{ steps.version.outputs.VERSION }}
           body_path: release-notes.md
           draft: false
-          prerelease: ${{ contains(github.ref, '-alpha') || contains(github.ref, '-beta') || contains(github.ref, '-rc') }}
+          prerelease: ${{ contains(github.ref_name, '-') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
