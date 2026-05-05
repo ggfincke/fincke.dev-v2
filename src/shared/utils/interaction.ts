@@ -1,7 +1,7 @@
 // src/shared/utils/interaction.ts
 // shared helpers for nested interactive elements
 
-import type { HTMLAttributes, KeyboardEventHandler } from 'react'
+import type { HTMLAttributes } from 'react'
 
 // stop only the keys parents care about; let Tab/Esc/arrows bubble naturally
 const ACTIVATION_KEYS = new Set(['Enter', ' '])
@@ -20,25 +20,6 @@ function stopActivationKeys(event: {
   {
     event.stopPropagation()
   }
-}
-
-// keyboard activation behavior for custom button-like shells
-export function getKeyboardActivationProps<T extends HTMLElement>(
-  onActivate: () => void
-): Pick<HTMLAttributes<T>, 'onKeyDown'>
-{
-  const onKeyDown: KeyboardEventHandler<T> = (event) =>
-  {
-    if (!ACTIVATION_KEYS.has(event.key))
-    {
-      return
-    }
-
-    event.preventDefault()
-    onActivate()
-  }
-
-  return { onKeyDown }
 }
 
 // frozen, identity-stable handler bag (same reference across renders)

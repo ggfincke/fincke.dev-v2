@@ -25,7 +25,7 @@ export function ExpandToggle({
     <button
       type="button"
       onClick={onToggle}
-      className={`p-1 rounded flex-shrink-0 transition-all duration-150 hover:scale-110 active:scale-95 ${FOCUS_RING_CLASSES} ${expanded ? 'bg-[var(--accent)]/10 text-[var(--accent)]' : 'text-[var(--muted)] hover:text-[var(--accent)] hover:bg-[var(--card)]'}`}
+      className={`flex-shrink-0 rounded p-1 transition-[background-color,color,transform] duration-150 hover:scale-110 active:scale-95 ${FOCUS_RING_CLASSES} ${expanded ? 'bg-[var(--accent)]/10 text-[var(--accent)]' : 'text-[var(--muted)] hover:bg-[var(--card)] hover:text-[var(--accent)]'}`}
       aria-expanded={expanded}
       aria-controls={controlsId}
       aria-label={

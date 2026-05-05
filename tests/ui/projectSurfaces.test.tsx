@@ -5,7 +5,10 @@ import { screen, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
 
 import { FeaturedProjectCard } from '~/sections/featured-projects/components/FeaturedProjectCard'
-import { ProjectExpandedDetails } from '~/sections/projects-archive/components/ProjectExpandedDetails'
+import {
+  DesktopProjectDetails,
+  MobileProjectDetails,
+} from '~/sections/projects-archive/components/ProjectExpandedDetails'
 import { VersionBadge } from '~/shared/components/ui/VersionBadge'
 import { getProjectFixture } from '../fixtures'
 import { renderWithRouter } from './render'
@@ -50,14 +53,13 @@ describe('featured project card', () =>
 
 describe('expanded project details', () =>
 {
-  it('renders shared project technologies and collaborator text', () =>
+  it('renders desktop project technologies and collaborator text', () =>
   {
     renderWithRouter(
-      <ProjectExpandedDetails
+      <DesktopProjectDetails
         project={getProjectFixture(
           'deep-learning-architecture-comparison-and-analysis-for-cifar-10'
         )}
-        variant="desktop"
       />
     )
 
@@ -65,6 +67,22 @@ describe('expanded project details', () =>
     expect(screen.getByText('TensorFlow')).toBeInTheDocument()
     expect(screen.getByText(/Jacob Goulet/)).toBeInTheDocument()
     expect(screen.getByText(/Tyler Rossi/)).toBeInTheDocument()
+  })
+
+  it('renders mobile project details without the variant dispatcher', () =>
+  {
+    renderWithRouter(
+      <MobileProjectDetails
+        project={getProjectFixture(
+          'deep-learning-architecture-comparison-and-analysis-for-cifar-10'
+        )}
+      />
+    )
+
+    expect(screen.getByText('Description')).toBeInTheDocument()
+    expect(screen.getByText('Technologies')).toBeInTheDocument()
+    expect(screen.getByText('Python')).toBeInTheDocument()
+    expect(screen.getByText(/Jacob Goulet/)).toBeInTheDocument()
   })
 })
 

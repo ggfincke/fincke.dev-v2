@@ -25,11 +25,11 @@ function DetailsHeading({
 })
 {
   return (
-    <h4
+    <h3
       className={`text-sm font-semibold text-[var(--accent)] ${className ?? ''}`.trim()}
     >
       {children}
-    </h4>
+    </h3>
   )
 }
 
@@ -71,7 +71,7 @@ function Collaborators({ project }: { project: Project })
   )
 }
 
-interface VariantProps
+interface ProjectDetailsProps
 {
   project: Project
   viewModel?: ProjectViewModel
@@ -81,7 +81,7 @@ interface VariantProps
 function MobileProjectDetailsImpl({
   project,
   viewModel = getProjectViewModel(project),
-}: VariantProps)
+}: ProjectDetailsProps)
 {
   return (
     <div className="mt-2 border border-[var(--border)] rounded-lg p-4 bg-[var(--card)]/50">
@@ -138,7 +138,7 @@ function MobileProjectDetailsImpl({
 function DesktopProjectDetailsImpl({
   project,
   viewModel = getProjectViewModel(project),
-}: VariantProps)
+}: ProjectDetailsProps)
 {
   return (
     <div
@@ -166,7 +166,7 @@ function DesktopProjectDetailsImpl({
             </ul>
           </div>
 
-          {project.imagePath && (
+          {viewModel.hasMedia && project.imagePath && (
             <div className="xl:w-1/3 flex-shrink-0">
               <div className="border border-[var(--border)] rounded-lg bg-[var(--bg)]/50 overflow-hidden p-3">
                 <img
@@ -211,22 +211,3 @@ function DesktopProjectDetailsImpl({
 
 export const MobileProjectDetails = memo(MobileProjectDetailsImpl)
 export const DesktopProjectDetails = memo(DesktopProjectDetailsImpl)
-
-// dispatcher kept to preserve existing variant-based call sites
-interface ProjectExpandedDetailsProps extends VariantProps
-{
-  variant?: 'mobile' | 'desktop'
-}
-
-// expanded project details (dispatcher)
-export function ProjectExpandedDetails({
-  variant = 'desktop',
-  ...rest
-}: ProjectExpandedDetailsProps)
-{
-  return variant === 'mobile' ? (
-    <MobileProjectDetails {...rest} />
-  ) : (
-    <DesktopProjectDetails {...rest} />
-  )
-}

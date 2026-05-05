@@ -66,7 +66,13 @@ describe('projects archive desktop interactions', () =>
       screen.queryByRole('region', { name: MDX_PREVIEW_DETAILS_LABEL })
     ).not.toBeInTheDocument()
 
-    await user.click(rowScope.getByRole('button', { name: 'TypeScript' }))
+    const technology = rowScope.getByText('TypeScript')
+
+    expect(
+      rowScope.queryByRole('button', { name: 'TypeScript' })
+    ).not.toBeInTheDocument()
+
+    await user.click(technology)
     expect(
       screen.queryByRole('region', { name: MDX_PREVIEW_DETAILS_LABEL })
     ).not.toBeInTheDocument()
@@ -92,54 +98,73 @@ describe('projects archive mobile interactions', () =>
 
     expect(screen.queryByRole('table')).not.toBeInTheDocument()
 
-    const card = screen.getByRole('button', {
-      name: `Toggle details for ${MDX_PREVIEW_TITLE}`,
+    const card = screen.getByRole('article', {
+      name: MDX_PREVIEW_TITLE,
+    })
+    const toggle = within(card).getByRole('button', {
+      name: `Expand details for ${MDX_PREVIEW_TITLE}`,
     })
 
-    expect(card).toHaveAttribute('aria-expanded', 'false')
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
 
-    card.focus()
+    toggle.focus()
     await user.keyboard('{Enter}')
 
-    expect(card).toHaveAttribute('aria-expanded', 'true')
+    expect(
+      within(card).getByRole('button', {
+        name: `Collapse details for ${MDX_PREVIEW_TITLE}`,
+      })
+    ).toHaveAttribute('aria-expanded', 'true')
     expect(
       screen.getByRole('region', { name: MDX_PREVIEW_DETAILS_LABEL })
     ).toBeInTheDocument()
 
     await user.keyboard('[Space]')
-    expect(card).toHaveAttribute('aria-expanded', 'false')
+    expect(
+      within(card).getByRole('button', {
+        name: `Expand details for ${MDX_PREVIEW_TITLE}`,
+      })
+    ).toHaveAttribute('aria-expanded', 'false')
     expect(
       screen.queryByRole('region', { name: MDX_PREVIEW_DETAILS_LABEL })
     ).not.toBeInTheDocument()
   })
 
-  it('prevents nested controls from re-toggling the mobile card', async () =>
+  it('keeps mobile links and tooltip triggers outside the expansion button', async () =>
   {
     const user = userEvent.setup()
 
     renderMobileArchive()
 
-    const card = screen.getByRole('button', {
-      name: `Toggle details for ${MDX_PREVIEW_TITLE}`,
+    const card = screen.getByRole('article', {
+      name: MDX_PREVIEW_TITLE,
     })
-
     const cardScope = within(card)
+    const toggle = cardScope.getByRole('button', {
+      name: `Expand details for ${MDX_PREVIEW_TITLE}`,
+    })
+    const repositoryLink = cardScope.getByRole('link', {
+      name: `Open GitHub repository for ${MDX_PREVIEW_TITLE}`,
+    })
+    const technology = cardScope.getByText('TypeScript')
 
-    await user.click(
-      cardScope.getByRole('link', {
-        name: `Open GitHub repository for ${MDX_PREVIEW_TITLE}`,
-      })
-    )
-    expect(card).toHaveAttribute('aria-expanded', 'false')
+    expect(toggle).not.toContainElement(repositoryLink)
+    expect(toggle).not.toContainElement(technology)
+    expect(
+      cardScope.queryByRole('button', { name: 'TypeScript' })
+    ).not.toBeInTheDocument()
 
-    await user.click(cardScope.getByRole('button', { name: 'TypeScript' }))
-    expect(card).toHaveAttribute('aria-expanded', 'false')
+    await user.click(repositoryLink)
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
 
-    await user.click(
+    await user.click(technology)
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+
+    await user.click(toggle)
+    expect(
       cardScope.getByRole('button', {
-        name: `Expand details for ${MDX_PREVIEW_TITLE}`,
+        name: `Collapse details for ${MDX_PREVIEW_TITLE}`,
       })
-    )
-    expect(card).toHaveAttribute('aria-expanded', 'true')
+    ).toHaveAttribute('aria-expanded', 'true')
   })
 })
