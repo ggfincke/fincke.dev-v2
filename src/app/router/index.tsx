@@ -7,7 +7,7 @@ import { HomePage } from '~/sections/home/pages/HomePage'
 import { ErrorFallback } from '~/shared/components/feedback/ErrorFallback'
 import { NotFoundPage } from '~/shared/components/feedback/NotFoundPage'
 import {
-  getPublicRouteChildPath,
+  PUBLIC_ROUTE_CHILD_PATHS,
   PUBLIC_ROUTE_PATHS,
 } from '~/shared/routing/publicRoutes'
 
@@ -23,7 +23,7 @@ export const appRoutes: RouteObject[] = [
         element: <HomePage />,
       },
       {
-        path: getPublicRouteChildPath(PUBLIC_ROUTE_PATHS.projects),
+        path: PUBLIC_ROUTE_CHILD_PATHS.projects,
         lazy: async () =>
         {
           const { ProjectsArchivePage } = await import(
