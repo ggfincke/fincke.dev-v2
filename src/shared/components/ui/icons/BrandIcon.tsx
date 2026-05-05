@@ -17,7 +17,6 @@ export function BrandIcon({ path, size = 24, className }: BrandIconProps)
       width={size}
       height={size}
       viewBox="0 0 24 24"
-      role="img"
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"

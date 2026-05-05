@@ -39,25 +39,23 @@ export function SkillPill({
   hoverDelay = DEFAULT_HOVER_DELAY,
 }: SkillPillProps)
 {
-  const [isHovered, setIsHovered] = useState(false)
+  const [isTriggerActive, setIsTriggerActive] = useState(false)
   const [showTooltip, setShowTooltip] = useState(false)
-  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const spanRef = useRef<HTMLSpanElement>(null)
+  const triggerRef = useRef<HTMLSpanElement>(null)
   const tooltipId = useId()
   const technology = getTechnology(technologyId)
   const label = technology.label
 
-  const isInteractive = showProjectsOnHover && Boolean(getRelatedProjects)
+  const hasTooltip = showProjectsOnHover && Boolean(getRelatedProjects)
   const relatedProjects =
-    isInteractive && isHovered && getRelatedProjects
+    hasTooltip && isTriggerActive && getRelatedProjects
       ? getRelatedProjects(technologyId)
       : EMPTY_PROJECTS
 
   // delay showing tooltip until hover sticks
   useEffect(() =>
   {
-    if (!isInteractive || !isHovered)
+    if (!hasTooltip || !isTriggerActive)
     {
       setShowTooltip(false)
       return
@@ -67,14 +65,12 @@ export function SkillPill({
     {
       setShowTooltip(true)
     }, hoverDelay)
-    hoverTimeoutRef.current = timeoutId
 
     return () =>
     {
       clearTimeout(timeoutId)
-      hoverTimeoutRef.current = null
     }
-  }, [hoverDelay, isHovered, isInteractive])
+  }, [hasTooltip, hoverDelay, isTriggerActive])
 
   const sizeClasses = {
     xs: 'px-2 py-1 text-xs',
@@ -85,8 +81,8 @@ export function SkillPill({
   const textColor = getTechnologyColor(technologyId)
   const bgColor = getTechnologyBackgroundColor(technologyId)
 
-  const interactiveClasses = showProjectsOnHover
-    ? `cursor-help ${isHovered ? 'underline decoration-dotted underline-offset-2 brightness-125' : ''} hover:underline hover:decoration-dotted hover:underline-offset-2 hover:brightness-125 ${FOCUS_RING_CLASSES}`
+  const interactiveClasses = hasTooltip
+    ? `cursor-help ${isTriggerActive ? 'underline decoration-dotted underline-offset-2 brightness-125' : ''} hover:underline hover:decoration-dotted hover:underline-offset-2 hover:brightness-125 ${FOCUS_RING_CLASSES}`
     : 'hover:brightness-125'
 
   const commonProps = {
@@ -94,55 +90,46 @@ export function SkillPill({
       color: textColor,
       backgroundColor: bgColor,
     },
-    className: `rounded-full inline-flex items-center justify-center whitespace-nowrap transition-all duration-200 ${interactiveClasses} ${sizeClasses[size]} ${className}`,
+    className: `inline-flex items-center justify-center whitespace-nowrap rounded-full transition-[background-color,color,filter,text-decoration-color] duration-200 ${interactiveClasses} ${sizeClasses[size]} ${className}`,
     'aria-label': label,
     'aria-describedby': showTooltip ? tooltipId : undefined,
-    onMouseEnter: () =>
-    {
-      if (showProjectsOnHover)
-      {
-        setIsHovered(true)
-      }
-    },
-    onMouseLeave: () =>
-    {
-      setIsHovered(false)
-    },
-    onFocus: () =>
-    {
-      if (showProjectsOnHover)
-      {
-        setIsHovered(true)
-      }
-    },
-    onBlur: () =>
-    {
-      setIsHovered(false)
-    },
   }
+
+  const activateTooltipTrigger = () =>
+  {
+    setIsTriggerActive(true)
+  }
+
+  const deactivateTooltipTrigger = () =>
+  {
+    setIsTriggerActive(false)
+  }
+
+  const tooltipTriggerProps = hasTooltip
+    ? {
+        tabIndex: 0,
+        onMouseEnter: activateTooltipTrigger,
+        onMouseLeave: deactivateTooltipTrigger,
+        onFocus: activateTooltipTrigger,
+        onBlur: deactivateTooltipTrigger,
+      }
+    : {}
 
   return (
     <>
-      {showProjectsOnHover ? (
-        <button
-          type="button"
-          ref={buttonRef}
-          {...commonProps}
-          className={`${commonProps.className} appearance-none border-0`}
-        >
-          {label}
-        </button>
-      ) : (
-        <span ref={spanRef} {...commonProps}>
-          {label}
-        </span>
-      )}
-      {showProjectsOnHover && (
+      <span
+        ref={hasTooltip ? triggerRef : undefined}
+        {...commonProps}
+        {...tooltipTriggerProps}
+      >
+        {label}
+      </span>
+      {hasTooltip && (
         <SkillTooltip
           id={tooltipId}
           projects={relatedProjects}
           isVisible={showTooltip}
-          targetRef={buttonRef as RefObject<HTMLElement | null>}
+          targetRef={triggerRef as RefObject<HTMLElement | null>}
         />
       )}
     </>
