@@ -4,7 +4,7 @@
 export async function mapWithConcurrency<T, R>(
   items: ReadonlyArray<T>,
   limit: number,
-  mapper: (item: T, index: number) => Promise<R>
+  mapper: (item: T) => Promise<R>
 ): Promise<R[]>
 {
   if (!Number.isInteger(limit) || limit < 1)
@@ -21,7 +21,7 @@ export async function mapWithConcurrency<T, R>(
     while (cursor < items.length)
     {
       const index = cursor++
-      results[index] = await mapper(items[index], index)
+      results[index] = await mapper(items[index])
     }
   })
 

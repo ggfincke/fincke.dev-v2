@@ -184,7 +184,7 @@ async function auditRoute(
     route: route.slug,
     scores,
     status: routeFailures.length > 0 ? 'fail' : 'pass',
-    error: runtimeError?.code,
+    error: routeFailures.length > 0 ? runtimeError?.code : undefined,
   }
 }
 
