@@ -25,11 +25,11 @@ function DetailsHeading({
 })
 {
   return (
-    <h3
+    <h4
       className={`text-sm font-semibold text-[var(--accent)] ${className ?? ''}`.trim()}
     >
       {children}
-    </h3>
+    </h4>
   )
 }
 

@@ -56,6 +56,8 @@ function ProjectMobileCardImpl({
         <span className="min-w-0 flex-1">
           <span
             id={titleId}
+            role="heading"
+            aria-level={3}
             className="block text-lg font-semibold text-[var(--fg)] transition-colors duration-150 group-hover:text-[var(--accent)]"
           >
             {project.title}

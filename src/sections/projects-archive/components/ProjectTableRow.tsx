@@ -66,6 +66,7 @@ function ProjectTableRowImpl({
           title={project.title}
           collaborators={project.collaborators}
           variant="archive"
+          titleAs="h3"
           titleClassName="font-semibold text-[var(--white)] text-base"
           collaboratorsClassName="mt-0.5 block text-sm text-[var(--muted)]"
         />
