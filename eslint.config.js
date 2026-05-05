@@ -38,6 +38,11 @@ const baseTypeScriptExtends = [
   prettier,
 ]
 
+const reactTestExtends = [
+  reactHooks.configs['recommended-latest'],
+  jsxA11y.flatConfigs.recommended,
+]
+
 export default defineConfig([
   globalIgnores(['dist']),
   {
@@ -77,6 +82,23 @@ export default defineConfig([
       ggfincke: localRules,
     },
     rules: projectRules,
+  },
+  {
+    files: ['tests/**/*.tsx'],
+    extends: reactTestExtends,
+    languageOptions: {
+      ecmaVersion: 2022,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+    rules: {
+      'jsx-a11y/no-noninteractive-tabindex': [
+        'warn',
+        { tags: [], roles: [], allowExpressionValues: true },
+      ],
+    },
   },
   {
     files: ['scripts/**/*.ts', 'vite.config.ts', 'vitest.config.ts'],
