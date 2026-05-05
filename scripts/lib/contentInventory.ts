@@ -8,7 +8,7 @@ import {
   DEPLOYMENT_PUBLIC_ASSETS,
   PUBLIC_RUNTIME_ASSETS,
   RETAINED_PUBLIC_ASSETS,
-} from '~/content/assets'
+} from '~/content/assets/publicAssetInventory'
 import { WORK_EXPERIENCE } from '~/content/experience'
 import { SOCIAL_LINKS } from '~/content/home'
 import { projects } from '~/content/projects'
@@ -475,7 +475,7 @@ function computeContentInventory(): ContentInventory
 
   for (const socialLink of SOCIAL_LINKS)
   {
-    if (!('url' in socialLink))
+    if (!('url' in socialLink) || !socialLink.url)
     {
       continue
     }
