@@ -3,17 +3,20 @@
 
 import { AxeBuilder } from '@axe-core/playwright'
 import { mkdirSync, writeFileSync } from 'node:fs'
-import { chromium } from 'playwright'
+import { chromium, type Browser } from 'playwright'
+import { mapWithConcurrency } from '~/scripts/lib/async'
 import {
   DEFAULT_PREVIEW_PORT,
   getLocalBaseUrl,
   getRouteUrl,
   PLAYWRIGHT_LAUNCH_ARGS,
   REPORTS_DIR,
-} from './lib/browserAudit'
-import { printDivider, printTable } from './lib/cliFormat'
-import { requireRunningServer } from './lib/devServer'
-import { PUBLIC_ROUTES } from './lib/siteManifest'
+} from '~/scripts/lib/browserAudit'
+import { printDivider, printTable } from '~/scripts/lib/cliFormat'
+import { requireRunningServer } from '~/scripts/lib/devServer'
+import { PUBLIC_ROUTES, type PublicRoute } from '~/scripts/lib/siteManifest'
+
+const ROUTE_CONCURRENCY = 2
 
 const BASE_URL = getLocalBaseUrl(DEFAULT_PREVIEW_PORT)
 
@@ -41,56 +44,12 @@ async function main()
 
   try
   {
-    const context = await browser.newContext({ reducedMotion: 'reduce' })
-    const page = await context.newPage()
-    const results: RouteAccessibilityResult[] = []
     const blockingMessages: string[] = []
-
-    for (const route of PUBLIC_ROUTES)
-    {
-      const url = getRouteUrl(BASE_URL, route.path)
-      console.log(`\nAuditing accessibility for ${url}...`)
-
-      await page.goto(url, { waitUntil: 'networkidle' })
-      await page.locator('main').waitFor({ state: 'visible', timeout: 10_000 })
-
-      const axeResults = await new AxeBuilder({ page })
-        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-        .analyze()
-
-      const reportFilename = `accessibility-${route.slug}.json`
-      const reportPath = `${REPORTS_DIR}/${reportFilename}`
-      writeFileSync(reportPath, JSON.stringify(axeResults, null, 2))
-
-      const blockingViolations = axeResults.violations.filter((violation) =>
-        isBlockingImpact(violation.impact)
-      )
-
-      for (const violation of blockingViolations)
-      {
-        blockingMessages.push(
-          [
-            `${route.slug}: ${violation.id} (${violation.impact})`,
-            violation.help,
-            `Nodes: ${formatTargets(
-              violation.nodes.map((node) => formatTarget(node.target))
-            )}`,
-          ].join(' - ')
-        )
-      }
-
-      results.push({
-        route: route.slug,
-        violations: axeResults.violations.length,
-        blocking: blockingViolations.length,
-        warnings: axeResults.violations.length - blockingViolations.length,
-        report: reportFilename,
-      })
-
-      console.log(`  Report saved: ${reportPath}`)
-    }
-
-    await context.close()
+    const results = await mapWithConcurrency(
+      PUBLIC_ROUTES,
+      ROUTE_CONCURRENCY,
+      async (route) => auditRoute(browser, route, blockingMessages)
+    )
 
     printDivider(88)
     printTable(results, [
@@ -116,6 +75,64 @@ async function main()
   finally
   {
     await browser.close()
+  }
+}
+
+async function auditRoute(
+  browser: Browser,
+  route: PublicRoute,
+  blockingMessages: string[]
+): Promise<RouteAccessibilityResult>
+{
+  const url = getRouteUrl(BASE_URL, route.path)
+  console.log(`\nAuditing accessibility for ${url}...`)
+
+  const context = await browser.newContext({ reducedMotion: 'reduce' })
+
+  try
+  {
+    const page = await context.newPage()
+    await page.goto(url, { waitUntil: 'networkidle' })
+    await page.locator('main').waitFor({ state: 'visible', timeout: 10_000 })
+
+    const axeResults = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+      .analyze()
+
+    const reportFilename = `accessibility-${route.slug}.json`
+    const reportPath = `${REPORTS_DIR}/${reportFilename}`
+    writeFileSync(reportPath, JSON.stringify(axeResults, null, 2))
+
+    const blockingViolations = axeResults.violations.filter((violation) =>
+      isBlockingImpact(violation.impact)
+    )
+
+    for (const violation of blockingViolations)
+    {
+      blockingMessages.push(
+        [
+          `${route.slug}: ${violation.id} (${violation.impact})`,
+          violation.help,
+          `Nodes: ${formatTargets(
+            violation.nodes.map((node) => formatTarget(node.target))
+          )}`,
+        ].join(' - ')
+      )
+    }
+
+    console.log(`  Report saved: ${reportPath}`)
+
+    return {
+      route: route.slug,
+      violations: axeResults.violations.length,
+      blocking: blockingViolations.length,
+      warnings: axeResults.violations.length - blockingViolations.length,
+      report: reportFilename,
+    }
+  }
+  finally
+  {
+    await context.close()
   }
 }
 

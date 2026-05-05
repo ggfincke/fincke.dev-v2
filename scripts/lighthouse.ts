@@ -7,19 +7,16 @@
 import { launch } from 'chrome-launcher'
 import lighthouse from 'lighthouse'
 import { mkdirSync, writeFileSync } from 'node:fs'
-import { mapWithConcurrency } from './lib/async'
-import { printDivider, printTable } from './lib/cliFormat'
-import { requireRunningServer } from './lib/devServer'
-import { PUBLIC_ROUTES, type PublicRoute } from './lib/siteManifest'
+import { printDivider, printTable } from '~/scripts/lib/cliFormat'
+import { requireRunningServer } from '~/scripts/lib/devServer'
+import { PUBLIC_ROUTES, type PublicRoute } from '~/scripts/lib/siteManifest'
 import {
   DEFAULT_PREVIEW_PORT,
   getLocalBaseUrl,
   getRouteUrl,
   LIGHTHOUSE_CHROME_FLAGS,
   REPORTS_DIR,
-} from './lib/browserAudit'
-
-const ROUTE_CONCURRENCY = 2
+} from '~/scripts/lib/browserAudit'
 
 const BASE_URL = getLocalBaseUrl(DEFAULT_PREVIEW_PORT)
 
@@ -63,11 +60,14 @@ async function main()
   try
   {
     const failures: string[] = []
-    const results = await mapWithConcurrency(
-      PUBLIC_ROUTES,
-      ROUTE_CONCURRENCY,
-      async (route) => auditRoute(route, chrome.port, failures)
-    )
+    const results: RouteResult[] = []
+
+    // Lighthouse shares process-level performance marks/logger state, so keep
+    // route audits serial while they share one Chrome instance.
+    for (const route of PUBLIC_ROUTES)
+    {
+      results.push(await auditRoute(route, chrome.port, failures))
+    }
 
     printDivider(72)
     printTable(results, [
@@ -113,6 +113,78 @@ async function main()
   finally
   {
     await chrome.kill()
+  }
+}
+
+async function auditRoute(
+  route: PublicRoute,
+  chromePort: number | undefined,
+  failures: string[]
+): Promise<RouteResult>
+{
+  const url = getRouteUrl(BASE_URL, route.path)
+  console.log(`\nAuditing ${url}...`)
+
+  const result = await lighthouse(url, {
+    port: chromePort,
+    output: 'html',
+    logLevel: 'error',
+    onlyCategories: [...CATEGORIES],
+  })
+
+  const emptyScores = Object.fromEntries(
+    CATEGORIES.map((cat) => [cat, 'N/A'])
+  ) as Record<LighthouseCategory, string>
+
+  if (!result)
+  {
+    const failure = `Lighthouse returned no result for ${url}`
+    failures.push(`${route.slug}: ${failure}`)
+    console.error(`  ${failure}`)
+    return { route: route.slug, scores: emptyScores, status: 'fail' }
+  }
+
+  const reportPath = `${REPORTS_DIR}/lighthouse-${route.slug}.html`
+  writeFileSync(reportPath, result.report as string)
+  console.log(`  Report saved: ${reportPath}`)
+
+  const runtimeError = result.lhr.runtimeError
+  const routeFailures: string[] = []
+  if (runtimeError?.code)
+  {
+    routeFailures.push(`${runtimeError.code}: ${runtimeError.message}`)
+  }
+
+  const scores = {} as Record<LighthouseCategory, string>
+  for (const cat of CATEGORIES)
+  {
+    const category = result.lhr.categories[cat]
+    const score =
+      typeof category?.score === 'number'
+        ? Math.round(category.score * 100)
+        : null
+
+    scores[cat] = score === null ? 'N/A' : String(score)
+
+    if (score === null)
+    {
+      routeFailures.push(`${cat} score was unavailable`)
+      continue
+    }
+
+    if (score < SCORE_THRESHOLDS[cat])
+    {
+      routeFailures.push(`${cat} score ${score} < ${SCORE_THRESHOLDS[cat]}`)
+    }
+  }
+
+  failures.push(...routeFailures.map((failure) => `${route.slug}: ${failure}`))
+
+  return {
+    route: route.slug,
+    scores,
+    status: routeFailures.length > 0 ? 'fail' : 'pass',
+    error: runtimeError?.code,
   }
 }
 
