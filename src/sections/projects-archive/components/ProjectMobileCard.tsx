@@ -7,10 +7,9 @@ import { ProjectLinks } from '~/shared/components/layout/ProjectLinks'
 import { ProjectCollaborators } from '~/shared/components/projects/ProjectCollaborators'
 import { ProjectTechnologies } from '~/shared/components/projects/ProjectTechnologies'
 import { StatusCircle } from '~/shared/components/ui/StatusCircle'
-import { ChevronIcon } from '~/shared/components/ui/icons'
 import type { Project, ProjectId } from '~/shared/types'
-import { FOCUS_RING_CLASSES } from '~/shared/utils/classNames'
 import type { ProjectViewModel } from '~/shared/utils/projectViewModel'
+import { ExpandToggle } from '~/sections/projects-archive/components/ExpandToggle'
 
 // props for mobile project card
 interface ProjectMobileCardProps
@@ -34,44 +33,26 @@ function ProjectMobileCardImpl({
 
   return (
     <article
-      className={`rounded-lg px-4 py-3 transition-[border-color,background-color] duration-200 hover:bg-[var(--card)]/50 ${expanded ? 'border border-[var(--accent)]/30 bg-[var(--card)]/50' : 'border border-[var(--border)] bg-[var(--card)]/30'}`}
+      className={`group rounded-lg px-4 py-3 transition-[border-color,background-color] duration-200 hover:bg-[var(--card)]/50 ${expanded ? 'border border-[var(--accent)]/30 bg-[var(--card)]/50' : 'border border-[var(--border)] bg-[var(--card)]/30'}`}
       aria-labelledby={titleId}
     >
-      {/* row 1: year, title, toggle */}
-      <button
-        type="button"
-        onClick={onToggle}
-        className={`group flex w-full touch-manipulation cursor-pointer appearance-none items-start justify-between gap-4 rounded-md border-0 bg-transparent p-0 text-left text-inherit ${FOCUS_RING_CLASSES}`}
-        aria-expanded={expanded}
-        aria-controls={viewModel.detailsId}
-        aria-label={
-          expanded
-            ? `Collapse details for ${project.title}`
-            : `Expand details for ${project.title}`
-        }
-      >
+      <div className="flex items-start justify-between gap-4">
         <span className="min-w-[3rem] text-sm font-medium font-mono text-[var(--muted)]">
           {viewModel.startYear}
         </span>
-        <span className="min-w-0 flex-1">
-          <span
-            id={titleId}
-            role="heading"
-            aria-level={3}
-            className="block text-lg font-semibold text-[var(--fg)] transition-colors duration-150 group-hover:text-[var(--accent)]"
-          >
-            {project.title}
-          </span>
-        </span>
-        <span
-          className={`mt-0.5 flex-shrink-0 rounded p-1 transition-[background-color,color,transform] duration-150 group-hover:scale-110 group-active:scale-95 ${expanded ? 'bg-[var(--accent)]/10 text-[var(--accent)]' : 'text-[var(--muted)] group-hover:bg-[var(--card)] group-hover:text-[var(--accent)]'}`}
-          aria-hidden="true"
+        <h3
+          id={titleId}
+          className="min-w-0 flex-1 text-lg font-semibold text-[var(--fg)] transition-colors duration-150 group-hover:text-[var(--accent)]"
         >
-          <ChevronIcon
-            className={`transform transition-transform duration-300 ${expanded ? 'rotate-90' : ''}`}
-          />
-        </span>
-      </button>
+          {project.title}
+        </h3>
+        <ExpandToggle
+          expanded={expanded}
+          onToggle={onToggle}
+          controlsId={viewModel.detailsId}
+          title={project.title}
+        />
+      </div>
 
       {project.collaborators && project.collaborators.length > 0 && (
         <ProjectCollaborators
@@ -81,7 +62,6 @@ function ProjectMobileCardImpl({
         />
       )}
 
-      {/* row 2: status, tech pills, links */}
       <div className="flex items-center gap-2 mt-2 ml-[3rem] pl-4">
         <StatusCircle status={project.status} size={22} />
         <ProjectTechnologies

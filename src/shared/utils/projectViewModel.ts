@@ -12,6 +12,7 @@ export interface ProjectViewModel
   periodLabel: string
   hasLinks: boolean
   hasMedia: boolean
+  imagePath?: string
   detailsId: string
   detailsLabel: string
   imageAlt: string
@@ -41,6 +42,7 @@ export function getProjectViewModel(project: Project): ProjectViewModel
     periodLabel: formatDateSpan(project.period),
     hasLinks,
     hasMedia,
+    imagePath: hasMedia ? project.imagePath : undefined,
     detailsId: `project-details-${project.id}`,
     detailsLabel: `Details for ${project.title}`,
     imageAlt: project.imageAlt ?? `${project.title} screenshot`,

@@ -20,7 +20,6 @@ export function JobHistory()
         {EXPERIENCE_CONTENT.heading}
       </h2>
       <div className="space-y-3 min-[1728px]:space-y-4">
-        {/* job cards */}
         {WORK_EXPERIENCE.map((job, index) => (
           <div
             key={job.id}
@@ -35,7 +34,6 @@ export function JobHistory()
           </div>
         ))}
 
-        {/* resume link */}
         <ActionLink
           href={RESUME_PATH}
           openInNewTab

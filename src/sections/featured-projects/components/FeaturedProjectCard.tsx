@@ -25,15 +25,13 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps)
       contentClassName="flex gap-4"
       withHoverBackdrop
     >
-      {/* project image */}
-      {viewModel.hasMedia && project.imagePath && (
+      {viewModel.imagePath && (
         <FeaturedProjectImage
-          imagePath={project.imagePath}
+          imagePath={viewModel.imagePath}
           imageAlt={viewModel.imageAlt}
         />
       )}
 
-      {/* project info */}
       <div className="flex-1">
         <ProjectIdentity
           title={project.title}
