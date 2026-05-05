@@ -285,9 +285,9 @@ Internal audits may reference public docs, but the maintained copy belongs in
 - `prod`
   Production branch for Cloudflare deployment
 - `v*` tags
-  Release intent; the release workflow validates the tag commit and promotes stable tags to `prod`
+  Release intent; the release workflow validates the tag commit and opens `prod` promotion pull requests for stable tags
 
-Release tags must point at commits already reachable from `main`. For stable tags, the release workflow refuses to move `prod` unless the existing `prod` branch is an ancestor of the tagged commit, so production advances only by normal fast-forward promotion. Prerelease tags create GitHub prereleases without moving `prod`.
+Release tags must point at commits already reachable from `main`. For stable tags, the release workflow refuses to open a `prod` promotion pull request unless the existing `prod` branch is an ancestor of the tagged commit, so production advances only by fast-forwardable pull requests. Prerelease tags create GitHub prereleases without moving `prod`.
 
 ## Tests
 

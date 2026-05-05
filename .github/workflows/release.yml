@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v6
         with:
@@ -27,14 +28,66 @@ jobs:
       - run: npm ci
       - run: npm run ci:check
 
-      - name: Promote stable release to prod branch
+      - name: Open prod promotion pull request
         if: ${{ !contains(github.ref_name, '-') }}
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          git fetch --prune origin +refs/heads/prod:refs/remotes/origin/prod || true
-          if git show-ref --verify --quiet refs/remotes/origin/prod; then
-            git merge-base --is-ancestor origin/prod HEAD
+          git fetch --prune origin +refs/heads/prod:refs/remotes/origin/prod
+
+          if git merge-base --is-ancestor HEAD origin/prod; then
+            echo "prod already contains ${GITHUB_REF_NAME}; no promotion PR needed."
+            exit 0
           fi
-          git push origin HEAD:refs/heads/prod
+
+          if ! git merge-base --is-ancestor origin/prod HEAD; then
+            echo "::error::prod is not an ancestor of ${GITHUB_REF_NAME}; refusing non-fast-forward promotion."
+            exit 1
+          fi
+
+          promotion_branch="release/${GITHUB_REF_NAME}-to-prod"
+          promotion_ref="refs/heads/${promotion_branch}"
+          remote_promotion_ref="refs/remotes/origin/${promotion_branch}"
+
+          if git ls-remote --exit-code --heads origin "$promotion_branch" > /dev/null; then
+            git fetch --prune origin "+${promotion_ref}:${remote_promotion_ref}"
+            expected_sha="$(git rev-parse "$remote_promotion_ref")"
+            git push \
+              --force-with-lease="${promotion_ref}:${expected_sha}" \
+              origin \
+              "HEAD:${promotion_ref}"
+          else
+            git push origin "HEAD:${promotion_ref}"
+          fi
+
+          existing_pr="$(
+            gh pr list \
+              --base prod \
+              --head "$promotion_branch" \
+              --state open \
+              --json number \
+              --jq '.[0].number // empty'
+          )"
+
+          if [ -n "$existing_pr" ]; then
+            echo "Promotion PR already open: #${existing_pr}"
+            exit 0
+          fi
+
+          body_file="$(mktemp)"
+          cat > "$body_file" <<EOF
+          Promotes stable release \`${GITHUB_REF_NAME}\` to the protected \`prod\` branch.
+
+          This PR was opened automatically by the release workflow after \`npm run ci:check\` passed for the tagged commit.
+
+          Tagged commit: ${GITHUB_SHA}
+          EOF
+
+          gh pr create \
+            --base prod \
+            --head "$promotion_branch" \
+            --title "Promote ${GITHUB_REF_NAME} to prod" \
+            --body-file "$body_file"
 
       - name: Get version from tag
         id: version
