@@ -1,9 +1,14 @@
 // src/content/education/education.ts
 // education timeline data
 
-import type { Education } from '~/shared/types'
+import type { Education, EducationContent } from '~/shared/types'
+import { deepFreeze } from '~/shared/utils/deepFreeze'
 
-export const EDUCATION: Education[] = [
+export const EDUCATION_CONTENT: EducationContent = deepFreeze({
+  heading: 'Education',
+})
+
+export const EDUCATION: readonly Education[] = deepFreeze([
   {
     id: 'university-of-pittsburgh-mscs',
     school: 'University of Pittsburgh',
@@ -42,4 +47,4 @@ export const EDUCATION: Education[] = [
     url: 'https://www.psu.edu',
     logo: 'penn-state',
   },
-]
+] satisfies Education[])

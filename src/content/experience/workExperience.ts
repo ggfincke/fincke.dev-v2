@@ -1,9 +1,15 @@
 // src/content/experience/workExperience.ts
 // work experience timeline data
 
-import type { WorkExperience } from '~/shared/types'
+import type { ExperienceContent, WorkExperience } from '~/shared/types'
+import { deepFreeze } from '~/shared/utils/deepFreeze'
 
-export const WORK_EXPERIENCE: WorkExperience[] = [
+export const EXPERIENCE_CONTENT: ExperienceContent = deepFreeze({
+  heading: 'Experience',
+  resumeCtaLabel: 'View Full Resume',
+})
+
+export const WORK_EXPERIENCE: readonly WorkExperience[] = deepFreeze([
   {
     id: 'westinghouse-software-developer-intern',
     title: 'Software Developer Intern, GIC Tools and Applications',
@@ -38,4 +44,4 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
     technologies: ['python', 'typescript', 'data-pipelines', 'llm-evaluation'],
     link: 'https://medium.com/@ggfincke/how-pass-k-is-used-to-evaluate-llm-coding-performance-296e5c4565bc',
   },
-]
+] satisfies WorkExperience[])

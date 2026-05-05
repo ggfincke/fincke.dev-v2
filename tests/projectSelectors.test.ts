@@ -9,11 +9,17 @@ import {
   getProjectsByTechnology,
   projects,
 } from '~/content/projects'
+import type { Project } from '~/shared/types'
 
 import {
   FEATURED_DEFAULT_PROJECT_IDS,
   FEATURED_WITH_WIDE_PROJECT_IDS,
 } from './fixtures'
+
+function forceMutableProjects(projectList: readonly Project[]): Project[]
+{
+  return projectList as Project[]
+}
 
 describe('project selectors', () =>
 {
@@ -22,6 +28,30 @@ describe('project selectors', () =>
     expect(getAllProjects().map((project) => project.id)).toEqual(
       projects.map((project) => project.id)
     )
+  })
+
+  it('does not expose mutable project lists', () =>
+  {
+    const allProjects = getAllProjects()
+    const featuredProjects = getFeaturedProjects(true)
+    const postgresqlProjects = getProjectsByTechnology('postgresql')
+
+    expect(Object.isFrozen(projects)).toBe(true)
+    expect(Object.isFrozen(allProjects)).toBe(true)
+    expect(Object.isFrozen(featuredProjects)).toBe(true)
+    expect(Object.isFrozen(postgresqlProjects)).toBe(true)
+
+    expect(() =>
+    {
+      forceMutableProjects(allProjects).sort((left, right) =>
+        left.title.localeCompare(right.title)
+      )
+    }).toThrow(TypeError)
+
+    expect(() =>
+    {
+      forceMutableProjects(postgresqlProjects).pop()
+    }).toThrow(TypeError)
   })
 
   it('returns the default featured project order', () =>

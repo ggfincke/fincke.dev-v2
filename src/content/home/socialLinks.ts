@@ -1,11 +1,18 @@
 // src/content/home/socialLinks.ts
 // social media links data
 
-import type { SocialLink } from '~/shared/types'
+import type { SocialLink, SocialLinksContent } from '~/shared/types'
 import { EMAIL } from '~/content/home/about'
+import { deepFreeze } from '~/shared/utils/deepFreeze'
+
+export const SOCIAL_LINKS_CONTENT: SocialLinksContent = deepFreeze({
+  ariaLabel: 'Social media links',
+  showPhoneLabel: 'Show phone number',
+  hidePhoneLabel: 'Hide phone number',
+})
 
 // social link entries w/ icons & URLs
-export const SOCIAL_LINKS: SocialLink[] = [
+export const SOCIAL_LINKS: readonly SocialLink[] = deepFreeze([
   {
     label: 'Email',
     url: `mailto:${EMAIL}`,
@@ -52,4 +59,4 @@ export const SOCIAL_LINKS: SocialLink[] = [
     icon: 'youtube',
     openInNewTab: true,
   },
-]
+] satisfies SocialLink[])

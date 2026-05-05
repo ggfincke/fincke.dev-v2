@@ -22,6 +22,7 @@ describe('project view model', () =>
     expect(viewModel.startYear).toBe('2026')
     expect(viewModel.periodLabel).toBe('Jan 2026 – Present')
     expect(viewModel.hasLinks).toBe(true)
+    expect(viewModel.hasMedia).toBe(true)
     expect(viewModel.detailsId).toBe('project-details-mdx-preview-for-vs-code')
     expect(viewModel.detailsLabel).toBe('Details for MDX Preview for VS Code')
   })
@@ -31,6 +32,17 @@ describe('project view model', () =>
     const viewModel = getProjectViewModel(getProjectFixture('loom'))
 
     expect(viewModel.primaryHref).toBe('https://github.com/ggfincke/loom')
+  })
+
+  it('uses explicit project content status for link and media availability', () =>
+  {
+    const viewModel = getProjectViewModel(
+      getProjectFixture('reactive-workbench')
+    )
+
+    expect(viewModel.primaryHref).toBeUndefined()
+    expect(viewModel.hasLinks).toBe(false)
+    expect(viewModel.hasMedia).toBe(false)
   })
 })
 

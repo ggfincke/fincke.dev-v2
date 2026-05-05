@@ -11,6 +11,7 @@ export interface ProjectViewModel
   startYear: string
   periodLabel: string
   hasLinks: boolean
+  hasMedia: boolean
   detailsId: string
   detailsLabel: string
   imageAlt: string
@@ -19,15 +20,15 @@ export interface ProjectViewModel
 // derive stable project view metadata from authored content
 export function getProjectViewModel(project: Project): ProjectViewModel
 {
+  const hasLinks = project.contentStatus.links.availability === 'available'
+  const hasMedia = project.contentStatus.media.availability === 'available'
+
   return {
-    primaryHref: project.liveUrl ?? project.repoUrl,
+    primaryHref: hasLinks ? (project.liveUrl ?? project.repoUrl) : undefined,
     startYear: getDateSpanStartYear(project.period),
     periodLabel: formatDateSpan(project.period),
-    hasLinks: Boolean(
-      project.repoUrl ||
-        project.liveUrl ||
-        (project.additionalLinks && project.additionalLinks.length > 0)
-    ),
+    hasLinks,
+    hasMedia,
     detailsId: `project-details-${project.id}`,
     detailsLabel: `Details for ${project.title}`,
     imageAlt: project.imageAlt ?? `${project.title} screenshot`,

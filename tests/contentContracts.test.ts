@@ -3,14 +3,41 @@
 
 import { describe, expect, it } from 'vitest'
 
-import { WORK_EXPERIENCE } from '~/content/experience'
-import { projects } from '~/content/projects'
-import type { DateSpan, Project, ProjectFeature } from '~/shared/types'
+import {
+  DEPLOYMENT_PUBLIC_ASSETS,
+  PUBLIC_RUNTIME_ASSETS,
+  RETAINED_PUBLIC_ASSETS,
+} from '~/content/assets'
+import { EDUCATION, EDUCATION_CONTENT } from '~/content/education'
+import { EXPERIENCE_CONTENT, WORK_EXPERIENCE } from '~/content/experience'
+import {
+  ABOUT_CONTENT,
+  ABOUT_HIGHLIGHTS,
+  HERO_CONTENT,
+  SOCIAL_LINKS,
+  SOCIAL_LINKS_CONTENT,
+} from '~/content/home'
+import { projects, PROJECTS_CONTENT } from '~/content/projects'
+import type {
+  DateSpan,
+  Project,
+  ProjectFeature,
+  ProjectResourceAvailability,
+} from '~/shared/types'
+import { PROJECT_RESOURCE_AVAILABILITIES } from '~/shared/types'
+import { EDUCATION_IDS } from '~/shared/types/education'
 import { WORK_EXPERIENCE_IDS } from '~/shared/types/experience'
 import { PROJECT_IDS } from '~/shared/types/projects'
 import { getYearMonthValue } from '~/shared/utils/dateSpan'
 
-type FeaturedProject = Project & { feature: ProjectFeature }
+type FeaturedProject = Project & { readonly feature: ProjectFeature }
+
+const UNAVAILABLE_RESOURCE_STATES = new Set<ProjectResourceAvailability>([
+  'private',
+  'archived',
+  'not-applicable',
+  'pending',
+])
 
 function hasFeature(project: Project): project is FeaturedProject
 {
@@ -36,6 +63,54 @@ function expectValidPeriod(period: DateSpan, label: string)
   {
     expect(period.end, `${label} cannot be both current and closed`).toBeFalsy()
   }
+}
+
+function hasProjectLinks(project: Project): boolean
+{
+  return Boolean(
+    project.repoUrl ||
+      project.liveUrl ||
+      (project.additionalLinks && project.additionalLinks.length > 0)
+  )
+}
+
+function hasProjectMedia(project: Project): boolean
+{
+  return Boolean(project.imagePath)
+}
+
+function expectResourceAvailability(
+  availability: ProjectResourceAvailability,
+  hasResource: boolean,
+  note: string | undefined,
+  label: string
+)
+{
+  expect(
+    PROJECT_RESOURCE_AVAILABILITIES.includes(availability),
+    `${label} availability must use a known state`
+  ).toBe(true)
+
+  if (availability === 'available')
+  {
+    expect(hasResource, `${label} cannot be available without content`).toBe(
+      true
+    )
+    expect(note, `${label} available resources should not need a note`).toBe(
+      undefined
+    )
+    return
+  }
+
+  expect(
+    UNAVAILABLE_RESOURCE_STATES.has(availability),
+    `${label} unavailable state must be intentional`
+  ).toBe(true)
+  expect(hasResource, `${label} cannot be unavailable with content`).toBe(false)
+  expect(
+    note?.trim().length ?? 0,
+    `${label} must explain absence`
+  ).toBeGreaterThan(0)
 }
 
 function getDuplicateValues(values: readonly string[]): string[]
@@ -74,6 +149,14 @@ describe('content contracts', () =>
     expect(workExperienceIds).toEqual(WORK_EXPERIENCE_IDS)
   })
 
+  it('keeps education ids unique', () =>
+  {
+    const educationIds = EDUCATION.map((entry) => entry.id)
+
+    expect(getDuplicateValues(educationIds)).toEqual([])
+    expect(educationIds).toEqual(EDUCATION_IDS)
+  })
+
   it('keeps featured order values globally unique', () =>
   {
     const featuredProjects = projects.filter(hasFeature)
@@ -91,6 +174,78 @@ describe('content contracts', () =>
     }
   })
 
+  it('freezes authored content roots and a representative nested record', () =>
+  {
+    const roots = [
+      projects,
+      WORK_EXPERIENCE,
+      EDUCATION,
+      EDUCATION_CONTENT,
+      PROJECTS_CONTENT,
+      HERO_CONTENT,
+      ABOUT_CONTENT,
+      ABOUT_HIGHLIGHTS,
+      SOCIAL_LINKS,
+      SOCIAL_LINKS_CONTENT,
+      EXPERIENCE_CONTENT,
+      PUBLIC_RUNTIME_ASSETS,
+      RETAINED_PUBLIC_ASSETS,
+      DEPLOYMENT_PUBLIC_ASSETS,
+    ]
+
+    for (const root of roots)
+    {
+      expect(Object.isFrozen(root)).toBe(true)
+    }
+
+    // Spot-check one project's nested shape — covers deepFreeze recursion
+    // without re-asserting the helper across every record.
+    const sample = projects.find((project) => project.collaborators)
+
+    expect(sample, 'expected at least one project with collaborators').toBeDefined()
+
+    if (sample)
+    {
+      expect(Object.isFrozen(sample)).toBe(true)
+      expect(Object.isFrozen(sample.period)).toBe(true)
+      expect(Object.isFrozen(sample.period.start)).toBe(true)
+      expect(Object.isFrozen(sample.bulletPoints)).toBe(true)
+      expect(Object.isFrozen(sample.technologies)).toBe(true)
+      expect(Object.isFrozen(sample.contentStatus)).toBe(true)
+      expect(Object.isFrozen(sample.contentStatus.links)).toBe(true)
+      expect(Object.isFrozen(sample.collaborators)).toBe(true)
+      expect(Object.isFrozen(sample.collaborators?.[0])).toBe(true)
+    }
+  })
+
+  it('makes project link and media absence explicit', () =>
+  {
+    for (const project of projects)
+    {
+      expectResourceAvailability(
+        project.contentStatus.links.availability,
+        hasProjectLinks(project),
+        project.contentStatus.links.note,
+        `project:${project.id} links`
+      )
+      expectResourceAvailability(
+        project.contentStatus.media.availability,
+        hasProjectMedia(project),
+        project.contentStatus.media.note,
+        `project:${project.id} media`
+      )
+
+      if (project.imagePath)
+      {
+        expect(project.imageAlt?.trim().length ?? 0).toBeGreaterThan(0)
+      }
+      else
+      {
+        expect(project.imageAlt).toBeUndefined()
+      }
+    }
+  })
+
   it('keeps authored date spans internally valid', () =>
   {
     for (const project of projects)
@@ -101,6 +256,11 @@ describe('content contracts', () =>
     for (const job of WORK_EXPERIENCE)
     {
       expectValidPeriod(job.period, `experience:${job.id}`)
+    }
+
+    for (const education of EDUCATION)
+    {
+      expectValidPeriod(education.period, `education:${education.id}`)
     }
   })
 })
