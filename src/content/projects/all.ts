@@ -4,7 +4,7 @@
 import type { Project } from '~/shared/types'
 import { deepFreeze } from '~/shared/utils/deepFreeze'
 
-export const projects: readonly Project[] = deepFreeze([
+export const projects = deepFreeze([
   {
     id: 'tierlistbuilder',
     title: 'Tier List Builder',

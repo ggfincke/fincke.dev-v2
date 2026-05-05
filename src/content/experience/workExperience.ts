@@ -4,12 +4,12 @@
 import type { ExperienceContent, WorkExperience } from '~/shared/types'
 import { deepFreeze } from '~/shared/utils/deepFreeze'
 
-export const EXPERIENCE_CONTENT: ExperienceContent = deepFreeze({
+export const EXPERIENCE_CONTENT = deepFreeze({
   heading: 'Experience',
   resumeCtaLabel: 'View Full Resume',
-})
+} satisfies ExperienceContent)
 
-export const WORK_EXPERIENCE: readonly WorkExperience[] = deepFreeze([
+export const WORK_EXPERIENCE = deepFreeze([
   {
     id: 'westinghouse-software-developer-intern',
     title: 'Software Developer Intern, GIC Tools and Applications',

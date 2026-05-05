@@ -4,11 +4,11 @@
 import type { Education, EducationContent } from '~/shared/types'
 import { deepFreeze } from '~/shared/utils/deepFreeze'
 
-export const EDUCATION_CONTENT: EducationContent = deepFreeze({
+export const EDUCATION_CONTENT = deepFreeze({
   heading: 'Education',
-})
+} satisfies EducationContent)
 
-export const EDUCATION: readonly Education[] = deepFreeze([
+export const EDUCATION = deepFreeze([
   {
     id: 'university-of-pittsburgh-mscs',
     school: 'University of Pittsburgh',

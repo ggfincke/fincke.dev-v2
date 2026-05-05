@@ -5,14 +5,14 @@ import type { SocialLink, SocialLinksContent } from '~/shared/types'
 import { EMAIL } from '~/content/home/about'
 import { deepFreeze } from '~/shared/utils/deepFreeze'
 
-export const SOCIAL_LINKS_CONTENT: SocialLinksContent = deepFreeze({
+export const SOCIAL_LINKS_CONTENT = deepFreeze({
   ariaLabel: 'Social media links',
   showPhoneLabel: 'Show phone number',
   hidePhoneLabel: 'Hide phone number',
-})
+} satisfies SocialLinksContent)
 
 // social link entries w/ icons & URLs
-export const SOCIAL_LINKS: readonly SocialLink[] = deepFreeze([
+export const SOCIAL_LINKS = deepFreeze([
   {
     label: 'Email',
     url: `mailto:${EMAIL}`,

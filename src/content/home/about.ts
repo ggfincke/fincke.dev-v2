@@ -22,7 +22,7 @@ export interface AboutHighlightConfig
   readonly phrases: readonly AboutPhraseHighlight[]
 }
 
-export const ABOUT_HIGHLIGHTS: AboutHighlightConfig = deepFreeze({
+export const ABOUT_HIGHLIGHTS = deepFreeze({
   technologyIds: [
     'python',
     'typescript',
@@ -51,10 +51,10 @@ export const ABOUT_HIGHLIGHTS: AboutHighlightConfig = deepFreeze({
       words: ['AI infrastructure', 'retrieval systems', 'LLM-generated code'],
     },
   ],
-})
+} satisfies AboutHighlightConfig)
 
 // about section copy & email
-export const ABOUT_CONTENT: AboutContent = deepFreeze({
+export const ABOUT_CONTENT = deepFreeze({
   heading: 'About',
   paragraphs: [
     "I'm a full-stack engineer focused on AI infrastructure and retrieval systems. Most recently I spent a year at Scale AI building Python evaluation harnesses for LLM-generated code. I work mostly in Python and TypeScript: FastAPI/Django/Node.js + Postgres on the backend, React/Next.js on the web, and SwiftUI/UIKit for native iOS/watchOS, with Docker, GitHub Actions, and AWS for CI/CD and ops.",
@@ -65,4 +65,4 @@ export const ABOUT_CONTENT: AboutContent = deepFreeze({
     prefix: 'Would love to collaborate or chat! Reach me at ',
     suffix: '.',
   },
-})
+} satisfies AboutContent)
