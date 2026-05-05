@@ -4,6 +4,7 @@
 
 import type { ExternalUrlReference } from './lib/contentInventory'
 
+import { mapWithConcurrency } from './lib/async'
 import { formatSources, printDivider } from './lib/cliFormat'
 import { getContentInventory } from './lib/contentInventory'
 import {
@@ -77,30 +78,6 @@ async function checkUrl(url: string): Promise<{ ok: boolean; detail: string }>
       detail: detail.includes('aborted') ? 'timeout' : detail,
     }
   }
-}
-
-// run async work over an array w/ a fixed concurrency cap
-async function mapWithConcurrency<T, R>(
-  items: ReadonlyArray<T>,
-  limit: number,
-  fn: (item: T) => Promise<R>
-): Promise<R[]>
-{
-  const results: R[] = new Array(items.length)
-  let cursor = 0
-  const workers = Array.from(
-    { length: Math.min(limit, items.length) },
-    async () =>
-    {
-      while (cursor < items.length)
-      {
-        const index = cursor++
-        results[index] = await fn(items[index])
-      }
-    }
-  )
-  await Promise.all(workers)
-  return results
 }
 
 async function checkByHost(

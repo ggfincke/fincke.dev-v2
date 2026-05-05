@@ -1,18 +1,27 @@
 // scripts/lighthouse.ts
 // runs Lighthouse audits on both routes & outputs scores + HTML reports
 // Usage: npm run lighthouse (requires "npm run preview" on localhost:4173)
-// Lighthouse needs a production build for accurate scores — dev server HMR/sourcemaps skew results
+// Lighthouse needs a production build for accurate scores; reduced motion keeps
+// delayed entrance animations from hiding all initial content from FCP detection.
 
 import { launch } from 'chrome-launcher'
 import lighthouse from 'lighthouse'
-import { mkdirSync, writeFileSync } from 'fs'
-import { join } from 'path'
+import { mkdirSync, writeFileSync } from 'node:fs'
+import { mapWithConcurrency } from './lib/async'
 import { printDivider, printTable } from './lib/cliFormat'
 import { requireRunningServer } from './lib/devServer'
-import { PUBLIC_ROUTES } from './lib/siteManifest'
+import { PUBLIC_ROUTES, type PublicRoute } from './lib/siteManifest'
+import {
+  DEFAULT_PREVIEW_PORT,
+  getLocalBaseUrl,
+  getRouteUrl,
+  LIGHTHOUSE_CHROME_FLAGS,
+  REPORTS_DIR,
+} from './lib/browserAudit'
 
-const BASE_URL = 'http://localhost:4173'
-const REPORTS_DIR = join(import.meta.dirname, '..', 'reports')
+const ROUTE_CONCURRENCY = 2
+
+const BASE_URL = getLocalBaseUrl(DEFAULT_PREVIEW_PORT)
 
 const CATEGORIES = [
   'performance',
@@ -21,10 +30,20 @@ const CATEGORIES = [
   'seo',
 ] as const
 
+const SCORE_THRESHOLDS: Record<LighthouseCategory, number> = {
+  performance: 90,
+  accessibility: 100,
+  'best-practices': 95,
+  seo: 100,
+}
+
+type LighthouseCategory = (typeof CATEGORIES)[number]
+
 interface RouteResult
 {
   route: string
-  scores: Record<string, string>
+  scores: Record<LighthouseCategory, string>
+  status: 'pass' | 'fail'
   error?: string
 }
 
@@ -38,53 +57,17 @@ async function main()
   mkdirSync(REPORTS_DIR, { recursive: true })
 
   const chrome = await launch({
-    chromeFlags: ['--headless=new', '--no-sandbox', '--disable-gpu'],
+    chromeFlags: [...LIGHTHOUSE_CHROME_FLAGS],
   })
 
   try
   {
-    const results: RouteResult[] = []
-
-    for (const route of PUBLIC_ROUTES)
-    {
-      const url = `${BASE_URL}${route.path}`
-      console.log(`\nAuditing ${url}...`)
-
-      const result = await lighthouse(url, {
-        port: chrome.port,
-        output: 'html',
-        logLevel: 'error',
-        onlyCategories: [...CATEGORIES],
-      })
-
-      if (!result)
-      {
-        console.error(`  Lighthouse returned no result for ${url}`)
-        continue
-      }
-
-      const reportPath = join(REPORTS_DIR, `lighthouse-${route.slug}.html`)
-      writeFileSync(reportPath, result.report as string)
-      console.log(`  Report saved: ${reportPath}`)
-
-      // check for runtime errors (e.g. NO_FCP from opacity-0 animations)
-      const runtimeError = result.lhr.runtimeError
-      if (runtimeError?.code)
-      {
-        console.log(`  Warning: ${runtimeError.code} — ${runtimeError.message}`)
-      }
-
-      const scores: Record<string, string> = {}
-      for (const cat of CATEGORIES)
-      {
-        const category = result.lhr.categories[cat]
-        scores[cat] =
-          category?.score !== null
-            ? String(Math.round(category!.score * 100))
-            : 'N/A'
-      }
-      results.push({ route: route.slug, scores, error: runtimeError?.code })
-    }
+    const failures: string[] = []
+    const results = await mapWithConcurrency(
+      PUBLIC_ROUTES,
+      ROUTE_CONCURRENCY,
+      async (route) => auditRoute(route, chrome.port, failures)
+    )
 
     printDivider(72)
     printTable(results, [
@@ -106,11 +89,26 @@ async function main()
       },
       {
         header: 'SEO',
-        format: (r) => r.scores['seo'] + (r.error ? `  (${r.error})` : ''),
+        width: 8,
+        format: (r) => r.scores['seo'],
+      },
+      {
+        header: 'Status',
+        format: (r) => r.status + (r.error ? `  (${r.error})` : ''),
       },
     ])
     console.log('='.repeat(72))
     console.log(`\nReports saved to ${REPORTS_DIR}\n`)
+
+    if (failures.length > 0)
+    {
+      console.error('Lighthouse failures:')
+      for (const failure of failures)
+      {
+        console.error(`- ${failure}`)
+      }
+      process.exitCode = 1
+    }
   }
   finally
   {
