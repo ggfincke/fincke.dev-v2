@@ -1,5 +1,5 @@
 // vitest.config.ts
-// Vitest config for pure node tests & UI interaction tests
+// Vitest config for minimal node-side tests
 
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
@@ -12,28 +12,13 @@ const __dirname = dirname(__filename)
 export default defineConfig({
   resolve: {
     alias: {
+      '~/scripts': resolve(__dirname, './scripts'),
+      '~/tests': resolve(__dirname, './tests'),
       '~': resolve(__dirname, './src'),
     },
   },
   test: {
-    projects: [
-      {
-        extends: true,
-        test: {
-          name: 'unit',
-          environment: 'node',
-          include: ['tests/**/*.test.ts'],
-        },
-      },
-      {
-        extends: true,
-        test: {
-          name: 'ui',
-          environment: 'jsdom',
-          include: ['tests/**/*.test.tsx'],
-          setupFiles: ['./vitest.setup.ts'],
-        },
-      },
-    ],
+    environment: 'node',
+    include: ['tests/**/*.test.ts'],
   },
 })

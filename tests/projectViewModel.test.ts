@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest'
 import { getProjectLiveLabel } from '~/shared/utils/projectLinks'
 import { getProjectViewModel } from '~/shared/utils/projectViewModel'
 
-import { getProjectFixture } from './fixtures'
+import { getProjectFixture } from '~/tests/fixtures'
 
 describe('project view model', () =>
 {

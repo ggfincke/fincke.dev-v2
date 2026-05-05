@@ -291,25 +291,14 @@ Release tags must point at commits already reachable from `main`. For stable tag
 
 ## Tests
 
-Tests live under `tests/`.
+Tests live under `tests/` and intentionally stay small for a portfolio site.
+The Vitest suite runs in Node and covers only high-signal contracts:
 
-- Node-side suites cover:
-  technology registry invariants,
-  project selectors,
-  structured date helpers,
-  content inventory and asset metadata boundaries,
-  asset validation,
-  link policy,
-  content contracts, including explicit project link/media availability,
-  documentation source-of-truth contracts,
-  project view-model derivation
-- `tests/ui/` uses Vitest + React Testing Library + jsdom for:
-  app chrome,
-  navigation contracts,
-  archive interactions,
-  content-owned UI copy,
-  shared UI semantics,
-  shared project-surface behavior
+- authored content IDs, featured ordering, date ranges, and explicit project link/media availability
+- canonical technology registry coverage and aliases
+- project selectors and view-model derivation
+- structured date and static-prose highlighting helpers
+- asset validation and external-link policy helpers
 
 ## Current Directory Map
 

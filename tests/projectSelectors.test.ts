@@ -14,7 +14,7 @@ import type { Project } from '~/shared/types'
 import {
   FEATURED_DEFAULT_PROJECT_IDS,
   FEATURED_WITH_WIDE_PROJECT_IDS,
-} from './fixtures'
+} from '~/tests/fixtures'
 
 function forceMutableProjects(projectList: readonly Project[]): Project[]
 {

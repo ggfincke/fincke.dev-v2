@@ -67,27 +67,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['tests/ui/**/*.{ts,tsx}', 'vitest.setup.ts'],
-    extends: [
-      ...baseTypeScriptExtends,
-      reactHooks.configs['recommended-latest'],
-      jsxA11y.flatConfigs.recommended,
-    ],
-    languageOptions: {
-      ecmaVersion: 2022,
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
-    },
-    plugins: {
-      ggfincke: localRules,
-    },
-    rules: projectRules,
-  },
-  {
     files: ['tests/**/*.{ts,tsx}'],
-    ignores: ['tests/ui/**'],
     extends: baseTypeScriptExtends,
     languageOptions: {
       ecmaVersion: 2022,

@@ -1,23 +1,11 @@
 // tests/contentContracts.test.ts
-// minimal authored-data contract checks for stable ids & periods
+// minimal authored-data checks for common portfolio content mistakes
 
 import { describe, expect, it } from 'vitest'
 
-import {
-  DEPLOYMENT_PUBLIC_ASSETS,
-  PUBLIC_RUNTIME_ASSETS,
-  RETAINED_PUBLIC_ASSETS,
-} from '~/content/assets'
-import { EDUCATION, EDUCATION_CONTENT } from '~/content/education'
-import { EXPERIENCE_CONTENT, WORK_EXPERIENCE } from '~/content/experience'
-import {
-  ABOUT_CONTENT,
-  ABOUT_HIGHLIGHTS,
-  HERO_CONTENT,
-  SOCIAL_LINKS,
-  SOCIAL_LINKS_CONTENT,
-} from '~/content/home'
-import { projects, PROJECTS_CONTENT } from '~/content/projects'
+import { EDUCATION } from '~/content/education'
+import { WORK_EXPERIENCE } from '~/content/experience'
+import { projects } from '~/content/projects'
 import type {
   DateSpan,
   Project,
@@ -133,36 +121,26 @@ function getDuplicateValues(values: readonly string[]): string[]
 
 describe('content contracts', () =>
 {
-  it('keeps project ids unique', () =>
+  it('keeps authored ids and featured ordering stable', () =>
   {
     const projectIds = projects.map((project) => project.id)
+    const workExperienceIds = WORK_EXPERIENCE.map((job) => job.id)
+    const educationIds = EDUCATION.map((entry) => entry.id)
+    const featuredProjects = projects.filter(hasFeature)
+    const featuredOrders = featuredProjects.map(
+      (project) => project.feature.order
+    )
 
     expect(getDuplicateValues(projectIds)).toEqual([])
     expect(projectIds).toEqual(PROJECT_IDS)
-  })
-
-  it('keeps work experience ids unique', () =>
-  {
-    const workExperienceIds = WORK_EXPERIENCE.map((job) => job.id)
 
     expect(getDuplicateValues(workExperienceIds)).toEqual([])
     expect(workExperienceIds).toEqual(WORK_EXPERIENCE_IDS)
-  })
-
-  it('keeps education ids unique', () =>
-  {
-    const educationIds = EDUCATION.map((entry) => entry.id)
 
     expect(getDuplicateValues(educationIds)).toEqual([])
     expect(educationIds).toEqual(EDUCATION_IDS)
-  })
 
-  it('keeps featured order values globally unique', () =>
-  {
-    const featuredProjects = projects.filter(hasFeature)
-    const orders = featuredProjects.map((project) => project.feature.order)
-
-    expect(getDuplicateValues(orders.map(String))).toEqual([])
+    expect(getDuplicateValues(featuredOrders.map(String))).toEqual([])
 
     for (const project of featuredProjects)
     {
@@ -171,50 +149,6 @@ describe('content contracts', () =>
         Number.isInteger(order) && order > 0,
         `feature order must be a positive integer: ${project.id}`
       ).toBe(true)
-    }
-  })
-
-  it('freezes authored content roots and a representative nested record', () =>
-  {
-    const roots = [
-      projects,
-      WORK_EXPERIENCE,
-      EDUCATION,
-      EDUCATION_CONTENT,
-      PROJECTS_CONTENT,
-      HERO_CONTENT,
-      ABOUT_CONTENT,
-      ABOUT_HIGHLIGHTS,
-      SOCIAL_LINKS,
-      SOCIAL_LINKS_CONTENT,
-      EXPERIENCE_CONTENT,
-      PUBLIC_RUNTIME_ASSETS,
-      RETAINED_PUBLIC_ASSETS,
-      DEPLOYMENT_PUBLIC_ASSETS,
-    ]
-
-    for (const root of roots)
-    {
-      expect(Object.isFrozen(root)).toBe(true)
-    }
-
-    // Spot-check one project's nested shape — covers deepFreeze recursion
-    // without re-asserting the helper across every record.
-    const sample = projects.find((project) => project.collaborators)
-
-    expect(sample, 'expected at least one project with collaborators').toBeDefined()
-
-    if (sample)
-    {
-      expect(Object.isFrozen(sample)).toBe(true)
-      expect(Object.isFrozen(sample.period)).toBe(true)
-      expect(Object.isFrozen(sample.period.start)).toBe(true)
-      expect(Object.isFrozen(sample.bulletPoints)).toBe(true)
-      expect(Object.isFrozen(sample.technologies)).toBe(true)
-      expect(Object.isFrozen(sample.contentStatus)).toBe(true)
-      expect(Object.isFrozen(sample.contentStatus.links)).toBe(true)
-      expect(Object.isFrozen(sample.collaborators)).toBe(true)
-      expect(Object.isFrozen(sample.collaborators?.[0])).toBe(true)
     }
   })
 

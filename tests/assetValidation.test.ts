@@ -7,8 +7,8 @@ import {
   createLocalFileReferenceMap,
   getPublicFileCategory,
   validateAssetInventory,
-} from '../scripts/lib/assetValidation'
-import { getContentInventory } from '../scripts/lib/contentInventory'
+} from '~/scripts/lib/assetValidation'
+import { getContentInventory } from '~/scripts/lib/contentInventory'
 
 describe('asset validation', () =>
 {

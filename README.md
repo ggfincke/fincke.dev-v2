@@ -29,7 +29,7 @@ Visit https://fincke.dev
 - Language: TypeScript 5.8 in strict mode
 - Routing: React Router 7
 - Styling: Tailwind CSS 4 + `src/styles/globals.css`
-- Testing: Vitest, React Testing Library, jsdom
+- Testing: Vitest for focused node-side content and utility checks
 - Automation: Playwright screenshots, axe accessibility audits, Lighthouse, custom content-health scripts
 
 ## Project Structure
@@ -49,7 +49,7 @@ fincke.dev-v2/
 │   ├── sections/                # Route/section-specific UI
 │   ├── shared/                  # Shared components, types, hooks, utilities
 │   └── styles/                  # Global CSS tokens and Tailwind layers
-├── tests/                       # Vitest suites (node + jsdom)
+├── tests/                       # Focused Vitest content and utility checks
 ├── vite.config.ts
 ├── tsconfig*.json
 └── package.json

@@ -14,7 +14,7 @@ import {
   resolveTechnologyId,
 } from '~/content/technologies'
 
-import { TECHNOLOGY_ALIAS_CASES } from './fixtures'
+import { TECHNOLOGY_ALIAS_CASES } from '~/tests/fixtures'
 
 describe('technology registry', () =>
 {
