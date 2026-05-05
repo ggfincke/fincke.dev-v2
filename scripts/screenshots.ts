@@ -120,10 +120,50 @@ async function captureViewport(
         throw new Error(`Route ${route.path} rendered an empty main landmark`)
       }
 
-      if (SCREENSHOT_MODE === 'full')
-      {
-        await page.waitForTimeout(ANIMATION_WAIT)
-      }
+      // wait for the staggered fade-in to settle. networkidle resolves before
+      // lazy route chunks mount, and `useMediaQuery` can briefly toggle the
+      // mobile/desktop branch — both push real animation start past any fixed
+      // timer. instead, wait for at least one row, then drain every finite
+      // animation, polling across frames so late mounts get caught too.
+      // reduced-motion mode finishes immediately since CSS pins opacity to 1.
+      await page
+        .locator('.animate-slide-in-up')
+        .first()
+        .waitFor({ state: 'attached', timeout: 5_000 })
+      await page.evaluate(`new Promise((resolve) => {
+        const cap = ${ANIMATION_WAIT * 2}
+        const start = performance.now()
+        const settled = () => {
+          const els = document.querySelectorAll('.animate-slide-in-up')
+          if (els.length === 0) return false
+          for (const el of els) {
+            if (parseFloat(getComputedStyle(el).opacity) < 0.99) return false
+          }
+          return true
+        }
+        const drain = async () => {
+          const anims = document.getAnimations().filter((a) => {
+            const t = a.effect && a.effect.getComputedTiming()
+            return t && Number.isFinite(t.iterations)
+              && Number.isFinite(t.duration)
+          })
+          await Promise.all(
+            anims.map((a) => a.finished.catch(() => undefined))
+          )
+        }
+        const tick = async () => {
+          if (performance.now() - start > cap) return resolve()
+          await drain()
+          // give one frame for late mounts to register a fresh animation
+          await new Promise((r) => requestAnimationFrame(() => r()))
+          if (settled() && document.getAnimations().length === 0) {
+            resolve()
+          } else {
+            tick()
+          }
+        }
+        tick()
+      })`)
 
       await page.screenshot({ path: filepath, fullPage: true })
 
