@@ -1,29 +1,10 @@
 // src/sections/education/components/EducationCard.tsx
 // compact credential-style education row
 
-import type { ComponentType } from 'react'
-
 import { InteractiveCard } from '~/shared/components/layout/InteractiveCard'
-import type { Education, EducationLogo } from '~/shared/types'
+import type { Education } from '~/shared/types'
 import { formatDateSpan } from '~/shared/utils/dateSpan'
-import {
-  PennStateLogo,
-  PittLogo,
-} from '~/sections/education/components/SchoolLogo'
-
-interface SchoolLogoComponentProps
-{
-  className?: string
-}
-
-// registry mapping logo id → component
-const SCHOOL_LOGO_REGISTRY: Record<
-  EducationLogo,
-  ComponentType<SchoolLogoComponentProps>
-> = {
-  pitt: PittLogo,
-  'penn-state': PennStateLogo,
-}
+import { SchoolLogo } from '~/sections/education/components/SchoolLogo'
 
 // props for education row
 interface EducationCardProps
@@ -38,15 +19,15 @@ export function EducationCard({ education }: EducationCardProps)
     expected: education.isExpected,
   })
 
-  const Logo = education.logo ? SCHOOL_LOGO_REGISTRY[education.logo] : undefined
-
   return (
     <InteractiveCard
       href={education.url}
       contentClassName="flex items-center gap-3"
       withHoverBackdrop
     >
-      {Logo && <Logo className="h-12 w-12 shrink-0" />}
+      {education.logo && (
+        <SchoolLogo logo={education.logo} className="h-12 w-12 shrink-0" />
+      )}
 
       <div className="min-w-0 flex-1">
         <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-2">

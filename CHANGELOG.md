@@ -5,6 +5,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.1] - 2026-05-05
+
+### Fixed
+
+- Release workflow now opens a protected-branch promotion pull request for stable `prod` releases instead of pushing directly to `prod`
+
+## [2.8.0] - 2026-05-05
+
+### Added
+
+- `deepFreeze` helper and explicit `readonly` content contracts; authored content (education, experience, home, projects, technologies) is now deep-frozen and adopts `satisfies`
+- Canonical public route manifest (`src/shared/routing/publicRoutes.ts`) shared by the router and scripts, with child paths derived from a single source
+- Public asset inventory at the content boundary: `publicAssets.ts` (UI-facing paths) split from `publicAssetInventory.ts` (script metadata)
+- Axe accessibility audit script (`scripts/accessibility.ts`) with shared `browserAudit` lib, `async` helper, and route-aware audit helpers running in parallel
+- Browser-verification CI job and hardened release tag promotion to prod
+- `getTechnologyDisplay` registry helper used by `SkillPill`
+- Cached project view models per project record; `imagePath` exposed on the view model
+- `ExpandToggle` adopted on mobile project cards with semantic `<article>` shell and dedicated expand button
+- `~/scripts` path alias and centralized repo-root paths for scripts
+
+### Changed
+
+- Sections wired to the new content modules and asset metadata
+- Project archive titles promoted to `h3` in archive rows
+- `SkillPill` restored to button semantics for tooltip access; tech overflow and brand icons drop fake button roles
+- ESLint scoped per target with stricter CI enforcement and `jsx-a11y` configured for `tsx` tests
+- Node `tsconfig` no longer pulls in the DOM lib; Vitest `tsx` pattern broadened
+- Lighthouse error reporting tightened; unused mapper index dropped
+- Vitest scope trimmed to focused node-only suites for portfolio scope
+- Screenshots, link-checker, and lighthouse scripts refactored around the shared route manifest and browser-audit primitives
+- Documentation refreshed to cover content contracts, browser checks, and the dev-docs working-space boundary
+
+### Fixed
+
+- Screenshots script waits for staggered rows to attach and drains finite Web Animations across frames before capturing, so lazy route chunks and the `useMediaQuery` mobile/desktop branch swap can no longer leave desktop projects screenshots empty at certain viewport widths
+
+### Removed
+
+- `NestedInteractionBoundary` component (no longer needed after archive card refactor)
+- UI-rendering test suites (`appChrome`, `navigationContracts`, `projectCollaborators`, `projectSurfaces`, `projectsArchiveInteractions`, `aboutHighlighting`, `matchMedia`, `render`) in favor of node-only contract tests
+
 ## [2.7.1] - 2026-05-04
 
 ### Fixed

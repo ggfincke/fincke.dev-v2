@@ -4,14 +4,14 @@
 // month-level date point
 export interface YearMonth
 {
-  year: number
-  month: number
+  readonly year: number
+  readonly month: number
 }
 
 // date span supporting single-month, ranged, & ongoing entries
 export interface DateSpan
 {
-  start: YearMonth
-  end?: YearMonth
-  isCurrent?: boolean
+  readonly start: YearMonth
+  readonly end?: YearMonth
+  readonly isCurrent?: boolean
 }

@@ -10,10 +10,7 @@ import { StatusBadge } from '~/shared/components/ui/StatusBadge'
 import { VersionBadge } from '~/shared/components/ui/VersionBadge'
 import type { Project } from '~/shared/types'
 import { MOTION_CLASSES } from '~/shared/utils/animationConfig'
-import {
-  getProjectViewModel,
-  type ProjectViewModel,
-} from '~/shared/utils/projectViewModel'
+import type { ProjectViewModel } from '~/shared/utils/projectViewModel'
 
 // shared inner-section heading
 function DetailsHeading({
@@ -71,17 +68,14 @@ function Collaborators({ project }: { project: Project })
   )
 }
 
-interface VariantProps
+interface ProjectDetailsProps
 {
   project: Project
-  viewModel?: ProjectViewModel
+  viewModel: ProjectViewModel
 }
 
 // mobile expanded details
-function MobileProjectDetailsImpl({
-  project,
-  viewModel = getProjectViewModel(project),
-}: VariantProps)
+function MobileProjectDetailsImpl({ project, viewModel }: ProjectDetailsProps)
 {
   return (
     <div className="mt-2 border border-[var(--border)] rounded-lg p-4 bg-[var(--card)]/50">
@@ -137,8 +131,8 @@ function MobileProjectDetailsImpl({
 // desktop expanded details
 function DesktopProjectDetailsImpl({
   project,
-  viewModel = getProjectViewModel(project),
-}: VariantProps)
+  viewModel,
+}: ProjectDetailsProps)
 {
   return (
     <div
@@ -166,11 +160,11 @@ function DesktopProjectDetailsImpl({
             </ul>
           </div>
 
-          {project.imagePath && (
+          {viewModel.imagePath && (
             <div className="xl:w-1/3 flex-shrink-0">
               <div className="border border-[var(--border)] rounded-lg bg-[var(--bg)]/50 overflow-hidden p-3">
                 <img
-                  src={project.imagePath}
+                  src={viewModel.imagePath}
                   alt={viewModel.imageAlt}
                   className={`w-full h-full rounded-lg object-contain ${MOTION_CLASSES.emphasizedFilter} hover:brightness-110`}
                   loading="lazy"
@@ -211,22 +205,3 @@ function DesktopProjectDetailsImpl({
 
 export const MobileProjectDetails = memo(MobileProjectDetailsImpl)
 export const DesktopProjectDetails = memo(DesktopProjectDetailsImpl)
-
-// dispatcher kept to preserve existing variant-based call sites
-interface ProjectExpandedDetailsProps extends VariantProps
-{
-  variant?: 'mobile' | 'desktop'
-}
-
-// expanded project details (dispatcher)
-export function ProjectExpandedDetails({
-  variant = 'desktop',
-  ...rest
-}: ProjectExpandedDetailsProps)
-{
-  return variant === 'mobile' ? (
-    <MobileProjectDetails {...rest} />
-  ) : (
-    <DesktopProjectDetails {...rest} />
-  )
-}

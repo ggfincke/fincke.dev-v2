@@ -8,7 +8,7 @@ import { SkillPill } from '~/shared/components/ui/SkillPill'
 // props for technology pills
 interface TechPillsProps
 {
-  technologies: TechnologyId[]
+  technologies: readonly TechnologyId[]
   maxVisible?: number
   size?: 'xs' | 'sm' | 'md'
   showProjectsOnHover?: boolean
@@ -28,15 +28,27 @@ export function TechPills({
   as: Wrapper = 'div',
 }: TechPillsProps)
 {
+  const rendersList = Wrapper === 'ul'
+  const visibleCount =
+    maxVisible !== undefined ? Math.max(maxVisible, 0) : undefined
   const visible =
-    maxVisible !== undefined ? technologies.slice(0, maxVisible) : technologies
+    visibleCount !== undefined
+      ? technologies.slice(0, visibleCount)
+      : technologies
   const overflowCount =
-    maxVisible !== undefined ? technologies.length - maxVisible : 0
+    visibleCount !== undefined
+      ? Math.max(technologies.length - visibleCount, 0)
+      : 0
+  const overflowLabel = (
+    <span className="inline-flex shrink-0 items-center whitespace-nowrap text-xs text-[var(--muted)]">
+      +{overflowCount} more
+    </span>
+  )
 
   return (
     <Wrapper className={className}>
       {visible.map((technologyId) =>
-        Wrapper === 'ul' ? (
+        rendersList ? (
           <li key={technologyId}>
             <SkillPill
               technologyId={technologyId}
@@ -55,11 +67,8 @@ export function TechPills({
           />
         )
       )}
-      {overflowCount > 0 && (
-        <span className="inline-flex shrink-0 items-center whitespace-nowrap text-xs text-[var(--muted)]">
-          +{overflowCount} more
-        </span>
-      )}
+      {overflowCount > 0 &&
+        (rendersList ? <li>{overflowLabel}</li> : overflowLabel)}
     </Wrapper>
   )
 }

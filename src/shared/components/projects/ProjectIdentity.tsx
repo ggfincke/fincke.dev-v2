@@ -14,7 +14,7 @@ type ProjectIdentityVariant = 'featured' | 'archive'
 interface ProjectIdentityProps
 {
   title: string
-  collaborators?: Collaborator[]
+  collaborators?: readonly Collaborator[]
   variant: ProjectIdentityVariant
   hasExternalLink?: boolean
   titleAs?: ElementType

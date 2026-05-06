@@ -7,7 +7,7 @@ import {
   getLinkPolicy,
   shouldFailLinkCheck,
   shouldRetryWithGet,
-} from '../scripts/lib/linkPolicy'
+} from '~/scripts/lib/linkPolicy'
 
 describe('link policy', () =>
 {

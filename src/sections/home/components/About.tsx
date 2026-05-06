@@ -33,7 +33,7 @@ export function About()
 {
   return (
     <section
-      aria-label="About"
+      aria-label={ABOUT_CONTENT.heading}
       className="animate-slide-in-left opacity-0"
       style={{ animationDelay: ANIMATION_DELAYS.about }}
     >
@@ -46,11 +46,11 @@ export function About()
         </p>
       ))}
       <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
-        Would love to collaborate or chat! Reach me at{' '}
+        {ABOUT_CONTENT.contact.prefix}
         <InlineLink href={`mailto:${ABOUT_CONTENT.email}`}>
           {ABOUT_CONTENT.email}
         </InlineLink>
-        .
+        {ABOUT_CONTENT.contact.suffix}
       </p>
     </section>
   )

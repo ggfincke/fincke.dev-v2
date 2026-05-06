@@ -23,7 +23,10 @@ import {
 import { ProjectExpansionPanel } from '~/sections/projects-archive/components/ProjectExpansionPanel'
 import { ProjectMobileCard } from '~/sections/projects-archive/components/ProjectMobileCard'
 import { ProjectTableRow } from '~/sections/projects-archive/components/ProjectTableRow'
-import { ProjectExpandedDetails } from '~/sections/projects-archive/components/ProjectExpandedDetails'
+import {
+  DesktopProjectDetails,
+  MobileProjectDetails,
+} from '~/sections/projects-archive/components/ProjectExpandedDetails'
 import { SortableHeader } from '~/sections/projects-archive/components/SortableHeader'
 import { getProjectViewModel } from '~/shared/utils/projectViewModel'
 
@@ -80,10 +83,9 @@ export function ProjectsTable()
                   id={viewModel.detailsId}
                   label={viewModel.detailsLabel}
                 >
-                  <ProjectExpandedDetails
+                  <MobileProjectDetails
                     project={project}
                     viewModel={viewModel}
-                    variant="mobile"
                   />
                 </ProjectExpansionPanel>
               </div>
@@ -166,10 +168,9 @@ export function ProjectsTable()
                     id={viewModel.detailsId}
                     label={viewModel.detailsLabel}
                   >
-                    <ProjectExpandedDetails
+                    <DesktopProjectDetails
                       project={project}
                       viewModel={viewModel}
-                      variant="desktop"
                     />
                   </ProjectExpansionPanel>
                 </td>
