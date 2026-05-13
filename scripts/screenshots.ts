@@ -1,6 +1,6 @@
 // scripts/screenshots.ts
 // takes full-page screenshots of the site at various viewport sizes
-// Usage: npm run screenshots (requires dev server). Override w/ BASE_URL or
+// Usage: bun run screenshots (requires dev server). Override w/ BASE_URL or
 // PORT (default 5173). Use --smoke for CI-friendly route smoke screenshots.
 
 import { chromium } from 'playwright'
@@ -121,7 +121,7 @@ async function captureViewport(
       }
 
       // wait for the staggered fade-in to settle. networkidle resolves before
-      // lazy route chunks mount, and `useMediaQuery` can briefly toggle the
+      // lazy route chunks mount, & `useMediaQuery` can briefly toggle the
       // mobile/desktop branch — both push real animation start past any fixed
       // timer. instead, wait for at least one row, then drain every finite
       // animation, polling across frames so late mounts get caught too.

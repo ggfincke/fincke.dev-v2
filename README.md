@@ -59,14 +59,13 @@ fincke.dev-v2/
 
 ### Prerequisites
 
-- Node.js 20+
-- npm 10+
+- Bun 1.3+
 
 ### Setup
 
 ```bash
-npm install
-npm run dev
+bun install
+bun run dev
 ```
 
 Then open `http://localhost:5173`.
@@ -84,28 +83,28 @@ notes, so do not depend on it for repository source-of-truth documentation.
 
 ### Deterministic Checks
 
-- `npm run format:check` - Prettier validation without rewriting files
-- `npm run lint` - ESLint across app, scripts, and tests
-- `npm run typecheck` - TypeScript project references for app, scripts, and tests
-- `npm test` - Vitest in single-run mode
-- `npm run validate-assets` - Runtime/deployment/retained asset validation
-- `npm run bundle` - Vite production bundle only
-- `npm run build` - TypeScript validation + Vite production bundle
-- `npm run ci:check` - Main CI gate: format check, lint, typecheck, tests, asset validation, and bundle
-- `npm run browser:check` - Browser route gate: axe accessibility, Lighthouse, and smoke screenshots against a running preview server
+- `bun run format:check` - Prettier validation without rewriting files
+- `bun run lint` - ESLint across app, scripts, and tests
+- `bun run typecheck` - TypeScript project references for app, scripts, and tests
+- `bun run test` - Vitest in single-run mode
+- `bun run validate-assets` - Runtime/deployment/retained asset validation
+- `bun run bundle` - Vite production bundle only
+- `bun run build` - TypeScript validation + Vite production bundle
+- `bun run ci:check` - Main CI gate: format check, lint, typecheck, tests, asset validation, and bundle
+- `bun run browser:check` - Browser route gate: axe accessibility, Lighthouse, and smoke screenshots against a running preview server
 
 ### Live / Manual Checks
 
-- `npm run check-links` - Live external-link verification with host-aware soft/hard failure policy
-- `npm run content:health` - Asset validation + live link check
-- `npm run audit:accessibility` - Axe accessibility audit for every public route
-  Requires `npm run build && npm run preview` on `http://localhost:4173`
-- `npm run screenshots` - Playwright screenshot sweep
-  Requires `npm run dev` on `http://localhost:5173`
-- `npm run screenshots:smoke` - CI-friendly route smoke screenshots
+- `bun run check-links` - Live external-link verification with host-aware soft/hard failure policy
+- `bun run content:health` - Asset validation + live link check
+- `bun run audit:accessibility` - Axe accessibility audit for every public route
+  Requires `bun run build && bun run preview` on `http://localhost:4173`
+- `bun run screenshots` - Playwright screenshot sweep
+  Requires `bun run dev` on `http://localhost:5173`
+- `bun run screenshots:smoke` - CI-friendly route smoke screenshots
   Requires a dev or preview server; CI runs it against `http://localhost:4173`
-- `npm run lighthouse` - Lighthouse audits for public routes
-  Requires `npm run build && npm run preview` on `http://localhost:4173`
+- `bun run lighthouse` - Lighthouse audits for public routes
+  Requires `bun run build && bun run preview` on `http://localhost:4173`
 
 ## Updating Content
 
@@ -142,16 +141,16 @@ Project, work, and education IDs are contract-tested against their authored arra
 
 ## Automation Notes
 
-- CI and release workflows both run `npm run ci:check`
-- CI also runs a browser verification job after `ci:check`; it builds the app, serves Vite preview, then runs `npm run browser:check`
-- A separate scheduled/manual GitHub Actions workflow runs `npm run content:health`
+- CI and release workflows both run `bun run ci:check`
+- CI also runs a browser verification job after `ci:check`; it builds the app, serves Vite preview, then runs `bun run browser:check`
+- A separate scheduled/manual GitHub Actions workflow runs `bun run content:health`
 - The full screenshot sweep remains manual review; CI only captures the lightweight smoke screenshot matrix
 - Release tags must be reachable from `main`
 - Stable release tags open a pull request that promotes the exact tagged commit to `prod`
 
 ## Deployment
 
-`main` is the integration branch. `prod` is the production branch and should be the Cloudflare production deployment source. Stable `v*` tags open a pull request to promote the tagged commit to `prod`; prerelease tags create GitHub prereleases without moving production. Generate a static bundle with `npm run build` and deploy the `dist/` output to the static host of your choice.
+`main` is the integration branch. `prod` is the production branch and should be the Cloudflare production deployment source. Stable `v*` tags open a pull request to promote the tagged commit to `prod`; prerelease tags create GitHub prereleases without moving production. Generate a static bundle with `bun run build` and deploy the `dist/` output to the static host of your choice.
 
 ## Contributing
 
