@@ -26,9 +26,73 @@ jobs:
       - run: bun ci
       - run: bun run ci:check
 
-      - name: Push stable release to prod branch
+      - name: Promote stable release to prod branch
         if: ${{ !contains(github.ref_name, '-') }}
-        run: git push origin HEAD:prod --force
+        run: |
+          git fetch --prune --tags origin \
+            +refs/heads/main:refs/remotes/origin/main \
+            +refs/heads/prod:refs/remotes/origin/prod
+
+          stable_tags="$(
+            git tag --merged origin/main --list 'v[0-9]*' --sort=v:refname |
+              grep -Ev '-' ||
+              true
+          )"
+          latest_stable_tag="$(printf '%s\n' "$stable_tags" | tail -n 1)"
+
+          if [ -z "$latest_stable_tag" ]; then
+            echo '::error::No stable release tags were found on main.'
+            exit 1
+          fi
+
+          if [ "$GITHUB_REF_NAME" != "$latest_stable_tag" ]; then
+            echo "Skipping prod promotion for ${GITHUB_REF_NAME}; latest stable tag is ${latest_stable_tag}."
+            exit 0
+          fi
+
+          if git diff --quiet origin/prod HEAD; then
+            echo "prod already matches ${GITHUB_REF_NAME}; no promotion needed."
+            exit 0
+          fi
+
+          if git merge-base --is-ancestor HEAD origin/prod; then
+            echo "prod already contains ${GITHUB_REF_NAME}; no promotion needed."
+            exit 0
+          fi
+
+          if git merge-base --is-ancestor origin/prod HEAD; then
+            git push origin HEAD:prod
+            exit 0
+          fi
+
+          prod_tree="$(git rev-parse 'origin/prod^{tree}')"
+          matching_prod_tree_commit=''
+
+          while IFS= read -r commit; do
+            if [ "$(git rev-parse "${commit}^{tree}")" = "$prod_tree" ]; then
+              matching_prod_tree_commit="$commit"
+              break
+            fi
+          done < <(git rev-list HEAD)
+
+          if [ -z "$matching_prod_tree_commit" ]; then
+            echo "::error::origin/prod does not match an ancestor of ${GITHUB_REF_NAME}; refusing promotion."
+            exit 1
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          promotion_commit="$(
+            git commit-tree \
+              'HEAD^{tree}' \
+              -p origin/prod \
+              -p HEAD \
+              -m "Promote ${GITHUB_REF_NAME} to prod"
+          )"
+
+          echo "Promoting ${GITHUB_REF_NAME} after $(git rev-parse --short "$matching_prod_tree_commit")."
+          git push origin "${promotion_commit}:prod"
 
       - name: Get version from tag
         id: version
