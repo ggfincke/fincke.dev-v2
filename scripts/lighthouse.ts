@@ -1,6 +1,6 @@
 // scripts/lighthouse.ts
 // runs Lighthouse audits on both routes & outputs scores + HTML reports
-// Usage: npm run lighthouse (requires "npm run preview" on localhost:4173)
+// Usage: bun run lighthouse (requires "bun run preview" on localhost:4173)
 // Lighthouse needs a production build for accurate scores; reduced motion keeps
 // delayed entrance animations from hiding all initial content from FCP detection.
 
@@ -48,7 +48,7 @@ async function main()
 {
   await requireRunningServer(
     BASE_URL,
-    'Run "npm run build && npm run preview" first, then try again.'
+    'Run "bun run build && bun run preview" first, then try again.'
   )
 
   mkdirSync(REPORTS_DIR, { recursive: true })

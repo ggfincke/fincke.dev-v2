@@ -35,7 +35,7 @@ async function main()
 {
   await requireRunningServer(
     BASE_URL,
-    'Run "npm run build && npm run preview" first, then try again.'
+    'Run "bun run build && bun run preview" first, then try again.'
   )
 
   mkdirSync(REPORTS_DIR, { recursive: true })

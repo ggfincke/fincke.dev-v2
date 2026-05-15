@@ -1,6 +1,6 @@
 // scripts/check-links.ts
 // validates external URLs from content, metadata, & deployment files
-// Usage: npm run check-links
+// Usage: bun run check-links
 
 import type { ExternalUrlReference } from '~/scripts/lib/contentInventory'
 

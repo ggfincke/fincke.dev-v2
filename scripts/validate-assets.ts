@@ -1,6 +1,6 @@
 // scripts/validate-assets.ts
 // validates local runtime/deployment assets & classifies retained/orphaned files
-// Usage: npm run validate-assets
+// Usage: bun run validate-assets
 
 import { validateAssetInventory } from '~/scripts/lib/assetValidation'
 import { formatSources, printSection } from '~/scripts/lib/cliFormat'

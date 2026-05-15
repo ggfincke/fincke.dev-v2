@@ -209,15 +209,15 @@ Typed contracts live under `src/shared/types/`.
 
 ### Deterministic Checks
 
-- `npm run format:check`
-- `npm run lint`
-- `npm run typecheck`
-- `npm test`
-- `npm run validate-assets`
-- `npm run bundle`
-- `npm run build`
-- `npm run ci:check`
-- `npm run browser:check`
+- `bun run format:check`
+- `bun run lint`
+- `bun run typecheck`
+- `bun run test`
+- `bun run validate-assets`
+- `bun run bundle`
+- `bun run build`
+- `bun run ci:check`
+- `bun run browser:check`
 
 `ci:check` is the primary CI/release gate. It runs each expensive concern once: formatting, linting, type checking, tests, asset validation, and production bundling.
 
@@ -228,17 +228,17 @@ deterministic check job.
 
 ### Live and Manual Checks
 
-- `npm run check-links`
+- `bun run check-links`
   Live external-link validation
-- `npm run content:health`
+- `bun run content:health`
   Asset validation plus live link check
-- `npm run audit:accessibility`
+- `bun run audit:accessibility`
   Axe accessibility audit against every public route
-- `npm run screenshots`
+- `bun run screenshots`
   Full Playwright route/viewport capture against the dev server
-- `npm run screenshots:smoke`
+- `bun run screenshots:smoke`
   Lightweight Playwright route/viewport capture for CI browser smoke coverage
-- `npm run lighthouse`
+- `bun run lighthouse`
   Reduced-motion Lighthouse audits against the preview server
 
 ### Script Sources of Truth

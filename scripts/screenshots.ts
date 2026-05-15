@@ -1,6 +1,6 @@
 // scripts/screenshots.ts
 // takes full-page screenshots of the site at various viewport sizes
-// Usage: npm run screenshots (requires dev server). Override w/ BASE_URL or
+// Usage: bun run screenshots (requires dev server). Override w/ BASE_URL or
 // PORT (default 5173). Use --smoke for CI-friendly route smoke screenshots.
 
 import { chromium } from 'playwright'
