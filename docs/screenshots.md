@@ -7,19 +7,19 @@ This repo uses the built-in Playwright screenshot script in `scripts/screenshots
 1. Install dependencies:
 
    ```bash
-   npm install
+   bun install
    ```
 
 2. Start the dev server:
 
    ```bash
-   npm run dev
+   bun run dev
    ```
 
 3. Run the screenshot sweep in another terminal:
 
    ```bash
-   npm run screenshots
+   bun run screenshots
    ```
 
 The script expects the dev server at `http://localhost:5173`.
@@ -27,7 +27,7 @@ The script expects the dev server at `http://localhost:5173`.
 For a lightweight route smoke pass, run:
 
 ```bash
-npm run screenshots:smoke
+bun run screenshots:smoke
 ```
 
 Smoke mode captures a small representative viewport matrix and uses reduced
@@ -64,7 +64,7 @@ Use screenshot runs for manual regression review of:
 
 ## Important Notes
 
-- `npm run screenshots` is the full manual review tool and is not part of `npm run ci:check`
-- CI runs `npm run screenshots:smoke` as part of the separate browser verification job
+- `bun run screenshots` is the full manual review tool and is not part of `bun run ci:check`
+- CI runs `bun run screenshots:smoke` as part of the separate browser verification job
 - The screenshot script polls until the local server is reachable before capturing
-- For production-style route audits, use `npm run build && npm run preview` plus `npm run browser:check`
+- For production-style route audits, use `bun run build && bun run preview` plus `bun run browser:check`

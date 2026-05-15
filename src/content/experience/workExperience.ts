@@ -22,8 +22,8 @@ export const WORK_EXPERIENCE = deepFreeze([
       isCurrent: true,
     },
     description:
-      'On-premises AI tooling for nuclear engineering workflows. Building Python/FastAPI services around an internal document index and prototyping LLM-augmented retrieval with source-grounded outputs.',
-    technologies: ['python', 'fastapi', 'ollama'],
+      'Python/FastAPI service over an isolated Oracle Document Index: Active Directory auth, per-project authorization, and rate limiting, plus source-grounded retrieval to an internal agentic AI platform for LLM-assisted I&C engineering.',
+    technologies: ['python', 'go', 'fastapi'],
   },
   {
     id: 'scale-ai-software-engineer-contract',
@@ -41,7 +41,13 @@ export const WORK_EXPERIENCE = deepFreeze([
     },
     description:
       'Python evaluation harnesses for LLM-generated code: sandboxed Docker execution, automated linting and test orchestration to measure pass@k, plus schema-versioned data pipelines for reproducible validation.',
-    technologies: ['python', 'typescript', 'data-pipelines', 'llm-evaluation'],
+    technologies: [
+      'python',
+      'typescript',
+      'docker',
+      'data-pipelines',
+      'llm-evaluation',
+    ],
     link: 'https://medium.com/@ggfincke/how-pass-k-is-used-to-evaluate-llm-coding-performance-296e5c4565bc',
   },
 ] satisfies WorkExperience[])

@@ -7,12 +7,11 @@ import { cn, ICON_LINK_CLASSES } from '~/shared/utils/classNames'
 import { getNewTabLinkProps } from '~/shared/utils/linkProps'
 
 // props for icon link
-interface IconLinkProps
-  extends Omit<
-    AnchorHTMLAttributes<HTMLAnchorElement>,
-    'aria-label' | 'children' | 'className' | 'href' | 'rel' | 'target'
-  >
-  {
+interface IconLinkProps extends Omit<
+  AnchorHTMLAttributes<HTMLAnchorElement>,
+  'aria-label' | 'children' | 'className' | 'href' | 'rel' | 'target'
+>
+{
   href: string
   label: string
   children: ReactNode
