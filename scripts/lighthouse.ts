@@ -3,6 +3,8 @@
 // Usage: bun run lighthouse (requires "bun run preview" on localhost:4173)
 // Lighthouse needs a production build for accurate scores; reduced motion keeps
 // delayed entrance animations from hiding all initial content from FCP detection.
+// The CI gate uses desktop/provided throttling so scores track the preview run
+// instead of shared-runner CPU simulation variance.
 
 import { launch } from 'chrome-launcher'
 import lighthouse from 'lighthouse'
@@ -33,6 +35,14 @@ const SCORE_THRESHOLDS: Record<LighthouseCategory, number> = {
   'best-practices': 95,
   seo: 100,
 }
+
+const LIGHTHOUSE_SCREEN_EMULATION = {
+  mobile: false,
+  width: 1350,
+  height: 940,
+  deviceScaleFactor: 1,
+  disabled: false,
+} as const
 
 type LighthouseCategory = (typeof CATEGORIES)[number]
 
@@ -130,6 +140,9 @@ async function auditRoute(
     output: 'html',
     logLevel: 'error',
     onlyCategories: [...CATEGORIES],
+    formFactor: 'desktop',
+    screenEmulation: LIGHTHOUSE_SCREEN_EMULATION,
+    throttlingMethod: 'provided',
   })
 
   const emptyScores = Object.fromEntries(
