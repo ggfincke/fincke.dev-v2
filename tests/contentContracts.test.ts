@@ -61,8 +61,8 @@ function hasProjectLinks(project: Project): boolean
 {
   return Boolean(
     project.repoUrl ||
-      project.liveUrl ||
-      (project.additionalLinks && project.additionalLinks.length > 0)
+    project.liveUrl ||
+    (project.additionalLinks && project.additionalLinks.length > 0)
   )
 }
 
