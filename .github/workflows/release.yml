@@ -66,14 +66,9 @@ jobs:
           fi
 
           prod_tree="$(git rev-parse 'origin/prod^{tree}')"
-          matching_prod_tree_commit=''
-
-          while IFS= read -r commit; do
-            if [ "$(git rev-parse "${commit}^{tree}")" = "$prod_tree" ]; then
-              matching_prod_tree_commit="$commit"
-              break
-            fi
-          done < <(git rev-list HEAD)
+          matching_prod_tree_commit="$(
+            git log --format='%H %T' HEAD | awk -v t="$prod_tree" '$2==t{print $1; exit}'
+          )"
 
           if [ -z "$matching_prod_tree_commit" ]; then
             echo "::error::origin/prod does not match an ancestor of ${GITHUB_REF_NAME}; refusing promotion."

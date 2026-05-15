@@ -152,6 +152,8 @@ Project, work, and education IDs are contract-tested against their authored arra
 
 `main` is the integration branch. `prod` is the production branch and should be the Cloudflare production deployment source. Stable `v*` tags open a pull request to promote the tagged commit to `prod`; prerelease tags create GitHub prereleases without moving production. Generate a static bundle with `bun run build` and deploy the `dist/` output to the static host of your choice.
 
+Cloudflare Pages must use `bun install --frozen-lockfile && bun run build` as the build command. The v3 build image installs Bun from `BUN_VERSION` / `packageManager`, but it does not automatically install dependencies from `bun.lock`, so the explicit install keeps devDependencies available for the TypeScript build.
+
 ## Contributing
 
 This is a personal portfolio repo and is not accepting feature PRs. Feel free to fork the structure for your own site.
