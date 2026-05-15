@@ -26,9 +26,8 @@ export const appRoutes: RouteObject[] = [
         path: PUBLIC_ROUTE_CHILD_PATHS.projects,
         lazy: async () =>
         {
-          const { ProjectsArchivePage } = await import(
-            '~/sections/projects-archive/pages/ProjectsArchivePage'
-          )
+          const { ProjectsArchivePage } =
+            await import('~/sections/projects-archive/pages/ProjectsArchivePage')
           return { Component: ProjectsArchivePage }
         },
       },
