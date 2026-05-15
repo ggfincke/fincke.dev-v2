@@ -239,7 +239,7 @@ deterministic check job.
 - `bun run screenshots:smoke`
   Lightweight Playwright route/viewport capture for CI browser smoke coverage
 - `bun run lighthouse`
-  Reduced-motion Lighthouse audits against the preview server
+  Reduced-motion desktop Lighthouse audits against the preview server
 
 ### Script Sources of Truth
 

@@ -103,7 +103,7 @@ notes, so do not depend on it for repository source-of-truth documentation.
   Requires `bun run dev` on `http://localhost:5173`
 - `bun run screenshots:smoke` - CI-friendly route smoke screenshots
   Requires a dev or preview server; CI runs it against `http://localhost:4173`
-- `bun run lighthouse` - Lighthouse audits for public routes
+- `bun run lighthouse` - Desktop Lighthouse audits for public routes
   Requires `bun run build && bun run preview` on `http://localhost:4173`
 
 ## Updating Content
