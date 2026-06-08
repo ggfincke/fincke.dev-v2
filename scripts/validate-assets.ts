@@ -2,9 +2,54 @@
 // validates local runtime/deployment assets & classifies retained/orphaned files
 // Usage: bun run validate-assets
 
-import { validateAssetInventory } from '~/scripts/lib/assetValidation'
+import {
+  validateAssetInventory,
+  type ClassifiedPublicFile,
+  type MissingLocalFile,
+} from '~/scripts/lib/assetValidation'
 import { formatSources, printSection } from '~/scripts/lib/cliFormat'
-import { getContentInventory } from '~/scripts/lib/contentInventory'
+import {
+  getContentInventory,
+  type LocalFileReference,
+} from '~/scripts/lib/contentInventory'
+
+function printFileSection<T>(
+  title: string,
+  files: readonly T[],
+  formatFile: (file: T) => string
+): void
+{
+  printSection(`${title} (${files.length})`)
+  for (const file of files)
+  {
+    console.log(formatFile(file))
+  }
+}
+
+function formatFoundAsset(file: LocalFileReference): string
+{
+  return `  OK  ${file.path}  (${formatSources(file.sources)})`
+}
+
+function formatBlockingMissingAsset(file: MissingLocalFile): string
+{
+  return `  !!  ${file.path}  [${file.category}; ${file.storage}]  (${formatSources(file.sources)})`
+}
+
+function formatRetainedMissingAsset(file: MissingLocalFile): string
+{
+  return `  ??  ${file.path}  [${file.category}; ${file.storage}]  (${formatSources(file.sources)})`
+}
+
+function formatOrphanedAsset(file: ClassifiedPublicFile): string
+{
+  return `  !!  ${file.path}  (${file.sizeBytes} bytes)`
+}
+
+function formatIgnoredAsset(file: ClassifiedPublicFile): string
+{
+  return `  --  ${file.path}`
+}
 
 function main()
 {
@@ -27,35 +72,29 @@ function main()
     result.sitemap.missingUrls.length > 0 ||
     result.sitemap.extraUrls.length > 0
 
-  printSection(`Found Runtime Assets (${foundByCategory.runtime.length})`)
-  for (const file of foundByCategory.runtime)
-  {
-    console.log(`  OK  ${file.path}  (${formatSources(file.sources)})`)
-  }
-
-  printSection(`Found Deployment Assets (${foundByCategory.deployment.length})`)
-  for (const file of foundByCategory.deployment)
-  {
-    console.log(`  OK  ${file.path}  (${formatSources(file.sources)})`)
-  }
-
-  printSection(`Found Retained Assets (${foundByCategory.retained.length})`)
-  for (const file of foundByCategory.retained)
-  {
-    console.log(`  OK  ${file.path}  (${formatSources(file.sources)})`)
-  }
+  printFileSection(
+    'Found Runtime Assets',
+    foundByCategory.runtime,
+    formatFoundAsset
+  )
+  printFileSection(
+    'Found Deployment Assets',
+    foundByCategory.deployment,
+    formatFoundAsset
+  )
+  printFileSection(
+    'Found Retained Assets',
+    foundByCategory.retained,
+    formatFoundAsset
+  )
 
   if (blockingMissing.length > 0)
   {
-    printSection(
-      `Missing Runtime / Deployment Assets (${blockingMissing.length})`
+    printFileSection(
+      'Missing Runtime / Deployment Assets',
+      blockingMissing,
+      formatBlockingMissingAsset
     )
-    for (const file of blockingMissing)
-    {
-      console.log(
-        `  !!  ${file.path}  [${file.category}; ${file.storage}]  (${formatSources(file.sources)})`
-      )
-    }
   }
   else
   {
@@ -64,13 +103,11 @@ function main()
 
   if (retainedMissing.length > 0)
   {
-    printSection(`Missing Retained Assets (${retainedMissing.length})`)
-    for (const file of retainedMissing)
-    {
-      console.log(
-        `  ??  ${file.path}  [${file.category}; ${file.storage}]  (${formatSources(file.sources)})`
-      )
-    }
+    printFileSection(
+      'Missing Retained Assets',
+      retainedMissing,
+      formatRetainedMissingAsset
+    )
   }
   else
   {
@@ -79,11 +116,7 @@ function main()
 
   if (result.orphaned.length > 0)
   {
-    printSection(`Unexpected Orphans (${result.orphaned.length})`)
-    for (const file of result.orphaned)
-    {
-      console.log(`  !!  ${file.path}  (${file.sizeBytes} bytes)`)
-    }
+    printFileSection('Unexpected Orphans', result.orphaned, formatOrphanedAsset)
   }
   else
   {
@@ -92,11 +125,7 @@ function main()
 
   if (result.ignored.length > 0)
   {
-    printSection(`Ignored Files (${result.ignored.length})`)
-    for (const file of result.ignored)
-    {
-      console.log(`  --  ${file.path}`)
-    }
+    printFileSection('Ignored Files', result.ignored, formatIgnoredAsset)
   }
 
   printSection('Deployment Metadata')
