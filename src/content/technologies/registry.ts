@@ -46,6 +46,8 @@ const TECHNOLOGIES = [
   { id: 'cloudwatch', label: 'CloudWatch', category: 'infra' },
   { id: 'cnn', label: 'CNN', category: 'data' },
   { id: 'comlink', label: 'Comlink', category: 'framework' },
+  { id: 'commander', label: 'Commander', category: 'tooling' },
+  { id: 'convex', label: 'Convex', category: 'infra' },
   { id: 'core-data', label: 'Core Data', category: 'framework' },
   {
     id: 'custom-shapes',
@@ -101,6 +103,7 @@ const TECHNOLOGIES = [
   { id: 'gradle', label: 'Gradle', category: 'tooling' },
   { id: 'h2', label: 'H2', category: 'infra' },
   { id: 'healthkit', label: 'HealthKit', category: 'framework' },
+  { id: 'hono', label: 'Hono', category: 'framework' },
   {
     id: 'html-to-image',
     label: 'html-to-image',
@@ -134,10 +137,12 @@ const TECHNOLOGIES = [
   },
   { id: 'mermaid', label: 'Mermaid', category: 'tooling' },
   { id: 'metamask', label: 'MetaMask', category: 'tooling' },
+  { id: 'mips-assembly', label: 'MIPS Assembly', category: 'language' },
   { id: 'mistral', label: 'Mistral', category: 'data' },
   { id: 'mvc-mvvm', label: 'MVC/MVVM', category: 'framework' },
   { id: 'networking', label: 'Networking', category: 'platform' },
   { id: 'next-js', label: 'Next.js', category: 'framework' },
+  { id: 'ninja', label: 'Ninja', category: 'tooling' },
   { id: 'node-js', label: 'Node.js', category: 'platform' },
   { id: 'numpy', label: 'NumPy', category: 'data' },
   { id: 'ollama', label: 'Ollama', category: 'data' },
@@ -162,6 +167,7 @@ const TECHNOLOGIES = [
     aliases: ['Postgres'],
   },
   { id: 'prettier', label: 'Prettier', category: 'tooling' },
+  { id: 'prisma', label: 'Prisma', category: 'framework' },
   { id: 'pwa', label: 'PWA', category: 'platform' },
   { id: 'python', label: 'Python', category: 'language' },
   {
@@ -171,9 +177,16 @@ const TECHNOLOGIES = [
   },
   { id: 'rcon', label: 'RCON', category: 'infra' },
   { id: 'react', label: 'React', category: 'framework' },
+  { id: 'react-easy-crop', label: 'react-easy-crop', category: 'framework' },
+  { id: 'react-ink', label: 'React Ink', category: 'framework' },
   { id: 'react-router', label: 'React Router', category: 'framework' },
   { id: 'redis', label: 'Redis', category: 'infra' },
   { id: 'resnet', label: 'ResNet', category: 'data' },
+  {
+    id: 'reverse-engineering',
+    label: 'Reverse Engineering',
+    category: 'platform',
+  },
   { id: 'rich', label: 'Rich', category: 'tooling' },
   { id: 's3', label: 'S3', category: 'infra' },
   {
@@ -213,6 +226,7 @@ const TECHNOLOGIES = [
     label: 'Swift Charts',
     category: 'framework',
   },
+  { id: 'swiftdata', label: 'SwiftData', category: 'framework' },
   { id: 'swiftui', label: 'SwiftUI', category: 'framework' },
   {
     id: 'systems-programming',
@@ -263,6 +277,7 @@ const TECHNOLOGIES = [
     label: 'Xilinx Vivado',
     category: 'tooling',
   },
+  { id: 'zod', label: 'Zod', category: 'framework' },
   { id: 'zustand', label: 'Zustand', category: 'framework' },
 ] as const satisfies readonly TechnologyDefinition<string>[]
 
