@@ -67,3 +67,16 @@ export function getStaggerStyle(
 {
   return { animationDelay: staggerDelay(base, step, index) }
 }
+
+// className + style pair for a staggered slide-in entrance
+export function getStaggerProps(
+  base: number,
+  step: number,
+  index: number
+): { className: string; style: { animationDelay: string } }
+{
+  return {
+    className: 'animate-slide-in-up opacity-0',
+    style: getStaggerStyle(base, step, index),
+  }
+}
