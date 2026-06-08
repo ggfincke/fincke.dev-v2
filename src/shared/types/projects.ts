@@ -6,6 +6,7 @@ import type { DateSpan } from '~/shared/types/dates'
 
 // known project entry ids
 export const PROJECT_IDS = [
+  'coral',
   'tierlistbuilder',
   'mdx-preview-for-vs-code',
   'opencode-to-ccusage',
@@ -14,7 +15,9 @@ export const PROJECT_IDS = [
   'portfolio-website-v2',
   'minecart',
   'hopper',
+  'ff7-decomp',
   'loom',
+  'conduit',
   'trackbasket',
   'portfolio-website-v1',
   'instock',

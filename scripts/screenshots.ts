@@ -1,7 +1,6 @@
 // scripts/screenshots.ts
-// takes full-page screenshots of the site at various viewport sizes
-// Usage: bun run screenshots (requires dev server). Override w/ BASE_URL or
-// PORT (default 5173). Use --smoke for CI-friendly route smoke screenshots.
+// full-page screenshots at various viewports; --smoke = CI route subset
+// Usage: bun run screenshots [--smoke] (port: dev 5173 / smoke 4173; override w/ BASE_URL or PORT)
 
 import { chromium } from 'playwright'
 import { mkdirSync, statSync } from 'node:fs'
@@ -9,6 +8,7 @@ import { join } from 'node:path'
 import { mapWithConcurrency } from '~/scripts/lib/async'
 import {
   DEFAULT_DEV_PORT,
+  DEFAULT_PREVIEW_PORT,
   getLocalBaseUrl,
   getRouteUrl,
   PLAYWRIGHT_LAUNCH_ARGS,
@@ -19,8 +19,10 @@ import { requireRunningServer } from '~/scripts/lib/devServer'
 import { PUBLIC_ROUTES } from '~/scripts/lib/siteManifest'
 import { MAX_ANIMATION_DURATION_MS } from '~/shared/utils/animationConfig'
 
-const BASE_URL = getLocalBaseUrl(DEFAULT_DEV_PORT)
 const SCREENSHOT_MODE = process.argv.includes('--smoke') ? 'smoke' : 'full'
+const DEFAULT_SCREENSHOT_PORT =
+  SCREENSHOT_MODE === 'smoke' ? DEFAULT_PREVIEW_PORT : DEFAULT_DEV_PORT
+const BASE_URL = getLocalBaseUrl(DEFAULT_SCREENSHOT_PORT)
 const OUT_DIR = join(
   SCREENSHOTS_DIR,
   SCREENSHOT_MODE === 'smoke' ? 'smoke' : ''

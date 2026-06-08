@@ -6,10 +6,53 @@ import { deepFreeze } from '~/shared/utils/deepFreeze'
 
 export const projects = deepFreeze([
   {
+    id: 'coral',
+    title: 'Coral',
+    tagline:
+      'Local-first CLI/TUI coding agent powered by Ollama — full agent loop, tool system, & React Ink interface.',
+    period: {
+      start: {
+        year: 2026,
+        month: 4,
+      },
+      isCurrent: true,
+    },
+    status: 'in-development',
+    madeFor: 'Personal',
+    contentStatus: {
+      links: {
+        availability: 'private',
+        note: 'Repository is private while the agent toolkit is in active development.',
+      },
+      media: {
+        availability: 'pending',
+        note: 'TUI screenshots will be captured once the interface stabilizes.',
+      },
+    },
+    bulletPoints: [
+      'Built a full agent loop w/ multi-turn reasoning & tool use (read/write/bash/grep/glob/git), cycling tool results until task completion',
+      'Implemented session persistence, conversation compaction, & per-model context sizing to sustain long-running tasks within token budgets',
+      'Designed permission-based tool access control (always-allow / require-approval / always-deny) via a layered .coral.json config hierarchy',
+      'Engineered a React Ink TUI w/ Markdown rendering, real-time token streaming, scrollable output, interactive model selection, theming, & keybindings',
+      'Organized as 11k+ LOC across 58 TypeScript files w/ Vitest coverage, an architecture guide, & a v2 roadmap (slash commands, LSP, MCP, plugins)',
+    ],
+    technologies: [
+      'typescript',
+      'react-ink',
+      'commander',
+      'ollama',
+      'node-js',
+      'vitest',
+      'eslint',
+      'prettier',
+      'cli',
+    ],
+  },
+  {
     id: 'tierlistbuilder',
     title: 'Tier List Builder',
     tagline:
-      'Local-first browser tier list builder w/ snapshot-based drag preview, multi-board workspace, & 7-format export pipeline.',
+      'Local-first tier list builder grown into a community ranking platform — drag-&-drop workspace, 7-format export, template marketplace, & public profiles.',
     period: {
       start: {
         year: 2026,
@@ -25,10 +68,12 @@ export const projects = deepFreeze([
     },
     bulletPoints: [
       'Built snapshot-based drag-and-drop on @dnd-kit w/ bulk multi-drag, fan-out FLIP animation, and a 3-state keyboard controller (browse, pickup, drag) for full keyboard interaction',
-      'Shipped multi-board workspace with autosave, labeled undo/redo with toast feedback, content-addressed IndexedDB image blobs, and storage-quota-aware resilience',
-      'Implemented 7-format export pipeline (PNG/JPEG/WebP/PDF/JSON/ZIP/clipboard) via off-screen render host, pako-compressed hash-fragment share links, and a read-only embed route',
-      'Added inline annotation editor, per-board aspect-ratio picker with auto-crop & shadow trim, image editor (crop/rotate/zoom), and token-driven theming (8 themes + 5 text styles) with a full color-wheel picker',
-      'Organized as a 3-layer (app/features/shared) architecture with a @tierlistbuilder/contracts workspace package, Zustand stores, Vitest + Playwright tests, and Cloudflare Workers PWA delivery',
+      'Shipped multi-board workspace w/ autosave, labeled undo/redo, content-addressed IndexedDB image blobs, grid virtualization for large boards, and storage-quota-aware resilience',
+      'Implemented 7-format export pipeline (PNG/JPEG/WebP/PDF/JSON/ZIP/clipboard) via off-screen render host, w/ hash-fragment & short-link share codecs plus a read-only embed route',
+      'Launched a community marketplace: template gallery, ranking detail & compare pages, multi-criterion consensus views (bars, heatmap, scatter), and publish/remix flows',
+      'Added public profiles (/u/:handle), a tier-list showcase editor, account settings, and email+password auth gating cloud-only actions',
+      'Built inline annotation editor, per-board aspect-ratio picker w/ auto-crop & shadow trim, image editor (crop/rotate/zoom), and token-driven theming (8 themes + 5 text styles)',
+      'Organized as feature modules (workspace, marketplace, social, library, embed) w/ a @tierlistbuilder/contracts package, Zustand stores, Vitest + Playwright tests, and Cloudflare Workers PWA delivery; Convex cloud backend in development',
     ],
     technologies: [
       'react',
@@ -40,6 +85,8 @@ export const projects = deepFreeze([
       'react-router',
       'html-to-image',
       'jspdf',
+      'react-easy-crop',
+      'convex',
       'cloudflare-workers',
       'pwa',
       'playwright',
@@ -53,7 +100,7 @@ export const projects = deepFreeze([
     id: 'mdx-preview-for-vs-code',
     title: 'MDX Preview for VS Code',
     tagline:
-      '3,500+ installs; Live MDX preview extension with dual-mode rendering and framework-aware component shims.',
+      '7,000+ installs; Live MDX preview extension with dual-mode rendering and framework-aware component shims.',
     period: {
       start: {
         year: 2026,
@@ -151,7 +198,10 @@ export const projects = deepFreeze([
         year: 2025,
         month: 11,
       },
-      isCurrent: true,
+      end: {
+        year: 2025,
+        month: 12,
+      },
     },
     status: 'paused',
     madeFor: 'Personal',
@@ -200,10 +250,12 @@ export const projects = deepFreeze([
     },
     bulletPoints: [
       'Built Django REST API with JWT auth, OpenAPI docs, and PostgreSQL + pgvector for semantic search and workout library retrieval',
-      'Implemented RAG-based workout generation using embeddings and LLM calls to personalize plans and surface curated sets',
-      'Developed SwiftUI iOS/watchOS apps with HealthKit workout capture, Apple Watch live metrics, and Swift Charts analytics',
-      'Added actor-based networking with token refresh, background sync, and offline-first workout tracking with secure Keychain storage',
-      'Created structured workout builder and paginated swim set library with iOS-to-watch sync via WatchConnectivity',
+      'Engineered a hybrid RAG pipeline — dense (pgvector) + lexical full-text retrieval fused w/ reciprocal-rank fusion — w/ source grounding, a versioned prompt registry, generation replay, and an eval harness',
+      'Modeled a planned-workout lifecycle bridging AI generation -> Apple Watch execution -> completed swim, w/ an adaptive UserFitnessState derived from execution history',
+      'Added a weekly training-intelligence layer: deterministic plan assembly, training-load analytics, a pre-swim readiness engine, and a technique drill catalog',
+      'Built swim-profile onboarding w/ learned/effective pace calibration per stroke, distance, and intensity',
+      'Developed SwiftUI iOS/watchOS apps w/ HealthKit capture, Apple Watch live metrics, Swift Charts analytics, and SwiftData local persistence',
+      'Added actor-based networking with token refresh, background sync, and offline-first tracking with secure Keychain storage',
     ],
     technologies: [
       'swift',
@@ -212,6 +264,7 @@ export const projects = deepFreeze([
       'healthkit',
       'watchconnectivity',
       'swift-charts',
+      'swiftdata',
       'django',
       'django-rest-framework',
       'postgresql',
@@ -267,7 +320,7 @@ export const projects = deepFreeze([
     id: 'minecart',
     title: 'Minecart',
     tagline:
-      'Discord bot for managing Minecraft servers across local Docker and AWS EC2 with multi-tenant support.',
+      'Web/API-first Minecraft server management platform — Hono REST API, React dashboard, & Docker/AWS EC2 hosting w/ a Discord companion.',
     period: {
       start: {
         year: 2025,
@@ -275,7 +328,7 @@ export const projects = deepFreeze([
       },
       isCurrent: true,
     },
-    status: 'live',
+    status: 'in-development',
     madeFor: 'Personal',
     feature: {
       tier: 'wide',
@@ -289,16 +342,24 @@ export const projects = deepFreeze([
       media: { availability: 'available' },
     },
     bulletPoints: [
-      'Built interactive Discord dashboards (buttons, modals, select menus) for status, start/stop/restart, logs, backups, and configuration',
-      'Implemented provider abstraction for local Docker and AWS EC2 with runtime switching, health checks, and live status via RCON and mcstatus.io',
-      'Added scheduling and automation for idle shutdown, scheduled start/stop windows, crash recovery, and automated backups with retention',
-      'Shipped multi-tenant controls: multi-server registration, role-based permissions (view/operate/admin/owner), channel bindings, and guild defaults',
-      'Delivered world and content management (multiple worlds, staging worlds, blue-green cutovers, Modrinth mods, resource packs, version switching)',
-      'Added monitoring and governance: performance metrics, audit logs, maintenance mode, usage metering/quotas, and optional S3 storage',
+      'Built a Hono REST API (20+ routes) w/ Zod-validated contracts, OpenAPI/Scalar docs, DI middleware, rate limiting, API keys, and webhooks as the primary management surface',
+      'Added a React/Vite/Tailwind web dashboard w/ Discord OAuth session auth (HttpOnly cookies, CSRF), server lists, a provider catalog, and provisioning flows',
+      'Streamed real-time provisioning progress over SSE (GET /v1/jobs/:id/stream) w/ a repository-backed event hub & heartbeats; PATCH/DELETE server CRUD w/ active-job guards and soft-delete',
+      'Implemented a provider abstraction for local Docker and AWS EC2 w/ runtime switching, health checks, and live status via RCON and mcstatus.io',
+      'Automated idle shutdown, scheduled start/stop windows, crash recovery, and backups with retention',
+      'Shipped multi-tenant controls: multi-server registration, role-based permissions (view/operate/admin/owner), channel bindings, usage metering/quotas, and audit logs',
+      'Kept a lightweight Discord companion (status, start/stop, player count, chat bridge) as advanced workflows moved web/API-first',
     ],
     technologies: [
       'typescript',
       'node-js',
+      'hono',
+      'zod',
+      'prisma',
+      'postgresql',
+      'react',
+      'vite',
+      'tailwind-css',
       'docker',
       'docker-compose',
       'rcon',
@@ -322,7 +383,10 @@ export const projects = deepFreeze([
         year: 2025,
         month: 9,
       },
-      isCurrent: true,
+      end: {
+        year: 2025,
+        month: 11,
+      },
     },
     status: 'paused',
     madeFor: 'Personal',
@@ -341,6 +405,7 @@ export const projects = deepFreeze([
       'Order state machine (pending→confirmed→paid→processing→shipped→delivered) with business rules and stock management',
       'Spring Batch background jobs for order import & synchronization via MarketplaceClient abstraction',
       'OpenAPI 3.1 spec for the Go connector (idempotency, error taxonomy) and Bruno/CI collections for contract tests',
+      'Added a React 19 / TypeScript dashboard (Vite 7, Tailwind 4) w/ auth pages, routing guards, and real API integration, plus a Docker Compose dev stack (API, PostgreSQL 15, Go connector, Vite)',
     ],
     technologies: [
       'java',
@@ -354,8 +419,55 @@ export const projects = deepFreeze([
       'actuator',
       'gradle',
       'go',
+      'react',
+      'typescript',
+      'vite',
+      'tailwind-css',
+      'react-router',
     ],
     repoUrl: 'https://github.com/ggfincke/hopper',
+  },
+  {
+    id: 'ff7-decomp',
+    title: 'FF7 Decompilation',
+    tagline:
+      'Matching decompilation of Final Fantasy VII (PS1) to byte-identical C — MIPS function promotion w/ binary-exact CI.',
+    period: {
+      start: {
+        year: 2025,
+        month: 9,
+      },
+      isCurrent: true,
+    },
+    status: 'experimental',
+    madeFor: 'Personal',
+    contentStatus: {
+      links: {
+        availability: 'private',
+        note: 'Personal fork of the ff7-decomp project; the working tree is kept private.',
+      },
+      media: {
+        availability: 'not-applicable',
+        note: 'Decompilation research has no UI; progress is represented as text.',
+      },
+    },
+    bulletPoints: [
+      'Promoting 2,900+ MIPS R3000 functions across PS1 overlays to matching C w/ PSX GCC cross-compilers; 1,100+ fully byte-matched (~13% matched code bytes)',
+      'Read GCC 2.7.2 internals (sched.c, emit-rtl.c) to disprove a TU-optimization hypothesis and isolate real blockers (aspsx version mismatch, stabs sizing, dead-code frame inflation)',
+      'Built a custom Go build orchestrator plus Python promotion-test & register-allocation diff tooling, w/ a batch scanner over hundreds of functions',
+      'Enforced binary-identical correctness via Docker + 12 SHA-1 checksums — the exact binary match is the test — wired through GitHub Actions CI',
+      'Classified & fixed thousands of type bugs and pointer casts, normalized symbol names, and held single-line comment coverage across all source files',
+    ],
+    technologies: [
+      'c',
+      'mips-assembly',
+      'go',
+      'python',
+      'docker',
+      'ninja',
+      'github-actions',
+      'reverse-engineering',
+    ],
   },
   {
     id: 'loom',
@@ -404,6 +516,51 @@ export const projects = deepFreeze([
     imagePath: '/assets/projects/images/loom.png',
     imageAlt: 'Loom app screenshot',
     repoUrl: 'https://github.com/ggfincke/loom',
+  },
+  {
+    id: 'conduit',
+    title: 'Conduit',
+    tagline:
+      'Cross-platform music hub bridging Spotify & Apple Music — OAuth import w/ ISRC-based track matching.',
+    period: {
+      start: {
+        year: 2025,
+        month: 5,
+      },
+      end: {
+        year: 2026,
+        month: 1,
+      },
+    },
+    status: 'paused',
+    madeFor: 'Personal',
+    contentStatus: {
+      links: {
+        availability: 'private',
+        note: 'Repository is private while the playlist-transfer MVP is unfinished.',
+      },
+      media: {
+        availability: 'pending',
+        note: 'UI screenshots will be captured when development resumes.',
+      },
+    },
+    bulletPoints: [
+      'Implemented OAuth flows for Spotify & Apple Music w/ per-user token storage and refresh backed by a Convex real-time database',
+      'Designed a cross-platform track-matching schema using ISRC identifiers to correlate the same song across streaming catalogs',
+      'Built a feature-based Next.js 16 app w/ separate authed/public route groups and middleware-enforced session validation',
+      'Architected a platform-registry pattern so new streaming integrations plug in through a shared interface',
+      'Shipped a full auth system (sign-up, sign-in, OAuth callback, sessions) and a shared component library (playlist cards, platform badges, album art)',
+    ],
+    technologies: [
+      'next-js',
+      'react',
+      'typescript',
+      'convex',
+      'supabase',
+      'tailwind-css',
+      'jwt',
+      'vitest',
+    ],
   },
   {
     id: 'trackbasket',

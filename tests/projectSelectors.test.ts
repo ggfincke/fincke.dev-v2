@@ -81,6 +81,6 @@ describe('project selectors', () =>
 
     expect(
       getProjectsByTechnology('postgresql').map((project) => project.id)
-    ).toEqual(['swimmate-v2', 'hopper', 'trackbasket', 'instock'])
+    ).toEqual(['swimmate-v2', 'minecart', 'hopper', 'trackbasket', 'instock'])
   })
 })

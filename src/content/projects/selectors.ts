@@ -5,36 +5,34 @@ import type { TechnologyId } from '~/content/technologies'
 import type { Project } from '~/shared/types'
 import { projects } from '~/content/projects/all'
 
-// get featured projects filtered by viewport tier & global feature order
+const FEATURED_PROJECTS_WITH_WIDE = Object.freeze(
+  projects
+    .filter((project) => Boolean(project.feature))
+    .sort((left, right) =>
+    {
+      return (left.feature?.order ?? 0) - (right.feature?.order ?? 0)
+    })
+)
+
+const FEATURED_PROJECTS_DEFAULT = Object.freeze(
+  FEATURED_PROJECTS_WITH_WIDE.filter(
+    (project) => project.feature?.tier === 'default'
+  )
+)
+
 export const getFeaturedProjects = (
   includeWide = false
 ): readonly Project[] =>
 {
-  return Object.freeze(
-    projects
-      .filter((project) =>
-      {
-        if (!project.feature)
-        {
-          return false
-        }
-
-        return includeWide || project.feature.tier === 'default'
-      })
-      .sort((left, right) =>
-      {
-        return (left.feature?.order ?? 0) - (right.feature?.order ?? 0)
-      })
-  )
+  return includeWide ? FEATURED_PROJECTS_WITH_WIDE : FEATURED_PROJECTS_DEFAULT
 }
 
-// get all projects
 export const getAllProjects = (): readonly Project[] =>
 {
   return projects
 }
 
-// reverse index: technology id → projects that use it
+// reverse index: technology id -> projects that use it
 const PROJECTS_BY_TECHNOLOGY: ReadonlyMap<TechnologyId, readonly Project[]> =
   (() =>
   {
@@ -64,7 +62,7 @@ const PROJECTS_BY_TECHNOLOGY: ReadonlyMap<TechnologyId, readonly Project[]> =
 
 const EMPTY_PROJECT_LIST: readonly Project[] = Object.freeze([])
 
-// get projects filtered by canonical technology id (O(1) lookup)
+// projects using a canonical technology id; O(1) via the precomputed index
 export const getProjectsByTechnology = (
   technologyId: TechnologyId
 ): readonly Project[] =>
