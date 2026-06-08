@@ -4,12 +4,10 @@
 import { useCallback, useMemo, useState } from 'react'
 
 import { getAllProjects } from '~/content/projects'
+import { StaggeredItem } from '~/shared/components/layout/StaggeredItem'
 import type { ProjectId } from '~/shared/types'
 import { useMediaQuery } from '~/shared/hooks/useMediaQuery'
-import {
-  ANIMATION_DELAYS,
-  getStaggerStyle,
-} from '~/shared/utils/animationConfig'
+import { ANIMATION_DELAYS } from '~/shared/utils/animationConfig'
 import { BREAKPOINTS } from '~/shared/utils/breakpoints'
 import { getCurrentYearMonth } from '~/shared/utils/dateSpan'
 import { useExpandableRows } from '~/sections/projects-archive/hooks/useExpandableRows'
@@ -30,7 +28,6 @@ import {
 import { SortableHeader } from '~/sections/projects-archive/components/SortableHeader'
 import { getProjectViewModel } from '~/shared/utils/projectViewModel'
 
-// * Projects table component w/ expandable rows
 export function ProjectsTable()
 {
   const isDesktop = useMediaQuery(BREAKPOINTS.tabletQuery)
@@ -62,14 +59,11 @@ export function ProjectsTable()
             const viewModel = getProjectViewModel(project)
 
             return (
-              <div
+              <StaggeredItem
                 key={`mobile-project-${project.id}`}
-                className="animate-slide-in-up opacity-0"
-                style={getStaggerStyle(
-                  ANIMATION_DELAYS.projectsArchive.mobile.base,
-                  ANIMATION_DELAYS.projectsArchive.mobile.step,
-                  index
-                )}
+                baseDelay={ANIMATION_DELAYS.projectsArchive.mobile.base}
+                stepDelay={ANIMATION_DELAYS.projectsArchive.mobile.step}
+                index={index}
               >
                 <ProjectMobileCard
                   project={project}
@@ -88,7 +82,7 @@ export function ProjectsTable()
                     viewModel={viewModel}
                   />
                 </ProjectExpansionPanel>
-              </div>
+              </StaggeredItem>
             )
           })}
         </div>

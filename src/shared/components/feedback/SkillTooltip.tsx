@@ -12,7 +12,6 @@ const TOOLTIP_SPACING = 6
 const VIEWPORT_PADDING = 8
 const MAX_VISIBLE_PROJECTS = 6
 
-// props for skill tooltip
 interface SkillTooltipProps
 {
   id: string
@@ -69,10 +68,7 @@ export function SkillTooltip({
     )
 
     setPosition({ top, left, arrowLeft })
-    // targetRef is a stable ref object — its identity never changes, so
-    // including it in deps would just add noise without affecting behavior.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isVisible, projects])
+  }, [isVisible, projects, targetRef])
 
   if (!isVisible || projects.length === 0)
   {

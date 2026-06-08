@@ -10,8 +10,9 @@ import { StatusCircle } from '~/shared/components/ui/StatusCircle'
 import type { Project, ProjectId } from '~/shared/types'
 import {
   ANIMATION_DELAYS,
-  getStaggerStyle,
+  getStaggerProps,
 } from '~/shared/utils/animationConfig'
+import { cn } from '~/shared/utils/classNames'
 import { getNestedInteractionProps } from '~/shared/utils/interaction'
 import type { ProjectViewModel } from '~/shared/utils/projectViewModel'
 import { ExpandToggle } from '~/sections/projects-archive/components/ExpandToggle'
@@ -36,15 +37,20 @@ function ProjectTableRowImpl({
 }: ProjectTableRowProps)
 {
   const onToggle = () => toggleRow(project.id)
+  const { className: staggerClassName, style: staggerStyle } = getStaggerProps(
+    ANIMATION_DELAYS.projectsArchive.desktop.base,
+    ANIMATION_DELAYS.projectsArchive.desktop.step,
+    index
+  )
 
   return (
     <tr
-      className={`group/row cursor-pointer transition-colors hover:bg-[var(--card)]/40 hover:shadow-[inset_3px_0_0_var(--accent)] animate-slide-in-up opacity-0 ${expanded ? 'border-b-0' : 'border-b border-[var(--border)]'}`}
-      style={getStaggerStyle(
-        ANIMATION_DELAYS.projectsArchive.desktop.base,
-        ANIMATION_DELAYS.projectsArchive.desktop.step,
-        index
+      className={cn(
+        'group/row cursor-pointer transition-colors hover:bg-[var(--card)]/40 hover:shadow-[inset_3px_0_0_var(--accent)]',
+        staggerClassName,
+        expanded ? 'border-b-0' : 'border-b border-[var(--border)]'
       )}
+      style={staggerStyle}
       onClick={onToggle}
     >
       <td
