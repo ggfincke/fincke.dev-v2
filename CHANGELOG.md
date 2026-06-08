@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.4] - 2026-06-08
+
+### Added
+
+- Three new projects: Coral (local-first CLI/TUI coding agent on Ollama), FF7 Decompilation (matching PS1-to-C decompilation), and Conduit (Spotify/Apple Music playlist bridge), with their supporting technology registry entries and `PROJECT_IDS`
+- `StaggeredItem` wrapper and `getStaggerProps` helper centralizing the slide-in entrance and stagger-delay shared across home and archive list items
+
+### Changed
+
+- Expanded the Tier List Builder, SwimMate v2, Minecart, and Hopper entries (bullets and taglines) and bumped the MDX Preview install count to 7,000+
+- Minecart status moved from `live` to `in-development`; paused SwimMate v2 and Hopper entries now use an `end` date instead of `isCurrent`
+- Refreshed the resume PDF
+- Deduplicated the mobile and desktop expanded project-details markup into shared subcomponents (summary, description, technologies, links, image preview)
+- Featured-project lists are precomputed at module load so `getFeaturedProjects` returns stable references, dropping the now-redundant `useMemo` in `FeaturedProjects`
+- Smoke screenshots default to the preview server port (4173) instead of the dev port (5173) so local runs match how CI serves the production build; full mode still defaults to 5173
+- `validate-assets` prints every section through a single generic `printFileSection` helper with per-category formatters
+
+### Fixed
+
+- `SkillTooltip` includes the stable `targetRef` in its positioning effect dependencies and drops the `eslint-disable`
+
 ## [2.9.1] - 2026-05-15
 
 ### Fixed
