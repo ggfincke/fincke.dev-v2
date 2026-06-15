@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.5] - 2026-06-14
+
+### Added
+
+- `bun`, `opencv`, `easyocr`, and `pytorch` technology registry entries
+- Coral promoted to a featured project (taking Minecart's place in the featured set)
+
+### Changed
+
+- Audited every project entry against its source repository and reworded taglines, bullets, and technology tags to match the shipped code; sharpened SwimMate v2, Loom, Coral, and InStock toward the AI-infrastructure narrative (measured hybrid-vs-dense retrieval, provider-neutral generation, local RAG search, CV captcha solving)
+- Surfaced previously-unlisted work across entries (SwimMate v2 eval harness, Coral semantic search and tool-call repair, MDX Preview CommonMark/strict-MDX split, Portfolio v2 verification pipeline, TCGhub Express backend, Reactive Workbench test suite, Portfolio v1 theme system)
+- Featured projects reordered to SwimMate v2 -> Coral -> MDX Preview; MDX Preview moved to the `wide` tier so standard screens show two featured cards and ultra-wide shows three
+- Trimmed Coral's highlighted technologies to lead with Ollama, React Ink, and CLI, dropping the redundant `react` tag
+
+### Fixed
+
+- Removed reviewer-detectable overclaims: Coral's Vitest claim (uses `node:test`) plus stale file/LOC counts, Tier List Builder's nonexistent heatmap view and "Convex in development" status, Reactive Workbench's action-type count (14, not 15+), Conduit's Apple Music "OAuth" framing (MusicKit + developer JWT) and uncommitted component library, TrackBasket and InStock technology tags with no backing code, TCGhub's mocked "live data integration" and absent `python`, SwimMate v1's overstated live watch metrics, and USBAP's analysis/arbitrage framing
+- Corrected stale end dates (InStock, USBAP, opencode-to-ccusage) and several technology lists
+
 ## [2.9.4] - 2026-06-08
 
 ### Added
