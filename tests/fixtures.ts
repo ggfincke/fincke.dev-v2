@@ -16,15 +16,12 @@ export function getProjectFixture(id: ProjectId): Project
   return project
 }
 
-export const FEATURED_DEFAULT_PROJECT_IDS = [
-  'mdx-preview-for-vs-code',
-  'swimmate-v2',
-] as const
+export const FEATURED_DEFAULT_PROJECT_IDS = ['swimmate-v2', 'coral'] as const
 
 export const FEATURED_WITH_WIDE_PROJECT_IDS = [
-  'mdx-preview-for-vs-code',
   'swimmate-v2',
-  'minecart',
+  'coral',
+  'mdx-preview-for-vs-code',
 ] as const
 
 export const TECHNOLOGY_ALIAS_CASES: ReadonlyArray<

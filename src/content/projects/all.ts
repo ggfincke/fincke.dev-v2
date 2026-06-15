@@ -19,34 +19,39 @@ export const projects = deepFreeze([
     },
     status: 'in-development',
     madeFor: 'Personal',
+    feature: {
+      tier: 'default',
+      order: 2,
+    },
     contentStatus: {
       links: {
         availability: 'private',
         note: 'Repository is private while the agent toolkit is in active development.',
       },
-      media: {
-        availability: 'pending',
-        note: 'TUI screenshots will be captured once the interface stabilizes.',
-      },
+      media: { availability: 'available' },
     },
     bulletPoints: [
-      'Built a full agent loop w/ multi-turn reasoning & tool use (read/write/bash/grep/glob/git), cycling tool results until task completion',
+      'Built a full agent loop w/ multi-turn reasoning, parallel tool use (read/write/bash/grep/glob/git), & research subagents, cycling tool results until task completion',
+      'Hardened the loop for local models w/ a tool-call repair layer that recovers text-emitted calls, canonicalizes hallucinated tool names, & schema-validates/coerces args before execution',
       'Implemented session persistence, conversation compaction, & per-model context sizing to sustain long-running tasks within token budgets',
+      'Added local semantic code search (search_code) backed by Ollama embeddings, deterministic chunking, & a SQLite vector index w/ swappable embedder/index seams',
       'Designed permission-based tool access control (always-allow / require-approval / always-deny) via a layered .coral.json config hierarchy',
       'Engineered a React Ink TUI w/ Markdown rendering, real-time token streaming, scrollable output, interactive model selection, theming, & keybindings',
-      'Organized as 11k+ LOC across 58 TypeScript files w/ Vitest coverage, an architecture guide, & a v2 roadmap (slash commands, LSP, MCP, plugins)',
+      'Organized as 12k+ LOC across 75 TypeScript files w/ a node:test suite, an architecture guide, & a v2 roadmap (slash commands, LSP, MCP, plugins)',
     ],
     technologies: [
       'typescript',
-      'react-ink',
-      'commander',
       'ollama',
+      'react-ink',
+      'cli',
+      'sqlite',
+      'commander',
       'node-js',
-      'vitest',
       'eslint',
       'prettier',
-      'cli',
     ],
+    imagePath: '/assets/projects/images/coral.png',
+    imageAlt: 'Coral TUI screenshot',
   },
   {
     id: 'tierlistbuilder',
@@ -67,13 +72,13 @@ export const projects = deepFreeze([
       media: { availability: 'available' },
     },
     bulletPoints: [
-      'Built snapshot-based drag-and-drop on @dnd-kit w/ bulk multi-drag, fan-out FLIP animation, and a 3-state keyboard controller (browse, pickup, drag) for full keyboard interaction',
+      'Built snapshot-based drag-and-drop on @dnd-kit w/ bulk multi-drag, fan-out FLIP animation, and a 3-state keyboard controller (idle, browse, dragging) for full keyboard interaction',
       'Shipped multi-board workspace w/ autosave, labeled undo/redo, content-addressed IndexedDB image blobs, grid virtualization for large boards, and storage-quota-aware resilience',
       'Implemented 7-format export pipeline (PNG/JPEG/WebP/PDF/JSON/ZIP/clipboard) via off-screen render host, w/ hash-fragment & short-link share codecs plus a read-only embed route',
-      'Launched a community marketplace: template gallery, ranking detail & compare pages, multi-criterion consensus views (bars, heatmap, scatter), and publish/remix flows',
+      'Launched a community marketplace: template gallery, ranking detail & compare pages, multi-criterion consensus views (distribution bars & scatter), and publish/remix flows',
       'Added public profiles (/u/:handle), a tier-list showcase editor, account settings, and email+password auth gating cloud-only actions',
-      'Built inline annotation editor, per-board aspect-ratio picker w/ auto-crop & shadow trim, image editor (crop/rotate/zoom), and token-driven theming (8 themes + 5 text styles)',
-      'Organized as feature modules (workspace, marketplace, social, library, embed) w/ a @tierlistbuilder/contracts package, Zustand stores, Vitest + Playwright tests, and Cloudflare Workers PWA delivery; Convex cloud backend in development',
+      'Built inline annotation editor, per-board aspect-ratio picker w/ auto-crop & shadow trim, image editor (crop/rotate/zoom), and token-driven theming (12 themes + 12 text styles)',
+      'Organized as feature modules (workspace, marketplace, social, library, embed) w/ a @tierlistbuilder/contracts package, Zustand stores, Vitest + Playwright tests, & a Convex cloud backend (auth, marketplace, sync, signed media) behind Cloudflare Workers PWA delivery',
     ],
     technologies: [
       'react',
@@ -111,8 +116,8 @@ export const projects = deepFreeze([
     status: 'live',
     madeFor: 'Personal',
     feature: {
-      tier: 'default',
-      order: 1,
+      tier: 'wide',
+      order: 3,
     },
     contentStatus: {
       links: { availability: 'available' },
@@ -122,7 +127,8 @@ export const projects = deepFreeze([
       'Built the VS Code extension as a 5-package npm-workspace monorepo with dual-mode rendering (Safe HTML / Trusted JS), workspace-trust gating, dynamic CSP generation, and path-traversal prevention',
       'Extracted mdx-forge as a standalone MIT-licensed npm runtime toolkit (separate repo, independent release cycle) with three subpath exports: compiler (compileSafe/compileTrusted), browser (module loader, LRU registry, evaluation), and components (framework shims + registry metadata)',
       "Wired framework auto-detection for Docusaurus, Starlight, Nextra, and Next.js — the extension reads package.json and resolves imports (e.g. @theme/Tabs) through mdx-forge's component registry via a 4-script codegen pipeline that generates shim barrels and preload entries",
-      'Integrated Tailwind v4 compilation, Sass transpilation, Shiki syntax highlighting, KaTeX math, and Mermaid / Graphviz / PlantUML diagrams in the webview, with 15+ preview themes and source-line hover highlighting',
+      'Integrated Tailwind v4 compilation, Sass transpilation, Shiki syntax highlighting (100+ languages, 24 code themes), KaTeX math, and Mermaid / Graphviz / PlantUML diagrams in the webview, with 16 preview themes and source-line hover highlighting',
+      'Split .md -> lenient CommonMark vs .mdx -> strict MDX in mdx-forge, w/ MDX009 config warnings & downstream-sanitize guidance to keep the Safe-mode security boundary honest',
       'Shipped Claude Code add-ons distributed via mdx-forge: a skill teaching the toolkit API plus the mdx-forge-render MCP server that compiles MDX, captures Playwright screenshots, and returns structured diagnostics with did-you-mean suggestions',
     ],
     technologies: [
@@ -168,6 +174,10 @@ export const projects = deepFreeze([
       start: {
         year: 2025,
         month: 12,
+      },
+      end: {
+        year: 2026,
+        month: 1,
       },
     },
     status: 'complete',
@@ -216,10 +226,12 @@ export const projects = deepFreeze([
       },
     },
     bulletPoints: [
+      'Evolved from reactive-themes (a public, theme-only predecessor) into a generalized automation engine w/ a registry-pattern architecture',
       'Built rule engine with first-match-wins evaluation, overlap detection, and mode bundles for predictable, reusable automation',
-      'Implemented 15+ action types (themes, panels, layout, notifications, tasks/commands, profiles) and 17+ condition types (file patterns, language, debug/test state, Git branch, time of day, diagnostics)',
+      'Implemented 14 action types (themes, panels, layout, notifications, tasks/commands, profiles) and 17+ condition types (file patterns, language, debug/test state, Git branch, time of day, diagnostics)',
       'Added diagnostics tooling to lint and test rules, explain the active rule, and surface overlap warnings with analytics/history',
       'Ensured safe, reversible changes by applying all actions through VS Code APIs with optional safe mode',
+      'Covered the rule pipeline w/ 54 unit & integration test suites (full-pipeline, multi-action, overlap, composite conditions)',
     ],
     technologies: ['typescript', 'node-js', 'vs-code-extension-api'],
   },
@@ -239,7 +251,7 @@ export const projects = deepFreeze([
     madeFor: 'Personal',
     feature: {
       tier: 'default',
-      order: 2,
+      order: 1,
     },
     contentStatus: {
       links: {
@@ -250,12 +262,13 @@ export const projects = deepFreeze([
     },
     bulletPoints: [
       'Built Django REST API with JWT auth, OpenAPI docs, and PostgreSQL + pgvector for semantic search and workout library retrieval',
-      'Engineered a hybrid RAG pipeline — dense (pgvector) + lexical full-text retrieval fused w/ reciprocal-rank fusion — w/ source grounding, a versioned prompt registry, generation replay, and an eval harness',
+      'Engineered a hybrid RAG pipeline — dense (pgvector, text-embedding-3-large) + Postgres full-text fused w/ reciprocal-rank fusion — w/ source grounding, a versioned prompt registry (sha256 prompt hashes), a generation replay/diff endpoint, & provider-neutral generation behind a client factory',
+      'Added an offline eval harness w/ schema-versioned corpora & deterministic constraint validation (stroke/intensity/distance/difficulty), measuring hybrid vs dense-only retrieval over 48 cases w/ JSON + markdown reports (pass rates, p50/p95 latency, token usage, run-over-run diffs)',
       'Modeled a planned-workout lifecycle bridging AI generation -> Apple Watch execution -> completed swim, w/ an adaptive UserFitnessState derived from execution history',
       'Added a weekly training-intelligence layer: deterministic plan assembly, training-load analytics, a pre-swim readiness engine, and a technique drill catalog',
       'Built swim-profile onboarding w/ learned/effective pace calibration per stroke, distance, and intensity',
-      'Developed SwiftUI iOS/watchOS apps w/ HealthKit capture, Apple Watch live metrics, Swift Charts analytics, and SwiftData local persistence',
-      'Added actor-based networking with token refresh, background sync, and offline-first tracking with secure Keychain storage',
+      'Developed SwiftUI iOS/watchOS apps w/ HealthKit capture, Apple Watch live metrics, Swift Charts analytics, SwiftData persistence, & a source-grounded "why these sets?" view exposing retrieved chunks & constraint effects',
+      'Added actor-based networking with token refresh, an offline sync queue that retries pending uploads on reconnect, and secure Keychain token storage',
     ],
     technologies: [
       'swift',
@@ -270,6 +283,7 @@ export const projects = deepFreeze([
       'postgresql',
       'pgvector',
       'openai',
+      'llm-evaluation',
       'jwt',
       'python',
     ],
@@ -298,16 +312,20 @@ export const projects = deepFreeze([
       'Complete redesign with Vite 7 + React 19 + TypeScript + Tailwind CSS 4.0 for pure client‑side architecture',
       'Section‑based organization: each feature isolated with its own components, content, and utilities for maximum modularity',
       'Content‑driven development: strict separation of data from presentation; content lives in dedicated files, components focus on rendering',
-      'Material Theme Ocean HC color system with semantic technology categorization (100+ techs mapped)',
+      'Material Theme Ocean HC color system with semantic technology categorization (140+ techs across 6 categories)',
       'Staggered slide‑in animations with full prefers‑reduced‑motion accessibility support',
       'Type‑safe routing with React Router 7 and centralized type definitions with barrel exports',
+      'Verification pipeline on a Bun toolchain: Vitest unit tests, axe a11y audits, Lighthouse, Playwright screenshot smoke tests, & content-health/link checks',
     ],
     technologies: [
       'react',
       'typescript',
       'vite',
+      'bun',
       'tailwind-css',
       'react-router',
+      'vitest',
+      'playwright',
       'eslint',
       'prettier',
     ],
@@ -330,10 +348,6 @@ export const projects = deepFreeze([
     },
     status: 'in-development',
     madeFor: 'Personal',
-    feature: {
-      tier: 'wide',
-      order: 3,
-    },
     contentStatus: {
       links: {
         availability: 'private',
@@ -347,6 +361,7 @@ export const projects = deepFreeze([
       'Streamed real-time provisioning progress over SSE (GET /v1/jobs/:id/stream) w/ a repository-backed event hub & heartbeats; PATCH/DELETE server CRUD w/ active-job guards and soft-delete',
       'Implemented a provider abstraction for local Docker and AWS EC2 w/ runtime switching, health checks, and live status via RCON and mcstatus.io',
       'Automated idle shutdown, scheduled start/stop windows, crash recovery, and backups with retention',
+      'Added Modrinth-backed content management (mod search/install, resource-pack SHA verification, Paper version switching) & blue/green + staging disposable test worlds',
       'Shipped multi-tenant controls: multi-server registration, role-based permissions (view/operate/admin/owner), channel bindings, usage metering/quotas, and audit logs',
       'Kept a lightweight Discord companion (status, start/stop, player count, chat bridge) as advanced workflows moved web/API-first',
     ],
@@ -403,9 +418,9 @@ export const projects = deepFreeze([
       'AES‑GCM‑256 credential encryption with PBKDF2 key derivation and versioned encryption metadata for rotation',
       'Normalized PostgreSQL schema (13 Flyway migrations), foreign keys, composite uniques, and performance indexes',
       'Order state machine (pending→confirmed→paid→processing→shipped→delivered) with business rules and stock management',
-      'Spring Batch background jobs for order import & synchronization via MarketplaceClient abstraction',
+      'Spring Batch order-import job (reader/processor/writer) pulling external orders via MarketplaceClient abstraction',
       'OpenAPI 3.1 spec for the Go connector (idempotency, error taxonomy) and Bruno/CI collections for contract tests',
-      'Added a React 19 / TypeScript dashboard (Vite 7, Tailwind 4) w/ auth pages, routing guards, and real API integration, plus a Docker Compose dev stack (API, PostgreSQL 15, Go connector, Vite)',
+      'Added a React 19 / TypeScript dashboard (Vite 7, Tailwind 4) w/ auth pages (login/register/refresh) wired to the live API, routing guards & theme persistence, plus a Docker Compose dev stack (API, PostgreSQL 15, Go connector, Vite)',
     ],
     technologies: [
       'java',
@@ -418,6 +433,8 @@ export const projects = deepFreeze([
       'spring-batch',
       'actuator',
       'gradle',
+      'docker',
+      'docker-compose',
       'go',
       'react',
       'typescript',
@@ -454,8 +471,8 @@ export const projects = deepFreeze([
     bulletPoints: [
       'Promoting 2,900+ MIPS R3000 functions across PS1 overlays to matching C w/ PSX GCC cross-compilers; 1,100+ fully byte-matched (~13% matched code bytes)',
       'Read GCC 2.7.2 internals (sched.c, emit-rtl.c) to disprove a TU-optimization hypothesis and isolate real blockers (aspsx version mismatch, stabs sizing, dead-code frame inflation)',
-      'Built a custom Go build orchestrator plus Python promotion-test & register-allocation diff tooling, w/ a batch scanner over hundreds of functions',
-      'Enforced binary-identical correctness via Docker + 12 SHA-1 checksums — the exact binary match is the test — wired through GitHub Actions CI',
+      'Built a custom Go build orchestrator over the splat/m2c/asm-differ/maspsx pipeline, plus Python promotion-test & register-allocation diff tooling w/ a batch scanner over hundreds of functions',
+      'Enforced binary-identical correctness via 12 SHA-1 checksums — the exact binary match is the test — wired through GitHub Actions CI, w/ a Docker image for reproducible local builds',
       'Classified & fixed thousands of type bugs and pointer casts, normalized symbol names, and held single-line comment coverage across all source files',
     ],
     technologies: [
@@ -491,11 +508,11 @@ export const projects = deepFreeze([
       media: { availability: 'available' },
     },
     bulletPoints: [
-      'Built Typer-based command suite (sectionize, tailor, generate, apply) with configurable defaults and themed help UI',
-      'Implemented structured JSON edit pipeline with interactive diff resolution, risk/on-error policies, and format-preserving DOCX/LaTeX/Typst handling',
-      'Integrated multi-provider AI (OpenAI, Anthropic, Gemini, Mistral, Ollama, LM Studio) with model selection and response caching',
-      'Added snapshot-based version management with restore and comparison tooling for safe iteration',
-      'Shipped ATS compatibility checks, bulk job processing with comparison matrices, and exports to txt/pdf/html',
+      'Built Typer command suite (sectionize, tailor, generate, apply) w/ configurable defaults & a themed help UI (29 selectable color themes)',
+      'Implemented a deterministic structured-JSON edit pipeline (replace/insert/delete/modify/prompt ops) w/ interactive diff resolution, risk/on-error policies, & format-preserving DOCX/LaTeX/Typst handling',
+      'Built a provider-neutral AI layer routing 6 backends (OpenAI, Anthropic, Gemini, Mistral, Ollama, LM Studio) via factory/registry — one OpenAI-compatible client shared by Mistral & LM Studio — w/ TTL+LRU response caching',
+      'Added snapshot version management w/ content hashing & stored diff patches for restore, comparison & reproducible iteration',
+      'Shipped ATS compatibility checks, bulk job processing w/ fit-scoring & keyword-coverage matrices, --watch auto-rerun, and exports to txt/pdf/html',
     ],
     technologies: [
       'python',
@@ -521,7 +538,7 @@ export const projects = deepFreeze([
     id: 'conduit',
     title: 'Conduit',
     tagline:
-      'Cross-platform music hub bridging Spotify & Apple Music — OAuth import w/ ISRC-based track matching.',
+      'Cross-platform music hub bridging Spotify & Apple Music — per-platform auth w/ ISRC-based track matching.',
     period: {
       start: {
         year: 2025,
@@ -545,11 +562,11 @@ export const projects = deepFreeze([
       },
     },
     bulletPoints: [
-      'Implemented OAuth flows for Spotify & Apple Music w/ per-user token storage and refresh backed by a Convex real-time database',
+      'Implemented Spotify OAuth 2.0 + PKCE & Apple Music MusicKit (developer-JWT) auth w/ per-user token storage & refresh backed by a Convex real-time database',
       'Designed a cross-platform track-matching schema using ISRC identifiers to correlate the same song across streaming catalogs',
       'Built a feature-based Next.js 16 app w/ separate authed/public route groups and middleware-enforced session validation',
       'Architected a platform-registry pattern so new streaming integrations plug in through a shared interface',
-      'Shipped a full auth system (sign-up, sign-in, OAuth callback, sessions) and a shared component library (playlist cards, platform badges, album art)',
+      'Shipped a full auth system (sign-up, sign-in, OAuth callback, server-validated sessions) atop a feature-sliced shared UI library',
     ],
     technologies: [
       'next-js',
@@ -559,13 +576,13 @@ export const projects = deepFreeze([
       'supabase',
       'tailwind-css',
       'jwt',
-      'vitest',
     ],
   },
   {
     id: 'trackbasket',
     title: 'TrackBasket',
-    tagline: 'AI‑assisted price tracking for 30k+ products across retailers.',
+    tagline:
+      'AI‑assisted price tracking across a 30k+ product catalog from multiple retailers.',
     period: {
       start: {
         year: 2025,
@@ -584,8 +601,8 @@ export const projects = deepFreeze([
     },
     bulletPoints: [
       'Chat‑to‑basket turns natural language into structured baskets using Supabase and OpenAI',
-      'Advanced crawling with CAPTCHA handling, anti‑bot countermeasures, normalization, and real‑time updates',
-      'Backend: Edge Functions, PostgreSQL fuzzy search, UPC matching, and event‑driven notifications',
+      'Advanced crawling w/ CV-based CAPTCHA solving (EasyOCR/OpenCV) & stealth automation (undetected-chromedriver, playwright-stealth), normalization, and real‑time updates',
+      'Backend: 3 Supabase Edge Functions (chat-to-basket, ai-alternatives, notifications), pg_trgm trigram search, UPC matching, and event‑driven email alerts',
       'AI‑powered matching with intelligent alternatives and cross‑retailer price correlation via UPC',
       'Granular alerts for price drops, availability changes, and product updates; collaborative basket management',
       'Responsive UI with price history charts and recommendations',
@@ -598,8 +615,8 @@ export const projects = deepFreeze([
       'react',
       'openai',
       'postgresql',
-      'docker',
-      'swift',
+      'opencv',
+      'easyocr',
     ],
     imagePath: '/assets/projects/images/trackbasket.png',
     imageAlt: 'TrackBasket app screenshot',
@@ -629,11 +646,13 @@ export const projects = deepFreeze([
     bulletPoints: [
       'Next.js + TypeScript + Tailwind; responsive UI with subtle motion',
       'Custom component system, accessibility and performance‑first design',
+      'Build-time theme system: 6 color themes via a CSS-var generator (themes/config.ts -> themes.css) w/ next-themes selector',
       'CI/CD with Vercel deploys, Lighthouse CI checks, and automated prereleases/tags',
       "Retired in favor of v2's simpler, client-side architecture",
     ],
     technologies: [
       'next-js',
+      'react',
       'typescript',
       'tailwind-css',
       'github-actions',
@@ -647,7 +666,8 @@ export const projects = deepFreeze([
   {
     id: 'instock',
     title: 'InStock',
-    tagline: 'High‑frequency stock & price tracker; precursor to TrackBasket.',
+    tagline:
+      'Multi‑retailer stock & price tracker w/ Discord alerts; precursor to TrackBasket.',
     period: {
       start: {
         year: 2024,
@@ -655,7 +675,7 @@ export const projects = deepFreeze([
       },
       end: {
         year: 2025,
-        month: 3,
+        month: 4,
       },
     },
     status: 'complete',
@@ -671,20 +691,22 @@ export const projects = deepFreeze([
       },
     },
     bulletPoints: [
-      'Optimized detection for restocks and price changes on high‑velocity products',
-      'Django + PostgreSQL core with Redis/Celery microservices and Selenium scraping',
-      'REST API for React/Swift clients; Discord notifications via Discord.py',
+      'Restock & price-drop detection across Amazon, Walmart, Target & Best Buy',
+      'Django + PostgreSQL core w/ Redis/Celery workers & Selenium + undetected-chromedriver scraping, plus an EasyOCR+OpenCV captcha solver',
+      'JWT-authed DRF REST API (~16 endpoints) w/ a Discord.py bot as primary client; notifs via Redis pub/sub',
     ],
     technologies: [
       'python',
       'django',
+      'django-rest-framework',
       'postgresql',
       'selenium',
       'redis',
       'celery',
-      'react',
-      'swift',
+      'docker',
       'discord-py',
+      'opencv',
+      'easyocr',
     ],
   },
   {
@@ -811,10 +833,11 @@ export const projects = deepFreeze([
       media: { availability: 'available' },
     },
     bulletPoints: [
-      'React marketplace with live data integration and custom SQLite schema in BCNF',
-      'Hand‑written SQL queries, filtering/search for sets & rarities, responsive UI (scored >100%)',
+      'React + Express marketplace over a custom SQLite schema (14 tables, FKs, composite keys, indexes) in BCNF',
+      'Express REST API (30+ routes) w/ bcrypt auth, cart -> checkout transaction flow & Chart.js price-history tracking',
+      'Hand‑written SQL w/ rarity/expansion filtering & search, responsive Tailwind UI (scored >100%)',
     ],
-    technologies: ['react', 'sql', 'python', 'sqlite', 'node-js'],
+    technologies: ['react', 'node-js', 'sql', 'sqlite', 'tailwind-css'],
     imagePath: '/assets/projects/images/tcghub2.png',
     imageAlt: 'TCGhub app screenshot',
     repoUrl: 'https://github.com/ggfincke/TCGhub',
@@ -973,8 +996,8 @@ export const projects = deepFreeze([
     },
     bulletPoints: [
       'Comprehensive swimming app to track, plan, and save workouts with history and progress visualization',
-      'HealthKit + SwiftUI components for workout entry, lap timing, and analytics with Swift Charts',
-      'Apple Watch companion: real‑time metrics (pace, heart rate, laps, SWOLF, calories) and workout handoff',
+      'HealthKit + SwiftUI for workout entry & lap timing, w/ post-workout stats (pace, SWOLF, distance, calories) & Swift Charts analytics',
+      'Apple Watch companion: live metrics (distance, laps, calories, elapsed time) w/ Water Lock; receives swim sets from iOS via WatchConnectivity',
       'Goal‑based workouts (distance, time, calories) with real‑time feedback; pool & open‑water with GPS',
       'Achieved 100% on original submission for CMPSC 475',
     ],
@@ -1024,6 +1047,7 @@ export const projects = deepFreeze([
     technologies: [
       'python',
       'transformers',
+      'pytorch',
       'discord-py',
       'huggingface',
       'apscheduler',
@@ -1123,7 +1147,7 @@ export const projects = deepFreeze([
   {
     id: 'usbap',
     title: 'USBAP',
-    tagline: 'Sports‑betting data scraper for analysis and arbitrage research.',
+    tagline: 'Prototype scraper for DraftKings & FanDuel MLB game lines.',
     period: {
       start: {
         year: 2023,
@@ -1131,7 +1155,7 @@ export const projects = deepFreeze([
       },
       end: {
         year: 2023,
-        month: 6,
+        month: 7,
       },
     },
     status: 'experimental',
@@ -1147,10 +1171,10 @@ export const projects = deepFreeze([
       },
     },
     bulletPoints: [
-      'Scrapes DraftKings/FanDuel markets (moneyline/spreads/totals) and normalizes for downstream analytics',
-      'Foundational tooling for betting analytics and opportunity detection',
+      'Scrapes DraftKings & FanDuel MLB game lines (moneyline/runline/total) via requests + BeautifulSoup, printing parsed odds to console',
+      'Early prototype (3 commits); SQL storage & cross-book comparison left as TODOs, never built',
     ],
-    technologies: ['python', 'web-scraping', 'data-analysis', 'beautifulsoup'],
+    technologies: ['python', 'web-scraping', 'beautifulsoup'],
     collaborators: [
       {
         name: 'Yugal Kithany',
