@@ -22,6 +22,7 @@ const TECHNOLOGIES = [
     label: 'Branch Prediction',
     category: 'platform',
   },
+  { id: 'bun', label: 'Bun', category: 'platform' },
   { id: 'c', label: 'C', category: 'language' },
   { id: 'c-cpp', label: 'C/C++', category: 'language' },
   {
@@ -79,6 +80,7 @@ const TECHNOLOGIES = [
     category: 'infra',
   },
   { id: 'docx', label: 'DOCX', category: 'tooling' },
+  { id: 'easyocr', label: 'EasyOCR', category: 'data' },
   { id: 'ec2', label: 'EC2', category: 'infra' },
   { id: 'esbuild', label: 'esbuild', category: 'tooling' },
   { id: 'eslint', label: 'ESLint', category: 'tooling' },
@@ -147,6 +149,7 @@ const TECHNOLOGIES = [
   { id: 'numpy', label: 'NumPy', category: 'data' },
   { id: 'ollama', label: 'Ollama', category: 'data' },
   { id: 'openai', label: 'OpenAI', category: 'data' },
+  { id: 'opencv', label: 'OpenCV', category: 'data' },
   {
     id: 'operating-systems',
     label: 'Operating Systems',
@@ -170,6 +173,7 @@ const TECHNOLOGIES = [
   { id: 'prisma', label: 'Prisma', category: 'framework' },
   { id: 'pwa', label: 'PWA', category: 'platform' },
   { id: 'python', label: 'Python', category: 'language' },
+  { id: 'pytorch', label: 'PyTorch', category: 'data' },
   {
     id: 'random-fourier-features',
     label: 'Random Fourier Features',
