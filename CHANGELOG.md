@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.6] - 2026-07-01
+
+### Fixed
+
+- Content Health no longer fails on Tier List Builder's intentionally private repo link; `check-links` downgrades a known-private repo's non-2xx response to a warning instead of a failure, matching the existing anti-bot-host policy
+
+### Changed
+
+- Bumped dependencies within their existing semver ranges (React, React Router, Vite, Vitest, Playwright, typescript-eslint, and others); left `prettier` pinned at 3.8.3 since 3.9.4 collapses multi-line union types onto one line, conflicting with this codebase's formatting
+
 ## [2.9.5] - 2026-06-14
 
 ### Added
