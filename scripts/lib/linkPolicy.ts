@@ -29,6 +29,11 @@ const HOST_REQUIRES_GET = (hostname: string): boolean =>
 // worth a second request.
 const GET_RETRY_STATUSES = new Set([403, 404, 405, 501])
 
+// repos kept private on purpose while the project stays listed w/ a live deploy
+const KNOWN_PRIVATE_REPOS = new Set([
+  'https://github.com/ggfincke/tierlistbuilder',
+])
+
 function isAntiBotHost(hostname: string): boolean
 {
   return (
@@ -58,6 +63,14 @@ export function getLinkPolicy(url: string): LinkPolicy
     return {
       expectation: 'warn',
       reason: 'anti-bot host',
+    }
+  }
+
+  if (KNOWN_PRIVATE_REPOS.has(url))
+  {
+    return {
+      expectation: 'warn',
+      reason: 'known-private repo',
     }
   }
 
