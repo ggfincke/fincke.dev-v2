@@ -88,12 +88,12 @@ describe('nextSortState', () =>
 {
   it('defaults Year to desc when switching columns', () =>
   {
-    expect(
-      nextSortState({ key: 'project', direction: 'asc' }, 'year')
-    ).toEqual({
-      key: 'year',
-      direction: 'desc',
-    })
+    expect(nextSortState({ key: 'project', direction: 'asc' }, 'year')).toEqual(
+      {
+        key: 'year',
+        direction: 'desc',
+      }
+    )
     expect(DEFAULT_PROJECT_SORT).toEqual({
       key: 'year',
       direction: 'desc',
