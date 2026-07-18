@@ -135,10 +135,7 @@ export const projects = deepFreeze([
       order: 2,
     },
     contentStatus: {
-      links: {
-        availability: 'private',
-        note: 'Repository is private while the agent toolkit is in active development.',
-      },
+      links: { availability: 'available' },
       media: { availability: 'available' },
     },
     bulletPoints: [
@@ -163,6 +160,7 @@ export const projects = deepFreeze([
     ],
     imagePath: '/assets/projects/images/coral.png',
     imageAlt: 'Coral TUI screenshot',
+    repoUrl: 'https://github.com/ggfincke/coral',
   },
   {
     id: 'tierlistbuilder',
