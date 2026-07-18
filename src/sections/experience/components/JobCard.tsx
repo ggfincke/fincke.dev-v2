@@ -17,7 +17,11 @@ export function JobCard({ job }: JobCardProps)
 {
   return (
     <InteractiveCard href={job.link} withHoverBackdrop>
-      <JobCompanyHeader company={job.company} period={job.period} />
+      <JobCompanyHeader
+        company={job.company}
+        period={job.period}
+        hasExternalLink={!!job.link}
+      />
 
       <div className="mb-1 text-sm text-[var(--yellow)]">{job.title}</div>
 

@@ -13,6 +13,7 @@ interface StaggeredItemProps
   index: number
   children: ReactNode
   className?: string
+  maxDelay?: number
 }
 
 export function StaggeredItem({
@@ -21,12 +22,14 @@ export function StaggeredItem({
   index,
   children,
   className,
+  maxDelay,
 }: StaggeredItemProps)
 {
   const { className: staggerClassName, style } = getStaggerProps(
     baseDelay,
     stepDelay,
-    index
+    index,
+    maxDelay
   )
 
   return (

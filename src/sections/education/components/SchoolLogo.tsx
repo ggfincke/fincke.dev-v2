@@ -25,6 +25,8 @@ export function SchoolLogo({ logo, className }: SchoolLogoProps)
       className={cn(LOGO_CLASSES, className)}
       loading="lazy"
       decoding="async"
+      width={48}
+      height={48}
     />
   )
 }

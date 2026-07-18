@@ -6,10 +6,121 @@ import { deepFreeze } from '~/shared/utils/deepFreeze'
 
 export const projects = deepFreeze([
   {
+    id: 'cartographer',
+    title: 'Cartographer',
+    tagline:
+      'Local-first visual codebase explorer for architecture, dependencies, blast radius, and agent-driven coding.',
+    period: {
+      start: {
+        year: 2026,
+        month: 7,
+      },
+      isCurrent: true,
+    },
+    status: 'in-development',
+    madeFor: 'Personal',
+    contentStatus: {
+      links: {
+        availability: 'private',
+        note: 'Repository is private while the standalone explorer is in active development.',
+      },
+      media: {
+        availability: 'pending',
+        note: 'A stable atlas screenshot will be added after the active interface work settles.',
+      },
+    },
+    bulletPoints: [
+      'Built TypeScript/JavaScript import-graph analysis with semantic Systems and Blocks, symbol extraction, file descriptions, co-change history, structural and public-API diffs, and symbol-aware blast-radius analysis',
+      'Delivered CLI, MCP, Markdown report, watch, SQLite snapshot-history, GitHub Action, and project-registry surfaces for architecture discovery and pull-request drift analysis',
+      'Engineered a React atlas with Architecture, Explore, Trace, Impact, Boundary, Changes, and Risk workspaces, URL-backed navigation, boundary contracts, inspector evidence, and scoped insights',
+      'Scaled large-repository analysis with coarse indexed atlases, virtualized exploration, module-worker model and layout builds, bounded graph budgets, and LRU caches',
+    ],
+    technologies: [
+      'typescript',
+      'react',
+      'vite',
+      'node-js',
+      'dependency-cruiser',
+      'zustand',
+      'mcp',
+      'sqlite',
+      'vitest',
+    ],
+  },
+  {
+    id: 'agentic-scratch',
+    title: 'Agentic Scratch',
+    tagline:
+      'IR-first workbench for AI coding agents to create, test, inspect, debug, and improve Scratch projects.',
+    period: {
+      start: {
+        year: 2026,
+        month: 6,
+      },
+      isCurrent: true,
+    },
+    status: 'experimental',
+    madeFor: 'Personal',
+    contentStatus: {
+      links: {
+        availability: 'private',
+        note: 'Experimental workbench is currently maintained in a local-only repository.',
+      },
+      media: {
+        availability: 'not-applicable',
+        note: 'The agent and test workbench is represented by its technical project details.',
+      },
+    },
+    bulletPoints: [
+      'Built typed Scratch IR plus deterministic .sb3 import and export, lossless round trips, project builders, resource handling, and referential-integrity validation',
+      'Added advisory static analysis for graph smells, dead code, empty branches, ownership errors, procedure-call arguments, resource limits, and archive path-traversal guards',
+      'Engineered a deterministic scenario driver with VM state assertions, frame-exact Playwright visual assertions, screenshots, failure video, offline network policy, and provenance reports',
+      'Implemented lockstep model-based testing with Whisker-compatible model JSON and IR-level mutation testing for operator swaps, constant changes, statement deletion, and boolean negation',
+    ],
+    technologies: ['typescript', 'scratch', 'node-js', 'playwright', 'esbuild'],
+  },
+  {
+    id: 'personal-ai-coding-skills',
+    title: 'Personal AI Coding Skills',
+    tagline:
+      'Portable skill library and workflow toolkit for repeatable AI-assisted software engineering across coding agents.',
+    period: {
+      start: {
+        year: 2026,
+        month: 5,
+      },
+      isCurrent: true,
+    },
+    status: 'live',
+    madeFor: 'Personal',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: {
+        availability: 'not-applicable',
+        note: 'The public skill packages are best represented by their source and documentation.',
+      },
+    },
+    bulletPoints: [
+      'Authored 20+ reusable skills spanning architecture, consolidation, simplification, security remediation, testing, Git history, frontend engineering, documentation freshness, and accessibility review',
+      'Built strict validation, synchronization, project-only installation, generated always-on instruction blocks, and pre-commit and CI checks for portable skill packages',
+      'Maintained reusable templates, interoperability guidance, project workflows, and regression checks for sync behavior, comment-style enforcement, and generated instruction stability',
+    ],
+    technologies: [
+      'python',
+      'markdown',
+      'agent-skills',
+      'codex',
+      'claude-code',
+      'github-actions',
+      'pytest',
+    ],
+    repoUrl: 'https://github.com/ggfincke/ggfincke-skills',
+  },
+  {
     id: 'coral',
     title: 'Coral',
     tagline:
-      'Local-first CLI/TUI coding agent powered by Ollama — full agent loop, tool system, & React Ink interface.',
+      'Local-first CLI/TUI coding agent powered by Ollama with semantic retrieval, code intelligence, and a rich terminal interface (v0.12.0).',
     period: {
       start: {
         year: 2026,
@@ -24,10 +135,7 @@ export const projects = deepFreeze([
       order: 2,
     },
     contentStatus: {
-      links: {
-        availability: 'private',
-        note: 'Repository is private while the agent toolkit is in active development.',
-      },
+      links: { availability: 'available' },
       media: { availability: 'available' },
     },
     bulletPoints: [
@@ -36,8 +144,8 @@ export const projects = deepFreeze([
       'Implemented session persistence, conversation compaction, & per-model context sizing to sustain long-running tasks within token budgets',
       'Added local semantic code search (search_code) backed by Ollama embeddings, deterministic chunking, & a SQLite vector index w/ swappable embedder/index seams',
       'Designed permission-based tool access control (always-allow / require-approval / always-deny) via a layered .coral.json config hierarchy',
-      'Engineered a React Ink TUI w/ Markdown rendering, real-time token streaming, scrollable output, interactive model selection, theming, & keybindings',
-      'Organized as 12k+ LOC across 75 TypeScript files w/ a node:test suite, an architecture guide, & a v2 roadmap (slash commands, LSP, MCP, plugins)',
+      'Engineered a React Ink TUI w/ Markdown rendering, real-time token streaming, scrollable output, command completion, @-file mentions, command palette, undo/redo, interactive model selection, theming, & keybindings',
+      'Added read-only TypeScript/JavaScript code intelligence through a bundled language server with definitions, references, hover/type data, and diagnostics; backstopped behavior with node:test',
     ],
     technologies: [
       'typescript',
@@ -52,12 +160,13 @@ export const projects = deepFreeze([
     ],
     imagePath: '/assets/projects/images/coral.png',
     imageAlt: 'Coral TUI screenshot',
+    repoUrl: 'https://github.com/ggfincke/coral',
   },
   {
     id: 'tierlistbuilder',
     title: 'Tier List Builder',
     tagline:
-      'Local-first tier list builder grown into a community ranking platform — drag-&-drop workspace, 7-format export, template marketplace, & public profiles.',
+      'Closed-alpha tier-list platform with local-first editing, cloud sync, a public template marketplace, share/embed routes, and 7-format export.',
     period: {
       start: {
         year: 2026,
@@ -78,7 +187,7 @@ export const projects = deepFreeze([
       'Launched a community marketplace: template gallery, ranking detail & compare pages, multi-criterion consensus views (distribution bars & scatter), and publish/remix flows',
       'Added public profiles (/u/:handle), a tier-list showcase editor, account settings, and email+password auth gating cloud-only actions',
       'Built inline annotation editor, per-board aspect-ratio picker w/ auto-crop & shadow trim, image editor (crop/rotate/zoom), and token-driven theming (12 themes + 12 text styles)',
-      'Organized as feature modules (workspace, marketplace, social, library, embed) w/ a @tierlistbuilder/contracts package, Zustand stores, Vitest + Playwright tests, & a Convex cloud backend (auth, marketplace, sync, signed media) behind Cloudflare Workers PWA delivery',
+      'Organized as feature modules w/ a @tierlistbuilder/contracts package, Zustand stores, 113 Vitest files, 5 Playwright specs, & a Convex cloud backend (auth, marketplace, sync, signed media) behind Cloudflare Workers PWA delivery',
     ],
     technologies: [
       'react',
@@ -105,7 +214,7 @@ export const projects = deepFreeze([
     id: 'mdx-preview-for-vs-code',
     title: 'MDX Preview for VS Code',
     tagline:
-      '7,000+ installs; Live MDX preview extension with dual-mode rendering and framework-aware component shims.',
+      'Published VS Code/Open VSX extension with 10,000+ installs, dual-mode rendering, and framework-aware component shims (v1.6.1).',
     period: {
       start: {
         year: 2026,
@@ -124,12 +233,11 @@ export const projects = deepFreeze([
       media: { availability: 'available' },
     },
     bulletPoints: [
-      'Built the VS Code extension as a 5-package npm-workspace monorepo with dual-mode rendering (Safe HTML / Trusted JS), workspace-trust gating, dynamic CSP generation, and path-traversal prevention',
-      'Extracted mdx-forge as a standalone MIT-licensed npm runtime toolkit (separate repo, independent release cycle) with three subpath exports: compiler (compileSafe/compileTrusted), browser (module loader, LRU registry, evaluation), and components (framework shims + registry metadata)',
-      "Wired framework auto-detection for Docusaurus, Starlight, Nextra, and Next.js — the extension reads package.json and resolves imports (e.g. @theme/Tabs) through mdx-forge's component registry via a 4-script codegen pipeline that generates shim barrels and preload entries",
-      'Integrated Tailwind v4 compilation, Sass transpilation, Shiki syntax highlighting (100+ languages, 24 code themes), KaTeX math, and Mermaid / Graphviz / PlantUML diagrams in the webview, with 16 preview themes and source-line hover highlighting',
-      'Split .md -> lenient CommonMark vs .mdx -> strict MDX in mdx-forge, w/ MDX009 config warnings & downstream-sanitize guidance to keep the Safe-mode security boundary honest',
-      'Shipped Claude Code add-ons distributed via mdx-forge: a skill teaching the toolkit API plus the mdx-forge-render MCP server that compiles MDX, captures Playwright screenshots, and returns structured diagnostics with did-you-mean suggestions',
+      'Architected the root extension plus 5 workspace packages with esbuild for the Node.js extension host, Vite 8 for the React 19 webview, and reusable mdx-forge compiler and runtime packages',
+      'Implemented workspace-trust-gated Safe and Trusted modes: DOMPurify-sanitized static HTML with strict CSP or full React 19 component evaluation with project-level configuration',
+      'Built a 4-strategy module resolver (framework shim -> TypeScript paths -> enhanced-resolve -> file probe), dual MDX pipelines, and Shiki, KaTeX, Mermaid, PlantUML, and Graphviz integrations',
+      'Designed a component registry for Docusaurus, Starlight, Nextra, Next.js, and generic MDX with 35+ React shims, build-time codegen, 16 preview themes, 24 code themes, and 17 examples',
+      'Shipped 20 commands and 32 settings spanning preview control, security, theming, debugging, framework selection, source-line sync, cache management, and HTML export',
     ],
     technologies: [
       'typescript',
@@ -141,9 +249,12 @@ export const projects = deepFreeze([
       'vitest',
       'comlink',
       'tailwind-css',
+      'dompurify',
       'shiki',
       'katex',
       'mermaid',
+      'plantuml',
+      'graphviz',
     ],
     imagePath: '/assets/projects/images/vsc-mdx.png',
     imageAlt: 'MDX Preview for VS Code extension screenshot',
@@ -166,10 +277,98 @@ export const projects = deepFreeze([
     ],
   },
   {
+    id: 'mdx-forge',
+    title: 'mdx-forge',
+    tagline:
+      'Standalone MDX runtime toolkit for safe and trusted compilation, diagnostics, browser evaluation, and framework shims.',
+    period: {
+      start: {
+        year: 2026,
+        month: 2,
+      },
+      isCurrent: true,
+    },
+    status: 'live',
+    madeFor: 'Personal',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: {
+        availability: 'not-applicable',
+        note: 'The runtime toolkit is represented by its public package and source documentation.',
+      },
+    },
+    bulletPoints: [
+      'Designed compiler, diagnostics, browser, and components domains with 19 public exports, ESM-only distribution, framework CSS subpaths, and reusable internal compiler and runtime utilities',
+      'Built safe and trusted MDX pipelines with lenient CommonMark versus strict MDX detection plus Shiki, KaTeX, GitHub alert, tabs, callouts, Mermaid, PlantUML, and Graphviz integrations',
+      'Shipped a host-agnostic diagnostics API with framework-aware component analysis, stable MDXF codes, original-document source ranges, and no-eval frontmatter parsing',
+      'Implemented a browser runtime with semaphore-limited loading, module registry and cache abstractions, dependency tracking, LRU caching, style injection, and cascade cleanup',
+      'Published framework shims and registry data for Docusaurus, Starlight, Nextra, Next.js, and generic MDX consumers with cross-package Vitest coverage',
+    ],
+    technologies: [
+      'typescript',
+      'react',
+      'mdx',
+      'unified',
+      'shiki',
+      'katex',
+      'mermaid',
+      'plantuml',
+      'graphviz',
+      'vitest',
+    ],
+    repoUrl: 'https://github.com/ggfincke/mdx-forge',
+    additionalLinks: [
+      {
+        url: 'https://www.npmjs.com/package/mdx-forge',
+        label: 'npm',
+      },
+    ],
+  },
+  {
+    id: 'repo-explainer',
+    title: 'Repo Explainer',
+    tagline:
+      'Cloudflare-native demo that turns public GitHub repositories into grounded, citation-backed chat sessions.',
+    period: {
+      start: {
+        year: 2026,
+        month: 3,
+      },
+    },
+    status: 'complete',
+    madeFor: 'Personal',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: {
+        availability: 'not-applicable',
+        note: 'The completed demo is represented by its source and technical project details.',
+      },
+    },
+    bulletPoints: [
+      'Built a React UI, Worker API, and Workflow ingestion pipeline that validates repository URLs, resolves branches and commits, filters trees, downloads zipballs, chunks source, and generates overviews',
+      'Modeled sessions, files, chunks, messages, and full-text retrieval in D1 with lexical search, explicit file matching, path boosting, and file plus line-range citations',
+      'Implemented a per-session Durable Object coordinator that serializes chat updates, tracks focus and referenced files, maintains rolling memory summaries, and supports failed-index retry and reset flows',
+      'Added recent sessions, workflow progress, repository metrics, overview panels, and cited chat responses with shared Zod schemas and typed contracts across API and web packages',
+    ],
+    technologies: [
+      'typescript',
+      'react',
+      'vite',
+      'cloudflare-workers',
+      'cloudflare-workflows',
+      'durable-objects',
+      'd1',
+      'workers-ai',
+      'zod',
+      'vitest',
+    ],
+    repoUrl: 'https://github.com/ggfincke/cloudflare_repo_explainer',
+  },
+  {
     id: 'opencode-to-ccusage',
     title: 'OpenCode to ccusage',
     tagline:
-      'CLI tool that exports OpenCode sessions to ccusage-compatible JSONL and generates combined usage reports.',
+      'CLI that exports OpenCode sessions to ccusage-compatible JSONL and unified reports; largely superseded after the upstream January 2026 fix.',
     period: {
       start: {
         year: 2025,
@@ -202,7 +401,7 @@ export const projects = deepFreeze([
     id: 'reactive-workbench',
     title: 'Reactive Workbench',
     tagline:
-      'Context-aware VS Code automation that adapts themes, panels, layouts, and editor features based on workspace state.',
+      'Context-aware VS Code automation that adapts themes, panels, layouts, profiles, and editor features based on workspace state (v1.0.2).',
     period: {
       start: {
         year: 2025,
@@ -236,6 +435,44 @@ export const projects = deepFreeze([
     technologies: ['typescript', 'node-js', 'vs-code-extension-api'],
   },
   {
+    id: 'reactive-themes',
+    title: 'Reactive Themes',
+    tagline:
+      'Pre-release precursor to Reactive Workbench for automatic theme switching from declarative editor-context rules.',
+    period: {
+      start: {
+        year: 2025,
+        month: 11,
+      },
+      end: {
+        year: 2025,
+        month: 11,
+      },
+    },
+    status: 'complete',
+    madeFor: 'Personal',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: {
+        availability: 'not-applicable',
+        note: 'The extension precursor is represented by its public source and rule-engine details.',
+      },
+    },
+    bulletPoints: [
+      'Built first-match-wins theme automation around language IDs, glob patterns, workspace names, debug and test state, timers, and diff and merge views',
+      'Shipped 10 commands for toggle and reload, rule creation and management, duplicate cleanup, lint and test flows, and explain and copy-current-theme diagnostics',
+      'Implemented debounced switching with original-theme restore, overlap and unreachable-rule diagnostics, and targeted rule, trigger, lint, and extension-lifecycle tests',
+    ],
+    technologies: [
+      'typescript',
+      'node-js',
+      'vs-code-extension-api',
+      'eslint',
+      'prettier',
+    ],
+    repoUrl: 'https://github.com/ggfincke/reactive-themes',
+  },
+  {
     id: 'swimmate-v2',
     title: 'SwimMate v2',
     tagline:
@@ -261,14 +498,14 @@ export const projects = deepFreeze([
       media: { availability: 'available' },
     },
     bulletPoints: [
-      'Built Django REST API with JWT auth, OpenAPI docs, and PostgreSQL + pgvector for semantic search and workout library retrieval',
+      'Built a Django 5.2/DRF 3.16 API with rotating JWT auth, OpenAPI docs, request-ID tracing, tier-aware AI throttling, and Docker Compose deployment on PostgreSQL 16 + pgvector',
       'Engineered a hybrid RAG pipeline — dense (pgvector, text-embedding-3-large) + Postgres full-text fused w/ reciprocal-rank fusion — w/ source grounding, a versioned prompt registry (sha256 prompt hashes), a generation replay/diff endpoint, & provider-neutral generation behind a client factory',
       'Added an offline eval harness w/ schema-versioned corpora & deterministic constraint validation (stroke/intensity/distance/difficulty), measuring hybrid vs dense-only retrieval over 48 cases w/ JSON + markdown reports (pass rates, p50/p95 latency, token usage, run-over-run diffs)',
       'Modeled a planned-workout lifecycle bridging AI generation -> Apple Watch execution -> completed swim, w/ an adaptive UserFitnessState derived from execution history',
       'Added a weekly training-intelligence layer: deterministic plan assembly, training-load analytics, a pre-swim readiness engine, and a technique drill catalog',
       'Built swim-profile onboarding w/ learned/effective pace calibration per stroke, distance, and intensity',
       'Developed SwiftUI iOS/watchOS apps w/ HealthKit capture, Apple Watch live metrics, Swift Charts analytics, SwiftData persistence, & a source-grounded "why these sets?" view exposing retrieved chunks & constraint effects',
-      'Added actor-based networking with token refresh, an offline sync queue that retries pending uploads on reconnect, and secure Keychain token storage',
+      'Added actor-based networking with automatic token refresh, Keychain JWT storage, background HealthKit deduplication sync, and a cursor-paginated swim-set library',
     ],
     technologies: [
       'swift',
@@ -286,6 +523,8 @@ export const projects = deepFreeze([
       'llm-evaluation',
       'jwt',
       'python',
+      'openapi',
+      'docker-compose',
     ],
     imagePath: '/assets/projects/images/swimmatev2.png',
     imageAlt: 'SwimMate v2 full-stack platform screenshot',
@@ -338,7 +577,7 @@ export const projects = deepFreeze([
     id: 'minecart',
     title: 'Minecart',
     tagline:
-      'Web/API-first Minecraft server management platform — Hono REST API, React dashboard, & Docker/AWS EC2 hosting w/ a Discord companion.',
+      'Web/API-first Minecraft server management platform across local Docker and AWS EC2 with multi-tenant controls and a Discord companion (v0.14.0).',
     period: {
       start: {
         year: 2025,
@@ -469,11 +708,11 @@ export const projects = deepFreeze([
       },
     },
     bulletPoints: [
-      'Promoting 2,900+ MIPS R3000 functions across PS1 overlays to matching C w/ PSX GCC cross-compilers; 1,100+ fully byte-matched (~13% matched code bytes)',
-      'Read GCC 2.7.2 internals (sched.c, emit-rtl.c) to disprove a TU-optimization hypothesis and isolate real blockers (aspsx version mismatch, stabs sizing, dead-code frame inflation)',
+      'Promoted 2,295 of 2,939 MIPS R3000 functions across 12 PS1 overlays to unconditional matching C (78.1%), with 644 guarded functions remaining and every promotion verified against the original binary',
+      'Read GCC 2.7.2 internals (sched.c, emit-rtl.c) to disprove a translation-unit optimization hypothesis and isolate real blockers (aspsx version mismatch, stabs sizing, dead-code frame inflation, cross-overlay cascades)',
       'Built a custom Go build orchestrator over the splat/m2c/asm-differ/maspsx pipeline, plus Python promotion-test & register-allocation diff tooling w/ a batch scanner over hundreds of functions',
       'Enforced binary-identical correctness via 12 SHA-1 checksums — the exact binary match is the test — wired through GitHub Actions CI, w/ a Docker image for reproducible local builds',
-      'Classified & fixed thousands of type bugs and pointer casts, normalized symbol names, and held single-line comment coverage across all source files',
+      'Classified and fixed thousands of type bugs and raw pointer casts, performed 5,000+ symbol renames, and held single-line comment coverage across all 18 source files',
     ],
     technologies: [
       'c',
@@ -544,12 +783,9 @@ export const projects = deepFreeze([
         year: 2025,
         month: 5,
       },
-      end: {
-        year: 2026,
-        month: 1,
-      },
+      isCurrent: true,
     },
-    status: 'paused',
+    status: 'in-development',
     madeFor: 'Personal',
     contentStatus: {
       links: {
@@ -662,6 +898,47 @@ export const projects = deepFreeze([
     imagePath: '/assets/projects/images/portfolio.png',
     imageAlt: 'Portfolio website v1 screenshot',
     repoUrl: 'https://github.com/ggfincke/fincke.dev',
+  },
+  {
+    id: 'beacon',
+    title: 'Beacon',
+    tagline:
+      'Early multi-retailer product tracking platform centered on Django APIs, baskets, listings, and background scraping.',
+    period: {
+      start: {
+        year: 2025,
+        month: 4,
+      },
+      end: {
+        year: 2025,
+        month: 5,
+      },
+    },
+    status: 'complete',
+    madeFor: 'Personal',
+    contentStatus: {
+      links: {
+        availability: 'private',
+        note: 'The archived precursor repository is private.',
+      },
+      media: {
+        availability: 'archived',
+        note: 'No stable screenshot was retained for this early product-tracking platform.',
+      },
+    },
+    bulletPoints: [
+      'Modeled users, products, retailers, listings, baskets, and scraping services with app-level APIs, serializers and views, Django admin integration, and an ER-documented schema',
+      'Built a Dockerized backend stack with PostgreSQL, Redis, Celery, environment-based settings, and dedicated test and local configurations for asynchronous price and availability work',
+      'Added retailer, listing, basket, and product endpoints plus crawler infrastructure, database-management services, and end-to-end scraping checks that informed InStock and TrackBasket',
+    ],
+    technologies: [
+      'python',
+      'django',
+      'redis',
+      'celery',
+      'docker-compose',
+      'web-scraping',
+    ],
   },
   {
     id: 'instock',
@@ -1104,8 +1381,9 @@ export const projects = deepFreeze([
   },
   {
     id: 'memory-management-and-threading-in-c',
-    title: 'Memory Management & Threading in C',
-    tagline: 'OS simulations for paging, scheduling, and kernel extensions.',
+    title: 'Operating Systems Projects',
+    tagline:
+      'Systems projects spanning a custom allocator, x86-64 virtual memory, and concurrent channels in C.',
     period: {
       start: {
         year: 2023,
@@ -1126,16 +1404,21 @@ export const projects = deepFreeze([
       },
     },
     bulletPoints: [
-      'Page replacement simulator (FIFO/LRU/optimal) with demand paging',
-      'Thread scheduler with cooperative & preemptive modes, round‑robin/priority, and mutex sync',
-      'Kernel extensions with new syscalls and debugging tools (100% average)',
+      'Implemented malloc/free/realloc with 61 segregated free lists, boundary-tag coalescing, best-fit search across size classes, and 16-byte alignment',
+      'Built an x86-64 four-level page-table hierarchy with kernel identity mapping, user program and stack mappings, permission bits, and a syscall entry path',
+      'Implemented thread-safe bounded channels with semaphore-based space tracking, mutex protection, blocking and non-blocking operations, and select-style multiplexing',
+      'Achieved a 100% assignment average with trace-based and stress-test verification',
     ],
     technologies: [
       'c',
       'systems-programming',
       'operating-systems',
+      'x86-64',
+      'dynamic-memory-allocation',
+      'virtual-memory',
       'memory-management',
       'threading',
+      'semaphores',
     ],
     repoUrl: 'https://github.com/ggfincke/CMPSC473_projects',
     collaborators: [
