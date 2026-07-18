@@ -9,7 +9,6 @@ import type { ProjectId } from '~/shared/types'
 import { useMediaQuery } from '~/shared/hooks/useMediaQuery'
 import { ANIMATION_DELAYS } from '~/shared/utils/animationConfig'
 import { BREAKPOINTS } from '~/shared/utils/breakpoints'
-import { getCurrentYearMonth } from '~/shared/utils/dateSpan'
 import { useExpandableRows } from '~/sections/projects-archive/hooks/useExpandableRows'
 import {
   compareProjects,
@@ -37,9 +36,8 @@ export function ProjectsTable()
 
   const sortedProjects = useMemo(() =>
   {
-    const now = getCurrentYearMonth()
     return [...getAllProjects()].sort((a, b) =>
-      compareProjects(a, b, sortState, now)
+      compareProjects(a, b, sortState)
     )
   }, [sortState])
 

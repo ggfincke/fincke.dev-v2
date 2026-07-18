@@ -1,8 +1,8 @@
 // src/sections/projects-archive/utils/projectSort.ts
 // sort state, defaults, & comparators for the projects archive table
 
-import type { Project, YearMonth } from '~/shared/types'
-import { compareDateSpansByLatestDesc } from '~/shared/utils/dateSpan'
+import type { Project } from '~/shared/types'
+import { getYearMonthValue } from '~/shared/utils/dateSpan'
 import { statusConfig } from '~/shared/utils/statusConfig'
 
 export type ProjectSortKey = 'year' | 'project' | 'status' | 'madeFor'
@@ -28,18 +28,14 @@ const DEFAULT_DIRECTIONS: Record<ProjectSortKey, ProjectSortDirection> = {
   madeFor: 'asc',
 }
 
-function compareAscending(
-  a: Project,
-  b: Project,
-  key: ProjectSortKey,
-  now: YearMonth
-): number
+function compareAscending(a: Project, b: Project, key: ProjectSortKey): number
 {
   switch (key)
   {
     case 'year':
-      // dateSpan helper returns desc; negate so ascending = oldest first
-      return -compareDateSpansByLatestDesc(a.period, b.period, now)
+      return (
+        getYearMonthValue(a.period.start) - getYearMonthValue(b.period.start)
+      )
     case 'project':
       return a.title.localeCompare(b.title)
     case 'status':
@@ -52,11 +48,10 @@ function compareAscending(
 export function compareProjects(
   a: Project,
   b: Project,
-  state: ProjectSortState,
-  now: YearMonth
+  state: ProjectSortState
 ): number
 {
-  const ascending = compareAscending(a, b, state.key, now)
+  const ascending = compareAscending(a, b, state.key)
   const primary = state.direction === 'asc' ? ascending : -ascending
 
   if (primary !== 0)
