@@ -21,6 +21,9 @@ import { ICON_LINK_CLASSES } from '~/shared/utils/classNames'
 
 const iconClass = 'h-6 w-6'
 
+// pad hit areas to ~40px while the negative margin keeps the visual layout
+const TOUCH_TARGET_CLASSES = 'block p-2 -m-2'
+
 // map social link types to icon components
 const SOCIAL_ICON_MAP = {
   email: () => <EmailIcon className={iconClass} />,
@@ -84,7 +87,7 @@ function PhoneRevealButton()
             : SOCIAL_LINKS_CONTENT.showPhoneLabel
         }
         aria-expanded={revealed}
-        className={ICON_LINK_CLASSES}
+        className={`${ICON_LINK_CLASSES} ${TOUCH_TARGET_CLASSES}`}
       >
         <PhoneIcon className={iconClass} />
       </button>
@@ -131,7 +134,7 @@ export function SocialLinks()
             href={link.url}
             label={link.label}
             openInNewTab={link.openInNewTab}
-            className="text-[var(--muted)] transition hover:text-[var(--accent)]"
+            className={`${TOUCH_TARGET_CLASSES} text-[var(--muted)] transition hover:text-[var(--accent)]`}
           >
             <Icon />
           </IconLink>

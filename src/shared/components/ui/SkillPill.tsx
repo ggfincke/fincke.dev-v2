@@ -66,6 +66,29 @@ export function SkillPill({
     }
   }, [hasTooltip, hoverDelay, isTriggerActive])
 
+  // dismiss on Escape w/o moving pointer or focus (WCAG 1.4.13)
+  useEffect(() =>
+  {
+    if (!isTriggerActive)
+    {
+      return
+    }
+
+    function handleKey(event: KeyboardEvent)
+    {
+      if (event.key === 'Escape')
+      {
+        setIsTriggerActive(false)
+      }
+    }
+
+    window.addEventListener('keydown', handleKey)
+    return () =>
+    {
+      window.removeEventListener('keydown', handleKey)
+    }
+  }, [isTriggerActive])
+
   const sizeClasses = {
     xs: 'px-2 py-1 text-xs',
     sm: 'px-2 py-1 md:px-3 md:py-1 text-xs sm:text-sm',

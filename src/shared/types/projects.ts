@@ -6,11 +6,17 @@ import type { DateSpan } from '~/shared/types/dates'
 
 // known project entry ids
 export const PROJECT_IDS = [
+  'cartographer',
+  'agentic-scratch',
+  'personal-ai-coding-skills',
   'coral',
   'tierlistbuilder',
   'mdx-preview-for-vs-code',
+  'mdx-forge',
+  'repo-explainer',
   'opencode-to-ccusage',
   'reactive-workbench',
+  'reactive-themes',
   'swimmate-v2',
   'portfolio-website-v2',
   'minecart',
@@ -20,6 +26,7 @@ export const PROJECT_IDS = [
   'conduit',
   'trackbasket',
   'portfolio-website-v1',
+  'beacon',
   'instock',
   'deep-learning-architecture-comparison-and-analysis-for-cifar-10',
   'computer-architecture-projects',
@@ -40,12 +47,7 @@ export type ProjectId = (typeof PROJECT_IDS)[number]
 
 // project lifecycle status union type
 export type ProjectStatus =
-  | 'live'
-  | 'in-development'
-  | 'paused'
-  | 'complete'
-  | 'experimental'
-  | 'planned'
+  'live' | 'in-development' | 'paused' | 'complete' | 'experimental' | 'planned'
 
 // featured project presentation tier
 export type ProjectFeatureTier = 'default' | 'wide'

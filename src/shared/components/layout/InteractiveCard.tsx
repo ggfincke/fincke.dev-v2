@@ -6,8 +6,10 @@ import type { ReactNode } from 'react'
 import { ExternalLink } from '~/shared/components/ui/ExternalLink'
 import { CARD_HOVER_BACKDROP, cn } from '~/shared/utils/classNames'
 
-const BASE_CLASSES =
-  'group relative block p-1 transition-opacity lg:hover:!opacity-100 lg:group-hover/list:opacity-50'
+const BASE_CLASSES = 'relative block p-1'
+
+// hover affordances only apply to linked cards so static cards don't read as clickable
+const LINK_CLASSES = 'group'
 
 // props for interactive card
 interface InteractiveCardProps
@@ -30,11 +32,13 @@ export function InteractiveCard({
   withHoverBackdrop = false,
 }: InteractiveCardProps)
 {
-  const classes = cn(BASE_CLASSES, className)
+  const isLink = Boolean(href)
+  const showHoverBackdrop = withHoverBackdrop && isLink
+  const classes = cn(BASE_CLASSES, isLink && LINK_CLASSES, className)
   const content =
-    withHoverBackdrop || contentClassName ? (
+    showHoverBackdrop || contentClassName ? (
       <div
-        className={cn(withHoverBackdrop && 'relative z-10', contentClassName)}
+        className={cn(showHoverBackdrop && 'relative z-10', contentClassName)}
       >
         {children}
       </div>
@@ -42,7 +46,7 @@ export function InteractiveCard({
       children
     )
 
-  const inner = withHoverBackdrop ? (
+  const inner = showHoverBackdrop ? (
     <>
       <div className={CARD_HOVER_BACKDROP} />
       {content}

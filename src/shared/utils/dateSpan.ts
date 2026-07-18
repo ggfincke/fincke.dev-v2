@@ -23,31 +23,10 @@ const MONTH_LABELS = [
   'Dec',
 ] as const
 
-// expose so callers can compute "now" once & thread it through hot loops
-export function getCurrentYearMonth(): YearMonth
-{
-  const now = new Date()
-
-  return {
-    year: now.getFullYear(),
-    month: now.getMonth() + 1,
-  }
-}
-
 // integer key (YYYYMM) for ordered comparison of YearMonth values
 export function getYearMonthValue(value: YearMonth): number
 {
   return value.year * 100 + value.month
-}
-
-function getLatestPoint(period: DateSpan, now: YearMonth): YearMonth
-{
-  if (period.isCurrent)
-  {
-    return now
-  }
-
-  return period.end ?? period.start
 }
 
 export function formatYearMonth(value: YearMonth): string
@@ -81,22 +60,4 @@ export function formatDateSpan(
 export function getDateSpanStartYear(period: DateSpan): string
 {
   return `${period.start.year}`
-}
-
-export function compareDateSpansByLatestDesc(
-  left: DateSpan,
-  right: DateSpan,
-  now = getCurrentYearMonth()
-): number
-{
-  const latestDifference =
-    getYearMonthValue(getLatestPoint(right, now)) -
-    getYearMonthValue(getLatestPoint(left, now))
-
-  if (latestDifference !== 0)
-  {
-    return latestDifference
-  }
-
-  return getYearMonthValue(right.start) - getYearMonthValue(left.start)
 }

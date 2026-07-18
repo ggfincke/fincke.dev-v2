@@ -3,7 +3,7 @@
 
 import { projects } from '~/content/projects'
 import type { TechnologyId } from '~/content/technologies'
-import type { Project, ProjectId, YearMonth } from '~/shared/types'
+import type { Project, ProjectId } from '~/shared/types'
 
 // look up a project fixture by id; throw w/ a useful message on miss
 export function getProjectFixture(id: ProjectId): Project
@@ -32,8 +32,3 @@ export const TECHNOLOGY_ALIAS_CASES: ReadonlyArray<
   ['UIkit', 'uikit'],
   ['Hugging Face Transformers', 'transformers'],
 ]
-
-export const REFERENCE_NOW: YearMonth = {
-  year: 2026,
-  month: 3,
-}

@@ -5,12 +5,16 @@ import { PROJECTS_CONTENT } from '~/content/projects'
 import { PageShell } from '~/shared/components/layout/PageShell'
 import { ActionLink } from '~/shared/components/ui/ActionLink'
 import { ChevronIcon } from '~/shared/components/ui/icons'
+import { usePageTitle } from '~/shared/hooks/usePageTitle'
 import { PUBLIC_ROUTE_PATHS } from '~/shared/routing/publicRoutes'
 import { ProjectsTable } from '~/sections/projects-archive/components/ProjectsTable'
+import { StatusLegend } from '~/sections/projects-archive/components/StatusLegend'
 
 // * Projects archive page component
 export function ProjectsArchivePage()
 {
+  usePageTitle(PROJECTS_CONTENT.archiveTitle)
+
   return (
     <PageShell className="pt-12 pb-24">
       <header className="space-y-4">
@@ -38,7 +42,10 @@ export function ProjectsArchivePage()
         <h2 id="projects-archive-list-heading" className="sr-only">
           {PROJECTS_CONTENT.archiveListHeading}
         </h2>
-        <ProjectsTable />
+        <StatusLegend />
+        <div className="mt-4">
+          <ProjectsTable />
+        </div>
       </section>
 
       <footer className="mt-16 text-center text-sm text-[var(--muted)]">

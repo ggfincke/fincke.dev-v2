@@ -52,6 +52,8 @@
 html,
 body
 {
+  /* dark-only site: keep native UI (scrollbars, form controls) dark too */
+  color-scheme: dark;
   background: var(--bg);
   color: var(--muted);
   -webkit-text-size-adjust: 100%;

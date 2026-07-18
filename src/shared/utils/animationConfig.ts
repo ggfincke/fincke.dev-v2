@@ -12,6 +12,8 @@ export const ANIMATION_DELAYS = {
   projectsArchive: {
     mobile: { base: 0.05, step: 0.03 },
     desktop: { base: 0.05, step: 0.025 },
+    // cap so late rows in a long archive don't wait out the full linear ramp
+    maxDelay: 0.5,
   },
 } as const
 
@@ -51,32 +53,39 @@ export const MOTION_CLASSES = {
     'transition-[box-shadow,transform] duration-300 ease-emphasized-out motion-reduce:transition-none',
 } as const
 
-// compute staggered animation delay for list items
+// compute staggered animation delay for list items, optionally clamped
 export const staggerDelay = (
   base: number,
   step: number,
-  index: number
-): string => `${(base + index * step).toFixed(2)}s`
+  index: number,
+  maxDelay?: number
+): string =>
+{
+  const delay = base + index * step
+  return `${(maxDelay === undefined ? delay : Math.min(delay, maxDelay)).toFixed(2)}s`
+}
 
 // build the inline `style` object that consumers always wrap staggerDelay in
 export function getStaggerStyle(
   base: number,
   step: number,
-  index: number
+  index: number,
+  maxDelay?: number
 ): { animationDelay: string }
 {
-  return { animationDelay: staggerDelay(base, step, index) }
+  return { animationDelay: staggerDelay(base, step, index, maxDelay) }
 }
 
 // className + style pair for a staggered slide-in entrance
 export function getStaggerProps(
   base: number,
   step: number,
-  index: number
+  index: number,
+  maxDelay?: number
 ): { className: string; style: { animationDelay: string } }
 {
   return {
     className: 'animate-slide-in-up opacity-0',
-    style: getStaggerStyle(base, step, index),
+    style: getStaggerStyle(base, step, index, maxDelay),
   }
 }

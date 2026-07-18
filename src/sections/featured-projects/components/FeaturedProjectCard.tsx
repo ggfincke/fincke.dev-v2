@@ -22,7 +22,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps)
   return (
     <InteractiveCard
       href={viewModel.primaryHref}
-      contentClassName="flex gap-4"
+      contentClassName="flex flex-col gap-4 sm:flex-row"
       withHoverBackdrop
     >
       {viewModel.imagePath && (
