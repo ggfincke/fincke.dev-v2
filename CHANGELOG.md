@@ -5,15 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.9.6] - 2026-07-01
+## [2.10.0] - 2026-07-18
+
+### Added
+
+- New projects: Cartographer, mdx-forge, Repo Explainer and others
+- Archive status legend for project statuses
+- Tappable mobile cards in the projects archive
+- URL-backed sorting state for the projects archive
+
+### Changed
+
+- Refreshed several project entries and updated the resume
+- Sorted the archive Year column by project start date
+- Added missing repository link for Coral
+- Bumped Prettier toolchain and pruned dependency overrides to reformat union types
 
 ### Fixed
 
-- Content Health no longer fails on Tier List Builder's intentionally private repo link; `check-links` downgrades a known-private repo's non-2xx response to a warning instead of a failure, matching the existing anti-bot-host policy
+- Restricted hover affordances to linked cards only; added external markers to job links
+- Improved page titles, touch targets, and tooltip escape accessibility
+- Resolved dark color-scheme issues and fixed stacked featured cards on mobile viewports
+
+## [2.9.6] - 2026-07-01
 
 ### Changed
 
 - Bumped dependencies within their existing semver ranges (React, React Router, Vite, Vitest, Playwright, typescript-eslint, and others); left `prettier` pinned at 3.8.3 since 3.9.4 collapses multi-line union types onto one line, conflicting with this codebase's formatting
+
+### Fixed
+
+- Content Health no longer fails on Tier List Builder's intentionally private repo link; `check-links` downgrades a known-private repo's non-2xx response to a warning instead of a failure, matching the existing anti-bot-host policy
 
 ## [2.9.5] - 2026-06-14
 
@@ -432,9 +454,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **Complete website redesign**: Rebuilt fincke.dev with a focus on minimalism and simplicity
-- **Framework overhaul**: Built with Vite 7, React 19, and React Router 7 for pure client-side architecture
-- **Styling**: Single, unified color scheme using Tailwind CSS 4 design tokens
-- **Architecture**: Streamlined sections-based component organization with minimal dependencies
-
-> New repository representing a major shift toward simplicity and client-side minimal architecture.
+- Complete website redesign: rebuilt fincke.dev with a focus on minimalism and simplicity
+- Framework overhaul: built with Vite 7, React 19, and React Router 7 for pure client-side architecture
+- Styling: single, unified color scheme using Tailwind CSS 4 design tokens
+- Architecture: streamlined sections-based component organization with minimal dependencies
+- New repository representing a major shift toward simplicity and client-side minimal architecture
