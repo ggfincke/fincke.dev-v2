@@ -8,6 +8,7 @@ import { ProjectCollaborators } from '~/shared/components/projects/ProjectCollab
 import { ProjectTechnologies } from '~/shared/components/projects/ProjectTechnologies'
 import { StatusCircle } from '~/shared/components/ui/StatusCircle'
 import type { Project, ProjectId } from '~/shared/types'
+import { getNestedInteractionProps } from '~/shared/utils/interaction'
 import type { ProjectViewModel } from '~/shared/utils/projectViewModel'
 import { ExpandToggle } from '~/sections/projects-archive/components/ExpandToggle'
 
@@ -32,9 +33,12 @@ function ProjectMobileCardImpl({
   const titleId = `${viewModel.detailsId}-summary-title`
 
   return (
+    // card-wide tap is a pointer convenience; ExpandToggle is the accessible control
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
     <article
-      className={`group rounded-lg px-4 py-3 transition-[border-color,background-color] duration-200 hover:bg-[var(--card)]/50 ${expanded ? 'border border-[var(--accent)]/30 bg-[var(--card)]/50' : 'border border-[var(--border)] bg-[var(--card)]/30'}`}
+      className={`group cursor-pointer rounded-lg px-4 py-3 transition-[border-color,background-color] duration-200 hover:bg-[var(--card)]/50 ${expanded ? 'border border-[var(--accent)]/30 bg-[var(--card)]/50' : 'border border-[var(--border)] bg-[var(--card)]/30'}`}
       aria-labelledby={titleId}
+      onClick={onToggle}
     >
       <div className="flex items-start justify-between gap-4">
         <span className="min-w-[3rem] text-sm font-medium font-mono text-[var(--muted)]">
@@ -46,12 +50,17 @@ function ProjectMobileCardImpl({
         >
           {project.title}
         </h3>
-        <ExpandToggle
-          expanded={expanded}
-          onToggle={onToggle}
-          controlsId={viewModel.detailsId}
-          title={project.title}
-        />
+        <span
+          className="flex shrink-0"
+          {...getNestedInteractionProps<HTMLSpanElement>()}
+        >
+          <ExpandToggle
+            expanded={expanded}
+            onToggle={onToggle}
+            controlsId={viewModel.detailsId}
+            title={project.title}
+          />
+        </span>
       </div>
 
       {project.collaborators && project.collaborators.length > 0 && (
@@ -62,7 +71,10 @@ function ProjectMobileCardImpl({
         />
       )}
 
-      <div className="flex items-center gap-2 mt-2 ml-[3rem] pl-4">
+      <div
+        className="flex items-center gap-2 mt-2 ml-[3rem] pl-4"
+        {...getNestedInteractionProps<HTMLDivElement>()}
+      >
         <StatusCircle status={project.status} size={22} />
         <ProjectTechnologies
           technologies={project.technologies}

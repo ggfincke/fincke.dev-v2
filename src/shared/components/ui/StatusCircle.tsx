@@ -11,10 +11,16 @@ interface StatusCircleProps
 {
   status: ProjectStatus
   size?: number
+  // set when a visible label sits next to the circle so it isn't announced twice
+  decorative?: boolean
 }
 
 // circular status indicator w/ emoji
-export function StatusCircle({ status, size = 32 }: StatusCircleProps)
+export function StatusCircle({
+  status,
+  size = 32,
+  decorative = false,
+}: StatusCircleProps)
 {
   const statusDisplay = statusConfig[status]
 
@@ -31,8 +37,9 @@ export function StatusCircle({ status, size = 32 }: StatusCircleProps)
     <span
       className="inline-flex items-center justify-center rounded-full font-medium"
       style={style}
-      aria-label={statusDisplay.label}
-      title={statusDisplay.label}
+      aria-hidden={decorative || undefined}
+      aria-label={decorative ? undefined : statusDisplay.label}
+      title={decorative ? undefined : statusDisplay.label}
     >
       {statusDisplay.icon}
     </span>

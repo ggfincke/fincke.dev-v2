@@ -1,7 +1,8 @@
 // src/sections/projects-archive/components/ProjectsTable.tsx
 // comprehensive projects table w/ responsive card & table layouts
 
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 import { getAllProjects } from '~/content/projects'
 import { StaggeredItem } from '~/shared/components/layout/StaggeredItem'
@@ -12,10 +13,10 @@ import { BREAKPOINTS } from '~/shared/utils/breakpoints'
 import { useExpandableRows } from '~/sections/projects-archive/hooks/useExpandableRows'
 import {
   compareProjects,
-  DEFAULT_PROJECT_SORT,
   nextSortState,
+  parseSortParams,
+  serializeSortParams,
   type ProjectSortKey,
-  type ProjectSortState,
 } from '~/sections/projects-archive/utils/projectSort'
 import { ProjectExpansionPanel } from '~/sections/projects-archive/components/ProjectExpansionPanel'
 import { ProjectMobileCard } from '~/sections/projects-archive/components/ProjectMobileCard'
@@ -31,8 +32,9 @@ export function ProjectsTable()
 {
   const isDesktop = useMediaQuery(BREAKPOINTS.tabletQuery)
   const { toggleRow, isExpanded } = useExpandableRows<ProjectId>()
-  const [sortState, setSortState] =
-    useState<ProjectSortState>(DEFAULT_PROJECT_SORT)
+  // sort state lives in the URL so refresh/back/share preserve it
+  const [searchParams, setSearchParams] = useSearchParams()
+  const sortState = useMemo(() => parseSortParams(searchParams), [searchParams])
 
   const sortedProjects = useMemo(() =>
   {
@@ -41,10 +43,20 @@ export function ProjectsTable()
     )
   }, [sortState])
 
-  const handleSort = useCallback((key: ProjectSortKey) =>
-  {
-    setSortState((current) => nextSortState(current, key))
-  }, [])
+  const handleSort = useCallback(
+    (key: ProjectSortKey) =>
+    {
+      setSearchParams(
+        (current) =>
+          serializeSortParams(
+            current,
+            nextSortState(parseSortParams(current), key)
+          ),
+        { replace: true }
+      )
+    },
+    [setSearchParams]
+  )
 
   if (!isDesktop)
   {
@@ -62,6 +74,7 @@ export function ProjectsTable()
                 baseDelay={ANIMATION_DELAYS.projectsArchive.mobile.base}
                 stepDelay={ANIMATION_DELAYS.projectsArchive.mobile.step}
                 index={index}
+                maxDelay={ANIMATION_DELAYS.projectsArchive.maxDelay}
               >
                 <ProjectMobileCard
                   project={project}

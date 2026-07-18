@@ -82,3 +82,63 @@ export function nextSortState(
     direction: DEFAULT_DIRECTIONS[key],
   }
 }
+
+// URL search param names so refresh/back/share preserve the sort
+const SORT_PARAM = 'sort'
+const DIRECTION_PARAM = 'dir'
+
+const SORT_KEYS: readonly ProjectSortKey[] = [
+  'year',
+  'project',
+  'status',
+  'madeFor',
+]
+
+function isProjectSortKey(value: string | null): value is ProjectSortKey
+{
+  return SORT_KEYS.includes(value as ProjectSortKey)
+}
+
+// read sort state from URL params, falling back to the default
+export function parseSortParams(params: URLSearchParams): ProjectSortState
+{
+  const key = params.get(SORT_PARAM)
+
+  if (!isProjectSortKey(key))
+  {
+    return DEFAULT_PROJECT_SORT
+  }
+
+  const direction = params.get(DIRECTION_PARAM)
+
+  return {
+    key,
+    direction:
+      direction === 'asc' || direction === 'desc'
+        ? direction
+        : DEFAULT_DIRECTIONS[key],
+  }
+}
+
+// write sort state into URL params; drops them at the default for clean URLs
+export function serializeSortParams(
+  params: URLSearchParams,
+  state: ProjectSortState
+): URLSearchParams
+{
+  const next = new URLSearchParams(params)
+
+  if (
+    state.key === DEFAULT_PROJECT_SORT.key &&
+    state.direction === DEFAULT_PROJECT_SORT.direction
+  )
+  {
+    next.delete(SORT_PARAM)
+    next.delete(DIRECTION_PARAM)
+    return next
+  }
+
+  next.set(SORT_PARAM, state.key)
+  next.set(DIRECTION_PARAM, state.direction)
+  return next
+}

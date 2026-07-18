@@ -40,7 +40,8 @@ function ProjectTableRowImpl({
   const { className: staggerClassName, style: staggerStyle } = getStaggerProps(
     ANIMATION_DELAYS.projectsArchive.desktop.base,
     ANIMATION_DELAYS.projectsArchive.desktop.step,
-    index
+    index,
+    ANIMATION_DELAYS.projectsArchive.maxDelay
   )
 
   return (
