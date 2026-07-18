@@ -40,12 +40,7 @@ export type ProjectId = (typeof PROJECT_IDS)[number]
 
 // project lifecycle status union type
 export type ProjectStatus =
-  | 'live'
-  | 'in-development'
-  | 'paused'
-  | 'complete'
-  | 'experimental'
-  | 'planned'
+  'live' | 'in-development' | 'paused' | 'complete' | 'experimental' | 'planned'
 
 // featured project presentation tier
 export type ProjectFeatureTier = 'default' | 'wide'

@@ -23,9 +23,7 @@ interface PublicFileEntry
 }
 
 export type PublicFileCategory =
-  | LocalFileReference['category']
-  | 'ignored'
-  | 'orphan'
+  LocalFileReference['category'] | 'ignored' | 'orphan'
 
 export interface ClassifiedPublicFile
 {

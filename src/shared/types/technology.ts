@@ -3,12 +3,7 @@
 
 // technology category union type
 export type TechnologyCategory =
-  | 'language'
-  | 'framework'
-  | 'infra'
-  | 'data'
-  | 'tooling'
-  | 'platform'
+  'language' | 'framework' | 'infra' | 'data' | 'tooling' | 'platform'
 
 // canonical technology entry shape
 export interface TechnologyDefinition<TId extends string = string>
