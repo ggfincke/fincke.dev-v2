@@ -2,10 +2,13 @@
 // 404 not found page for unmatched routes
 
 import { FullScreenMessagePage } from '~/shared/components/feedback/FullScreenMessagePage'
+import { usePageTitle } from '~/shared/hooks/usePageTitle'
 
 // 404 page w/ shared full-screen message shell
 export function NotFoundPage()
 {
+  usePageTitle('Page Not Found')
+
   return (
     <FullScreenMessagePage
       visual={
