@@ -22,7 +22,7 @@ export const WORK_EXPERIENCE = deepFreeze([
       isCurrent: true,
     },
     description:
-      'Python 3.14/FastAPI service exposing Oracle Document Index data through 15 OpenAPI operations for an internal Databricks agentic AI platform. Added Active Directory and project authorization, rate limiting, tracing, hierarchy traversal, and readiness probes; validated across 60,000 CI memberships.',
+      'Python 3.14/FastAPI service with 15 OpenAPI operations for source-grounded Oracle document-index access on an internal Databricks agent platform. Shipped AD/Oracle auth, rate limiting, and readiness checks across 60,000 CI memberships.',
     technologies: ['python', 'fastapi', 'oracle', 'openapi', 'databricks'],
   },
   {
@@ -40,13 +40,12 @@ export const WORK_EXPERIENCE = deepFreeze([
       },
     },
     description:
-      'Python evaluation harnesses for LLM-generated code: sandboxed Docker execution, automated compilation, linting, tests, and pass@k metrics, plus schema-versioned Pydantic and JSON Schema pipelines with PostgreSQL validation.',
+      'Python/Docker evaluation harnesses for LLM-generated code with pass@k scoring and failure analysis. Built schema-versioned Pydantic/JSON Schema pipelines with deterministic sampling, plus dashboards for evaluation failure triage.',
     technologies: [
       'python',
       'docker',
       'pydantic',
       'json-schema',
-      'postgresql',
       'llm-evaluation',
     ],
     link: 'https://medium.com/@ggfincke/how-pass-k-is-used-to-evaluate-llm-coding-performance-296e5c4565bc',
