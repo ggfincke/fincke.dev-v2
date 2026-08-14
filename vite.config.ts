@@ -19,8 +19,17 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
+        // keep core runtime packages in one stable vendor chunk
+        manualChunks(id)
+        {
+          if (
+            id.includes('/node_modules/react/') ||
+            id.includes('/node_modules/react-dom/') ||
+            id.includes('/node_modules/react-router')
+          )
+          {
+            return 'vendor'
+          }
         },
       },
     },

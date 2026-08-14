@@ -190,8 +190,8 @@ body
   }
 }
 
-/* hide decorative wave on short viewports where it overlaps content */
-@media (max-height: 900px)
+/* hide decorative wave when reduced browser height lets it overlap content */
+@media (max-height: 980px)
 {
   .decorative-wave
   {
