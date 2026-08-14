@@ -56,7 +56,7 @@ export const projects = deepFreeze([
     period: {
       start: {
         year: 2026,
-        month: 2,
+        month: 7,
       },
       isCurrent: true,
     },

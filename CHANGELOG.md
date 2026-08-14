@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.10.3] - 2026-08-14
+
+### Changed
+
+- Refined the Westinghouse experience entry and updated 456code's project chronology
+- Refreshed the React, Vite, ESLint, TypeScript, Tailwind, Lighthouse, Playwright, and Vitest toolchain
+
+### Fixed
+
+- Kept the decorative wave clear of short debug-banner viewports while preserving it on full-height screens
+- Preserved lazy project-detail mounting and tooltip/release badge behavior under the upgraded React lint rules
+
 ## [2.10.2] - 2026-08-12
 
 ### Added

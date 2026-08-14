@@ -22,7 +22,7 @@ export const WORK_EXPERIENCE = deepFreeze([
       isCurrent: true,
     },
     description:
-      'Built a Python/FastAPI service exposing Oracle-backed Document Index data through 15 OpenAPI operations, adopted across SharePoint, document-revision, and Excel workflows. Engineered deterministic retrieval and project access controls across 500+ baselines/releases, 1,700+ locations, and 60,000 CI memberships; Databricks agent-platform and project-database integrations are in progress.',
+      'Built a Python/FastAPI service for Oracle-backed Document Index data, exposing 15 OpenAPI operations across SharePoint, revision, and Excel workflows. Added deterministic retrieval and access controls across 60,000 CI memberships.',
     technologies: ['python', 'fastapi', 'oracle', 'openapi', 'databricks'],
   },
   {

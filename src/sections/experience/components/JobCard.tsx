@@ -25,7 +25,7 @@ export function JobCard({ job }: JobCardProps)
 
       <div className="mb-1 text-sm text-[var(--yellow)]">{job.title}</div>
 
-      <p className="text-sm leading-relaxed text-[var(--muted)]">
+      <p className="text-sm leading-relaxed text-[var(--muted)] lg:line-clamp-3">
         {job.description}
       </p>
 

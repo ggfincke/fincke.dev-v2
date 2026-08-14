@@ -15,6 +15,12 @@ interface GitHubRepo
   repo: string
 }
 
+interface ReleaseState
+{
+  repoUrl: string
+  version: string | null
+}
+
 type CachedRelease = string | null | undefined
 
 const RELEASE_MISS_TTL_MS = 1000 * 60 * 30
@@ -174,12 +180,10 @@ function fetchLatestRelease({
 // latest release version badge from GitHub API (cached in sessionStorage)
 export function VersionBadge({ repoUrl }: VersionBadgeProps)
 {
-  const [version, setVersion] = useState<string | null>(null)
+  const [release, setRelease] = useState<ReleaseState | null>(null)
 
   useEffect(() =>
   {
-    setVersion(null)
-
     const githubRepo = parseGitHubRepo(repoUrl)
     if (!githubRepo)
     {
@@ -188,19 +192,18 @@ export function VersionBadge({ repoUrl }: VersionBadgeProps)
 
     const cacheKey = `gh-release:${githubRepo.owner}/${githubRepo.repo}`
     const cached = getCachedRelease(cacheKey)
-    if (cached !== undefined)
-    {
-      setVersion(cached)
-      return
-    }
-
     let isActive = true
 
-    fetchLatestRelease(githubRepo).then((latestVersion) =>
+    const releaseRequest =
+      cached !== undefined
+        ? Promise.resolve(cached)
+        : fetchLatestRelease(githubRepo)
+
+    releaseRequest.then((latestVersion) =>
     {
       if (isActive)
       {
-        setVersion(latestVersion)
+        setRelease({ repoUrl, version: latestVersion })
       }
     })
 
@@ -209,6 +212,8 @@ export function VersionBadge({ repoUrl }: VersionBadgeProps)
       isActive = false
     }
   }, [repoUrl])
+
+  const version = release?.repoUrl === repoUrl ? release.version : null
 
   if (!version) return null
 
