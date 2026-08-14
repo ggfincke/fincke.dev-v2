@@ -31,7 +31,7 @@ import { getProjectViewModel } from '~/shared/utils/projectViewModel'
 export function ProjectsTable()
 {
   const isDesktop = useMediaQuery(BREAKPOINTS.tabletQuery)
-  const { toggleRow, isExpanded } = useExpandableRows<ProjectId>()
+  const { toggleRow, isExpanded, hasOpened } = useExpandableRows<ProjectId>()
   // sort state lives in the URL so refresh/back/share preserve it
   const [searchParams, setSearchParams] = useSearchParams()
   const sortState = useMemo(() => parseSortParams(searchParams), [searchParams])
@@ -66,6 +66,7 @@ export function ProjectsTable()
           {sortedProjects.map((project, index) =>
           {
             const expanded = isExpanded(project.id)
+            const opened = hasOpened(project.id)
             const viewModel = getProjectViewModel(project)
 
             return (
@@ -85,6 +86,7 @@ export function ProjectsTable()
 
                 <ProjectExpansionPanel
                   expanded={expanded}
+                  hasOpened={opened}
                   id={viewModel.detailsId}
                   label={viewModel.detailsLabel}
                 >
@@ -152,6 +154,7 @@ export function ProjectsTable()
           {sortedProjects.flatMap((project, index) =>
           {
             const expanded = isExpanded(project.id)
+            const opened = hasOpened(project.id)
             const viewModel = getProjectViewModel(project)
 
             const mainRow = (
@@ -170,6 +173,7 @@ export function ProjectsTable()
                 <td colSpan={7} className="p-0">
                   <ProjectExpansionPanel
                     expanded={expanded}
+                    hasOpened={opened}
                     id={viewModel.detailsId}
                     label={viewModel.detailsLabel}
                   >

@@ -35,7 +35,7 @@ export function SkillPill({
 }: SkillPillProps)
 {
   const [isTriggerActive, setIsTriggerActive] = useState(false)
-  const [showTooltip, setShowTooltip] = useState(false)
+  const [isTooltipReady, setIsTooltipReady] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const tooltipId = useId()
   const { label, textColor, bgColor } = getTechnologyDisplay(technologyId)
@@ -45,19 +45,19 @@ export function SkillPill({
     hasTooltip && isTriggerActive && getRelatedProjects
       ? getRelatedProjects(technologyId)
       : EMPTY_PROJECTS
+  const showTooltip = hasTooltip && isTriggerActive && isTooltipReady
 
   // delay showing tooltip until hover sticks
   useEffect(() =>
   {
     if (!hasTooltip || !isTriggerActive)
     {
-      setShowTooltip(false)
       return
     }
 
     const timeoutId = setTimeout(() =>
     {
-      setShowTooltip(true)
+      setIsTooltipReady(true)
     }, hoverDelay)
 
     return () =>
@@ -79,6 +79,7 @@ export function SkillPill({
       if (event.key === 'Escape')
       {
         setIsTriggerActive(false)
+        setIsTooltipReady(false)
       }
     }
 
@@ -119,10 +120,26 @@ export function SkillPill({
         className={`appearance-none border-0 ${pillClasses}`}
         aria-label={label}
         aria-describedby={showTooltip ? tooltipId : undefined}
-        onMouseEnter={() => setIsTriggerActive(true)}
-        onMouseLeave={() => setIsTriggerActive(false)}
-        onFocus={() => setIsTriggerActive(true)}
-        onBlur={() => setIsTriggerActive(false)}
+        onMouseEnter={() =>
+        {
+          setIsTriggerActive(true)
+          setIsTooltipReady(false)
+        }}
+        onMouseLeave={() =>
+        {
+          setIsTriggerActive(false)
+          setIsTooltipReady(false)
+        }}
+        onFocus={() =>
+        {
+          setIsTriggerActive(true)
+          setIsTooltipReady(false)
+        }}
+        onBlur={() =>
+        {
+          setIsTriggerActive(false)
+          setIsTooltipReady(false)
+        }}
       >
         {label}
       </button>
