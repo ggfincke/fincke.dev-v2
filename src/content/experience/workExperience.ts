@@ -19,7 +19,10 @@ export const WORK_EXPERIENCE = deepFreeze([
         year: 2026,
         month: 5,
       },
-      isCurrent: true,
+      end: {
+        year: 2026,
+        month: 12,
+      },
     },
     description:
       'Built a Python/FastAPI service for Oracle-backed Document Index data, exposing 15 OpenAPI operations across SharePoint, revision, and Excel workflows. Added deterministic retrieval and access controls across 60,000 CI memberships.',

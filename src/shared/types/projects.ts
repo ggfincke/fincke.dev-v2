@@ -23,6 +23,7 @@ export const PROJECT_IDS = [
   'minecart',
   'hopper',
   'ff7-decomp',
+  'humaneval-extensions-pass-k-study',
   'loom',
   'conduit',
   'trackbasket',
