@@ -32,8 +32,8 @@ export const projects = deepFreeze([
     bulletPoints: [
       'Built TypeScript/JavaScript import-graph analysis with semantic Systems and Blocks, symbol extraction, file descriptions, co-change history, structural and public-API diffs, and symbol-aware blast-radius analysis',
       'Delivered CLI, MCP, Markdown report, watch, SQLite snapshot-history, GitHub Action, and project-registry surfaces for architecture discovery and pull-request drift analysis',
-      'Engineered a React atlas with Atlas, Trace, Impact, Boundary, Changes, and Risk workspaces, URL-backed navigation, boundary contracts, inspector evidence, and scoped insights',
-      'Added authored dependency rules, violation-aware pull-request gates, and stored graph-patch proposals with preview, validation, and staleness detection',
+      'Engineered a React atlas with Architecture, Explore, Trace, Impact, Boundary, Changes, and Risk workspaces, URL-backed navigation, boundary contracts, inspector evidence, and scoped Insights',
+      'Added citation-backed dependency rules, runtime/process and user-journey models, dedicated Rules and Journey workspaces, violation-aware pull-request gating, and bounded hypothetical graph-patch proposals with staleness tracking, move detection, and diff overlays',
       'Scaled large-repository analysis with coarse indexed atlases, virtualized exploration, module-worker model and layout builds, bounded graph budgets, and LRU caches',
     ],
     technologies: [
@@ -52,7 +52,7 @@ export const projects = deepFreeze([
     id: '456code',
     title: '456code',
     tagline:
-      'Personal fork of t3code: a multi-provider web, desktop, and mobile workspace for coding agents with durable orchestration and isolated Git worktrees.',
+      'Local-first multi-client coding-agent workspace maintained as a substantially extended personal fork of T3 Code.',
     period: {
       start: {
         year: 2026,
@@ -64,17 +64,13 @@ export const projects = deepFreeze([
     madeFor: 'Personal',
     contentStatus: {
       links: { availability: 'available' },
-      media: {
-        availability: 'not-applicable',
-        note: 'The personal fork is represented by its public repository and technical details.',
-      },
+      media: { availability: 'available' },
     },
     bulletPoints: [
-      'Extended t3code across its React web app, Electron desktop host, Expo mobile client, and Node.js HTTP/WebSocket server around a shared authenticated runtime',
-      'Unified Codex, Claude, Cursor, Grok, and OpenCode behind one provider service with persisted event-driven thread state and queue-backed runtime and checkpoint processing',
-      'Added an approval-gated Orchestrate mode with persisted plans, bounded worker counts, provider and model selection, and live worker-broker status',
-      'Implemented optional per-thread Git worktrees, hidden-ref checkpoints, turn diffs and restore, integrated terminals, and remote environments over LAN, Tailscale, HTTPS, and SSH',
-      "Added immutable plan-linked proposal revisions with exact Git capture, source diffs, safe MDX narratives, and optional Cartographer architecture previews without mutating the user's index or worktree",
+      'Maintained and extended a four-application architecture spanning a Node HTTP/WebSocket server, React web client, Electron desktop app, and Expo mobile app while continuously reconciling upstream changes',
+      'Extended five officially supported agent-provider integrations—Codex, Claude, Cursor, Grok, and OpenCode—with persistent event-driven state, queue processing, durable inboxes, and reconnect-safe delivery',
+      'Extended upstream orchestration and Git-isolation workflows with approval-gated persisted plans, bounded worker/provider/model controls, and coordinated worktree, checkpoint, diff, restore, and terminal surfaces',
+      'Integrated Cartographer-powered repository analysis, immutable plan-linked proposal revisions, source-aware previews, and remote development over LAN, Tailscale, HTTPS, and SSH',
     ],
     technologies: [
       'typescript',
@@ -90,6 +86,8 @@ export const projects = deepFreeze([
       'playwright',
       'github-actions',
     ],
+    imagePath: '/assets/projects/images/456code.webp',
+    imageAlt: '456code black app icon',
     repoUrl: 'https://github.com/ggfincke/456code',
   },
   {
@@ -114,11 +112,11 @@ export const projects = deepFreeze([
       },
     },
     bulletPoints: [
-      'Built typed Scratch IR with deterministic .sb3 import/export, revisioned semantic edit sessions, diff previews, certified artifacts, and referential-integrity validation',
+      'Built typed Scratch IR with deterministic .sb3 import/export, lossless round-trip, project builder, resource handling, and referential-integrity validation',
       'Added advisory static analysis for graph smells, dead code, empty branches, ownership errors, procedure-call arguments, resource limits, and archive path-traversal guards',
       'Engineered a deterministic scenario driver with VM state assertions, frame-exact Playwright visual assertions, screenshots, failure video, offline network policy, and provenance reports',
-      'Added interactive drive-and-observe sessions, lockstep model and mutation testing, multimodal evaluation, deterministic failure localization, and transactional repair with replayable evidence',
-      'Exposed local MCP tools for bounded project inspection, semantic editing, and repair',
+      'Implemented native lockstep model-based testing with Whisker-compatible model JSON and IR-level mutation testing for operator swaps, constant changes, statement deletion, and boolean negation',
+      'Added revisioned semantic editing with replay/export, baseline-relative transactional repair with candidate evaluation and rollback, failure-localization benchmarks, bounded multimodal observation, and a local stdio MCP surface for inspection, editing, and repair',
     ],
     technologies: [
       'typescript',
@@ -152,10 +150,9 @@ export const projects = deepFreeze([
       },
     },
     bulletPoints: [
-      'Authored 25 portable skills plus 7 project-specific skills spanning architecture, consolidation, simplification, security remediation, testing, Git history, frontend engineering, documentation freshness, and accessibility review',
-      'Built strict validation, synchronization, project-only installation, generated always-on instruction blocks, and pre-commit and CI checks for portable skill packages',
-      'Built a Node/TypeScript MCP worker broker for isolated Codex, Cursor, Coral, and Claude workers, plus canonical Claude custom-agent synchronization',
-      'Maintained reusable templates, interoperability guidance, project workflows, and regression checks for sync behavior, comment-style enforcement, and generated instruction stability',
+      'Authored 25 global and 8 project-specific skills spanning architecture, consolidation, simplification, security remediation, testing, Git history, frontend engineering, documentation freshness, and UI/accessibility review',
+      'Built a TypeScript/Node.js MCP worker broker for isolated Codex, Cursor, Coral, and Claude workers with provider/model admission, bounded concurrency, worktree and artifact lifecycle management, and structured results',
+      'Added transactional synchronization and rollback, hash-bound generation receipts, canonical MCP registry management with surgical config merging, doctor tooling, generated always-on instruction blocks, and pre-commit/CI validation',
     ],
     technologies: [
       'python',
@@ -175,7 +172,7 @@ export const projects = deepFreeze([
     id: 'coral',
     title: 'Coral',
     tagline:
-      'Local-first CLI/TUI coding agent powered by Ollama with semantic retrieval, code intelligence, and a rich terminal interface (v0.13.0).',
+      'Local-first CLI/TUI coding agent powered by Ollama with semantic retrieval, code intelligence, and a rich terminal interface (v0.14.0).',
     period: {
       start: {
         year: 2026,
@@ -194,13 +191,14 @@ export const projects = deepFreeze([
       media: { availability: 'available' },
     },
     bulletPoints: [
-      'Built a full agent loop w/ multi-turn reasoning, parallel tool use (read/write/bash/grep/glob/git), & research subagents, cycling tool results until task completion',
-      'Hardened the loop for local models w/ a tool-call repair layer that recovers text-emitted calls, canonicalizes hallucinated tool names, & schema-validates/coerces args before execution',
-      'Implemented session persistence, conversation compaction, & per-model context sizing to sustain long-running tasks within token budgets',
-      'Added local semantic code search (search_code) backed by Ollama embeddings, deterministic chunking, & a SQLite vector index w/ swappable embedder/index seams',
-      'Added noninteractive coral exec with deterministic read-only/workspace-write profiles and text, JSON, or JSONL output, plus explicit launch trust and ask/yolo allowlists for local MCP servers',
-      'Engineered a React Ink TUI w/ Markdown rendering, real-time token streaming, scrollable output, command completion, @-file mentions, command palette, undo/redo, interactive model selection, theming, & keybindings',
-      'Added read-only TypeScript/JavaScript code intelligence through a bundled language server with definitions, references, hover/type data, and diagnostics; backstopped behavior with node:test',
+      'Built a multi-turn agent loop with parallel tool use (read, write, bash, grep, glob, git) and read-only research subagents, cycling structured results back into conversation context until task completion',
+      'Hardened local-model reliability with text-emitted tool-call recovery, hallucinated-name canonicalization, schema validation/coercion, bounded errors, self-correcting verification, and doom-loop detection',
+      'Implemented session persistence, conversation compaction, per-model context sizing, local semantic code search backed by Ollama embeddings and SQLite, and longitudinal reliability telemetry',
+      'Designed permission-based tool access control (always_allow, require_approval, always_deny) through a layered .coral.json configuration hierarchy',
+      'Engineered a React Ink TUI with Markdown rendering, real-time token streaming, scrollable output, command completion, @-file mentions, command palette, undo/redo, interactive model selection, theming, and keybindings',
+      'Added read-only TypeScript/JavaScript code intelligence through a bundled language server, with definitions, references, hover/type data, and diagnostics; backstopped behavior with node:test',
+      'Shipped a local stdio MCP server with exact tool allowlisting, namespaced registrations, launch-fingerprint trust, and ask/yolo execution modes, plus deterministic coral exec profiles with text, JSON, and JSONL output',
+      'Improved repeated 300-line fence rendering from roughly 286 ms to 21 ms, reduced retained resize memory from about 18.6 MB to 0.6 MB, and cut embedding batches from 369 to 84 while preserving a 518-test acceptance suite',
     ],
     technologies: [
       'typescript',
@@ -222,7 +220,7 @@ export const projects = deepFreeze([
     id: 'tierlistbuilder',
     title: 'Tier List Builder',
     tagline:
-      'Closed-alpha tier-list platform with local-first editing, cloud sync, a public template marketplace, share/embed routes, and 7-format export.',
+      'Browser tier-list platform with local-first editing, cloud sync, a public template marketplace, share/embed routes, and 7-format export (v1.0.0-alpha.2).',
     period: {
       start: {
         year: 2026,
@@ -240,10 +238,11 @@ export const projects = deepFreeze([
       'Built snapshot-based drag-and-drop on @dnd-kit w/ bulk multi-drag, fan-out FLIP animation, and a 3-state keyboard controller (idle, browse, dragging) for full keyboard interaction',
       'Shipped multi-board workspace w/ autosave, labeled undo/redo, content-addressed IndexedDB image blobs, grid virtualization for large boards, and storage-quota-aware resilience',
       'Implemented 7-format export pipeline (PNG/JPEG/WebP/PDF/JSON/ZIP/clipboard) via off-screen render host, w/ hash-fragment & short-link share codecs plus a read-only embed route',
-      'Launched a community marketplace: template gallery, ranking detail & compare pages, multi-criterion consensus views (distribution bars & scatter), and publish/remix flows',
+      'Launched a community marketplace with template gallery, ranking detail and compare pages, multi-criterion consensus views, publish/remix flows, and a versioned full-corpus seed pipeline with immutable exact-release template snapshots',
       'Added public profiles (/u/:handle), a tier-list showcase editor, account settings, and email+password auth gating cloud-only actions',
       'Built inline annotation editor, per-board aspect-ratio picker w/ auto-crop & shadow trim, image editor (crop/rotate/zoom), and token-driven theming (12 themes + 12 text styles)',
-      'Organized as feature modules w/ a @tierlistbuilder/contracts package, Zustand stores, focused Vitest and Playwright coverage, & a Convex cloud backend (auth, marketplace, sync, signed media) behind Cloudflare Workers PWA delivery',
+      'Organized as feature modules with a @tierlistbuilder/contracts package, Zustand stores, a Convex cloud backend for auth, marketplace, sync, and signed media, and Cloudflare Workers delivery',
+      'Backstopped critical paths with 514 Vitest tests across 161 files, 105 Python tests, and Playwright E2E coverage for drag behavior, persistence, cloud sync, marketplace templates, sharing, media, overlays, and embed guardrails',
     ],
     technologies: [
       'react',
@@ -258,7 +257,6 @@ export const projects = deepFreeze([
       'react-easy-crop',
       'convex',
       'cloudflare-workers',
-      'pwa',
       'playwright',
     ],
     imagePath: '/assets/projects/images/tierlistbuilder.png',
@@ -269,7 +267,7 @@ export const projects = deepFreeze([
     id: 'mdx-preview-for-vs-code',
     title: 'MDX Preview for VS Code',
     tagline:
-      'Published VS Code/Open VSX extension with 10,000+ Open VSX downloads, dual-mode rendering, and framework-aware component shims (v1.7.6).',
+      'Published VS Code extension with 10,000+ installs, dual-mode rendering, and framework-aware component shims (v1.7.7).',
     period: {
       start: {
         year: 2026,
@@ -291,8 +289,9 @@ export const projects = deepFreeze([
       'Architected the root extension plus 5 workspace packages with esbuild for the Node.js extension host, Vite 8 for the React 19 webview, and reusable mdx-forge compiler and runtime packages',
       'Implemented workspace-trust-gated Safe and Trusted modes: DOMPurify-sanitized static HTML with strict CSP or full React 19 component evaluation with project-level configuration',
       'Built a 4-strategy module resolver (framework shim -> TypeScript paths -> enhanced-resolve -> file probe), dual MDX pipelines, and Shiki, KaTeX, Mermaid, PlantUML, and Graphviz integrations',
-      'Designed a component registry for Docusaurus, Starlight, Nextra, Next.js, and generic MDX with 35+ React shims, build-time codegen, 16 preview themes, 24 code themes, and 16 example projects',
-      'Shipped 20 commands and 32 settings spanning preview control, security, theming, debugging, framework selection, source-line sync, cache management, and HTML export',
+      'Designed a component registry for Docusaurus, Starlight, Nextra, Next.js, and generic MDX with 35+ React shims, build-time codegen, 16 preview themes, 24 code themes, and 17 example workspaces',
+      'Shipped 20 commands and 32 settings spanning preview control, security, theming, debugging, framework selection, zoom, cache management, bidirectional source-scroll synchronization, click-to-source navigation, HTML export, and package-scoped Tailwind handling',
+      'Hardened extension startup, cache, and worker lifecycle against crashes and races, added a TypeScript 7 CLI bridge, and reduced the packaged extension from roughly 20.7 MB to 8.3 MB',
     ],
     technologies: [
       'typescript',
@@ -312,7 +311,7 @@ export const projects = deepFreeze([
       'graphviz',
     ],
     imagePath: '/assets/projects/images/vsc-mdx.png',
-    imageAlt: 'MDX Preview for VS Code extension screenshot',
+    imageAlt: 'MDX Preview for VS Code extension logo',
     repoUrl: 'https://github.com/ggfincke/vsc-mdx-preview',
     liveUrl:
       'https://marketplace.visualstudio.com/items?itemName=ggfincke.vsc-mdx-preview',
@@ -335,7 +334,7 @@ export const projects = deepFreeze([
     id: 'mdx-forge',
     title: 'mdx-forge',
     tagline:
-      'Standalone MDX runtime toolkit for structured Safe Documents, HTML/React compilation, diagnostics, browser evaluation, and framework shims.',
+      'Standalone MDX runtime toolkit for structured Safe Documents, HTML/React compilation, diagnostics, browser evaluation, and framework shims (v0.10.2).',
     period: {
       start: {
         year: 2026,
@@ -353,8 +352,8 @@ export const projects = deepFreeze([
       },
     },
     bulletPoints: [
-      'Designed compiler, diagnostics, browser, and components domains with 19 public exports, ESM-only distribution, framework CSS subpaths, and reusable internal compiler and runtime utilities',
-      'Built three compilation paths: bounded JSON-only Safe Documents for untrusted hosts, sanitized non-executing HTML for previews, and executable JavaScript for trusted React rendering, with explicit CommonMark-versus-MDX parsing',
+      'Designed a four-domain package architecture (compiler, diagnostics, browser, components) with 19 public export subpaths, ESM-only distribution, framework CSS subpaths, and reusable internal compiler and runtime utilities',
+      'Shipped compileSafeDocument, a versioned JSON-only structured compiler with bounded traversal, closed schemas, typed literals, source ranges, diagnostics, URL policy, fail-closed raw and unknown-element handling, and explicit Markdown-versus-MDX selection without React, browser, or plugin dependencies',
       'Shipped a host-agnostic diagnostics API with framework-aware component analysis, stable MDXF codes, original-document source ranges, and no-eval frontmatter parsing',
       'Implemented a browser runtime with semaphore-limited loading, module registry and cache abstractions, dependency tracking, LRU caching, style injection, and cascade cleanup',
       'Published framework shims and registry data for Docusaurus, Starlight, Nextra, Next.js, and generic MDX consumers with cross-package Vitest coverage',
@@ -555,12 +554,14 @@ export const projects = deepFreeze([
     bulletPoints: [
       'Built a Django 5.2/DRF 3.16 API with rotating JWT auth, OpenAPI docs, request-ID tracing, tier-aware AI throttling, and Docker Compose deployment on PostgreSQL 16 + pgvector',
       'Engineered a hybrid RAG pipeline — dense (pgvector, text-embedding-3-large) + Postgres full-text fused w/ reciprocal-rank fusion — w/ source grounding, a versioned prompt registry (sha256 prompt hashes), a generation replay/diff endpoint, & provider-neutral generation behind a client factory',
+      'Built durable, owner-scoped asynchronous AI jobs with idempotent enqueue and replay, leased workers, bounded retries, cancellation, provider checkpoints, stale-write protection, and terminal result commits',
       'Added an offline eval harness w/ schema-versioned corpora & deterministic constraint validation (stroke/intensity/distance/difficulty), measuring hybrid vs dense-only retrieval over 48 cases w/ JSON + markdown reports (pass rates, p50/p95 latency, token usage, run-over-run diffs)',
       'Modeled a planned-workout lifecycle bridging AI generation -> Apple Watch execution -> completed swim, w/ an adaptive UserFitnessState derived from execution history',
       'Added a weekly training-intelligence layer: deterministic plan assembly, training-load analytics, a pre-swim readiness engine, and a technique drill catalog',
       'Built swim-profile onboarding w/ learned/effective pace calibration per stroke, distance, and intensity',
       'Developed SwiftUI iOS/watchOS apps w/ HealthKit capture, Apple Watch live metrics, Swift Charts analytics, SwiftData persistence, & a source-grounded "why these sets?" view exposing retrieved chunks & constraint effects',
       'Added actor-based networking with automatic token refresh, Keychain JWT storage, background HealthKit deduplication sync, and a cursor-paginated swim-set library',
+      'Added a durable Apple Watch plan inbox and completion outbox with retries, exact acknowledgements, and dependency-aware offline mutation synchronization across intermittent phone/watch connectivity',
     ],
     technologies: [
       'swift',
@@ -580,6 +581,7 @@ export const projects = deepFreeze([
       'python',
       'openapi',
       'docker-compose',
+      'pytest',
     ],
     imagePath: '/assets/projects/images/swimmatev2.png',
     imageAlt: 'SwimMate v2 full-stack platform screenshot',
@@ -588,7 +590,7 @@ export const projects = deepFreeze([
     id: 'portfolio-website-v2',
     title: 'Portfolio Website v2',
     tagline:
-      "The site you're on: minimalist, section‑based, and content‑driven.",
+      "The site you're on: a minimalist, section-based, content-driven portfolio with tag-to-production Cloudflare Pages delivery (v2.10.3).",
     period: {
       start: {
         year: 2025,
@@ -603,13 +605,13 @@ export const projects = deepFreeze([
       media: { availability: 'available' },
     },
     bulletPoints: [
-      'Complete redesign with Vite 7 + React 19 + TypeScript + Tailwind CSS 4.0 for pure client‑side architecture',
+      'Built a client-side portfolio with Vite 8, React 19, TypeScript 6 strict mode, Tailwind CSS 4, and React Router 7',
       'Section‑based organization: each feature isolated with its own components, content, and utilities for maximum modularity',
       'Content‑driven development: strict separation of data from presentation; content lives in dedicated files, components focus on rendering',
       'Material Theme Ocean HC color system with semantic technology categorization (140+ techs across 6 categories)',
       'Staggered slide‑in animations with full prefers‑reduced‑motion accessibility support',
-      'Type‑safe routing with React Router 7 and centralized type definitions with barrel exports',
-      'Verification pipeline on a Bun toolchain: Vitest unit tests, axe a11y audits, Lighthouse, Playwright screenshot smoke tests, & content-health/link checks',
+      'Configured ESLint 10, Prettier 3, TypeScript project references, verbatim module syntax, and shared path aliases across Vite and TypeScript',
+      'Built a Bun-based verification pipeline with Vitest, axe accessibility audits, Lighthouse, Playwright screenshot smoke tests, content-health and link checks, and tag-to-production Cloudflare Pages deployment',
     ],
     technologies: [
       'react',
@@ -632,7 +634,7 @@ export const projects = deepFreeze([
     id: 'minecart',
     title: 'Minecart',
     tagline:
-      'Web/API-first Minecraft server management platform with local Docker and AWS provider abstractions, multi-tenant controls, and a Discord companion (v0.14.0).',
+      'Web/API-first Minecraft server management platform for local Docker and prerequisite-gated AWS EC2 environments, with multi-tenant controls and a Discord companion (v0.14.0).',
     period: {
       start: {
         year: 2025,
@@ -650,14 +652,14 @@ export const projects = deepFreeze([
       media: { availability: 'available' },
     },
     bulletPoints: [
-      'Built a Hono REST API (20+ routes) w/ Zod-validated contracts, OpenAPI/Scalar docs, DI middleware, rate limiting, API keys, and webhooks as the primary management surface',
+      'Built a Hono REST API with 24 route and contract modules, Zod-validated contracts, OpenAPI/Scalar docs, DI middleware, rate limiting, API keys, and webhooks as the source-of-truth management surface',
       'Added a React/Vite/Tailwind web dashboard w/ Discord OAuth session auth (HttpOnly cookies, CSRF), server lists, a provider catalog, and provisioning flows',
       'Streamed real-time provisioning progress over SSE (GET /v1/jobs/:id/stream) w/ a repository-backed event hub & heartbeats; PATCH/DELETE server CRUD w/ active-job guards and soft-delete',
       'Implemented a provider abstraction for local Docker and AWS EC2 w/ runtime switching, health checks, and live status via RCON and mcstatus.io',
       'Automated idle shutdown, scheduled start/stop windows, crash recovery, and backups with retention',
       'Added Modrinth-backed content management (mod search/install, resource-pack SHA verification, Paper version switching) & blue/green + staging disposable test worlds',
       'Shipped multi-tenant controls: multi-server registration, role-based permissions (view/operate/admin/owner), channel bindings, usage metering/quotas, and audit logs',
-      'Kept a lightweight Discord companion (status, start/stop, player count, chat bridge) as advanced workflows moved web/API-first',
+      'Began transitioning broad Discord workflows toward the web/API-first control plane while retaining interactive Discord controls for status, lifecycle operations, logs, backups, worlds, performance, players, and configuration',
     ],
     technologies: [
       'typescript',
@@ -686,7 +688,7 @@ export const projects = deepFreeze([
     id: 'hopper',
     title: 'Hopper',
     tagline:
-      'Hybrid microservices inventory system for multi‑marketplace ecommerce.',
+      'Hybrid inventory-management system with Java/Spring Boot orchestration and an OpenAPI-backed Go marketplace contract stub.',
     period: {
       start: {
         year: 2025,
@@ -707,14 +709,15 @@ export const projects = deepFreeze([
       },
     },
     bulletPoints: [
-      'Orchestrates products, listings, orders, and fees across marketplaces with Java/Spring Boot core and a Go connector service',
-      'JWT auth with access/refresh tokens, role‑based authorization (ADMIN/USER/API CLIENT), secure rotation, and Spring Security guards',
+      'Architected a hybrid microservices system with a Java/Spring Boot orchestration layer and an OpenAPI-defined Go contract boundary for future marketplace integrations',
+      'Built JWT authentication with access/refresh renewal, role-based authorization (ADMIN, USER, API_CLIENT), and Spring Security guards',
       'AES‑GCM‑256 credential encryption with PBKDF2 key derivation and versioned encryption metadata for rotation',
       'Normalized PostgreSQL schema (13 Flyway migrations), foreign keys, composite uniques, and performance indexes',
       'Order state machine (pending→confirmed→paid→processing→shipped→delivered) with business rules and stock management',
       'Spring Batch order-import job (reader/processor/writer) pulling external orders via MarketplaceClient abstraction',
-      'OpenAPI 3.1 spec for the Go connector (idempotency, error taxonomy) and Bruno/CI collections for contract tests',
-      'Added a React 19 / TypeScript dashboard (Vite 7, Tailwind 4) w/ auth pages (login/register/refresh) wired to the live API, routing guards & theme persistence, plus a Docker Compose dev stack (API, PostgreSQL 15, Go connector, Vite)',
+      'Developed an OpenAPI 3.1-backed Go marketplace contract stub with listing and order endpoints, idempotency support, an error taxonomy, and sample fixtures',
+      'Built a React 19 / TypeScript dashboard with authentication pages, routing guards, theme persistence, and committed authentication/session integration; products, metrics, charts, and orders remain mock-backed while their APIs are in development',
+      'Backstopped the committed system with 15 executable Java test classes, a Go contract test, and a Bruno HTTP collection',
     ],
     technologies: [
       'java',
@@ -757,16 +760,14 @@ export const projects = deepFreeze([
         availability: 'private',
         note: 'Personal fork of the ff7-decomp project; the working tree is kept private.',
       },
-      media: {
-        availability: 'not-applicable',
-        note: 'Decompilation research has no UI; progress is represented as text.',
-      },
+      media: { availability: 'available' },
     },
     bulletPoints: [
-      'Moved 2,624 of 2,939 MIPS R3000 functions across 12 PS1 overlays to unconditional C (89.3%), with 315 guarded functions remaining; clean Docker builds and 12 SHA-1 checks are the promotion gate',
+      'Promoted 2,689 of 2,939 MIPS R3000 functions across 12 PS1 overlays to unconditional matching C (91.5%), with 250 guarded functions remaining; all promotions are verified against the original binary',
       'Read GCC 2.7.2 internals (sched.c, emit-rtl.c) to disprove a translation-unit optimization hypothesis and isolate real blockers (aspsx version mismatch, stabs sizing, dead-code frame inflation, cross-overlay cascades)',
       'Built a custom Go build orchestrator over the splat/m2c/asm-differ/maspsx pipeline, plus Python promotion-test & register-allocation diff tooling w/ a batch scanner over hundreds of functions',
       'Enforced binary-identical correctness via 12 SHA-1 checksums — the exact binary match is the test — wired through GitHub Actions CI, w/ a Docker image for reproducible local builds',
+      'Added receipt-bound promotion infrastructure with isolated staged-tree attestation, exact toolchain and overlay hashes, all 12 binary comparisons, deterministic synthetic-merge CI, and lifecycle cleanup',
       'Classified and fixed thousands of type bugs and raw pointer casts, performed 5,000+ symbol renames, and held single-line comment coverage across all 20 source files',
     ],
     technologies: [
@@ -778,6 +779,54 @@ export const projects = deepFreeze([
       'ninja',
       'github-actions',
       'reverse-engineering',
+    ],
+    imagePath: '/assets/projects/images/ff7-decomp.webp',
+    imageAlt:
+      'Side-by-side MIPS assembly diff used during Final Fantasy VII decompilation',
+  },
+  {
+    id: 'humaneval-extensions-pass-k-study',
+    title: 'HumanEval Extensions & pass@k Study',
+    tagline:
+      'Local-LLM coding-evaluation research fork with concurrent Ollama generation, unbiased pass@k, coverage@k, and structured experiment artifacts.',
+    period: {
+      start: {
+        year: 2025,
+        month: 9,
+      },
+      end: {
+        year: 2025,
+        month: 9,
+      },
+    },
+    status: 'complete',
+    madeFor: 'Personal',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: { availability: 'available' },
+    },
+    bulletPoints: [
+      'Extended OpenAI HumanEval with concurrent Ollama generation, deterministic sampling, bounded retries and backoff, structured artifacts, and subset-safe functional evaluation',
+      'Generated and evaluated 49,200 completions across all 164 HumanEval tasks in three model and temperature experiments; implemented unbiased pass@k, distinct coverage@k, and optional 10,000-iteration bootstrap confidence intervals',
+      'Built dataset export, aggregation, and comparison visualizations, then published an accompanying technical analysis of pass@k and evaluation trade-offs',
+    ],
+    technologies: [
+      'python',
+      'ollama',
+      'llm-evaluation',
+      'numpy',
+      'pandas',
+      'matplotlib',
+    ],
+    imagePath: '/assets/projects/images/humaneval-pass-at-k.webp',
+    imageAlt:
+      'Line chart comparing unbiased HumanEval pass at k for gpt-oss:20b and gemma3:latest',
+    repoUrl: 'https://github.com/ggfincke/pass-k-deeper-dive',
+    additionalLinks: [
+      {
+        url: 'https://medium.com/@ggfincke/how-pass-k-is-used-to-evaluate-llm-coding-performance-296e5c4565bc',
+        label: 'Technical article',
+      },
     ],
   },
   {
@@ -832,7 +881,7 @@ export const projects = deepFreeze([
     id: 'conduit',
     title: 'Conduit',
     tagline:
-      'Cross-platform music hub bridging Spotify & Apple Music — per-platform auth w/ ISRC-based track matching.',
+      'Cross-platform music hub for connecting Spotify and Apple Music accounts and building an ISRC-based foundation for unified libraries and playlist transfer.',
     period: {
       start: {
         year: 2025,
@@ -845,7 +894,7 @@ export const projects = deepFreeze([
     contentStatus: {
       links: {
         availability: 'private',
-        note: 'Repository is private while the playlist-transfer MVP is unfinished.',
+        note: 'Repository is private while the account-connection and playlist-transfer workflows remain in development.',
       },
       media: {
         availability: 'pending',
@@ -853,17 +902,15 @@ export const projects = deepFreeze([
       },
     },
     bulletPoints: [
-      'Implemented Spotify OAuth 2.0 + PKCE & Apple Music MusicKit (developer-JWT) auth w/ per-user token storage & refresh backed by a Convex real-time database',
+      'Built a Next.js 16 app with public and authenticated route groups, shared layout and navigation primitives, and account-oriented connection flows',
+      'Implemented Spotify OAuth 2.0 + PKCE and Apple Music MusicKit/developer-JWT flows, plus callback and token-refresh endpoints, connection persistence, and platform-specific connection validation',
       'Designed a cross-platform track-matching schema using ISRC identifiers to correlate the same song across streaming catalogs',
-      'Built a feature-based Next.js 16 app w/ separate authed/public route groups and middleware-enforced session validation',
-      'Architected a platform-registry pattern so new streaming integrations plug in through a shared interface',
-      'Shipped a full auth system (sign-up, sign-in, OAuth callback, server-validated sessions) atop a feature-sliced shared UI library',
+      'Structured the committed app around typed platform, account, playlist, and track models; Supabase-backed persistence and generated database types; and feature-sliced shared UI modules',
     ],
     technologies: [
       'next-js',
       'react',
       'typescript',
-      'convex',
       'supabase',
       'tailwind-css',
       'jwt',
