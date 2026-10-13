@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.10.4] - 2026-10-12
+
+### Added
+
+- Added Minecart v2, CodeViz (SteelHacks 2026), and the Multi-Agent Worker Broker to the projects archive
+
+### Changed
+
+- Updated the Westinghouse experience entry and About copy with legacy-system integration and DocMon work
+- Refreshed Coral (v0.17.0), Tier List Builder (v1.0.0-alpha.3), MDX Preview, mdx-forge, Agentic Scratch, SwimMate v2, FF7 Decompilation, 456code, and the skills repository with current details
+- Marked Minecart v1 as archived and superseded by Minecart v2
+- Updated the linked resume PDF to the current default internship version
+
 ## [2.10.3] - 2026-08-14
 
 ### Changed
