@@ -25,7 +25,7 @@ export const WORK_EXPERIENCE = deepFreeze([
       },
     },
     description:
-      'Built a Python/FastAPI service for Oracle-backed Document Index data, exposing 15 OpenAPI operations across SharePoint, revision, and Excel workflows. Added deterministic retrieval and access controls across 60,000 CI memberships.',
+      'Built and deployed a Python/FastAPI service over legacy Oracle document data with audit-trailed write/undo and access controls. Leading backend work on DocMon, which takes a human out of revision reconciliation with 12x faster comparisons.',
     technologies: ['python', 'fastapi', 'oracle', 'openapi', 'databricks'],
   },
   {

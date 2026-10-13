@@ -6,8 +6,11 @@ import type { DateSpan } from '~/shared/types/dates'
 
 // known project entry ids
 export const PROJECT_IDS = [
+  'minecart-v2',
+  'codeviz',
   'cartographer',
   '456code',
+  'multi-agent-worker-broker',
   'agentic-scratch',
   'personal-ai-coding-skills',
   'coral',

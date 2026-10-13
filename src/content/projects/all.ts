@@ -6,6 +6,111 @@ import { deepFreeze } from '~/shared/utils/deepFreeze'
 
 export const projects = deepFreeze([
   {
+    id: 'minecart-v2',
+    title: 'Minecart v2',
+    tagline:
+      'Ground-up rewrite of Minecart as a local-first Minecraft server manager with a durable control plane, journaled host agent, and verified world backups (v0.1.0).',
+    period: {
+      start: {
+        year: 2026,
+        month: 10,
+      },
+      isCurrent: true,
+    },
+    status: 'in-development',
+    madeFor: 'Personal',
+    contentStatus: {
+      links: {
+        availability: 'private',
+        note: 'Repository is private while the first local milestone is extended toward hosted deployment.',
+      },
+      media: {
+        availability: 'pending',
+        note: 'Dashboard screenshots will be added once the interface stabilizes.',
+      },
+    },
+    bulletPoints: [
+      'Chose the durable-execution engine empirically, running DBOS and Procrastinate through four failure invariants (atomic intent+enqueue, SIGKILL mid-effect recovery, execution-time re-checks, in-flight code upgrade) in an isolated harness before selecting DBOS',
+      'Built a FastAPI/PostgreSQL control plane whose OpenAPI contract generates the TypeScript client, with Discord OAuth (S256 PKCE) mapped to internal identities, revocable sessions, and CSRF + Origin checks',
+      'Implemented a SQLite-journaled host agent, the only process with Docker access, whose generation- and sequence-fenced commands survive control-plane outages and never restart a stopped server from stale intent',
+      'Built world protection with live capture into restic, restore-to-scratch verification, mandatory pre-restore recovery points, and hourly/daily retention',
+      'Built a React 19 dashboard with TanStack Query and verified the stack end to end locally against a real Paper server, including backup/restore and a management-API outage drill',
+    ],
+    technologies: [
+      'python',
+      'fastapi',
+      'sqlalchemy',
+      'postgresql',
+      'dbos',
+      'sqlite',
+      'docker',
+      'restic',
+      'react',
+      'typescript',
+      'vite',
+      'tanstack-query',
+      'openapi',
+      'playwright',
+      'pytest',
+    ],
+  },
+  {
+    id: 'codeviz',
+    title: 'CodeViz',
+    tagline:
+      'SteelHacks 2026 codebase explorer that maps repositories into AI-organized architecture blocks, traces dependencies, and reviews Git/PR changes against source.',
+    period: {
+      start: {
+        year: 2026,
+        month: 9,
+      },
+      end: {
+        year: 2026,
+        month: 9,
+      },
+    },
+    status: 'complete',
+    madeFor: 'SteelHacks 2026',
+    contentStatus: {
+      links: {
+        availability: 'private',
+        note: 'The hackathon repository is private.',
+      },
+      media: {
+        availability: 'not-applicable',
+        note: 'The hackathon demo is represented by its technical project details.',
+      },
+    },
+    bulletPoints: [
+      'Served as primary engineer on a four-person team, building a TypeScript/React/Express app that statically extracts imports, functions, JSX references, Express routes, and Prisma access across up to 5,000 files, then layers Nemotron-generated responsibility groups validated against extracted source facts',
+      'Authored the React Flow map UI (drill-down hierarchy, breadcrumbs, context menus, source inspector) plus ELK-based packed and compact layouts with grouped, curved connection routing',
+      'Implemented source-backed change reviews comparing Git revisions and GitHub PRs with Before/After and Planned/Actual views, rename detection, and unified diffs, exposed to coding agents through an MCP bridge',
+      'Deployed Nemotron on a Brev GPU behind a private authenticated vLLM endpoint with a local Ollama fallback',
+    ],
+    technologies: [
+      'typescript',
+      'react',
+      'vite',
+      'node-js',
+      'express',
+      'react-flow',
+      'mcp',
+      'ollama',
+      'zod',
+    ],
+    collaborators: [
+      {
+        name: 'Jason Ye',
+      },
+      {
+        name: 'Azhar Syed',
+      },
+      {
+        name: 'Andrew Chen',
+      },
+    ],
+  },
+  {
     id: 'cartographer',
     title: 'Cartographer',
     tagline:
@@ -52,7 +157,7 @@ export const projects = deepFreeze([
     id: '456code',
     title: '456code',
     tagline:
-      'Local-first multi-client coding-agent workspace maintained as a substantially extended personal fork of T3 Code.',
+      'Local-first coding-agent workspace maintained as a personal fork of T3 Code, integrating Coral and Cartographer.',
     period: {
       start: {
         year: 2026,
@@ -67,10 +172,10 @@ export const projects = deepFreeze([
       media: { availability: 'available' },
     },
     bulletPoints: [
-      'Maintained and extended a four-application architecture spanning a Node HTTP/WebSocket server, React web client, Electron desktop app, and Expo mobile app while continuously reconciling upstream changes',
-      'Extended five officially supported agent-provider integrations—Codex, Claude, Cursor, Grok, and OpenCode—with persistent event-driven state, queue processing, durable inboxes, and reconnect-safe delivery',
-      'Extended upstream orchestration and Git-isolation workflows with approval-gated persisted plans, bounded worker/provider/model controls, and coordinated worktree, checkpoint, diff, restore, and terminal surfaces',
-      'Integrated Cartographer-powered repository analysis, immutable plan-linked proposal revisions, source-aware previews, and remote development over LAN, Tailscale, HTTPS, and SSH',
+      'Maintain a personal fork of the open-source T3 Code workspace (Node server, React web client, Electron desktop app), regularly rebasing onto upstream while keeping fork-specific changes minimal',
+      'Integrated Coral as a provider on the shared ACP adapter with Ollama model discovery, validated end to end against a local Qwen model',
+      'Embedded Cartographer as a core analysis package exposed through server RPCs, read-only MCP tools, and a web graph panel',
+      'Isolated the desktop build with its own bundle identity, profile, data home, and URL scheme, with self-update and publication disabled',
     ],
     technologies: [
       'typescript',
@@ -89,6 +194,44 @@ export const projects = deepFreeze([
     imagePath: '/assets/projects/images/456code.webp',
     imageAlt: '456code black app icon',
     repoUrl: 'https://github.com/ggfincke/456code',
+  },
+  {
+    id: 'multi-agent-worker-broker',
+    title: 'Multi-Agent Worker Broker',
+    tagline:
+      'MCP server for delegating bounded coding work across multiple agents in isolated Git worktrees.',
+    period: {
+      start: {
+        year: 2026,
+        month: 7,
+      },
+      isCurrent: true,
+    },
+    status: 'in-development',
+    madeFor: 'Personal',
+    contentStatus: {
+      links: { availability: 'available' },
+      media: {
+        availability: 'not-applicable',
+        note: 'The broker is represented by its public source within the skills repository.',
+      },
+    },
+    bulletPoints: [
+      'Built a TypeScript MCP server exposing 11 tools that delegate bounded tasks to Codex, Claude, Cursor, and local Ollama models via Coral, each in an isolated Git worktree with scope validation and broker-computed diffs and verification',
+      'Designed a single-writer Unix-socket daemon with build and protocol compatibility checks, drain-on-upgrade, and crash reconciliation that snapshots interrupted worktrees into salvage patches',
+      'Added bounded runs with assignment budgets, expiry, and spend-on-failure accounting, plus local-model guards for AC power, loopback-only endpoints, and no implicit model downloads',
+      'Backstopped roughly 10,500 lines of TypeScript with 99 node:test cases',
+    ],
+    technologies: [
+      'typescript',
+      'node-js',
+      'mcp',
+      'zod',
+      'ollama',
+      'codex',
+      'claude-code',
+    ],
+    repoUrl: 'https://github.com/ggfincke/ggfincke-skills',
   },
   {
     id: 'agentic-scratch',
@@ -112,11 +255,14 @@ export const projects = deepFreeze([
       },
     },
     bulletPoints: [
-      'Built typed Scratch IR with deterministic .sb3 import/export, lossless round-trip, project builder, resource handling, and referential-integrity validation',
+      'Built typed Scratch IR with deterministic .sb3 import/export, lossless round-trip (byte-exact on a 48-sprite, 5,437-block game), project builder, resource handling, and referential-integrity validation',
       'Added advisory static analysis for graph smells, dead code, empty branches, ownership errors, procedure-call arguments, resource limits, and archive path-traversal guards',
       'Engineered a deterministic scenario driver with VM state assertions, frame-exact Playwright visual assertions, screenshots, failure video, offline network policy, and provenance reports',
       'Implemented native lockstep model-based testing with Whisker-compatible model JSON and IR-level mutation testing for operator swaps, constant changes, statement deletion, and boolean negation',
       'Added revisioned semantic editing with replay/export, baseline-relative transactional repair with candidate evaluation and rollback, failure-localization benchmarks, bounded multimodal observation, and a local stdio MCP surface for inspection, editing, and repair',
+      'Built a source-to-.sb3 authoring pipeline with typed workspace manifests, immutable build plans, media/audio preparation, resource-budgeted evaluation, and locked exports that refuse promotion on failed evaluation or identity drift',
+      'Added a drive-and-observe playtesting harness for TurboWarp and official Scratch runtime profiles with exact-tick advance, marked reproduction, and exact headless replay',
+      'Validated the pipeline by authoring complete Scratch games from typed sources, including a four-stage platformer (22 sprites, 13,343 blocks) and a two-fighter arena brawler (38 sprites, 9,744 blocks)',
     ],
     technologies: [
       'typescript',
@@ -150,9 +296,10 @@ export const projects = deepFreeze([
       },
     },
     bulletPoints: [
-      'Authored 25 global and 8 project-specific skills spanning architecture, consolidation, simplification, security remediation, testing, Git history, frontend engineering, documentation freshness, and UI/accessibility review',
-      'Built a TypeScript/Node.js MCP worker broker for isolated Codex, Cursor, Coral, and Claude workers with provider/model admission, bounded concurrency, worktree and artifact lifecycle management, and structured results',
+      'Authored 26 global and 8 project-specific skills spanning architecture, consolidation, simplification, security remediation, testing, Git history, frontend engineering, documentation freshness, and UI/accessibility review',
       'Added transactional synchronization and rollback, hash-bound generation receipts, canonical MCP registry management with surgical config merging, doctor tooling, generated always-on instruction blocks, and pre-commit/CI validation',
+      'Shipped custom ESLint rules and a Python checker enforcing a house comment-style convention, packaged as copyable assets for other projects',
+      'Hosts the Multi-Agent Worker Broker, an MCP server for delegating bounded coding work across agents',
     ],
     technologies: [
       'python',
@@ -164,7 +311,7 @@ export const projects = deepFreeze([
       'codex',
       'claude-code',
       'github-actions',
-      'pytest',
+      'eslint',
     ],
     repoUrl: 'https://github.com/ggfincke/ggfincke-skills',
   },
@@ -172,7 +319,7 @@ export const projects = deepFreeze([
     id: 'coral',
     title: 'Coral',
     tagline:
-      'Local-first CLI/TUI coding agent powered by Ollama with semantic retrieval, code intelligence, and a rich terminal interface (v0.14.0).',
+      'Local-first CLI/TUI coding agent powered by Ollama with research subagents, MCP/ACP integration, durable background tasks, and a rich terminal interface (v0.17.0).',
     period: {
       start: {
         year: 2026,
@@ -191,13 +338,15 @@ export const projects = deepFreeze([
       media: { availability: 'available' },
     },
     bulletPoints: [
-      'Built a multi-turn agent loop with parallel tool use (read, write, bash, grep, glob, git) and read-only research subagents, cycling structured results back into conversation context until task completion',
+      'Built a multi-turn agent loop with parallel tool use across 19 built-in tools and read-only research subagents, cycling structured results back into conversation context until task completion',
       'Hardened local-model reliability with text-emitted tool-call recovery, hallucinated-name canonicalization, schema validation/coercion, bounded errors, self-correcting verification, and doom-loop detection',
       'Implemented session persistence, conversation compaction, per-model context sizing, local semantic code search backed by Ollama embeddings and SQLite, and longitudinal reliability telemetry',
       'Designed permission-based tool access control (always_allow, require_approval, always_deny) through a layered .coral.json configuration hierarchy',
       'Engineered a React Ink TUI with Markdown rendering, real-time token streaming, scrollable output, command completion, @-file mentions, command palette, undo/redo, interactive model selection, theming, and keybindings',
       'Added read-only TypeScript/JavaScript code intelligence through a bundled language server, with definitions, references, hover/type data, and diagnostics; backstopped behavior with node:test',
-      'Shipped a local stdio MCP server with exact tool allowlisting, namespaced registrations, launch-fingerprint trust, and ask/yolo execution modes, plus deterministic coral exec profiles with text, JSON, and JSONL output',
+      'Shipped a stdio MCP client with exact tool allowlisting, namespaced registrations, launch-fingerprint trust, and ask/yolo execution modes, plus deterministic coral exec profiles with text, JSON, and JSONL output',
+      'Added an ACP server (coral acp) for editor clients and Agent Skills discovery with on-demand loading and slash invocation',
+      'Built durable coral jobs coding tasks that run digest-approved work in isolated Git worktrees through a background queue with checkpoints, crash recovery, and check-and-repair cycles, stopping at review without committing or pushing',
       'Improved repeated 300-line fence rendering from roughly 286 ms to 21 ms, reduced retained resize memory from about 18.6 MB to 0.6 MB, and cut embedding batches from 369 to 84 while preserving a 518-test acceptance suite',
     ],
     technologies: [
@@ -220,7 +369,7 @@ export const projects = deepFreeze([
     id: 'tierlistbuilder',
     title: 'Tier List Builder',
     tagline:
-      'Browser tier-list platform with local-first editing, cloud sync, a public template marketplace, share/embed routes, and 7-format export (v1.0.0-alpha.2).',
+      'Browser tier-list platform with local-first editing, cloud sync, a public template marketplace, share/embed routes, and 8-format export (v1.0.0-alpha.3).',
     period: {
       start: {
         year: 2026,
@@ -237,12 +386,14 @@ export const projects = deepFreeze([
     bulletPoints: [
       'Built snapshot-based drag-and-drop on @dnd-kit w/ bulk multi-drag, fan-out FLIP animation, and a 3-state keyboard controller (idle, browse, dragging) for full keyboard interaction',
       'Shipped multi-board workspace w/ autosave, labeled undo/redo, content-addressed IndexedDB image blobs, grid virtualization for large boards, and storage-quota-aware resilience',
-      'Implemented 7-format export pipeline (PNG/JPEG/WebP/PDF/JSON/ZIP/clipboard) via off-screen render host, w/ hash-fragment & short-link share codecs plus a read-only embed route',
+      'Implemented 8-format export pipeline (PNG/JPEG/WebP/SVG/PDF/JSON/ZIP/clipboard) via off-screen render host, w/ hash-fragment & short-link share codecs plus a read-only embed route',
       'Launched a community marketplace with template gallery, ranking detail and compare pages, multi-criterion consensus views, publish/remix flows, and a versioned full-corpus seed pipeline with immutable exact-release template snapshots',
+      'Built Template Studio for authored templates with recoverable drafts, roster ordering, cover/criteria editing, and immutable revisioned releases so rankings, consensus views, remixes, and new boards bind to the exact published release',
+      'Added a palette-driven colorful appearance system, a focused Rank Mode on a shared workspace command bus, configurable item-pool placement, a combined share/publish sheet, and password recovery with rolling rate limits',
       'Added public profiles (/u/:handle), a tier-list showcase editor, account settings, and email+password auth gating cloud-only actions',
       'Built inline annotation editor, per-board aspect-ratio picker w/ auto-crop & shadow trim, image editor (crop/rotate/zoom), and token-driven theming (12 themes + 12 text styles)',
       'Organized as feature modules with a @tierlistbuilder/contracts package, Zustand stores, a Convex cloud backend for auth, marketplace, sync, and signed media, and Cloudflare Workers delivery',
-      'Backstopped critical paths with 514 Vitest tests across 161 files, 105 Python tests, and Playwright E2E coverage for drag behavior, persistence, cloud sync, marketplace templates, sharing, media, overlays, and embed guardrails',
+      'Backstopped critical paths with 178 Vitest test files, 17 Python seed-pipeline test files, and 18 Playwright E2E specs for drag behavior, persistence, cloud sync, marketplace templates, sharing, media, overlays, and embed guardrails',
     ],
     technologies: [
       'react',
@@ -267,7 +418,7 @@ export const projects = deepFreeze([
     id: 'mdx-preview-for-vs-code',
     title: 'MDX Preview for VS Code',
     tagline:
-      'Published VS Code extension with 10,000+ installs, dual-mode rendering, and framework-aware component shims (v1.7.7).',
+      'Published VS Code and Open VSX extension with 15,000+ combined installs, dual-mode rendering, and framework-aware component shims (v1.7.7).',
     period: {
       start: {
         year: 2026,
@@ -289,7 +440,7 @@ export const projects = deepFreeze([
       'Architected the root extension plus 5 workspace packages with esbuild for the Node.js extension host, Vite 8 for the React 19 webview, and reusable mdx-forge compiler and runtime packages',
       'Implemented workspace-trust-gated Safe and Trusted modes: DOMPurify-sanitized static HTML with strict CSP or full React 19 component evaluation with project-level configuration',
       'Built a 4-strategy module resolver (framework shim -> TypeScript paths -> enhanced-resolve -> file probe), dual MDX pipelines, and Shiki, KaTeX, Mermaid, PlantUML, and Graphviz integrations',
-      'Designed a component registry for Docusaurus, Starlight, Nextra, Next.js, and generic MDX with 35+ React shims, build-time codegen, 16 preview themes, 24 code themes, and 17 example workspaces',
+      'Designed a component registry for Docusaurus, Starlight, Nextra, Next.js, and generic MDX with 27 React shims, build-time codegen, 16 preview themes, 24 code themes, and 17 example workspaces',
       'Shipped 20 commands and 32 settings spanning preview control, security, theming, debugging, framework selection, zoom, cache management, bidirectional source-scroll synchronization, click-to-source navigation, HTML export, and package-scoped Tailwind handling',
       'Hardened extension startup, cache, and worker lifecycle against crashes and races, added a TypeScript 7 CLI bridge, and reduced the packaged extension from roughly 20.7 MB to 8.3 MB',
     ],
@@ -357,6 +508,7 @@ export const projects = deepFreeze([
       'Shipped a host-agnostic diagnostics API with framework-aware component analysis, stable MDXF codes, original-document source ranges, and no-eval frontmatter parsing',
       'Implemented a browser runtime with semaphore-limited loading, module registry and cache abstractions, dependency tracking, LRU caching, style injection, and cascade cleanup',
       'Published framework shims and registry data for Docusaurus, Starlight, Nextra, Next.js, and generic MDX consumers with cross-package Vitest coverage',
+      'Shipped a Claude Code MCP render plugin (render_mdx, list_components) with Chromium screenshots and structured diagnostics',
     ],
     technologies: [
       'typescript',
@@ -484,7 +636,7 @@ export const projects = deepFreeze([
       'Implemented 14 action types (themes, panels, layout, notifications, tasks/commands, profiles) and 17+ condition types (file patterns, language, debug/test state, Git branch, time of day, diagnostics)',
       'Added diagnostics tooling to lint and test rules, explain the active rule, and surface overlap warnings with analytics/history',
       'Ensured safe, reversible changes by applying all actions through VS Code APIs with optional safe mode',
-      'Covered the rule pipeline w/ 54 unit & integration test suites (full-pipeline, multi-action, overlap, composite conditions)',
+      'Covered the rule pipeline w/ 52 unit & integration test files (900+ tests) (full-pipeline, multi-action, overlap, composite conditions)',
     ],
     technologies: ['typescript', 'node-js', 'vs-code-extension-api'],
   },
@@ -552,15 +704,16 @@ export const projects = deepFreeze([
       media: { availability: 'available' },
     },
     bulletPoints: [
-      'Built a Django 5.2/DRF 3.16 API with rotating JWT auth, OpenAPI docs, request-ID tracing, tier-aware AI throttling, and Docker Compose deployment on PostgreSQL 16 + pgvector',
+      'Built a Django 5.2/DRF 3.16 API with rotating JWT auth, OpenAPI docs, request-ID tracing, a dedicated generation throttle, and Docker Compose deployment on PostgreSQL 16 + pgvector',
       'Engineered a hybrid RAG pipeline — dense (pgvector, text-embedding-3-large) + Postgres full-text fused w/ reciprocal-rank fusion — w/ source grounding, a versioned prompt registry (sha256 prompt hashes), a generation replay/diff endpoint, & provider-neutral generation behind a client factory',
       'Built durable, owner-scoped asynchronous AI jobs with idempotent enqueue and replay, leased workers, bounded retries, cancellation, provider checkpoints, stale-write protection, and terminal result commits',
-      'Added an offline eval harness w/ schema-versioned corpora & deterministic constraint validation (stroke/intensity/distance/difficulty), measuring hybrid vs dense-only retrieval over 48 cases w/ JSON + markdown reports (pass rates, p50/p95 latency, token usage, run-over-run diffs)',
+      'Added an offline eval harness w/ schema-versioned corpora & deterministic constraint validation (stroke/intensity/distance/difficulty), supporting dense and hybrid retrieval modes across a 48-case corpus w/ JSON + markdown reports (pass rates, p50/p95 latency, token usage, run-over-run diffs)',
+      'Re-architected around one complete-workout flow (author -> schedule -> Watch execute -> review) with revisioned workout, schedule, and weekly-goal resources using client mutation IDs, expected-revision conflict detection, and tombstones, plus schema-validated complete-workout generation with a checkpointed repair step',
       'Modeled a planned-workout lifecycle bridging AI generation -> Apple Watch execution -> completed swim, w/ an adaptive UserFitnessState derived from execution history',
       'Added a weekly training-intelligence layer: deterministic plan assembly, training-load analytics, a pre-swim readiness engine, and a technique drill catalog',
       'Built swim-profile onboarding w/ learned/effective pace calibration per stroke, distance, and intensity',
       'Developed SwiftUI iOS/watchOS apps w/ HealthKit capture, Apple Watch live metrics, Swift Charts analytics, SwiftData persistence, & a source-grounded "why these sets?" view exposing retrieved chunks & constraint effects',
-      'Added actor-based networking with automatic token refresh, Keychain JWT storage, background HealthKit deduplication sync, and a cursor-paginated swim-set library',
+      'Added actor-based networking with automatic token refresh, Keychain JWT storage, background HealthKit deduplication sync, and a paginated swim-set library',
       'Added a durable Apple Watch plan inbox and completion outbox with retries, exact acknowledgements, and dependency-aware offline mutation synchronization across intermittent phone/watch connectivity',
     ],
     technologies: [
@@ -632,17 +785,20 @@ export const projects = deepFreeze([
   },
   {
     id: 'minecart',
-    title: 'Minecart',
+    title: 'Minecart v1',
     tagline:
-      'Web/API-first Minecraft server management platform for local Docker and prerequisite-gated AWS EC2 environments, with multi-tenant controls and a Discord companion (v0.14.0).',
+      'Archived first iteration of a web/API-first Minecraft server manager for local Docker and prerequisite-gated AWS EC2, with multi-tenant controls and a Discord companion (v0.14.0); succeeded by Minecart v2.',
     period: {
       start: {
         year: 2025,
         month: 9,
       },
-      isCurrent: true,
+      end: {
+        year: 2026,
+        month: 8,
+      },
     },
-    status: 'in-development',
+    status: 'complete',
     madeFor: 'Personal',
     contentStatus: {
       links: {
@@ -652,7 +808,7 @@ export const projects = deepFreeze([
       media: { availability: 'available' },
     },
     bulletPoints: [
-      'Built a Hono REST API with 24 route and contract modules, Zod-validated contracts, OpenAPI/Scalar docs, DI middleware, rate limiting, API keys, and webhooks as the source-of-truth management surface',
+      'Built a Hono REST API with 11 route modules (56 endpoint contracts), Zod-validated contracts, OpenAPI/Scalar docs, DI middleware, rate limiting, API keys, and webhooks as the source-of-truth management surface',
       'Added a React/Vite/Tailwind web dashboard w/ Discord OAuth session auth (HttpOnly cookies, CSRF), server lists, a provider catalog, and provisioning flows',
       'Streamed real-time provisioning progress over SSE (GET /v1/jobs/:id/stream) w/ a repository-backed event hub & heartbeats; PATCH/DELETE server CRUD w/ active-job guards and soft-delete',
       'Implemented a provider abstraction for local Docker and AWS EC2 w/ runtime switching, health checks, and live status via RCON and mcstatus.io',
@@ -763,12 +919,13 @@ export const projects = deepFreeze([
       media: { availability: 'available' },
     },
     bulletPoints: [
-      'Promoted 2,689 of 2,939 MIPS R3000 functions across 12 PS1 overlays to unconditional matching C (91.5%), with 250 guarded functions remaining; all promotions are verified against the original binary',
+      'Promoted MIPS R3000 functions to unconditional matching C across 17 PS1 overlays: 2,933 of 3,059 (95.9%) now compile without INCLUDE_ASM, with 126 guarded remaining; every promotion is checked against the original binaries',
+      'Retired 517 of 941 grandfathered inline-assembly and .word-blob wrappers by rewriting them as compiler-generated C, each gated by a reviewed ledger entry and a clean byte-identical build',
       'Read GCC 2.7.2 internals (sched.c, emit-rtl.c) to disprove a translation-unit optimization hypothesis and isolate real blockers (aspsx version mismatch, stabs sizing, dead-code frame inflation, cross-overlay cascades)',
-      'Built a custom Go build orchestrator over the splat/m2c/asm-differ/maspsx pipeline, plus Python promotion-test & register-allocation diff tooling w/ a batch scanner over hundreds of functions',
-      'Enforced binary-identical correctness via 12 SHA-1 checksums — the exact binary match is the test — wired through GitHub Actions CI, w/ a Docker image for reproducible local builds',
-      'Added receipt-bound promotion infrastructure with isolated staged-tree attestation, exact toolchain and overlay hashes, all 12 binary comparisons, deterministic synthetic-merge CI, and lifecycle cleanup',
-      'Classified and fixed thousands of type bugs and raw pointer casts, performed 5,000+ symbol renames, and held single-line comment coverage across all 20 source files',
+      'Fixed vendored maspsx load-delay bugs (unaligned stores, mtlo/mthi, write-after-write NOPs) and added per-function assembler and compiler recipes',
+      "Built a fail-closed Python promotion pipeline with a Docker-isolated SHA-1 attestor and hash-bound receipts, register-allocation diff and batch scanner tooling, and extensions to the project's Go build commands, backed by 297 tooling tests",
+      'Enforced binary-identical correctness via 17 SHA-1 checksums — the exact binary match is the test — wired through GitHub Actions CI, w/ a Docker image for reproducible local builds',
+      'Named 1,665 of 3,059 functions and classified and fixed thousands of type bugs and raw pointer casts',
     ],
     technologies: [
       'c',

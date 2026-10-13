@@ -67,6 +67,7 @@ const TECHNOLOGIES = [
   { id: 'data-analysis', label: 'Data Analysis', category: 'data' },
   { id: 'data-pipelines', label: 'Data Pipelines', category: 'data' },
   { id: 'databricks', label: 'Databricks', category: 'data' },
+  { id: 'dbos', label: 'DBOS', category: 'infra' },
   { id: 'deep-learning', label: 'Deep Learning', category: 'data' },
   { id: 'densenet', label: 'DenseNet', category: 'data' },
   {
@@ -107,6 +108,7 @@ const TECHNOLOGIES = [
   { id: 'esbuild', label: 'esbuild', category: 'tooling' },
   { id: 'eslint', label: 'ESLint', category: 'tooling' },
   { id: 'ethereum', label: 'Ethereum', category: 'platform' },
+  { id: 'express', label: 'Express', category: 'framework' },
   { id: 'fastapi', label: 'FastAPI', category: 'framework' },
   { id: 'figma', label: 'Figma', category: 'tooling' },
   { id: 'flyway', label: 'Flyway', category: 'tooling' },
@@ -213,10 +215,12 @@ const TECHNOLOGIES = [
   { id: 'rcon', label: 'RCON', category: 'infra' },
   { id: 'react', label: 'React', category: 'framework' },
   { id: 'react-easy-crop', label: 'react-easy-crop', category: 'framework' },
+  { id: 'react-flow', label: 'React Flow', category: 'framework' },
   { id: 'react-ink', label: 'React Ink', category: 'framework' },
   { id: 'react-router', label: 'React Router', category: 'framework' },
   { id: 'redis', label: 'Redis', category: 'infra' },
   { id: 'resnet', label: 'ResNet', category: 'data' },
+  { id: 'restic', label: 'restic', category: 'infra' },
   {
     id: 'reverse-engineering',
     label: 'Reverse Engineering',
@@ -249,6 +253,7 @@ const TECHNOLOGIES = [
     category: 'infra',
   },
   { id: 'sql', label: 'SQL', category: 'language' },
+  { id: 'sqlalchemy', label: 'SQLAlchemy', category: 'framework' },
   { id: 'sqlite', label: 'SQLite', category: 'infra' },
   { id: 'ssm', label: 'SSM', category: 'infra' },
   {
@@ -275,6 +280,7 @@ const TECHNOLOGIES = [
     label: 'Tailwind CSS',
     category: 'framework',
   },
+  { id: 'tanstack-query', label: 'TanStack Query', category: 'framework' },
   { id: 'tensorflow', label: 'TensorFlow', category: 'data' },
   { id: 'threading', label: 'Threading', category: 'platform' },
   {
