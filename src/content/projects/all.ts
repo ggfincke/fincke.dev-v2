@@ -743,7 +743,7 @@ export const projects = deepFreeze([
     id: 'portfolio-website-v2',
     title: 'Portfolio Website v2',
     tagline:
-      "The site you're on: a minimalist, section-based, content-driven portfolio with tag-to-production Cloudflare Pages delivery (v2.10.3).",
+      "The site you're on: a minimalist, section-based, content-driven portfolio with tag-to-production Cloudflare Pages delivery (v2.10.4).",
     period: {
       start: {
         year: 2025,
