@@ -72,6 +72,11 @@ All authored site content lives under `src/content/`. Components consume typed r
 
 - `src/content/education/education.ts`
 
+### Writing
+
+- `src/content/writing/articles.ts`
+  Published articles shown in the home page Writing list
+
 ### Projects
 
 - `src/content/projects/copy.ts`
@@ -311,13 +316,15 @@ src/
 │   ├── experience/
 │   ├── home/
 │   ├── projects/
-│   └── technologies/
+│   ├── technologies/
+│   └── writing/
 ├── sections/
 │   ├── education/
 │   ├── experience/
 │   ├── featured-projects/
 │   ├── home/
-│   └── projects-archive/
+│   ├── projects-archive/
+│   └── writing/
 ├── shared/
 │   ├── components/
 │   │   ├── feedback/

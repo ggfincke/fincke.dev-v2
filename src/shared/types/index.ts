@@ -25,6 +25,7 @@ export type {
   WorkExperience,
   WorkExperienceId,
 } from '~/shared/types/experience'
+export type { Article, WritingContent } from '~/shared/types/writing'
 export type {
   TechnologyCategory,
   TechnologyDefinition,
