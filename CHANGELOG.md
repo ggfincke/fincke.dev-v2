@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added a Writing section to the home page listing published Medium articles
 - Featured Tier List Builder on the home page via a new `tall` feature tier that only shows when the viewport has room for it (≥1280px wide and ≥1150px tall)
+- Added a 1200x630 social preview card (`bun run og-image`) and pointed `og:image`/`twitter:image` at it
+- Emitted a `projects.html` build output w/ route-specific title, description, and canonical tags for `/projects`
+- Added `image` and `alumniOf` to the JSON-LD person data
 
 ### Changed
 

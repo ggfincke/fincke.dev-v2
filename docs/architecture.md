@@ -29,7 +29,9 @@ Current `package.json` versions:
 - `*`
   Renders `NotFoundPage`
 - `src/shared/routing/publicRoutes.ts`
-  Canonical public route paths and slugs consumed by the React router and script manifest helpers
+  Canonical site origin, public route paths, slugs, and per-route `<head>` copy consumed by the React router, the Vite build, and script manifest helpers
+- `vite.config.ts` (`routeHeadPages`)
+  Emits `<slug>.html` (e.g. `projects.html`) from the built `index.html` for each route w/ `head` metadata, via `scripts/lib/routeHtml.ts`, so link previews and crawlers see route-specific title/description/canonical tags. Cloudflare and `vite preview` serve it at the bare path.
 
 ### Shared App Chrome
 
@@ -245,6 +247,8 @@ deterministic check job.
   Lightweight Playwright route/viewport capture for CI browser smoke coverage
 - `bun run lighthouse`
   Reduced-motion desktop Lighthouse audits against the preview server
+- `bun run og-image`
+  Regenerates `public/assets/images/og-card.png` (1200x630 social preview) from hero content and the profile photo
 
 ### Script Sources of Truth
 
@@ -253,7 +257,7 @@ deterministic check job.
 - `src/content/assets/publicAssets.ts`
   Content-owned runtime/retained/deployment asset metadata consumed by UI and scripts
 - `scripts/lib/siteManifest.ts`
-  Site origin and public route URL helpers for screenshots, Lighthouse, and sitemap validation
+  Re-exported site origin and public route URL helpers for screenshots, Lighthouse, and sitemap validation
 - `scripts/lib/browserAudit.ts`
   Shared local browser-audit origins, output directories, and launch flags
 - `scripts/lib/contentInventory.ts`

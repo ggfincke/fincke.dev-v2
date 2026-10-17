@@ -1,6 +1,10 @@
 // src/shared/routing/publicRoutes.ts
 // canonical public route metadata for router & script consumers
 
+export const SITE_ORIGIN = 'https://fincke.dev'
+
+// non-home routes carry their own <head> copy; the build emits `${slug}.html`
+// from index.html w/ these values so link previews & crawlers see per-route meta
 export const PUBLIC_ROUTES = [
   {
     slug: 'home',
@@ -11,6 +15,11 @@ export const PUBLIC_ROUTES = [
     slug: 'projects',
     path: '/projects',
     childPath: 'projects',
+    head: {
+      title: 'All Projects | Garrett Fincke',
+      description:
+        'Archive of software projects by Garrett Fincke: AI/LLM tooling, full-stack web apps, native iOS/watchOS apps, and systems coursework.',
+    },
   },
 ] as const
 

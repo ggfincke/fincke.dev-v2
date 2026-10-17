@@ -1,7 +1,11 @@
 // src/content/assets/publicAssetInventory.ts
 // public asset inventory consumed by repository automation
 
-import { RESUME_PATH, SCHOOL_LOGO_ASSETS } from '~/content/assets/publicAssets'
+import {
+  PROFILE_PHOTO_PATH,
+  RESUME_PATH,
+  SCHOOL_LOGO_ASSETS,
+} from '~/content/assets/publicAssets'
 import type { PublicAssetReference } from '~/shared/types/assets'
 import { deepFreeze } from '~/shared/utils/deepFreeze'
 
@@ -33,6 +37,12 @@ export const PUBLIC_RUNTIME_ASSETS = deepFreeze([
 ] satisfies PublicAssetReference[])
 
 export const RETAINED_PUBLIC_ASSETS = deepFreeze([
+  {
+    path: PROFILE_PHOTO_PATH,
+    category: 'retained',
+    storage: 'public',
+    source: 'OG card source photo & JSON-LD image',
+  },
   {
     path: '/documents/resume-master.pdf',
     category: 'retained',
