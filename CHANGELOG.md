@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Kept hero tagline segments intact when wrapping on narrow screens
 - Updated the 456code project image to its current Fincke Ocean app icon
 - Bumped Coral to v0.17.1 and Tier List Builder to v1.0.0-alpha.4
+- Project versions now come from each public repo's newest GitHub release at build time (authored `version` is the fallback for private repos or failed lookups), replacing the per-visitor GitHub API call in the projects archive
 
 ### Fixed
 

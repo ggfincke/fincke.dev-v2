@@ -121,6 +121,9 @@ export interface Project
   readonly id: ProjectId
   readonly title: string
   readonly tagline?: string
+  // version shown after the tagline; replaced at build by the repo's newest
+  // github release when repoUrl points at a public repo w/ releases
+  readonly version?: string
   readonly period: DateSpan
   readonly status: ProjectStatus
   readonly madeFor: string

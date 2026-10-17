@@ -30,6 +30,8 @@ Current `package.json` versions:
   Renders `NotFoundPage`
 - `src/shared/routing/publicRoutes.ts`
   Canonical site origin, public route paths, slugs, and per-route `<head>` copy consumed by the React router, the Vite build, and script manifest helpers
+- `vite.config.ts` (`githubReleases`)
+  On production builds, resolves each GitHub-linked project's newest release via `scripts/lib/githubReleases.ts` (set `GITHUB_TOKEN` to raise API limits) and injects it as `__GITHUB_RELEASES__`; `src/shared/utils/githubReleases.ts` reads it for tagline versions and the archive's version badge, falling back to each project's authored `version`
 - `vite.config.ts` (`routeHeadPages`)
   Emits `<slug>.html` (e.g. `projects.html`) from the built `index.html` for each route w/ `head` metadata, via `scripts/lib/routeHtml.ts`, so link previews and crawlers see route-specific title/description/canonical tags. Cloudflare and `vite preview` serve it at the bare path.
 

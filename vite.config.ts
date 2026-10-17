@@ -6,6 +6,7 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath } from 'url'
 import { dirname, resolve } from 'path'
+import { resolveProjectReleases } from './scripts/lib/githubReleases.ts'
 import { applyRouteHead } from './scripts/lib/routeHtml.ts'
 import {
   PUBLIC_ROUTES,
@@ -50,8 +51,23 @@ function routeHeadPages(): Plugin
   }
 }
 
+// bake each linked repo's newest github release into production builds so
+// project versions track releases w/o hand edits (read by githubReleases.ts)
+function githubReleases(): Plugin
+{
+  return {
+    name: 'github-releases',
+    apply: 'build',
+    async config()
+    {
+      const releases = await resolveProjectReleases(__dirname)
+      return { define: { __GITHUB_RELEASES__: JSON.stringify(releases) } }
+    },
+  }
+}
+
 export default defineConfig({
-  plugins: [react(), tailwindcss(), routeHeadPages()],
+  plugins: [react(), tailwindcss(), routeHeadPages(), githubReleases()],
   resolve: {
     alias: {
       '~': resolve(__dirname, './src'),

@@ -9,7 +9,8 @@ export const projects = deepFreeze([
     id: 'minecart-v2',
     title: 'Minecart v2',
     tagline:
-      'Ground-up rewrite of Minecart as a local-first Minecraft server manager with a durable control plane, journaled host agent, and verified world backups (v0.1.0).',
+      'Ground-up rewrite of Minecart as a local-first Minecraft server manager with a durable control plane, journaled host agent, and verified world backups.',
+    version: 'v0.1.0',
     period: {
       start: {
         year: 2026,
@@ -319,7 +320,8 @@ export const projects = deepFreeze([
     id: 'coral',
     title: 'Coral',
     tagline:
-      'Local-first CLI/TUI coding agent powered by Ollama with research subagents, MCP/ACP integration, durable background tasks, and a rich terminal interface (v0.17.1).',
+      'Local-first CLI/TUI coding agent powered by Ollama with research subagents, MCP/ACP integration, durable background tasks, and a rich terminal interface.',
+    version: 'v0.17.1',
     period: {
       start: {
         year: 2026,
@@ -369,7 +371,8 @@ export const projects = deepFreeze([
     id: 'tierlistbuilder',
     title: 'Tier List Builder',
     tagline:
-      'Browser tier-list platform with local-first editing, cloud sync, a public template marketplace, share/embed routes, and 8-format export (v1.0.0-alpha.4).',
+      'Browser tier-list platform with local-first editing, cloud sync, a public template marketplace, share/embed routes, and 8-format export.',
+    version: 'v1.0.0-alpha.4',
     period: {
       start: {
         year: 2026,
@@ -422,7 +425,8 @@ export const projects = deepFreeze([
     id: 'mdx-preview-for-vs-code',
     title: 'MDX Preview for VS Code',
     tagline:
-      'Published VS Code and Open VSX extension with 15,000+ combined installs, dual-mode rendering, and framework-aware component shims (v1.7.7).',
+      'Published VS Code and Open VSX extension with 15,000+ combined installs, dual-mode rendering, and framework-aware component shims.',
+    version: 'v1.7.7',
     period: {
       start: {
         year: 2026,
@@ -489,7 +493,8 @@ export const projects = deepFreeze([
     id: 'mdx-forge',
     title: 'mdx-forge',
     tagline:
-      'Standalone MDX runtime toolkit for structured Safe Documents, HTML/React compilation, diagnostics, browser evaluation, and framework shims (v0.10.2).',
+      'Standalone MDX runtime toolkit for structured Safe Documents, HTML/React compilation, diagnostics, browser evaluation, and framework shims.',
+    version: 'v0.10.2',
     period: {
       start: {
         year: 2026,
@@ -611,7 +616,8 @@ export const projects = deepFreeze([
     id: 'reactive-workbench',
     title: 'Reactive Workbench',
     tagline:
-      'Context-aware VS Code automation that adapts themes, panels, layouts, profiles, and editor features based on workspace state (v1.0.2).',
+      'Context-aware VS Code automation that adapts themes, panels, layouts, profiles, and editor features based on workspace state.',
+    version: 'v1.0.2',
     period: {
       start: {
         year: 2025,
@@ -747,7 +753,8 @@ export const projects = deepFreeze([
     id: 'portfolio-website-v2',
     title: 'Portfolio Website v2',
     tagline:
-      "The site you're on: a minimalist, section-based, content-driven portfolio with tag-to-production Cloudflare Pages delivery (v2.10.4).",
+      "The site you're on: a minimalist, section-based, content-driven portfolio with tag-to-production Cloudflare Pages delivery.",
+    version: 'v2.10.4',
     period: {
       start: {
         year: 2025,
