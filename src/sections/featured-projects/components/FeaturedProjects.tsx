@@ -18,7 +18,8 @@ import { FeaturedProjectCard } from '~/sections/featured-projects/components/Fea
 export function FeaturedProjects()
 {
   const showExpandedProjects = useMediaQuery(BREAKPOINTS.ultraWide)
-  const featured = getFeaturedProjects(showExpandedProjects)
+  const showTallProjects = useMediaQuery(BREAKPOINTS.tallViewport)
+  const featured = getFeaturedProjects(showExpandedProjects, showTallProjects)
 
   return (
     <section aria-labelledby="featured-projects-heading">

@@ -69,7 +69,7 @@ describe('project selectors', () =>
       FEATURED_WITH_WIDE_PROJECT_IDS
     )
     expect(featuredProjects.map((project) => project.feature?.order)).toEqual([
-      1, 2, 3,
+      1, 2, 4,
     ])
   })
 

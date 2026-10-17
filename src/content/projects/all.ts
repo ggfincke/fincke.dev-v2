@@ -379,6 +379,10 @@ export const projects = deepFreeze([
     },
     status: 'live',
     madeFor: 'Personal',
+    feature: {
+      tier: 'tall',
+      order: 3,
+    },
     contentStatus: {
       links: { availability: 'available' },
       media: { availability: 'available' },
@@ -430,7 +434,7 @@ export const projects = deepFreeze([
     madeFor: 'Personal',
     feature: {
       tier: 'wide',
-      order: 3,
+      order: 4,
     },
     contentStatus: {
       links: { availability: 'available' },

@@ -5,7 +5,7 @@ import type { TechnologyId } from '~/content/technologies'
 import type { Project } from '~/shared/types'
 import { projects } from '~/content/projects/all'
 
-const FEATURED_PROJECTS_WITH_WIDE = Object.freeze(
+const FEATURED_PROJECTS = Object.freeze(
   projects
     .filter((project) => Boolean(project.feature))
     .sort((left, right) =>
@@ -14,17 +14,23 @@ const FEATURED_PROJECTS_WITH_WIDE = Object.freeze(
     })
 )
 
-const FEATURED_PROJECTS_DEFAULT = Object.freeze(
-  FEATURED_PROJECTS_WITH_WIDE.filter(
-    (project) => project.feature?.tier === 'default'
-  )
-)
-
+// default-tier entries plus whichever optional tiers the viewport has room for
 export const getFeaturedProjects = (
-  includeWide = false
+  includeWide = false,
+  includeTall = false
 ): readonly Project[] =>
 {
-  return includeWide ? FEATURED_PROJECTS_WITH_WIDE : FEATURED_PROJECTS_DEFAULT
+  return Object.freeze(
+    FEATURED_PROJECTS.filter((project) =>
+    {
+      const tier = project.feature?.tier
+      return (
+        tier === 'default' ||
+        (includeTall && tier === 'tall') ||
+        (includeWide && tier === 'wide')
+      )
+    })
+  )
 }
 
 export const getAllProjects = (): readonly Project[] =>

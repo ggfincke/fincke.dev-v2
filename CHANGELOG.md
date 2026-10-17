@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added a Writing section to the home page listing published Medium articles
+- Featured Tier List Builder on the home page via a new `tall` feature tier that only shows when the viewport has room for it (≥1280px wide and ≥1150px tall)
 
 ### Changed
 
@@ -18,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Kept hero tagline segments intact when wrapping on narrow screens
 - Updated the 456code project image to its current Fincke Ocean app icon
 - Bumped Coral to v0.17.1 and Tier List Builder to v1.0.0-alpha.4
+
+### Fixed
+
+- Hid the decorative wave on narrow, shorter desktop windows (under 1280px wide and 1200px tall) where it covered home page content
 
 ## [2.10.4] - 2026-10-12
 
