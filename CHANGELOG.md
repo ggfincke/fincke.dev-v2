@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- Updated the hero tagline, About copy, and meta description to reflect the M.S. CS program at Pitt
+- Rewrote the SwimMate v2 tagline to lead with its hybrid-RAG pipeline and offline eval harness
+- Kept hero tagline segments intact when wrapping on narrow screens
+- Updated the 456code project image to its current Fincke Ocean app icon
+- Bumped Coral to v0.17.1 and Tier List Builder to v1.0.0-alpha.4
+
 ## [2.10.4] - 2026-10-12
 
 ### Added

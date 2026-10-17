@@ -192,7 +192,7 @@ export const projects = deepFreeze([
       'github-actions',
     ],
     imagePath: '/assets/projects/images/456code.webp',
-    imageAlt: '456code black app icon',
+    imageAlt: '456code ocean app icon',
     repoUrl: 'https://github.com/ggfincke/456code',
   },
   {
@@ -319,7 +319,7 @@ export const projects = deepFreeze([
     id: 'coral',
     title: 'Coral',
     tagline:
-      'Local-first CLI/TUI coding agent powered by Ollama with research subagents, MCP/ACP integration, durable background tasks, and a rich terminal interface (v0.17.0).',
+      'Local-first CLI/TUI coding agent powered by Ollama with research subagents, MCP/ACP integration, durable background tasks, and a rich terminal interface (v0.17.1).',
     period: {
       start: {
         year: 2026,
@@ -369,7 +369,7 @@ export const projects = deepFreeze([
     id: 'tierlistbuilder',
     title: 'Tier List Builder',
     tagline:
-      'Browser tier-list platform with local-first editing, cloud sync, a public template marketplace, share/embed routes, and 8-format export (v1.0.0-alpha.3).',
+      'Browser tier-list platform with local-first editing, cloud sync, a public template marketplace, share/embed routes, and 8-format export (v1.0.0-alpha.4).',
     period: {
       start: {
         year: 2026,
@@ -682,7 +682,7 @@ export const projects = deepFreeze([
     id: 'swimmate-v2',
     title: 'SwimMate v2',
     tagline:
-      'Full-stack swimming platform with native iOS/watchOS apps, HealthKit sync, and AI-powered workout generation.',
+      'Swim-training platform with native iOS/watchOS apps and a hybrid-RAG workout generator (pgvector + full-text with rank fusion), measured by an offline eval harness.',
     period: {
       start: {
         year: 2025,
