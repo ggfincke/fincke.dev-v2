@@ -42,7 +42,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps)
         />
 
         <p className="mt-1 text-sm leading-relaxed text-[var(--muted)]">
-          {project.tagline}
+          {viewModel.tagline}
         </p>
 
         <ProjectTechnologies

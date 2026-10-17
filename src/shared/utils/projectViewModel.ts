@@ -3,6 +3,7 @@
 
 import type { Project } from '~/shared/types'
 import { formatDateSpan, getDateSpanStartYear } from '~/shared/utils/dateSpan'
+import { getRepoRelease } from '~/shared/utils/githubReleases'
 
 // shared display metadata for project layouts
 export interface ProjectViewModel
@@ -16,6 +17,16 @@ export interface ProjectViewModel
   detailsId: string
   detailsLabel: string
   imageAlt: string
+  tagline?: string
+  releaseVersion?: string
+}
+
+// "Some sentence." + v1.2.3 -> "Some sentence (v1.2.3)."
+function withVersion(tagline: string, version: string): string
+{
+  return tagline.endsWith('.')
+    ? `${tagline.slice(0, -1)} (${version}).`
+    : `${tagline} (${version})`
 }
 
 // project records are deep-frozen at the content boundary, so the view model
@@ -35,6 +46,8 @@ export function getProjectViewModel(project: Project): ProjectViewModel
 
   const hasLinks = project.contentStatus.links.availability === 'available'
   const hasMedia = project.contentStatus.media.availability === 'available'
+  const releaseVersion = getRepoRelease(project.repoUrl)
+  const taglineVersion = project.version && (releaseVersion ?? project.version)
 
   const viewModel: ProjectViewModel = {
     primaryHref: hasLinks ? (project.liveUrl ?? project.repoUrl) : undefined,
@@ -46,6 +59,11 @@ export function getProjectViewModel(project: Project): ProjectViewModel
     detailsId: `project-details-${project.id}`,
     detailsLabel: `Details for ${project.title}`,
     imageAlt: project.imageAlt ?? `${project.title} screenshot`,
+    tagline:
+      project.tagline && taglineVersion
+        ? withVersion(project.tagline, taglineVersion)
+        : project.tagline,
+    releaseVersion,
   }
 
   VIEW_MODEL_CACHE.set(project, viewModel)

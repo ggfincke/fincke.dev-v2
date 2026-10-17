@@ -7,5 +7,5 @@ import { deepFreeze } from '~/shared/utils/deepFreeze'
 // hero name data
 export const HERO_CONTENT = deepFreeze({
   name: 'Garrett Fincke',
-  tagline: 'Software Engineer · AI/LLM + Full-Stack · Pittsburgh, PA',
+  tagline: 'Software Engineer · M.S. CS @ Pitt · AI/LLM + Full-Stack',
 } satisfies HeroContent)

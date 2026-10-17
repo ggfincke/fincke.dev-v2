@@ -7,6 +7,7 @@ export const ANIMATION_DELAYS = {
   about: '0.3s',
   socialLinks: '0.7s',
   education: { base: 0.5, step: 0.05 },
+  writing: { base: 0.6, step: 0.05 },
   jobHistory: { base: 0.4, step: 0.1 },
   featuredProjects: { base: 0.6, step: 0.1 },
   projectsArchive: {
@@ -27,12 +28,13 @@ export const MAX_ANIMATION_DURATION_MS = (() =>
 {
   const ramps = [
     ANIMATION_DELAYS.education,
+    ANIMATION_DELAYS.writing,
     ANIMATION_DELAYS.jobHistory,
     ANIMATION_DELAYS.featuredProjects,
     ANIMATION_DELAYS.projectsArchive.mobile,
     ANIMATION_DELAYS.projectsArchive.desktop,
   ]
-  // assume up to 30 staggered items per ramp; in practice we have ≤ 24 projects
+  // assume up to 30 staggered items per ramp; the archive's maxDelay caps longer lists
   const STAGGER_BUDGET = 30
   const longestStaggerStart = Math.max(
     ...ramps.map((r) => r.base + r.step * STAGGER_BUDGET)

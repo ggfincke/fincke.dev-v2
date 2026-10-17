@@ -41,7 +41,9 @@ function ProjectMeta({
     <div className="flex items-center gap-4">
       <StatusBadge status={project.status} />
       <span className="text-[var(--muted)] text-sm italic">
-        {project.repoUrl && <VersionBadge repoUrl={project.repoUrl} />}
+        {viewModel.releaseVersion && (
+          <VersionBadge version={viewModel.releaseVersion} />
+        )}
         {viewModel.periodLabel}
       </span>
     </div>
@@ -75,9 +77,9 @@ function ProjectDetailsSummary({ project, viewModel }: ProjectDetailsProps)
 {
   return (
     <>
-      {project.tagline && (
+      {viewModel.tagline && (
         <div className="text-base text-[var(--fg)]/80 italic">
-          {project.tagline}
+          {viewModel.tagline}
         </div>
       )}
 
