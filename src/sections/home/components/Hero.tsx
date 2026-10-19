@@ -15,8 +15,14 @@ export function Hero()
       <h1 className="text-4xl font-bold leading-tight text-[var(--cyan)] md:text-6xl">
         {HERO_CONTENT.name}
       </h1>
+      {/* segments stay whole so narrow screens only wrap at the separators */}
       <p className="mt-1 text-base text-[var(--muted)]">
-        {HERO_CONTENT.tagline}
+        {HERO_CONTENT.tagline.split(' · ').map((segment, index) => (
+          <span key={segment}>
+            {index > 0 && '\u00a0· '}
+            <span className="whitespace-nowrap">{segment}</span>
+          </span>
+        ))}
       </p>
     </div>
   )
