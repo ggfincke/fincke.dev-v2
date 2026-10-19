@@ -9,6 +9,7 @@ import { DecorativeWave } from '~/sections/home/components/DecorativeWave'
 import { GlowEffect } from '~/sections/home/components/GlowEffect'
 import { Hero } from '~/sections/home/components/Hero'
 import { SocialLinks } from '~/sections/home/components/SocialLinks'
+import { WritingList } from '~/sections/writing/components/WritingList'
 import { PageShell } from '~/shared/components/layout/PageShell'
 
 // home page route content w/ decorative effects
@@ -22,6 +23,7 @@ export function HomePage()
             <Hero />
             <About />
             <EducationHistory />
+            <WritingList />
             <SocialLinks />
           </div>
 

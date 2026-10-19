@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Added a Writing section to the home page listing published Medium articles
+- Featured Tier List Builder on the home page via a new `tall` feature tier that only shows when the viewport has room for it (≥1280px wide and ≥1150px tall)
+- Added a 1200x630 social preview card (`bun run og-image`) and pointed `og:image`/`twitter:image` at it
+- Emitted a `projects.html` build output w/ route-specific title, description, and canonical tags for `/projects`
+- Added `image` and `alumniOf` to the JSON-LD person data
+
+### Changed
+
+- Updated the hero tagline, About copy, and meta description to reflect the M.S. CS program at Pitt
+- Rewrote the SwimMate v2 tagline to lead with its hybrid-RAG pipeline and offline eval harness
+- Kept hero tagline segments intact when wrapping on narrow screens
+- Updated the 456code project image to its current Fincke Ocean app icon
+- Bumped Coral to v0.17.1 and Tier List Builder to v1.0.0-alpha.4
+- Project versions now come from each public repo's newest GitHub release at build time (authored `version` is the fallback for private repos or failed lookups), replacing the per-visitor GitHub API call in the projects archive
+
+### Fixed
+
+- Hid the decorative wave on narrow, shorter desktop windows (under 1280px wide and 1200px tall) where it covered home page content
+
 ## [2.10.4] - 2026-10-12
 
 ### Added

@@ -54,8 +54,9 @@ export type ProjectId = (typeof PROJECT_IDS)[number]
 export type ProjectStatus =
   'live' | 'in-development' | 'paused' | 'complete' | 'experimental' | 'planned'
 
-// featured project presentation tier
-export type ProjectFeatureTier = 'default' | 'wide'
+// featured project presentation tier: default always shows; tall needs a
+// viewport tall enough to fit it on the home page; wide shows on ultrawide
+export type ProjectFeatureTier = 'default' | 'tall' | 'wide'
 
 // explicit availability state for project links/media
 export const PROJECT_RESOURCE_AVAILABILITIES = [
@@ -120,6 +121,9 @@ export interface Project
   readonly id: ProjectId
   readonly title: string
   readonly tagline?: string
+  // version shown after the tagline; replaced at build by the repo's newest
+  // github release when repoUrl points at a public repo w/ releases
+  readonly version?: string
   readonly period: DateSpan
   readonly status: ProjectStatus
   readonly madeFor: string
