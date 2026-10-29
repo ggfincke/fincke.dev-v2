@@ -1,7 +1,8 @@
 // src/shared/components/feedback/SkillTooltip.tsx
 // interactive tooltip for skill pills w/ related projects
 
-import { useEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 import { StatusCircle } from '~/shared/components/ui/StatusCircle'
 import type { Project } from '~/shared/types'
@@ -29,10 +30,15 @@ export function SkillTooltip({
 }: SkillTooltipProps)
 {
   const tooltipRef = useRef<HTMLDivElement>(null)
-  const [position, setPosition] = useState({ top: 0, left: 0, arrowLeft: 0 })
+  const [position, setPosition] = useState({
+    top: 0,
+    left: 0,
+    arrowLeft: 0,
+    isBelow: false,
+  })
 
-  // compute tooltip position w/ target metrics
-  useEffect(() =>
+  // compute tooltip position w/ target metrics before paint
+  useLayoutEffect(() =>
   {
     if (!isVisible || !targetRef.current || !tooltipRef.current)
     {
@@ -43,11 +49,13 @@ export function SkillTooltip({
     const tooltipRect = tooltipRef.current.getBoundingClientRect()
 
     let top = targetRect.top - tooltipRect.height - TOOLTIP_SPACING
+    let isBelow = false
     let left = targetRect.left + targetRect.width / 2 - tooltipRect.width / 2
 
     if (top < VIEWPORT_PADDING)
     {
       top = targetRect.bottom + TOOLTIP_SPACING
+      isBelow = true
     }
 
     if (left < VIEWPORT_PADDING)
@@ -67,7 +75,7 @@ export function SkillTooltip({
       Math.min(targetCenter - left, tooltipRect.width - 8)
     )
 
-    setPosition({ top, left, arrowLeft })
+    setPosition({ top, left, arrowLeft, isBelow })
   }, [isVisible, projects, targetRef])
 
   if (!isVisible || projects.length === 0)
@@ -75,7 +83,9 @@ export function SkillTooltip({
     return null
   }
 
-  return (
+  // portal to body so transformed ancestors (stagger-animated rows) don't
+  // become the containing block for fixed positioning or trap z-index
+  return createPortal(
     <div
       ref={tooltipRef}
       id={id}
@@ -101,14 +111,16 @@ export function SkillTooltip({
           </div>
         )}
       </div>
+      {/* arrow flips to the top edge when the tooltip sits below the target */}
       <div
-        className="absolute w-2 h-2 bg-[var(--bg)] border-l border-b border-[var(--border)] rotate-45"
+        className={`absolute w-2 h-2 bg-[var(--bg)] border-[var(--border)] rotate-45 ${position.isBelow ? 'border-t border-l' : 'border-b border-r'}`}
         style={{
-          bottom: '-5px',
+          [position.isBelow ? 'top' : 'bottom']: '-5px',
           left: `${position.arrowLeft}px`,
           marginLeft: '-4px',
         }}
       />
-    </div>
+    </div>,
+    document.body
   )
 }
