@@ -158,7 +158,7 @@ export const projects = deepFreeze([
     id: '456code',
     title: '456code',
     tagline:
-      'Local-first coding-agent workspace maintained as a personal fork of T3 Code, integrating Coral and Cartographer.',
+      'Personal fork of T3 Code for managing coding agents and projects across desktop, mobile, and the web.',
     period: {
       start: {
         year: 2026,
@@ -173,10 +173,11 @@ export const projects = deepFreeze([
       media: { availability: 'available' },
     },
     bulletPoints: [
-      'Maintain a personal fork of the open-source T3 Code workspace (Node server, React web client, Electron desktop app), regularly rebasing onto upstream while keeping fork-specific changes minimal',
-      'Integrated Coral as a provider on the shared ACP adapter with Ollama model discovery, validated end to end against a local Qwen model',
-      'Embedded Cartographer as a core analysis package exposed through server RPCs, read-only MCP tools, and a web graph panel',
-      'Isolated the desktop build with its own bundle identity, profile, data home, and URL scheme, with self-update and publication disabled',
+      'Maintain a personal fork of the open-source T3 Code workspace, adapting its server and clients while integrating upstream improvements',
+      'Integrated Coral as an agent provider using ACP, with Ollama model discovery, approvals, cancellation, queued follow-ups, and session resume',
+      'Embedded Cartographer to analyze a task’s worktree and changes, visualize dependencies, and provide agents with scoped, read-only MCP tools',
+      'Removed upstream product analytics and hosted-service dependencies as part of adapting the workspace for independent use',
+      'Added a locally staged update flow for desktop builds, keeping updates under the fork’s control',
     ],
     technologies: [
       'typescript',
