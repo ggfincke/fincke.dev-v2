@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.11.0] - 2026-10-28
+
+### Added
+
+- Fit the home page to the window without scrolling on two-column layouts: short laptop and landscape tablet screens get a compact layout, and the root font scales down when content would otherwise run into the wave
+- Showed three featured projects side by side on short screens, each with a cropped thumbnail (per-project `thumbnailFocus`) and a one-line `shortTagline`
+- Framed screenshot captures in a Chrome window header so the page area matches a real browser, added landscape iPad and common Windows laptop viewports, and reported whether each page scrolls
+
+### Changed
+
+- Replaced the decorative wave with the three-ribbon wave from 456code, anchored to the bottom of the window so the whole wave shows on every two-column layout
+- Listed every featured project on single-column (phone and portrait tablet) layouts
+- Updated the 456code tagline, bullet points, and icon
+- Replaced the Tier List Builder screenshot with a ranked board from the current UI
+
+### Fixed
+
+- Rendered skill tooltips in a portal so animated rows can't misplace or clip them, and flipped the arrow when the tooltip opens below its pill
+- Loaded lazy images before full-page screenshots so below-the-fold thumbnails are no longer blank
+
 ## [2.10.5] - 2026-10-18
 
 ### Added
