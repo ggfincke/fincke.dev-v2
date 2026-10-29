@@ -46,7 +46,7 @@ export function EducationCard({ education }: EducationCardProps)
         </p>
 
         {education.honors && (
-          <p className="truncate text-[11px] text-[var(--muted)]/80">
+          <p className="truncate text-[0.6875rem] text-[var(--muted)]/80">
             {education.honors}
           </p>
         )}

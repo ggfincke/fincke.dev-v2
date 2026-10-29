@@ -335,6 +335,7 @@ export const projects = deepFreeze([
     feature: {
       tier: 'default',
       order: 2,
+      shortTagline: 'Local-first coding agent',
     },
     contentStatus: {
       links: { availability: 'available' },
@@ -386,6 +387,8 @@ export const projects = deepFreeze([
     feature: {
       tier: 'tall',
       order: 3,
+      shortTagline: 'Tier list maker with sync',
+      thumbnailFocus: 'top',
     },
     contentStatus: {
       links: { availability: 'available' },
@@ -440,6 +443,7 @@ export const projects = deepFreeze([
     feature: {
       tier: 'wide',
       order: 4,
+      shortTagline: 'VS Code extension, 15k+ installs',
     },
     contentStatus: {
       links: { availability: 'available' },
@@ -706,6 +710,8 @@ export const projects = deepFreeze([
     feature: {
       tier: 'default',
       order: 1,
+      shortTagline: 'Swim training for iOS',
+      thumbnailFocus: '30% 22%',
     },
     contentStatus: {
       links: {
