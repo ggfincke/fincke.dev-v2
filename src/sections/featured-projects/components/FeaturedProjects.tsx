@@ -1,6 +1,8 @@
 // src/sections/featured-projects/components/FeaturedProjects.tsx
 // featured projects highlight w/ link to full projects page
 
+import type { CSSProperties } from 'react'
+
 import { getFeaturedProjects, PROJECTS_CONTENT } from '~/content/projects'
 import { StaggeredItem } from '~/shared/components/layout/StaggeredItem'
 import { ActionLink } from '~/shared/components/ui/ActionLink'
@@ -12,21 +14,37 @@ import {
   getStaggerProps,
 } from '~/shared/utils/animationConfig'
 import { BREAKPOINTS } from '~/shared/utils/breakpoints'
+import { cn } from '~/shared/utils/classNames'
 import { FeaturedProjectCard } from '~/sections/featured-projects/components/FeaturedProjectCard'
 
 // featured project cards w/ archive link
 export function FeaturedProjects()
 {
+  const isStacked = useMediaQuery(BREAKPOINTS.stackedLayout)
+  // compact cards sit side by side, so a third one fits the row
+  const isShortDesktop = useMediaQuery(BREAKPOINTS.shortDesktop)
   const showExpandedProjects = useMediaQuery(BREAKPOINTS.ultraWide)
   const showTallProjects = useMediaQuery(BREAKPOINTS.tallViewport)
-  const featured = getFeaturedProjects(showExpandedProjects, showTallProjects)
+  const featured = getFeaturedProjects(
+    isStacked || showExpandedProjects,
+    isStacked || isShortDesktop || showTallProjects
+  )
+  const ctaStagger = getStaggerProps(
+    ANIMATION_DELAYS.featuredProjects.base,
+    ANIMATION_DELAYS.featuredProjects.step,
+    featured.length
+  )
 
   return (
     <section aria-labelledby="featured-projects-heading">
       <h2 id="featured-projects-heading" className="sr-only">
         {PROJECTS_CONTENT.featuredHeading}
       </h2>
-      <div className="space-y-3 min-[1728px]:space-y-4">
+      {/* short desktops put the cards side by side, one column per project */}
+      <div
+        className="space-y-3 min-[1728px]:space-y-4 short-desktop:grid short-desktop:grid-cols-[repeat(var(--featured-count),minmax(0,1fr))] short-desktop:gap-x-4 short-desktop:gap-y-3 short-desktop:space-y-0"
+        style={{ '--featured-count': featured.length } as CSSProperties}
+      >
         {featured.map((project, index) => (
           <StaggeredItem
             key={project.id}
@@ -41,11 +59,11 @@ export function FeaturedProjects()
         <ActionLink
           to={PUBLIC_ROUTE_PATHS.projects}
           icon={<ArrowIcon />}
-          {...getStaggerProps(
-            ANIMATION_DELAYS.featuredProjects.base,
-            ANIMATION_DELAYS.featuredProjects.step,
-            featured.length
+          className={cn(
+            ctaStagger.className,
+            'short-desktop:col-span-full short-desktop:justify-self-start'
           )}
+          style={ctaStagger.style}
         >
           {PROJECTS_CONTENT.archiveCtaLabel}
         </ActionLink>

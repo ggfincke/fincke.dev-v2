@@ -1,5 +1,5 @@
 // scripts/screenshots.ts
-// full-page screenshots at various viewports; --smoke = CI route subset
+// full-page screenshots at various viewports inside a fake chrome frame; --smoke = CI route subset
 // Usage: bun run screenshots [--smoke] (port: dev 5173 / smoke 4173; override w/ BASE_URL or PORT)
 
 import { chromium } from 'playwright'
@@ -14,6 +14,11 @@ import {
   PLAYWRIGHT_LAUNCH_ARGS,
   SCREENSHOTS_DIR,
 } from '~/scripts/lib/browserAudit'
+import {
+  buildBrowserFrameHtml,
+  getBrowserFrameHeight,
+  type BrowserFrameKind,
+} from '~/scripts/lib/browserFrame'
 import { printDivider, printTable } from '~/scripts/lib/cliFormat'
 import { requireRunningServer } from '~/scripts/lib/devServer'
 import { PUBLIC_ROUTES } from '~/scripts/lib/siteManifest'
@@ -38,36 +43,87 @@ interface Viewport
   width: number
   height: number
   dpr: number
+  frame: BrowserFrameKind
 }
 
-// width/height = CSS pixels (what the browser sees for media queries)
+// width/height = CSS pixels of the whole screen; the page gets height minus the frame
 // dpr = deviceScaleFactor (output image rendered at width*dpr x height*dpr physical pixels)
+// frame = browser/OS chrome drawn above the page
 const FULL_VIEWPORTS: readonly Viewport[] = [
   // mobile (standard retina)
-  { name: 'iPhone-SE', width: 375, height: 667, dpr: 2 },
-  { name: 'iPhone-14-Pro', width: 393, height: 852, dpr: 3 },
-  { name: 'iPhone-15-Pro-Max', width: 430, height: 932, dpr: 3 },
+  { name: 'iPhone-SE', width: 375, height: 667, dpr: 2, frame: 'phone' },
+  { name: 'iPhone-14-Pro', width: 393, height: 852, dpr: 3, frame: 'phone' },
+  {
+    name: 'iPhone-15-Pro-Max',
+    width: 430,
+    height: 932,
+    dpr: 3,
+    frame: 'phone',
+  },
   // tablet (retina)
-  { name: 'iPad-Mini', width: 768, height: 1024, dpr: 2 },
-  { name: 'iPad-Air', width: 820, height: 1180, dpr: 2 },
-  { name: 'iPad-Pro-12.9', width: 1024, height: 1366, dpr: 2 },
+  { name: 'iPad-Mini', width: 768, height: 1024, dpr: 2, frame: 'tablet' },
+  { name: 'iPad-Air', width: 820, height: 1180, dpr: 2, frame: 'tablet' },
+  { name: 'iPad-Pro-12.9', width: 1024, height: 1366, dpr: 2, frame: 'tablet' },
+  // tablet landscape (two-column home layout)
+  {
+    name: 'iPad-Mini-landscape',
+    width: 1024,
+    height: 768,
+    dpr: 2,
+    frame: 'tablet',
+  },
+  {
+    name: 'iPad-Air-landscape',
+    width: 1180,
+    height: 820,
+    dpr: 2,
+    frame: 'tablet',
+  },
+  {
+    name: 'iPad-Pro-12.9-landscape',
+    width: 1366,
+    height: 1024,
+    dpr: 2,
+    frame: 'tablet',
+  },
   // MacBook (Retina 2x)
-  { name: 'MacBook-Air-13', width: 1440, height: 900, dpr: 2 },
-  { name: 'MacBook-Air-13-M2', width: 1470, height: 956, dpr: 2 },
-  { name: 'MacBook-Pro-14', width: 1512, height: 982, dpr: 2 },
-  { name: 'MacBook-Air-15', width: 1680, height: 1050, dpr: 2 },
-  { name: 'MacBook-Pro-16', width: 1728, height: 1117, dpr: 2 },
+  { name: 'MacBook-Air-13', width: 1440, height: 900, dpr: 2, frame: 'macos' },
+  {
+    name: 'MacBook-Air-13-M2',
+    width: 1470,
+    height: 956,
+    dpr: 2,
+    frame: 'macos',
+  },
+  { name: 'MacBook-Pro-14', width: 1512, height: 982, dpr: 2, frame: 'macos' },
+  { name: 'MacBook-Air-15', width: 1680, height: 1050, dpr: 2, frame: 'macos' },
+  { name: 'MacBook-Pro-16', width: 1728, height: 1117, dpr: 2, frame: 'macos' },
+  // windows laptops (most common css sizes)
+  {
+    name: 'Laptop-1366x768',
+    width: 1366,
+    height: 768,
+    dpr: 1,
+    frame: 'desktop',
+  },
+  {
+    name: 'Laptop-1536x864',
+    width: 1536,
+    height: 864,
+    dpr: 1.25,
+    frame: 'desktop',
+  },
   // desktop
-  { name: '1080p', width: 1920, height: 1080, dpr: 1 },
-  { name: '1440p-QHD', width: 2560, height: 1440, dpr: 1 },
+  { name: '1080p', width: 1920, height: 1080, dpr: 1, frame: 'desktop' },
+  { name: '1440p-QHD', width: 2560, height: 1440, dpr: 1, frame: 'desktop' },
   // 4K monitors (physical 3840x2160, typical OS scaling → CSS viewport)
-  { name: '4K-150pct', width: 2560, height: 1440, dpr: 1.5 },
-  { name: '4K-200pct', width: 1920, height: 1080, dpr: 2 },
+  { name: '4K-150pct', width: 2560, height: 1440, dpr: 1.5, frame: 'desktop' },
+  { name: '4K-200pct', width: 1920, height: 1080, dpr: 2, frame: 'desktop' },
 ]
 
 const SMOKE_VIEWPORTS: readonly Viewport[] = [
-  { name: 'iPhone-14-Pro', width: 393, height: 852, dpr: 3 },
-  { name: 'MacBook-Air-13', width: 1440, height: 900, dpr: 2 },
+  { name: 'iPhone-14-Pro', width: 393, height: 852, dpr: 3, frame: 'phone' },
+  { name: 'MacBook-Air-13', width: 1440, height: 900, dpr: 2, frame: 'macos' },
 ]
 
 const VIEWPORTS = SCREENSHOT_MODE === 'smoke' ? SMOKE_VIEWPORTS : FULL_VIEWPORTS
@@ -76,6 +132,8 @@ interface ShotResult
 {
   viewport: string
   dims: string
+  pageArea: string
+  scrolls: boolean
   dpr: string
   route: string
   file: string
@@ -95,8 +153,11 @@ async function captureViewport(
   vp: Viewport
 ): Promise<ShotResult[]>
 {
+  // page only gets what's left under the browser chrome, so vh math (e.g. the
+  // home wave) lands where it would in a real window
+  const pageHeight = vp.height - getBrowserFrameHeight(vp.frame)
   const context = await browser.newContext({
-    viewport: { width: vp.width, height: vp.height },
+    viewport: { width: vp.width, height: pageHeight },
     deviceScaleFactor: vp.dpr,
     reducedMotion: SCREENSHOT_MODE === 'smoke' ? 'reduce' : 'no-preference',
   })
@@ -104,6 +165,7 @@ async function captureViewport(
   try
   {
     const page = await context.newPage()
+    const framePage = await context.newPage()
     const captures: ShotResult[] = []
 
     for (const route of PUBLIC_ROUTES)
@@ -167,12 +229,43 @@ async function captureViewport(
         tick()
       })`)
 
-      await page.screenshot({ path: filepath, fullPage: true })
+      // full-page captures never scroll, so lazy images below the fold would
+      // stay blank; force them eager & wait for every decode
+      await page.evaluate(`Promise.all(
+        Array.from(document.images, (img) => {
+          img.loading = 'eager'
+          return img.decode().catch(() => undefined)
+        })
+      )`)
+
+      // the two-column home page must fit the window w/o scrolling
+      const scrolls = await page.evaluate<boolean>(
+        'document.documentElement.scrollHeight > window.innerHeight'
+      )
+      const pageShot = await page.screenshot({ fullPage: true })
+      const faviconUrl = await page.evaluate<string | null>(
+        `document.querySelector('link[rel~="icon"]')?.href ?? null`
+      )
+
+      await framePage.setContent(
+        buildBrowserFrameHtml({
+          kind: vp.frame,
+          width: vp.width,
+          title: await page.title(),
+          url: page.url(),
+          faviconUrl,
+          screenshotDataUri: `data:image/png;base64,${pageShot.toString('base64')}`,
+        }),
+        { waitUntil: 'load' }
+      )
+      await framePage.screenshot({ path: filepath, fullPage: true })
 
       const size = statSync(filepath).size
       captures.push({
         viewport: vp.name,
         dims: `${vp.width}x${vp.height}`,
+        pageArea: `${vp.width}x${pageHeight}`,
+        scrolls,
         dpr: `${vp.dpr}x`,
         route: route.slug,
         file: filename,
@@ -215,16 +308,18 @@ async function main()
     )
     const results = allResults.flat()
 
-    printDivider(100)
+    printDivider(123)
     printTable(results, [
       { header: 'Viewport', width: 24, format: (r) => r.viewport },
       { header: 'CSS Pixels', width: 14, format: (r) => r.dims },
+      { header: 'Page Area', width: 14, format: (r) => r.pageArea },
+      { header: 'Scrolls', width: 9, format: (r) => (r.scrolls ? 'yes' : '') },
       { header: 'DPR', width: 6, format: (r) => r.dpr },
       { header: 'Route', width: 12, format: (r) => r.route },
       { header: 'File Size', width: 12, format: (r) => r.size },
       { header: 'File', format: (r) => r.file },
     ])
-    console.log('='.repeat(100))
+    console.log('='.repeat(123))
     console.log(`\n${results.length} screenshots saved to ${OUT_DIR}\n`)
   }
   finally

@@ -12,7 +12,7 @@ export function Hero()
       className="animate-slide-in-left opacity-0"
       style={{ animationDelay: ANIMATION_DELAYS.hero }}
     >
-      <h1 className="text-4xl font-bold leading-tight text-[var(--cyan)] md:text-6xl">
+      <h1 className="text-4xl font-bold leading-tight text-[var(--cyan)] md:text-6xl short-desktop:text-5xl">
         {HERO_CONTENT.name}
       </h1>
       {/* segments stay whole so narrow screens only wrap at the separators */}

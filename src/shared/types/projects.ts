@@ -99,6 +99,10 @@ export interface ProjectFeature
   readonly tier: ProjectFeatureTier
   // globally unique ordering across all featured projects
   readonly order: number
+  // one short line for the compact home cards on short desktop screens
+  readonly shortTagline: string
+  // css object-position for the cropped compact thumbnail (default center)
+  readonly thumbnailFocus?: string
 }
 
 // collaborator entry shape
