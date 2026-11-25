@@ -1,7 +1,7 @@
 // src/shared/components/layout/InteractiveCard.tsx
 // wrapper component that conditionally renders link or div w/ hover effects
 
-import type { ReactNode } from 'react'
+import type { MouseEventHandler, ReactNode } from 'react'
 
 import { ExternalLink } from '~/shared/components/ui/ExternalLink'
 import { CARD_HOVER_BACKDROP, cn } from '~/shared/utils/classNames'
@@ -20,6 +20,7 @@ interface InteractiveCardProps
   contentClassName?: string
   openInNewTab?: boolean
   withHoverBackdrop?: boolean
+  onClick?: MouseEventHandler<HTMLAnchorElement>
 }
 
 // card wrapper that renders link or div w/ hover effects
@@ -30,6 +31,7 @@ export function InteractiveCard({
   contentClassName,
   openInNewTab = true,
   withHoverBackdrop = false,
+  onClick,
 }: InteractiveCardProps)
 {
   const isLink = Boolean(href)
@@ -58,7 +60,12 @@ export function InteractiveCard({
   if (href)
   {
     return (
-      <ExternalLink href={href} className={classes} openInNewTab={openInNewTab}>
+      <ExternalLink
+        href={href}
+        className={classes}
+        openInNewTab={openInNewTab}
+        onClick={onClick}
+      >
         {inner}
       </ExternalLink>
     )

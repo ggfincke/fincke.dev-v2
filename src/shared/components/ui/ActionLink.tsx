@@ -1,7 +1,7 @@
 // src/shared/components/ui/ActionLink.tsx
 // shared section/page action link for route CTAs
 
-import type { CSSProperties, ReactNode } from 'react'
+import type { CSSProperties, MouseEventHandler, ReactNode } from 'react'
 import { Link, type To } from 'react-router-dom'
 
 import { cn, ACTION_LINK_CLASSES } from '~/shared/utils/classNames'
@@ -16,6 +16,7 @@ interface ActionLinkBaseProps
   icon?: ReactNode
   iconPosition?: 'start' | 'end'
   ariaLabel?: string
+  onClick?: MouseEventHandler<HTMLAnchorElement>
 }
 
 // discriminated action link props
@@ -39,6 +40,7 @@ export function ActionLink({
   icon,
   iconPosition = 'end',
   ariaLabel,
+  onClick,
   ...props
 }: ActionLinkProps)
 {
@@ -59,6 +61,7 @@ export function ActionLink({
         className={classes}
         style={style}
         aria-label={ariaLabel}
+        onClick={onClick}
       >
         {content}
       </Link>
@@ -71,6 +74,7 @@ export function ActionLink({
       className={classes}
       style={style}
       aria-label={ariaLabel}
+      onClick={onClick}
       {...getNewTabLinkProps(props.openInNewTab)}
     >
       {content}

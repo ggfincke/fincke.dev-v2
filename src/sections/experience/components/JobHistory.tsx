@@ -3,6 +3,7 @@
 
 import { RESUME_PATH } from '~/content/assets'
 import { EXPERIENCE_CONTENT, WORK_EXPERIENCE } from '~/content/experience'
+import { trackAnalyticsEvent } from '~/shared/analytics/track-event'
 import { StaggeredItem } from '~/shared/components/layout/StaggeredItem'
 import { ActionLink } from '~/shared/components/ui/ActionLink'
 import { ArrowIcon } from '~/shared/components/ui/icons'
@@ -34,6 +35,7 @@ export function JobHistory()
         <ActionLink
           href={RESUME_PATH}
           openInNewTab
+          onClick={() => trackAnalyticsEvent({ type: 'resume_click' })}
           icon={<ArrowIcon />}
           {...getStaggerProps(
             ANIMATION_DELAYS.jobHistory.base,
