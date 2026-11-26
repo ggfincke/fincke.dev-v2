@@ -59,6 +59,12 @@ export const RETAINED_PUBLIC_ASSETS = deepFreeze([
 
 export const DEPLOYMENT_PUBLIC_ASSETS = deepFreeze([
   {
+    path: '/_routes.json',
+    category: 'deployment',
+    storage: 'public',
+    source: 'Cloudflare Pages function routing',
+  },
+  {
     path: '/robots.txt',
     category: 'deployment',
     storage: 'public',

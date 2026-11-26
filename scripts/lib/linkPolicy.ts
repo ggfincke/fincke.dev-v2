@@ -42,7 +42,12 @@ function isAntiBotHost(hostname: string): boolean
     hostname === 'linkedin.com' ||
     hostname.endsWith('.linkedin.com') ||
     hostname === 'npmjs.com' ||
-    hostname.endsWith('.npmjs.com')
+    hostname.endsWith('.npmjs.com') ||
+    hostname === 'twitter.com' ||
+    hostname === 'x.com' ||
+    hostname.endsWith('.x.com') ||
+    hostname === 'instagram.com' ||
+    hostname.endsWith('.instagram.com')
   )
 }
 

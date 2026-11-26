@@ -84,6 +84,7 @@ function ProjectMobileCardImpl({
           className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5"
         />
         <ProjectLinks
+          projectId={project.id}
           repoUrl={project.repoUrl}
           liveUrl={project.liveUrl}
           additionalLinks={project.additionalLinks}
