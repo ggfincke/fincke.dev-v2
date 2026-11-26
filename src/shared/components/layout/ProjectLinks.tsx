@@ -4,6 +4,9 @@
 import type { ComponentType } from 'react'
 
 import type { ExternalLink } from '~/shared/types'
+import type { ProjectId } from '~/shared/types/projects'
+import type { ProjectLinkDestination } from '~/shared/analytics/events'
+import { trackAnalyticsEvent } from '~/shared/analytics/track-event'
 import { ExternalLink as ExternalAnchor } from '~/shared/components/ui/ExternalLink'
 import { IconLink } from '~/shared/components/ui/IconLink'
 import { getButtonClasses } from '~/shared/utils/classNames'
@@ -13,9 +16,6 @@ import { GitHubIcon } from '~/shared/components/ui/icons/GitHubIcon'
 
 // link display variant type
 export type ProjectLinksVariant = 'icon' | 'button'
-
-// project link "kind" → primary vs secondary CTA styling & label
-type LinkKind = 'repo' | 'live' | 'extra'
 
 interface ResolvedLink
 {
@@ -27,12 +27,13 @@ interface ResolvedLink
   // visible text for the button variant when size is md
   buttonLabelLong: string
   Icon: ComponentType<{ size?: number }>
-  kind: LinkKind
+  kind: ProjectLinkDestination
 }
 
 // props for project links
 interface ProjectLinksProps
 {
+  projectId: ProjectId
   repoUrl?: string
   liveUrl?: string
   additionalLinks?: readonly ExternalLink[]
@@ -115,6 +116,7 @@ function buildLinks(
 
 // project links component w/ icon or button variants
 export function ProjectLinks({
+  projectId,
   repoUrl,
   liveUrl,
   additionalLinks,
@@ -137,6 +139,11 @@ export function ProjectLinks({
     contextLabel
   )
 
+  function trackLink(destination: ProjectLinkDestination)
+  {
+    trackAnalyticsEvent({ type: 'project_click', projectId, destination })
+  }
+
   if (links.length === 0)
   {
     return null
@@ -158,6 +165,7 @@ export function ProjectLinks({
             <ExternalAnchor
               key={link.href}
               href={link.href}
+              onClick={() => trackLink(link.kind)}
               className={getButtonClasses(size, colorVariant)}
             >
               <Icon size={buttonIconSize} /> {label}
@@ -174,7 +182,12 @@ export function ProjectLinks({
       {
         const Icon = link.Icon
         return (
-          <IconLink key={link.href} href={link.href} label={link.iconLabel}>
+          <IconLink
+            key={link.href}
+            href={link.href}
+            label={link.iconLabel}
+            onClick={() => trackLink(link.kind)}
+          >
             <Icon size={24} />
           </IconLink>
         )

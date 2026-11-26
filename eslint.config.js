@@ -101,7 +101,12 @@ export default defineConfig([
     },
   },
   {
-    files: ['scripts/**/*.ts', 'vite.config.ts', 'vitest.config.ts'],
+    files: [
+      'scripts/**/*.ts',
+      'functions/**/*.ts',
+      'vite.config.ts',
+      'vitest.config.ts',
+    ],
     extends: baseTypeScriptExtends,
     languageOptions: {
       ecmaVersion: 2023,

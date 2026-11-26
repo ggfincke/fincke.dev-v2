@@ -99,6 +99,7 @@ function ProjectTableRowImpl({
         {...getNestedInteractionProps<HTMLTableCellElement>()}
       >
         <ProjectLinks
+          projectId={project.id}
           repoUrl={project.repoUrl}
           liveUrl={project.liveUrl}
           additionalLinks={project.additionalLinks}

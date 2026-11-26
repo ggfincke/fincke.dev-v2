@@ -1,6 +1,7 @@
 // src/sections/featured-projects/components/FeaturedProjectCard.tsx
 // featured project card w/ image & technologies
 
+import { trackAnalyticsEvent } from '~/shared/analytics/track-event'
 import { InteractiveCard } from '~/shared/components/layout/InteractiveCard'
 import { ProjectIdentity } from '~/shared/components/projects/ProjectIdentity'
 import { ProjectTechnologies } from '~/shared/components/projects/ProjectTechnologies'
@@ -23,6 +24,14 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps)
   return (
     <InteractiveCard
       href={viewModel.primaryHref}
+      onClick={() =>
+        trackAnalyticsEvent({
+          type: 'project_click',
+          projectId: project.id,
+          destination:
+            viewModel.primaryHref === project.liveUrl ? 'live' : 'repo',
+        })
+      }
       contentClassName="flex flex-col gap-4 sm:flex-row short-desktop:flex-col short-desktop:gap-2"
       withHoverBackdrop
     >
