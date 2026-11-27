@@ -2,9 +2,11 @@
 // records portfolio page views & clicks in analytics engine
 
 import {
+  ANALYTICS_DEVICE_TYPES,
   ANALYTICS_EVENT_TYPES,
   PROJECT_LINK_DESTINATIONS,
 } from '../../src/shared/analytics/events'
+import { normalizeAnalyticsSource } from '../../src/shared/analytics/source'
 import {
   PUBLIC_ROUTES,
   SITE_ORIGIN,
@@ -71,7 +73,14 @@ export function onRequestPost({ request, env }: AnalyticsContext): Response
     return new Response(null, { status: 503 })
   }
 
-  const geo = event === 'page_view' ? request.cf : undefined
+  const isPageView = event === 'page_view'
+  const geo = isPageView ? request.cf : undefined
+  const source = isPageView
+    ? normalizeAnalyticsSource(url.searchParams.get('source'))
+    : undefined
+  const device = isPageView ? url.searchParams.get('device') : null
+  const deviceType = ANALYTICS_DEVICE_TYPES.find((type) => type === device)
+
   env.PAGE_VIEWS.writeDataPoint({
     blobs: [
       path,
@@ -81,6 +90,8 @@ export function onRequestPost({ request, env }: AnalyticsContext): Response
       event,
       project ?? '',
       destination ?? '',
+      source ?? '',
+      deviceType ?? '',
     ],
   })
 
