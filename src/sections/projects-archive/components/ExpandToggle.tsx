@@ -25,7 +25,7 @@ export function ExpandToggle({
     <button
       type="button"
       onClick={onToggle}
-      className={`flex-shrink-0 rounded p-1 transition-[background-color,color,transform] duration-150 hover:scale-110 active:scale-95 ${FOCUS_RING_CLASSES} ${expanded ? 'bg-[var(--accent)]/10 text-[var(--accent)]' : 'text-[var(--muted)] hover:bg-[var(--card)] hover:text-[var(--accent)]'}`}
+      className={`flex-shrink-0 rounded p-1 transition-[background-color,color,transform] duration-150 hover:scale-110 active:scale-95 motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:active:scale-100 ${FOCUS_RING_CLASSES} ${expanded ? 'bg-[var(--accent)]/10 text-[var(--accent)]' : 'text-[var(--muted)] hover:bg-[var(--card)] hover:text-[var(--accent)]'}`}
       aria-expanded={expanded}
       aria-controls={controlsId}
       aria-label={
@@ -35,7 +35,7 @@ export function ExpandToggle({
       }
     >
       <ChevronIcon
-        className={`transform transition-transform duration-300 ${expanded ? 'rotate-90' : ''}`}
+        className={`transform transition-transform duration-300 motion-reduce:transition-none ${expanded ? 'rotate-90' : ''}`}
       />
     </button>
   )

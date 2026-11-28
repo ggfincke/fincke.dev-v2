@@ -24,11 +24,11 @@
     "check-links": "bun scripts/check-links.ts",
     "validate-assets": "bun scripts/validate-assets.ts",
     "og-image": "bun scripts/og-image.ts",
+    "thumbnails": "bun scripts/thumbnails.ts",
     "content:health": "bun run validate-assets && bun run check-links",
     "lighthouse": "bun scripts/lighthouse.ts",
     "analyze": "vite-bundle-visualizer --output reports/bundle.html",
-    "preversion": "bun scripts/check-changelog.ts",
-    "version": "git add CHANGELOG.md"
+    "version": "bun scripts/check-changelog.ts && git add CHANGELOG.md"
   },
   "dependencies": {
     "react": "^19.2.8",

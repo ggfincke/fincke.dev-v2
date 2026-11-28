@@ -138,8 +138,9 @@ Typed contracts live under `src/shared/types/`.
   Shared title/collaborator block for featured and archive variants
 - `src/shared/components/projects/ProjectTechnologies.tsx`
   Shared technology rendering and related-project tooltip wiring. Technology
-  pills with related-project previews are tooltip-only text/focus triggers; they
-  should not expose button semantics unless a real press action is added.
+  pills with related-project previews are buttons: hover or keyboard focus shows
+  the preview, and a press (Enter, Space, tap) toggles it, so it can be reopened
+  after Escape. Pills without a preview stay plain text.
 - `src/shared/components/projects/ProjectCollaborators.tsx`
   Shared collaborator rendering
 - `src/shared/utils/projectViewModel.ts`
@@ -249,6 +250,8 @@ deterministic check job.
   Lightweight Playwright route/viewport capture for CI browser smoke coverage
 - `bun run lighthouse`
   Reduced-motion desktop Lighthouse audits against the preview server
+- `bun run thumbnails`
+  Regenerates the small WebP thumbnails under `public/assets/projects/thumbs/` that featured home cards load, from each featured project's `imagePath`
 - `bun run og-image`
   Regenerates `public/assets/images/og-card.png` (1200x630 social preview) from hero content and the profile photo
 

@@ -3,6 +3,7 @@
 
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
 import { FullScreenMessagePage } from '~/shared/components/feedback/FullScreenMessagePage'
+import { FULL_SCREEN_MESSAGE_ACTION_CLASSES } from '~/shared/utils/classNames'
 
 // route error fallback rendered through shared full-screen message shell
 export function ErrorFallback()
@@ -28,6 +29,17 @@ export function ErrorFallback()
         <div className="mb-4 text-6xl text-[var(--red)]" aria-hidden="true">
           !
         </div>
+      }
+      // a failed lazy route stays failed for this document, so in-app
+      // navigation can't recover it; a reload can
+      action={
+        <button
+          type="button"
+          onClick={() => window.location.reload()}
+          className={FULL_SCREEN_MESSAGE_ACTION_CLASSES}
+        >
+          Reload page
+        </button>
       }
     >
       <h1 className="text-2xl font-bold text-[var(--fg)]">{title}</h1>

@@ -52,7 +52,8 @@ export function ProjectsTable()
             current,
             nextSortState(parseSortParams(current), key)
           ),
-        { replace: true }
+        // sorting stays in place; only real route changes reset scroll
+        { replace: true, preventScrollReset: true }
       )
     },
     [setSearchParams]

@@ -9,9 +9,11 @@ import {
   PUBLIC_RUNTIME_ASSETS,
   RETAINED_PUBLIC_ASSETS,
 } from '~/content/assets/publicAssetInventory'
+import { EDUCATION } from '~/content/education'
 import { WORK_EXPERIENCE } from '~/content/experience'
 import { SOCIAL_LINKS } from '~/content/home'
 import { projects } from '~/content/projects'
+import { ARTICLES } from '~/content/writing'
 import type {
   PublicAssetCategory,
   PublicAssetStorage,
@@ -463,6 +465,16 @@ function computeContentInventory(): ContentInventory
       })
     }
 
+    if (project.feature?.thumbnailPath)
+    {
+      addLocalReference(localReferences, {
+        path: project.feature.thumbnailPath,
+        category: 'runtime',
+        source: `featured thumbnail: ${project.title}`,
+        storage: 'public',
+      })
+    }
+
     for (const link of project.additionalLinks ?? [])
     {
       addExternalReference(
@@ -498,6 +510,29 @@ function computeContentInventory(): ContentInventory
       externalReferences,
       job.link,
       `experience: ${job.company}`
+    )
+  }
+
+  for (const school of EDUCATION)
+  {
+    if (!school.url)
+    {
+      continue
+    }
+
+    addExternalReference(
+      externalReferences,
+      school.url,
+      `education: ${school.school}`
+    )
+  }
+
+  for (const article of ARTICLES)
+  {
+    addExternalReference(
+      externalReferences,
+      article.url,
+      `writing: ${article.title}`
     )
   }
 

@@ -103,6 +103,9 @@ export interface ProjectFeature
   readonly shortTagline: string
   // css object-position for the cropped compact thumbnail (default center)
   readonly thumbnailFocus?: string
+  // small WebP rendition of imagePath for the home card; `bun run thumbnails`
+  // regenerates it, & the full image stays in the archive details
+  readonly thumbnailPath?: string
 }
 
 // collaborator entry shape
