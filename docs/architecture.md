@@ -138,8 +138,9 @@ Typed contracts live under `src/shared/types/`.
   Shared title/collaborator block for featured and archive variants
 - `src/shared/components/projects/ProjectTechnologies.tsx`
   Shared technology rendering and related-project tooltip wiring. Technology
-  pills with related-project previews are tooltip-only text/focus triggers; they
-  should not expose button semantics unless a real press action is added.
+  pills with related-project previews are buttons: hover or keyboard focus shows
+  the preview, and a press (Enter, Space, tap) toggles it, so it can be reopened
+  after Escape. Pills without a preview stay plain text.
 - `src/shared/components/projects/ProjectCollaborators.tsx`
   Shared collaborator rendering
 - `src/shared/utils/projectViewModel.ts`

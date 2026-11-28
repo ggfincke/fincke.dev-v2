@@ -41,6 +41,7 @@ function PhoneRevealButton()
 {
   const [revealed, setRevealed] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() =>
   {
@@ -63,6 +64,11 @@ function PhoneRevealButton()
     {
       if (event.key === 'Escape')
       {
+        // the focused call link is about to unmount; keep focus on its trigger
+        if (containerRef.current?.contains(document.activeElement))
+        {
+          buttonRef.current?.focus()
+        }
         setRevealed(false)
       }
     }
@@ -79,6 +85,7 @@ function PhoneRevealButton()
   return (
     <div ref={containerRef} className="relative">
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => setRevealed((current) => !current)}
         aria-label={

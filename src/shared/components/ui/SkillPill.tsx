@@ -1,10 +1,11 @@
 // src/shared/components/ui/SkillPill.tsx
 // skill badge w/ optional tooltip showing related projects
 
-import { useEffect, useId, useRef, useState } from 'react'
+import { useId, useRef } from 'react'
 
 import { getTechnologyDisplay, type TechnologyId } from '~/content/technologies'
 import { SkillTooltip } from '~/shared/components/feedback/SkillTooltip'
+import { useTooltipTrigger } from '~/shared/hooks/useTooltipTrigger'
 import type { Project } from '~/shared/types'
 import { FOCUS_RING_CLASSES } from '~/shared/utils/classNames'
 
@@ -34,66 +35,25 @@ export function SkillPill({
   hoverDelay = DEFAULT_HOVER_DELAY,
 }: SkillPillProps)
 {
-  // hover & keyboard focus tracked apart so either one alone holds the
-  // tooltip; mouse-click focus isn't focus-visible, so it never sticks
-  const [isHovered, setIsHovered] = useState(false)
-  const [isFocused, setIsFocused] = useState(false)
-  const [isTooltipReady, setIsTooltipReady] = useState(false)
-  const isTriggerActive = isHovered || isFocused
   const triggerRef = useRef<HTMLButtonElement>(null)
   const tooltipId = useId()
   const { label, textColor, bgColor } = getTechnologyDisplay(technologyId)
 
   const hasTooltip = showProjectsOnHover && Boolean(getRelatedProjects)
+  const {
+    isActive: isTriggerActive,
+    isOpen: showTooltip,
+    triggerProps,
+    tooltipProps,
+  } = useTooltipTrigger({
+    enabled: hasTooltip,
+    showDelay: hoverDelay,
+    triggerRef,
+  })
   const relatedProjects =
-    hasTooltip && isTriggerActive && getRelatedProjects
+    isTriggerActive && getRelatedProjects
       ? getRelatedProjects(technologyId)
       : EMPTY_PROJECTS
-  const showTooltip = hasTooltip && isTriggerActive && isTooltipReady
-
-  // delay showing tooltip until hover sticks
-  useEffect(() =>
-  {
-    if (!hasTooltip || !isTriggerActive)
-    {
-      return
-    }
-
-    const timeoutId = setTimeout(() =>
-    {
-      setIsTooltipReady(true)
-    }, hoverDelay)
-
-    return () =>
-    {
-      clearTimeout(timeoutId)
-    }
-  }, [hasTooltip, hoverDelay, isTriggerActive])
-
-  // dismiss on Escape w/o moving pointer or focus (WCAG 1.4.13)
-  useEffect(() =>
-  {
-    if (!isTriggerActive)
-    {
-      return
-    }
-
-    function handleKey(event: KeyboardEvent)
-    {
-      if (event.key === 'Escape')
-      {
-        setIsHovered(false)
-        setIsFocused(false)
-        setIsTooltipReady(false)
-      }
-    }
-
-    window.addEventListener('keydown', handleKey)
-    return () =>
-    {
-      window.removeEventListener('keydown', handleKey)
-    }
-  }, [isTriggerActive])
 
   const sizeClasses = {
     xs: 'px-2 py-1 text-xs',
@@ -126,29 +86,7 @@ export function SkillPill({
         className={`appearance-none border-0 ${pillClasses}`}
         aria-label={label}
         aria-describedby={showTooltip ? tooltipId : undefined}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() =>
-        {
-          setIsHovered(false)
-          if (!isFocused)
-          {
-            setIsTooltipReady(false)
-          }
-        }}
-        onFocus={(event) =>
-        {
-          if (event.currentTarget.matches(':focus-visible'))
-          {
-            setIsFocused(true)
-          }
-        }}
-        // blur clears hover too; touch taps emulate hover w/o a reliable leave
-        onBlur={() =>
-        {
-          setIsFocused(false)
-          setIsHovered(false)
-          setIsTooltipReady(false)
-        }}
+        {...triggerProps}
       >
         <span className="truncate">{label}</span>
       </button>
@@ -157,6 +95,7 @@ export function SkillPill({
         projects={relatedProjects}
         isVisible={showTooltip}
         targetRef={triggerRef}
+        {...tooltipProps}
       />
     </>
   )
