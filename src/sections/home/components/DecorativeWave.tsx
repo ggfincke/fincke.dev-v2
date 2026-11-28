@@ -3,9 +3,6 @@
 
 import type { Ref } from 'react'
 
-// 172px at the default root size
-const WAVE_HEIGHT = '10.75rem'
-
 interface DecorativeWaveProps
 {
   ref?: Ref<HTMLDivElement>
@@ -17,13 +14,13 @@ export function DecorativeWave({ ref }: DecorativeWaveProps)
   return (
     <div
       ref={ref}
-      className="pointer-events-none absolute bottom-0 left-0 hidden w-full lg:block"
+      className="pointer-events-none absolute bottom-0 left-0 hidden w-full lg:block short-landscape:block"
       aria-hidden="true"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="100%"
-        style={{ height: WAVE_HEIGHT }}
+        className="h-[10.75rem] short-landscape:h-12"
         viewBox="0 -28.5 1440 172.5"
         fill="none"
         preserveAspectRatio="none"

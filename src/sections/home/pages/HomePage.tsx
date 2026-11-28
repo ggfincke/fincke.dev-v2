@@ -23,15 +23,15 @@ export function HomePage()
   useViewportFit(contentRef, waveRef)
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden short-landscape:min-h-dvh">
       {/* short desktops center content in the space above the wave
           (10.75rem = WAVE_HEIGHT in DecorativeWave) */}
-      <PageShell className="relative py-12 short-desktop:flex short-desktop:min-h-[calc(100vh-10.75rem)] short-desktop:flex-col short-desktop:justify-center short-desktop:py-5 min-[2560px]:max-w-[87.5rem]">
+      <PageShell className="relative py-12 short-desktop:flex short-desktop:min-h-[calc(100vh-10.75rem)] short-desktop:flex-col short-desktop:justify-center short-desktop:py-5 short-landscape:px-6 short-landscape:pt-4 short-landscape:pb-14 min-[2560px]:max-w-[87.5rem]">
         <div
           ref={contentRef}
-          className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-20"
+          className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-20 short-landscape:grid-cols-2 short-landscape:gap-7"
         >
-          <div className="space-y-6 short-desktop:space-y-3">
+          <div className="space-y-6 short-desktop:space-y-3 short-landscape:space-y-2.5">
             <Hero />
             <About />
             <EducationHistory />
@@ -39,11 +39,11 @@ export function HomePage()
             <SocialLinks />
           </div>
 
-          <div className="pt-2 lg:pt-11 short-desktop:pt-0">
+          <div className="pt-2 lg:pt-11 short-desktop:pt-0 short-landscape:pt-0.5">
             <div className="space-y-3 min-[1728px]:space-y-4">
               <JobHistory />
             </div>
-            <div className="mt-10 space-y-3 min-[1728px]:mt-12 min-[1728px]:space-y-4 short-desktop:mt-6">
+            <div className="mt-10 space-y-3 min-[1728px]:mt-12 min-[1728px]:space-y-4 short-desktop:mt-6 short-landscape:mt-4">
               <FeaturedProjects />
             </div>
           </div>

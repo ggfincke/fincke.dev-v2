@@ -14,6 +14,8 @@ export const BREAKPOINTS = {
   // compact home layout; keep in sync w/ @custom-variant short-desktop in globals.css
   shortDesktop:
     '(min-width: 1024px) and (max-height: 980px), (min-width: 1024px) and (max-width: 1279px) and (max-height: 1199px)',
+  // wide, short landscape home layout; keep in sync w/ globals.css
+  shortLandscape: '(900px <= width < 1024px) and (570px <= height <= 680px)',
   // room for a third featured card clear of the home page wave; narrower
   // two-column layouts wrap the cards taller, so width matters too
   tallViewport: '(min-width: 1280px) and (min-height: 1150px)',
