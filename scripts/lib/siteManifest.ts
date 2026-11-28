@@ -5,9 +5,10 @@ import {
   PUBLIC_ROUTES,
   SITE_ORIGIN,
   type PublicRoute,
+  type PublicRouteSlug,
 } from '~/shared/routing/publicRoutes'
 
-export { PUBLIC_ROUTES, SITE_ORIGIN, type PublicRoute }
+export { PUBLIC_ROUTES, SITE_ORIGIN, type PublicRoute, type PublicRouteSlug }
 
 export const SITEMAP_URL = new URL('/sitemap.xml', SITE_ORIGIN).toString()
 

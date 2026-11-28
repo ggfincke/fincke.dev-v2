@@ -11,6 +11,7 @@ import lighthouse from 'lighthouse'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { printDivider, printTable } from '~/scripts/lib/cliFormat'
 import { requireRunningServer } from '~/scripts/lib/devServer'
+import { getFinalUrlFailure } from '~/scripts/lib/routeIdentity'
 import { PUBLIC_ROUTES, type PublicRoute } from '~/scripts/lib/siteManifest'
 import {
   DEFAULT_PREVIEW_PORT,
@@ -166,6 +167,13 @@ async function auditRoute(
   if (runtimeError?.code)
   {
     routeFailures.push(`${runtimeError.code}: ${runtimeError.message}`)
+  }
+
+  // scores for a redirected page say nothing about this route
+  const urlFailure = getFinalUrlFailure(route, result.lhr.finalDisplayedUrl)
+  if (urlFailure)
+  {
+    routeFailures.push(urlFailure)
   }
 
   const scores = {} as Record<LighthouseCategory, string>
