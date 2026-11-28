@@ -21,6 +21,7 @@ import {
 } from '~/scripts/lib/browserFrame'
 import { printDivider, printTable } from '~/scripts/lib/cliFormat'
 import { requireRunningServer } from '~/scripts/lib/devServer'
+import { getRouteIdentityFailures } from '~/scripts/lib/routeIdentity'
 import { PUBLIC_ROUTES } from '~/scripts/lib/siteManifest'
 import { MAX_ANIMATION_DURATION_MS } from '~/shared/utils/animationConfig'
 
@@ -175,10 +176,23 @@ async function captureViewport(
       const filename = `${vp.name}__${route.slug}.png`
       const filepath = join(OUT_DIR, filename)
 
-      await page.goto(getRouteUrl(BASE_URL, route.path), {
+      const response = await page.goto(getRouteUrl(BASE_URL, route.path), {
         waitUntil: 'networkidle',
       })
       await page.locator('main').waitFor({ state: 'visible', timeout: 10_000 })
+
+      // never save another page's capture under this route's name
+      const identityFailures = await getRouteIdentityFailures(
+        page,
+        response,
+        route
+      )
+      if (identityFailures.length > 0)
+      {
+        throw new Error(
+          `${route.path} @ ${vp.name}: ${identityFailures.join('; ')}`
+        )
+      }
       const mainText = (await page.locator('main').innerText()).trim()
 
       if (!mainText)
