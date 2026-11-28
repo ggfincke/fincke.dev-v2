@@ -18,7 +18,6 @@ import { SITEMAP_URL, getPublicRouteUrls } from '~/scripts/lib/siteManifest'
 interface PublicFileEntry
 {
   path: string
-  diskPath: string
   sizeBytes: number
 }
 
@@ -61,7 +60,7 @@ export interface AssetValidationResult
   }
 }
 
-// walk dir, capturing each file's url-path, disk-path, & size in one pass
+// walk dir, capturing each file's url-path & size in one pass
 function listPublicFiles(dir: string): PublicFileEntry[]
 {
   const results: PublicFileEntry[] = []
@@ -79,7 +78,6 @@ function listPublicFiles(dir: string): PublicFileEntry[]
     const stats: Stats = statSync(fullPath)
     results.push({
       path: '/' + relative(PUBLIC_DIR, fullPath).replace(/\\/g, '/'),
-      diskPath: fullPath,
       sizeBytes: stats.size,
     })
   }
@@ -144,7 +142,8 @@ export function validateAssetInventory(
 
   for (const reference of inventory.localFiles)
   {
-    if (tryStatFile(getDiskPath(reference)) !== undefined)
+    // a directory at the referenced path is not the file a visitor would get
+    if (tryStatFile(getDiskPath(reference))?.isFile())
     {
       found.push(reference)
       continue

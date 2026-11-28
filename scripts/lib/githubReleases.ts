@@ -12,6 +12,8 @@ import type { Project } from '~/shared/types'
 const SELF_REPO_URL = 'https://github.com/ggfincke/fincke.dev-v2'
 
 const REQUEST_TIMEOUT_MS = 8000
+// a token w/ push access also lists drafts, which can fill the first page
+const MAX_RELEASE_PAGES = 3
 
 interface GitHubRelease
 {
@@ -26,22 +28,32 @@ async function fetchNewestRelease(
 ): Promise<string | undefined>
 {
   const [, owner, repo] = new URL(repoUrl).pathname.split('/')
-  const response = await fetch(
-    `https://api.github.com/repos/${owner}/${repo}/releases?per_page=10`,
-    { headers, signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) }
-  )
 
-  if (response.status === 404)
+  for (let page = 1; page <= MAX_RELEASE_PAGES; page++)
   {
-    return undefined
-  }
-  if (!response.ok)
-  {
-    throw new Error(`HTTP ${response.status}`)
+    const response = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/releases?per_page=10&page=${page}`,
+      { headers, signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) }
+    )
+
+    if (response.status === 404)
+    {
+      return undefined
+    }
+    if (!response.ok)
+    {
+      throw new Error(`HTTP ${response.status}`)
+    }
+
+    const releases = (await response.json()) as GitHubRelease[]
+    const published = releases.find((release) => !release.draft)
+    if (published || !response.headers.get('link')?.includes('rel="next"'))
+    {
+      return published?.tag_name
+    }
   }
 
-  const releases = (await response.json()) as GitHubRelease[]
-  return releases.find((release) => !release.draft)?.tag_name
+  return undefined
 }
 
 // map of repoUrl -> newest release tag for every github-linked project.

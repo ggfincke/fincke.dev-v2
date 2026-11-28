@@ -34,6 +34,8 @@ const OUT_DIR = join(
 )
 // derived from runtime stagger config so this stays correct when delays change
 const ANIMATION_WAIT = MAX_ANIMATION_DURATION_MS + 200
+// longest a route's images may take to load & decode before the capture fails
+const IMAGE_DECODE_TIMEOUT_MS = 10_000
 // concurrent browser contexts during capture; tune up if your machine has the cores
 const VIEWPORT_CONCURRENCY = 4
 
@@ -194,7 +196,9 @@ async function captureViewport(
         .locator('.animate-slide-in-up')
         .first()
         .waitFor({ state: 'attached', timeout: 5_000 })
-      await page.evaluate(`new Promise((resolve) => {
+      const unsettled = await page.evaluate<
+        string[]
+      >(`new Promise((resolve) => {
         const cap = ${ANIMATION_WAIT * 2}
         const start = performance.now()
         const settled = () => {
@@ -205,23 +209,26 @@ async function captureViewport(
           }
           return true
         }
-        const drain = async () => {
-          const anims = document.getAnimations().filter((a) => {
-            const t = a.effect && a.effect.getComputedTiming()
-            return t && Number.isFinite(t.iterations)
-              && Number.isFinite(t.duration)
-          })
-          await Promise.all(
-            anims.map((a) => a.finished.catch(() => undefined))
-          )
-        }
+        const finite = () => document.getAnimations().filter((a) => {
+          const t = a.effect && a.effect.getComputedTiming()
+          return t && Number.isFinite(t.iterations)
+            && Number.isFinite(t.duration)
+        })
         const tick = async () => {
-          if (performance.now() - start > cap) return resolve()
-          await drain()
+          const left = cap - (performance.now() - start)
+          if (left <= 0) {
+            const names = finite().map((a) => a.animationName || a.transitionProperty || 'animation')
+            return resolve(names.length > 0 ? names : ['staggered rows never became visible'])
+          }
+          // a paused animation never finishes, so the drain races the time left
+          await Promise.race([
+            Promise.all(finite().map((a) => a.finished.catch(() => undefined))),
+            new Promise((r) => setTimeout(r, left)),
+          ])
           // give one frame for late mounts to register a fresh animation
           await new Promise((r) => requestAnimationFrame(() => r()))
           if (settled() && document.getAnimations().length === 0) {
-            resolve()
+            resolve([])
           } else {
             tick()
           }
@@ -229,14 +236,33 @@ async function captureViewport(
         tick()
       })`)
 
+      if (unsettled.length > 0)
+      {
+        throw new Error(
+          `${route.path} @ ${vp.name}: not settled after ${ANIMATION_WAIT * 2}ms (${unsettled.join(', ')})`
+        )
+      }
+
       // full-page captures never scroll, so lazy images below the fold would
-      // stay blank; force them eager & wait for every decode
-      await page.evaluate(`Promise.all(
-        Array.from(document.images, (img) => {
-          img.loading = 'eager'
-          return img.decode().catch(() => undefined)
-        })
-      )`)
+      // stay blank; force them eager & wait for every decode, up to a deadline
+      const unloadedImages = await page.evaluate<string[]>(`(async () => {
+        const images = Array.from(document.images)
+        for (const img of images) img.loading = 'eager'
+        await Promise.race([
+          Promise.all(images.map((img) => img.decode().catch(() => undefined))),
+          new Promise((r) => setTimeout(r, ${IMAGE_DECODE_TIMEOUT_MS})),
+        ])
+        return images
+          .filter((img) => !img.complete || img.naturalWidth === 0)
+          .map((img) => img.currentSrc || img.src)
+      })()`)
+
+      if (unloadedImages.length > 0)
+      {
+        throw new Error(
+          `${route.path} @ ${vp.name}: images missing or still loading after ${IMAGE_DECODE_TIMEOUT_MS}ms (${unloadedImages.join(', ')})`
+        )
+      }
 
       // the two-column home page must fit the window w/o scrolling
       const scrolls = await page.evaluate<boolean>(

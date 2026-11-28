@@ -318,49 +318,51 @@ export function extractJsonLdMetadataUrls(
     /<script type="application\/ld\+json">([\s\S]*?)<\/script>/i
   )
 
+  // a missing or broken block must fail loudly; returning nothing would
+  // silently drop these URLs from link health
   if (!scriptMatch?.[1])
   {
-    return []
+    throw new Error('index.html has no application/ld+json block')
   }
 
-  const trimmed = scriptMatch[1].trim()
-
+  let parsed: { sameAs?: unknown; url?: unknown }
   try
   {
-    const parsed = JSON.parse(trimmed) as {
-      sameAs?: unknown
-      url?: unknown
-    }
-    const urls: RawExternalUrlReference[] = []
+    parsed = JSON.parse(scriptMatch[1]) as typeof parsed
+  }
+  catch (error)
+  {
+    const reason = error instanceof Error ? error.message : String(error)
+    throw new Error(`index.html JSON-LD is not valid JSON: ${reason}`, {
+      cause: error,
+    })
+  }
 
-    if (typeof parsed.url === 'string')
-    {
-      urls.push({
-        url: parsed.url,
-        source: 'index.html json-ld url',
-      })
-    }
+  const urls: RawExternalUrlReference[] = []
 
-    if (Array.isArray(parsed.sameAs))
+  if (typeof parsed.url === 'string')
+  {
+    urls.push({
+      url: parsed.url,
+      source: 'index.html json-ld url',
+    })
+  }
+
+  if (Array.isArray(parsed.sameAs))
+  {
+    for (const value of parsed.sameAs)
     {
-      for (const value of parsed.sameAs)
+      if (typeof value === 'string')
       {
-        if (typeof value === 'string')
-        {
-          urls.push({
-            url: value,
-            source: 'index.html json-ld sameAs',
-          })
-        }
+        urls.push({
+          url: value,
+          source: 'index.html json-ld sameAs',
+        })
       }
     }
+  }
 
-    return urls
-  }
-  catch
-  {
-    return []
-  }
+  return urls
 }
 
 export function extractIndexHtmlReferences(indexHtml: string): {
@@ -398,9 +400,11 @@ export function extractRobotsSitemapUrls(robotsTxt: string): string[]
   )
 }
 
+// comments are stripped first so a commented-out <loc> doesn't count as live
 export function extractSitemapUrls(sitemapXml: string): string[]
 {
-  return [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/gim)].map(
+  const liveXml = sitemapXml.replace(/<!--[\s\S]*?-->/g, '')
+  return [...liveXml.matchAll(/<loc>([^<]+)<\/loc>/gim)].map(
     (match) => match[1]
   )
 }

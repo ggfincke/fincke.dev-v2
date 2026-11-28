@@ -3,7 +3,7 @@
 // Usage: bun run og-image (rerun after changing the hero name or tagline)
 
 import { chromium } from 'playwright'
-import { readFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { PLAYWRIGHT_LAUNCH_ARGS } from '~/scripts/lib/browserAudit'
 import { PUBLIC_DIR } from '~/scripts/lib/paths'
@@ -106,7 +106,23 @@ async function main(): Promise<void>
       viewport: { width: WIDTH, height: HEIGHT },
     })
     await page.setContent(buildCardHtml(photoDataUri), { waitUntil: 'load' })
-    await page.screenshot({ path: outPath, type: 'png' })
+
+    // `load` also fires for a broken image; only replace the card once the
+    // photo actually decoded
+    const photoDecoded = await page.evaluate<boolean>(
+      `document.images[0].decode().then(
+        () => document.images[0].naturalWidth > 0,
+        () => false
+      )`
+    )
+    if (!photoDecoded)
+    {
+      throw new Error(
+        `${PROFILE_PHOTO_PATH} did not decode; left ${OG_IMAGE_PATH} unchanged`
+      )
+    }
+
+    writeFileSync(outPath, await page.screenshot({ type: 'png' }))
   }
   finally
   {

@@ -1,7 +1,7 @@
 // src/sections/projects-archive/components/ProjectExpansionPanel.tsx
 // shared expandable panel wrapper for project details
 
-import { memo, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 import { MOTION_CLASSES } from '~/shared/utils/animationConfig'
 
@@ -16,7 +16,7 @@ interface ProjectExpansionPanelProps
 }
 
 // shared animated expansion panel for mobile & desktop archive layouts
-function ProjectExpansionPanelImpl({
+export function ProjectExpansionPanel({
   expanded,
   hasOpened,
   id,
@@ -43,5 +43,3 @@ function ProjectExpansionPanelImpl({
     </div>
   )
 }
-
-export const ProjectExpansionPanel = memo(ProjectExpansionPanelImpl)

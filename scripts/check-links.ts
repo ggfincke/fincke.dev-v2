@@ -17,6 +17,10 @@ import {
 
 const TIMEOUT = 10_000
 const PER_HOST_CONCURRENCY = 2
+// one more try for failures that usually clear on their own
+const TRANSIENT_STATUSES = new Set([429, 500, 502, 503, 504])
+const DEFAULT_RETRY_DELAY_MS = 2_000
+const MAX_RETRY_DELAY_MS = 15_000
 const USER_AGENT =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) ' +
   'AppleWebKit/537.36 (KHTML, like Gecko) ' +
@@ -28,7 +32,7 @@ interface LinkResult extends ExternalUrlReference
   detail: string
 }
 
-async function requestUrl(
+async function sendRequest(
   url: string,
   method: 'HEAD' | 'GET'
 ): Promise<Response>
@@ -42,6 +46,40 @@ async function requestUrl(
       Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     },
   })
+}
+
+// wait asked for by Retry-After (seconds form), capped so one host can't stall the run
+function getRetryDelayMs(response?: Response): number
+{
+  const seconds = Number(response?.headers.get('retry-after'))
+  return Number.isFinite(seconds) && seconds > 0
+    ? Math.min(seconds * 1000, MAX_RETRY_DELAY_MS)
+    : DEFAULT_RETRY_DELAY_MS
+}
+
+// rate limits, 5xx & dropped connections get a single retry; anything else,
+// including a real 404, is final on the first answer
+async function requestUrl(
+  url: string,
+  method: 'HEAD' | 'GET'
+): Promise<Response>
+{
+  let response: Response | undefined
+  try
+  {
+    response = await sendRequest(url, method)
+    if (!TRANSIENT_STATUSES.has(response.status))
+    {
+      return response
+    }
+  }
+  catch
+  {
+    // fall through to the retry
+  }
+
+  await new Promise((resolve) => setTimeout(resolve, getRetryDelayMs(response)))
+  return sendRequest(url, method)
 }
 
 async function checkUrl(url: string): Promise<{ ok: boolean; detail: string }>
