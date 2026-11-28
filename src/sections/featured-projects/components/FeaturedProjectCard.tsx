@@ -37,7 +37,7 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps)
     >
       {viewModel.imagePath && (
         <FeaturedProjectImage
-          imagePath={viewModel.imagePath}
+          imagePath={project.feature?.thumbnailPath ?? viewModel.imagePath}
           imageAlt={viewModel.imageAlt}
           focus={project.feature?.thumbnailFocus}
         />

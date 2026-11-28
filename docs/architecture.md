@@ -250,6 +250,8 @@ deterministic check job.
   Lightweight Playwright route/viewport capture for CI browser smoke coverage
 - `bun run lighthouse`
   Reduced-motion desktop Lighthouse audits against the preview server
+- `bun run thumbnails`
+  Regenerates the small WebP thumbnails under `public/assets/projects/thumbs/` that featured home cards load, from each featured project's `imagePath`
 - `bun run og-image`
   Regenerates `public/assets/images/og-card.png` (1200x630 social preview) from hero content and the profile photo
 

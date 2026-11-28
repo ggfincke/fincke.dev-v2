@@ -465,6 +465,16 @@ function computeContentInventory(): ContentInventory
       })
     }
 
+    if (project.feature?.thumbnailPath)
+    {
+      addLocalReference(localReferences, {
+        path: project.feature.thumbnailPath,
+        category: 'runtime',
+        source: `featured thumbnail: ${project.title}`,
+        storage: 'public',
+      })
+    }
+
     for (const link of project.additionalLinks ?? [])
     {
       addExternalReference(

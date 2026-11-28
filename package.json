@@ -24,6 +24,7 @@
     "check-links": "bun scripts/check-links.ts",
     "validate-assets": "bun scripts/validate-assets.ts",
     "og-image": "bun scripts/og-image.ts",
+    "thumbnails": "bun scripts/thumbnails.ts",
     "content:health": "bun run validate-assets && bun run check-links",
     "lighthouse": "bun scripts/lighthouse.ts",
     "analyze": "vite-bundle-visualizer --output reports/bundle.html",
