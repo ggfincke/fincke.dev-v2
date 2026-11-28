@@ -48,7 +48,8 @@ export function SkillTooltip({
     arrowLeft: 0,
     isBelow: false,
     hasArrow: true,
-    maxHeight: 0,
+    // unset until measured, so the first pass sizes the list w/o a scrollbar
+    maxHeight: undefined as number | undefined,
   })
 
   // position from target metrics before paint, then follow the target on
@@ -83,14 +84,20 @@ export function SkillTooltip({
       const isBelow =
         height > spaceAbove && (height <= spaceBelow || spaceBelow > spaceAbove)
 
-      // when neither side has room, slide over the target instead of off-screen
-      const top = clamp(
-        isBelow
-          ? targetRect.bottom + TOOLTIP_SPACING
-          : targetRect.top - TOOLTIP_SPACING - shownHeight,
-        VIEWPORT_PADDING,
-        window.innerHeight - VIEWPORT_PADDING - shownHeight
-      )
+      const besideTop = isBelow
+        ? targetRect.bottom + TOOLTIP_SPACING
+        : targetRect.top - TOOLTIP_SPACING - shownHeight
+      // when neither side has room, slide over the target instead of
+      // off-screen; a target scrolled out of view takes its tooltip along
+      const isTargetInView =
+        targetRect.bottom > 0 && targetRect.top < window.innerHeight
+      const top = isTargetInView
+        ? clamp(
+            besideTop,
+            VIEWPORT_PADDING,
+            window.innerHeight - VIEWPORT_PADDING - shownHeight
+          )
+        : besideTop
       let left = targetRect.left + targetRect.width / 2 - tooltipRect.width / 2
 
       if (left < VIEWPORT_PADDING)
@@ -151,7 +158,7 @@ export function SkillTooltip({
       <div
         ref={bodyRef}
         className="overflow-y-auto rounded-lg p-4"
-        style={{ maxHeight: `${position.maxHeight}px` }}
+        style={{ maxHeight: position.maxHeight }}
       >
         <div className="text-sm font-medium text-[var(--muted)] mb-3">
           Related Projects ({projects.length})
