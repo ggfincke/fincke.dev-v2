@@ -1,18 +1,31 @@
-// verify CHANGELOG.md contains an entry for the current version
-// runs as a Bun "version" lifecycle hook after package.json is
-// bumped but before the commit & tag are created
+// scripts/check-changelog.ts
+// version hook gate: CHANGELOG.md must have notes for the bumped package version
 
 import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 
-const { version } = JSON.parse(readFileSync('package.json', 'utf8'))
-const changelog = readFileSync('CHANGELOG.md', 'utf8')
-const heading = `## [${version}]`
+import { readChangelogSection } from '~/scripts/lib/changelog'
+import { REPO_ROOT } from '~/scripts/lib/paths'
 
-if (!changelog.includes(heading))
+// runs as the Bun "version" lifecycle hook, after package.json is bumped &
+// before the commit & tag are created
+const { version } = JSON.parse(
+  readFileSync(join(REPO_ROOT, 'package.json'), 'utf8')
+) as { version: string }
+
+try
 {
+  readChangelogSection(
+    readFileSync(join(REPO_ROOT, 'CHANGELOG.md'), 'utf8'),
+    version
+  )
+}
+catch (error)
+{
+  const reason = error instanceof Error ? error.message : String(error)
   console.error(
-    `\n  Missing changelog entry for v${version}.\n` +
-      `  Add a "${heading}" section to CHANGELOG.md before running bun pm version.\n`
+    `\n  ${reason}\n` +
+      `  Add a "## [${version}]" section with notes to CHANGELOG.md before running bun pm version.\n`
   )
   process.exit(1)
 }
