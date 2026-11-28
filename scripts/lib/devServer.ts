@@ -20,27 +20,38 @@ export async function requireRunningServer(
   }: RequireRunningServerOptions = {}
 ): Promise<void>
 {
-  const startedAt = Date.now()
+  const deadline = Date.now() + timeoutMs
 
-  while (Date.now() - startedAt <= timeoutMs)
+  // every probe & pause is cut to the time left, so a server that accepts
+  // the connection but never answers can't outlast the timeout
+  for (
+    let remaining = timeoutMs;
+    remaining > 0;
+    remaining = deadline - Date.now()
+  )
   {
-    if (await isServerReachable(baseUrl))
+    if (await isServerReachable(baseUrl, remaining))
     {
       return
     }
 
-    await sleep(intervalMs)
+    await sleep(Math.min(intervalMs, Math.max(deadline - Date.now(), 0)))
   }
 
   console.error(`\nServer not reachable at ${baseUrl}\n${hint}\n`)
   process.exit(1)
 }
 
-async function isServerReachable(baseUrl: string): Promise<boolean>
+async function isServerReachable(
+  baseUrl: string,
+  timeoutMs: number
+): Promise<boolean>
 {
   try
   {
-    const res = await fetch(baseUrl)
+    const res = await fetch(baseUrl, {
+      signal: AbortSignal.timeout(timeoutMs),
+    })
     return res.ok
   }
   catch
