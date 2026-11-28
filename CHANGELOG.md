@@ -5,6 +5,62 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.12.5] - 2026-11-27
+
+### Added
+
+- Recorded which site or campaign each page view came from and whether it was on a desktop, tablet, or phone
+
+## [2.12.4] - 2026-11-27
+
+### Security
+
+- Upgraded dev tooling to clear 31 of 32 dependency advisories; the remaining zod 3.x advisory waits on lighthouse and `prettier-plugin-brace-style`
+
+## [2.12.3] - 2026-11-27
+
+### Changed
+
+- Split the release workflow into a read-only verify job and a publish job that only runs once the tag, `package.json` version, and changelog notes check out
+- Pinned every GitHub Action to a commit SHA and added Dependabot to keep the pins current
+- Ran CI as one job that reuses its build for the browser checks
+- Checked each route's status, final URL, and heading during the accessibility, Lighthouse, and screenshot runs
+- Documented the actual release flow in the README and architecture docs
+
+### Fixed
+
+- Retried a release promotion once when prod moved, and marked a release as latest only when it is the newest stable tag
+
+## [2.12.2] - 2026-11-27
+
+### Fixed
+
+- Failed asset and content checks on a directory referenced as an asset or a missing or malformed JSON-LD block, and ignored commented-out sitemap entries
+- Wrote the social preview card only after it renders cleanly
+- Bounded dev server probes, screenshot waits, and image decodes with real deadlines, and settled full screenshots on finished animations
+- Retried link checks once on rate limits, server errors, and network failures
+- Looked past draft releases when reading project versions, and showed the release or authored version on project badges
+
+## [2.12.1] - 2026-11-27
+
+### Added
+
+- Added a compact home layout for short landscape screens such as phones turned sideways
+
+### Changed
+
+- Served small WebP thumbnails on the featured home cards (about 56KB instead of 1.5MB) and inset the card text slightly where it sits under the image
+
+### Fixed
+
+- Kept the home and archive layouts inside narrow and short windows, including with a larger default font size
+- Kept the scroll position when sorting the projects archive and restored scroll on route changes
+- Updated the canonical, Open Graph, and Twitter tags on client-side navigation
+- Showed a loading state while the projects archive loads and a reload button if it fails
+- Made skill tooltips hoverable, kept them inside the window, and let a click or key press reopen them
+- Returned focus to the phone button on Escape and stopped the expand toggle from animating under reduced motion
+- Applied featured thumbnail focal points on short landscape screens
+
 ## [2.12.0] - 2026-11-24
 
 ### Added
