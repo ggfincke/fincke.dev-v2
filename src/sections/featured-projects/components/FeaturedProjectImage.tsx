@@ -32,7 +32,7 @@ export function FeaturedProjectImage({
         width={160}
         height={128}
         style={{ '--thumb-focus': focus } as CSSProperties}
-        className={`h-full w-full object-contain p-1 compact-projects:object-cover compact-projects:p-0 short-desktop:[object-position:var(--thumb-focus,center)] ${MOTION_CLASSES.emphasizedFilter} lg:group-hover:brightness-110`}
+        className={`h-full w-full object-contain p-1 compact-projects:object-cover compact-projects:p-0 compact-projects:[object-position:var(--thumb-focus,center)] ${MOTION_CLASSES.emphasizedFilter} lg:group-hover:brightness-110`}
       />
     </div>
   )
