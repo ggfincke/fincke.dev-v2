@@ -24,25 +24,40 @@ export function useViewportFit(
     const twoColumn = window.matchMedia(BREAKPOINTS.twoColumnQuery)
     let frame = 0
 
-    const fit = () =>
+    const reset = () =>
     {
       root.style.fontSize = ''
+      delete root.dataset.homeOverflow
+    }
+
+    const fit = () =>
+    {
+      reset()
       const content = contentRef.current
       const wave = waveRef.current
       if (!twoColumn.matches || !content || !wave) return
 
+      // content must end where the wave starts
+      const neededHeight = () =>
+        content.getBoundingClientRect().bottom +
+        window.scrollY +
+        wave.getBoundingClientRect().height
+
       let scale = 1
-      for (let pass = 0; pass < MAX_PASSES; pass++)
+      for (let pass = 0; pass < MAX_PASSES && scale > MIN_SCALE; pass++)
       {
-        // content must end where the wave starts
-        const needed =
-          content.getBoundingClientRect().bottom +
-          window.scrollY +
-          wave.getBoundingClientRect().height
-        if (needed <= window.innerHeight || scale === MIN_SCALE) return
+        const needed = neededHeight()
+        if (needed <= window.innerHeight) return
 
         scale = Math.max(MIN_SCALE, (scale * window.innerHeight) / needed)
         root.style.fontSize = `${scale * 100}%`
+      }
+
+      // still too tall at the floor: HomePage reserves the wave's height
+      // under this flag so the page scrolls w/ the wave below the content
+      if (scale === MIN_SCALE && neededHeight() > window.innerHeight)
+      {
+        root.dataset.homeOverflow = ''
       }
     }
 
@@ -61,7 +76,7 @@ export function useViewportFit(
     {
       cancelAnimationFrame(frame)
       window.removeEventListener('resize', scheduleFit)
-      root.style.fontSize = ''
+      reset()
     }
   }, [contentRef, waveRef])
 }

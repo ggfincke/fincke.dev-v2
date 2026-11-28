@@ -71,18 +71,21 @@ function ProjectMobileCardImpl({
         />
       )}
 
+      {/* links drop to their own line when status + pills + links don't fit */}
       <div
-        className="flex items-center gap-2 mt-2 ml-[3rem] pl-4"
+        className="mt-2 ml-[3rem] flex flex-wrap items-center gap-2 pl-4"
         {...getNestedInteractionProps<HTMLDivElement>()}
       >
-        <StatusCircle status={project.status} size={22} />
-        <ProjectTechnologies
-          technologies={project.technologies}
-          maxVisible={2}
-          size="xs"
-          showRelatedProjects
-          className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5"
-        />
+        <div className="flex min-w-0 flex-auto items-center gap-2">
+          <StatusCircle status={project.status} size={22} />
+          <ProjectTechnologies
+            technologies={project.technologies}
+            maxVisible={2}
+            size="xs"
+            showRelatedProjects
+            className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5"
+          />
+        </div>
         <ProjectLinks
           projectId={project.id}
           repoUrl={project.repoUrl}
@@ -90,7 +93,7 @@ function ProjectMobileCardImpl({
           additionalLinks={project.additionalLinks}
           variant="icon"
           size="sm"
-          className="flex flex-shrink-0 space-x-3"
+          className="ml-auto flex min-w-0 flex-wrap justify-end gap-x-3 gap-y-2"
           contextLabel={project.title}
         />
       </div>

@@ -105,13 +105,14 @@ export function SkillPill({
     ? `cursor-help ${isTriggerActive ? 'underline decoration-dotted underline-offset-2 brightness-125' : ''} hover:underline hover:decoration-dotted hover:underline-offset-2 hover:brightness-125 ${FOCUS_RING_CLASSES}`
     : 'hover:brightness-125'
   const pillStyle = { color: textColor, backgroundColor: bgColor }
-  const pillClasses = `inline-flex items-center justify-center whitespace-nowrap rounded-full transition-[background-color,color,filter,text-decoration-color] duration-200 ${interactiveClasses} ${sizeClasses[size]} ${className}`
+  // max-w-full + the truncating label keep a long name inside a narrow container
+  const pillClasses = `inline-flex max-w-full items-center justify-center whitespace-nowrap rounded-full transition-[background-color,color,filter,text-decoration-color] duration-200 ${interactiveClasses} ${sizeClasses[size]} ${className}`
 
   if (!hasTooltip)
   {
     return (
       <span style={pillStyle} className={pillClasses} aria-label={label}>
-        {label}
+        <span className="truncate">{label}</span>
       </span>
     )
   }
@@ -149,7 +150,7 @@ export function SkillPill({
           setIsTooltipReady(false)
         }}
       >
-        {label}
+        <span className="truncate">{label}</span>
       </button>
       <SkillTooltip
         id={tooltipId}

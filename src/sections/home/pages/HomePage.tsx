@@ -23,7 +23,7 @@ export function HomePage()
   useViewportFit(contentRef, waveRef)
 
   return (
-    <div className="relative min-h-screen overflow-hidden short-landscape:min-h-dvh">
+    <div className="relative min-h-screen overflow-hidden short-landscape:min-h-dvh in-data-home-overflow:pb-[10.75rem]">
       {/* short desktops center content in the space above the wave
           (10.75rem = WAVE_HEIGHT in DecorativeWave) */}
       <PageShell className="relative py-12 short-desktop:flex short-desktop:min-h-[calc(100vh-10.75rem)] short-desktop:flex-col short-desktop:justify-center short-desktop:py-5 short-landscape:px-6 short-landscape:pt-4 short-landscape:pb-14 min-[2560px]:max-w-[87.5rem]">
@@ -31,7 +31,7 @@ export function HomePage()
           ref={contentRef}
           className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-20 short-landscape:grid-cols-2 short-landscape:gap-7"
         >
-          <div className="space-y-6 short-desktop:space-y-3 short-landscape:space-y-2.5">
+          <div className="min-w-0 space-y-6 short-desktop:space-y-3 short-landscape:space-y-2.5">
             <Hero />
             <About />
             <EducationHistory />
