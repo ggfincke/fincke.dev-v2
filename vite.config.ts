@@ -10,14 +10,15 @@ import { resolveProjectReleases } from './scripts/lib/githubReleases.ts'
 import { applyRouteHead } from './scripts/lib/routeHtml.ts'
 import {
   PUBLIC_ROUTES,
-  SITE_ORIGIN,
+  getPublicRouteUrl,
 } from './src/shared/routing/publicRoutes.ts'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-// emit `${slug}.html` per non-home route so hosts serve route-specific <head>
-// meta at the bare path (Cloudflare & vite preview both map /x -> x.html)
+// write each route's <head> meta: home into index.html itself, every other
+// route into `${slug}.html` so hosts serve it at the bare path (Cloudflare &
+// vite preview both map /x -> x.html)
 function routeHeadPages(): Plugin
 {
   return {
@@ -32,19 +33,22 @@ function routeHeadPages(): Plugin
         this.error('route-head-pages: built index.html not found')
       }
 
+      const template = index.source
       for (const route of PUBLIC_ROUTES)
       {
-        if (!('head' in route))
+        const source = applyRouteHead(template, {
+          ...route.head,
+          url: getPublicRouteUrl(route),
+        })
+        if (route.path === '/')
         {
+          index.source = source
           continue
         }
         this.emitFile({
           type: 'asset',
           fileName: `${route.slug}.html`,
-          source: applyRouteHead(index.source, {
-            ...route.head,
-            url: new URL(route.path, SITE_ORIGIN).toString(),
-          }),
+          source,
         })
       }
     },

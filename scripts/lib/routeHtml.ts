@@ -1,56 +1,36 @@
 // scripts/lib/routeHtml.ts
-// rewrites the built index.html <head> for a non-home public route
+// rewrites the built index.html <head> for a public route
 
-export interface RouteHead
+// relative on purpose: vite.config.ts loads this file w/o the `~` alias
+import {
+  ROUTE_HEAD_TAGS,
+  type RouteHeadField,
+} from '../../src/shared/routing/publicRoutes.ts'
+
+export type RouteHead = Record<RouteHeadField, string>
+
+interface HeadReplacement
 {
-  title: string
-  description: string
-  url: string
+  pattern: RegExp
+  field: RouteHeadField
 }
 
-// each pattern must match the index.html template; a miss throws so a
-// template edit can't silently ship a route page w/ the home page's meta
-const HEAD_REPLACEMENTS: ReadonlyArray<{
-  pattern: RegExp
-  value: (head: RouteHead) => string
-}> = [
-  { pattern: /(<title>)[^<]*(<\/title>)/, value: (head) => head.title },
-  {
-    pattern: /(<meta\s+name="title"\s+content=")[^"]*(")/,
-    value: (head) => head.title,
-  },
-  {
-    pattern: /(<meta\s+property="og:title"\s+content=")[^"]*(")/,
-    value: (head) => head.title,
-  },
-  {
-    pattern: /(<meta\s+name="twitter:title"\s+content=")[^"]*(")/,
-    value: (head) => head.title,
-  },
-  {
-    pattern: /(<meta\s+name="description"\s+content=")[^"]*(")/,
-    value: (head) => head.description,
-  },
-  {
-    pattern: /(<meta\s+property="og:description"\s+content=")[^"]*(")/,
-    value: (head) => head.description,
-  },
-  {
-    pattern: /(<meta\s+name="twitter:description"\s+content=")[^"]*(")/,
-    value: (head) => head.description,
-  },
-  {
-    pattern: /(<link\s+rel="canonical"\s+href=")[^"]*(")/,
-    value: (head) => head.url,
-  },
-  {
-    pattern: /(<meta\s+property="og:url"\s+content=")[^"]*(")/,
-    value: (head) => head.url,
-  },
-  {
-    pattern: /(<meta\s+name="twitter:url"\s+content=")[^"]*(")/,
-    value: (head) => head.url,
-  },
+function escapeRegExp(value: string): string
+{
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+// each pattern must match the index.html template exactly once; anything else
+// throws so a template edit can't silently ship a route page w/ stale meta
+const HEAD_REPLACEMENTS: readonly HeadReplacement[] = [
+  { pattern: /(<title>)[^<]*(<\/title>)/g, field: 'title' },
+  ...ROUTE_HEAD_TAGS.map(({ tag, match, attribute, field }) => ({
+    pattern: new RegExp(
+      `(<${tag}\\s+${match[0]}="${escapeRegExp(match[1])}"\\s+${attribute}=")[^"]*(")`,
+      'g'
+    ),
+    field,
+  })),
 ]
 
 function escapeAttribute(value: string): string
@@ -62,18 +42,39 @@ function escapeAttribute(value: string): string
     .replaceAll('>', '&gt;')
 }
 
+// blank out comment bodies at the same length, so a commented-out tag can't
+// match while every offset still lines up w/ the original document
+function maskComments(html: string): string
+{
+  return html.replace(/<!--[\s\S]*?-->/g, (comment) =>
+    ' '.repeat(comment.length)
+  )
+}
+
+function replaceLiveTag(html: string, pattern: RegExp, value: string): string
+{
+  const matches = [...maskComments(html).matchAll(pattern)]
+  const [match] = matches
+  if (matches.length !== 1 || !match)
+  {
+    throw new Error(
+      `index.html must have exactly one live tag matching ${pattern} (found ${matches.length})`
+    )
+  }
+
+  const [whole, open, close] = match
+  return (
+    html.slice(0, match.index) +
+    `${open}${escapeAttribute(value)}${close}` +
+    html.slice(match.index + whole.length)
+  )
+}
+
 export function applyRouteHead(html: string, head: RouteHead): string
 {
-  return HEAD_REPLACEMENTS.reduce((current, { pattern, value }) =>
-  {
-    if (!pattern.test(current))
-    {
-      throw new Error(`index.html is missing the tag matched by ${pattern}`)
-    }
-    return current.replace(
-      pattern,
-      (_, open: string, close: string) =>
-        `${open}${escapeAttribute(value(head))}${close}`
-    )
-  }, html)
+  return HEAD_REPLACEMENTS.reduce(
+    (current, { pattern, field }) =>
+      replaceLiveTag(current, pattern, head[field]),
+    html
+  )
 }

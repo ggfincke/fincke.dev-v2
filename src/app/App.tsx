@@ -9,14 +9,14 @@ import {
   getAnalyticsPagePath,
   trackAnalyticsEvent,
 } from '~/shared/analytics/track-event'
-import { useCanonicalUrl } from '~/shared/hooks/useCanonicalUrl'
+import { useRouteHead } from '~/shared/hooks/useRouteHead'
 
 // * Root app layout route
 function App()
 {
   const { pathname } = useLocation()
   const pagePath = getAnalyticsPagePath(pathname)
-  useCanonicalUrl()
+  useRouteHead()
 
   useEffect(() =>
   {

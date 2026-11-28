@@ -3,8 +3,8 @@
 
 import type { AnalyticsEvent } from '~/shared/analytics/events'
 import {
-  PUBLIC_ROUTES,
   SITE_ORIGIN,
+  matchPublicRoute,
   type PublicRoutePath,
 } from '~/shared/routing/publicRoutes'
 
@@ -12,8 +12,7 @@ export function getAnalyticsPagePath(
   pathname: string
 ): PublicRoutePath | undefined
 {
-  const path = pathname.replace(/\/+$/, '').toLowerCase() || '/'
-  return PUBLIC_ROUTES.find((route) => route.path === path)?.path
+  return matchPublicRoute(pathname)?.path
 }
 
 export function trackAnalyticsEvent(

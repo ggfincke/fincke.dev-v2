@@ -13,6 +13,8 @@ interface FullScreenMessagePageProps
   // pre-styled <h1> & <p> elements composed by the caller
   children: ReactNode
   homeLabel?: string
+  // extra control rendered beside the home link
+  action?: ReactNode
 }
 
 // centered full-screen feedback page shell
@@ -20,15 +22,19 @@ export function FullScreenMessagePage({
   visual,
   children,
   homeLabel = 'Go home',
+  action,
 }: FullScreenMessagePageProps)
 {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg)] px-4 text-center text-[var(--muted)]">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg)] px-4 text-center text-[var(--muted)]">
       {visual}
       {children}
-      <Link to="/" className={FULL_SCREEN_MESSAGE_ACTION_CLASSES}>
-        {homeLabel}
-      </Link>
-    </div>
+      <div className="flex flex-wrap items-center justify-center gap-x-3">
+        {action}
+        <Link to="/" className={FULL_SCREEN_MESSAGE_ACTION_CLASSES}>
+          {homeLabel}
+        </Link>
+      </div>
+    </main>
   )
 }
