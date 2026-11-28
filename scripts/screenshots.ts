@@ -209,25 +209,27 @@ async function captureViewport(
           }
           return true
         }
-        const finite = () => document.getAnimations().filter((a) => {
+        // forwards-filled animations stay listed after they end, so "done"
+        // means finished, not gone
+        const running = () => document.getAnimations().filter((a) => {
           const t = a.effect && a.effect.getComputedTiming()
           return t && Number.isFinite(t.iterations)
-            && Number.isFinite(t.duration)
+            && Number.isFinite(t.duration) && a.playState !== 'finished'
         })
         const tick = async () => {
           const left = cap - (performance.now() - start)
           if (left <= 0) {
-            const names = finite().map((a) => a.animationName || a.transitionProperty || 'animation')
-            return resolve(names.length > 0 ? names : ['staggered rows never became visible'])
+            const names = running().map((a) => a.animationName || a.transitionProperty || 'animation')
+            return resolve(names.length > 0 ? [...new Set(names)] : ['staggered rows never became visible'])
           }
           // a paused animation never finishes, so the drain races the time left
           await Promise.race([
-            Promise.all(finite().map((a) => a.finished.catch(() => undefined))),
+            Promise.all(running().map((a) => a.finished.catch(() => undefined))),
             new Promise((r) => setTimeout(r, left)),
           ])
           // give one frame for late mounts to register a fresh animation
           await new Promise((r) => requestAnimationFrame(() => r()))
-          if (settled() && document.getAnimations().length === 0) {
+          if (settled() && running().length === 0) {
             resolve([])
           } else {
             tick()
