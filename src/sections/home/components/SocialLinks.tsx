@@ -117,7 +117,7 @@ export function SocialLinks()
   return (
     <nav
       aria-label={SOCIAL_LINKS_CONTENT.ariaLabel}
-      className="animate-slide-in-left flex gap-4 opacity-0"
+      className="animate-slide-in-left flex flex-wrap gap-4 opacity-0"
       style={{ animationDelay: ANIMATION_DELAYS.socialLinks }}
     >
       {SOCIAL_LINKS.map((link: SocialLink) =>

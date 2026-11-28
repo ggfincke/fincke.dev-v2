@@ -146,11 +146,11 @@ Project, work, and education IDs are contract-tested against their authored arra
 - A separate scheduled/manual GitHub Actions workflow runs `bun run content:health`
 - The full screenshot sweep remains manual review; CI only captures the lightweight smoke screenshot matrix
 - Release tags must be reachable from `main`
-- Stable release tags open a pull request that promotes the exact tagged commit to `prod`
+- The latest stable release tag pushes the exact tagged commit to `prod` directly, with no pull request
 
 ## Deployment
 
-`main` is the integration branch. `prod` is the production branch and should be the Cloudflare production deployment source. Stable `v*` tags open a pull request to promote the tagged commit to `prod`; prerelease tags create GitHub prereleases without moving production. Generate a static bundle with `bun run build` and deploy the `dist/` output to the static host of your choice.
+`main` is the integration branch. `prod` is the production branch and should be the Cloudflare production deployment source. The latest stable `v*` tag pushes the tagged commit straight to `prod` (no review step); prerelease tags create GitHub prereleases without moving production. Generate a static bundle with `bun run build` and deploy the `dist/` output to the static host of your choice.
 
 Cloudflare Pages must use `bun install --frozen-lockfile && bun run build` as the build command. The v3 build image installs Bun from `BUN_VERSION` / `packageManager`, but it does not automatically install dependencies from `bun.lock`, so the explicit install keeps devDependencies available for the TypeScript build.
 

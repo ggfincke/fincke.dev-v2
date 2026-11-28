@@ -34,8 +34,12 @@ export function SkillPill({
   hoverDelay = DEFAULT_HOVER_DELAY,
 }: SkillPillProps)
 {
-  const [isTriggerActive, setIsTriggerActive] = useState(false)
+  // hover & keyboard focus tracked apart so either one alone holds the
+  // tooltip; mouse-click focus isn't focus-visible, so it never sticks
+  const [isHovered, setIsHovered] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
   const [isTooltipReady, setIsTooltipReady] = useState(false)
+  const isTriggerActive = isHovered || isFocused
   const triggerRef = useRef<HTMLButtonElement>(null)
   const tooltipId = useId()
   const { label, textColor, bgColor } = getTechnologyDisplay(technologyId)
@@ -78,7 +82,8 @@ export function SkillPill({
     {
       if (event.key === 'Escape')
       {
-        setIsTriggerActive(false)
+        setIsHovered(false)
+        setIsFocused(false)
         setIsTooltipReady(false)
       }
     }
@@ -120,24 +125,27 @@ export function SkillPill({
         className={`appearance-none border-0 ${pillClasses}`}
         aria-label={label}
         aria-describedby={showTooltip ? tooltipId : undefined}
-        onMouseEnter={() =>
-        {
-          setIsTriggerActive(true)
-          setIsTooltipReady(false)
-        }}
+        onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() =>
         {
-          setIsTriggerActive(false)
-          setIsTooltipReady(false)
+          setIsHovered(false)
+          if (!isFocused)
+          {
+            setIsTooltipReady(false)
+          }
         }}
-        onFocus={() =>
+        onFocus={(event) =>
         {
-          setIsTriggerActive(true)
-          setIsTooltipReady(false)
+          if (event.currentTarget.matches(':focus-visible'))
+          {
+            setIsFocused(true)
+          }
         }}
+        // blur clears hover too; touch taps emulate hover w/o a reliable leave
         onBlur={() =>
         {
-          setIsTriggerActive(false)
+          setIsFocused(false)
+          setIsHovered(false)
           setIsTooltipReady(false)
         }}
       >
