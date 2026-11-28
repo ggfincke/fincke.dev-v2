@@ -43,7 +43,8 @@ export function FeaturedProjectCard({ project }: FeaturedProjectCardProps)
         />
       )}
 
-      <div className="min-w-0 flex-1">
+      {/* a slight inset wherever the text sits under the image frame */}
+      <div className="min-w-0 flex-1 px-1 sm:px-0 compact-projects:px-1">
         <ProjectIdentity
           title={project.title}
           variant="featured"
