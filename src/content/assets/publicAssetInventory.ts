@@ -31,18 +31,22 @@ const SCHOOL_LOGO_INVENTORY = [
   },
 ] satisfies PublicAssetReference[]
 
+// index.html publishes this URL as the JSON-LD Person.image, so a missing file
+// must fail validation even though no component renders it
+const PROFILE_PHOTO_INVENTORY: PublicAssetReference = {
+  path: PROFILE_PHOTO_PATH,
+  category: 'runtime',
+  storage: 'public',
+  source: 'JSON-LD Person.image & OG card source photo',
+}
+
 export const PUBLIC_RUNTIME_ASSETS = deepFreeze([
   RESUME_INVENTORY,
+  PROFILE_PHOTO_INVENTORY,
   ...SCHOOL_LOGO_INVENTORY,
 ] satisfies PublicAssetReference[])
 
 export const RETAINED_PUBLIC_ASSETS = deepFreeze([
-  {
-    path: PROFILE_PHOTO_PATH,
-    category: 'retained',
-    storage: 'public',
-    source: 'OG card source photo & JSON-LD image',
-  },
   {
     path: '/documents/resume-master.pdf',
     category: 'retained',

@@ -104,7 +104,7 @@ function ProjectTableRowImpl({
           liveUrl={project.liveUrl}
           additionalLinks={project.additionalLinks}
           variant="icon"
-          className="flex space-x-4"
+          className="flex flex-wrap gap-x-4 gap-y-2"
           contextLabel={project.title}
         />
       </td>

@@ -41,9 +41,7 @@ function ProjectMeta({
     <div className="flex items-center gap-4">
       <StatusBadge status={project.status} />
       <span className="text-[var(--muted)] text-sm italic">
-        {viewModel.releaseVersion && (
-          <VersionBadge version={viewModel.releaseVersion} />
-        )}
+        {viewModel.version && <VersionBadge version={viewModel.version} />}
         {viewModel.periodLabel}
       </span>
     </div>

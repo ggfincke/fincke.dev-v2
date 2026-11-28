@@ -40,12 +40,12 @@ export function About()
       {HIGHLIGHTED_PARAGRAPHS.map((nodes, index) => (
         <p
           key={index}
-          className="mt-3 text-sm leading-relaxed text-[var(--muted)]"
+          className="mt-3 text-sm leading-relaxed text-[var(--muted)] short-landscape:mt-2 short-landscape:leading-snug short-landscape:not-first:hidden"
         >
           {nodes}
         </p>
       ))}
-      <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
+      <p className="mt-3 text-sm leading-relaxed text-[var(--muted)] short-landscape:hidden">
         {ABOUT_CONTENT.contact.prefix}
         <InlineLink href={`mailto:${ABOUT_CONTENT.email}`}>
           {ABOUT_CONTENT.email}

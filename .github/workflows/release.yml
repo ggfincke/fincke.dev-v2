@@ -5,16 +5,26 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
 jobs:
-  release:
+  # read-only: runs dependency installs & project scripts w/o a write token
+  verify:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    outputs:
+      sha: ${{ steps.preflight.outputs.sha }}
+      notes: ${{ steps.preflight.outputs.notes }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           fetch-depth: 0
-      - uses: oven-sh/setup-bun@v2
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version-file: package.json
 
@@ -23,89 +33,168 @@ jobs:
           git fetch --prune origin +refs/heads/main:refs/remotes/origin/main
           git merge-base --is-ancestor HEAD origin/main
 
+      # tag syntax, tag vs package.json version, & non-empty changelog notes
+      - name: Release preflight
+        id: preflight
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          notes_file="${RUNNER_TEMP}/release-notes.md"
+          bun scripts/release-preflight.ts "$TAG" "$notes_file"
+          delimiter="notes-$(openssl rand -hex 16)"
+          {
+            echo "sha=$(git rev-parse 'HEAD^{commit}')"
+            echo "notes<<${delimiter}"
+            cat "$notes_file"
+            echo "${delimiter}"
+          } >> "$GITHUB_OUTPUT"
+
       - run: bun ci
       - run: bun run ci:check
 
-      - name: Promote stable release to prod branch
-        if: ${{ !contains(github.ref_name, '-') }}
+  # write-capable: no installs or project scripts, only git & the release action
+  publish:
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      TAG: ${{ github.ref_name }}
+      VERIFIED_SHA: ${{ needs.verify.outputs.sha }}
+      PRERELEASE: ${{ contains(github.ref_name, '-') }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ needs.verify.outputs.sha }}
+          fetch-depth: 0
+
+      - name: Check verified inputs
+        env:
+          NOTES: ${{ needs.verify.outputs.notes }}
         run: |
-          git fetch --prune --tags origin \
-            +refs/heads/main:refs/remotes/origin/main \
-            +refs/heads/prod:refs/remotes/origin/prod
-
-          stable_tags="$(
-            git tag --merged origin/main --list 'v[0-9]*' --sort=v:refname |
-              grep -Ev '-' ||
-              true
-          )"
-          latest_stable_tag="$(printf '%s\n' "$stable_tags" | tail -n 1)"
-
-          if [ -z "$latest_stable_tag" ]; then
-            echo '::error::No stable release tags were found on main.'
+          if ! [[ "$VERIFIED_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            echo '::error::verify job did not provide a commit SHA.'
             exit 1
           fi
-
-          if [ "$GITHUB_REF_NAME" != "$latest_stable_tag" ]; then
-            echo "Skipping prod promotion for ${GITHUB_REF_NAME}; latest stable tag is ${latest_stable_tag}."
-            exit 0
-          fi
-
-          if git diff --quiet origin/prod HEAD; then
-            echo "prod already matches ${GITHUB_REF_NAME}; no promotion needed."
-            exit 0
-          fi
-
-          if git merge-base --is-ancestor HEAD origin/prod; then
-            echo "prod already contains ${GITHUB_REF_NAME}; no promotion needed."
-            exit 0
-          fi
-
-          if git merge-base --is-ancestor origin/prod HEAD; then
-            git push origin HEAD:prod
-            exit 0
-          fi
-
-          prod_tree="$(git rev-parse 'origin/prod^{tree}')"
-          matching_prod_tree_commit="$(
-            git log --format='%H %T' HEAD | awk -v t="$prod_tree" '$2==t{print $1; exit}'
-          )"
-
-          if [ -z "$matching_prod_tree_commit" ]; then
-            echo "::error::origin/prod does not match an ancestor of ${GITHUB_REF_NAME}; refusing promotion."
+          if ! [[ "$NOTES" =~ [^[:space:]] ]]; then
+            echo '::error::verify job did not provide release notes.'
             exit 1
           fi
+          {
+            printf '%s\n\n' "$NOTES"
+            printf '**Full Changelog**: %s/%s/commits/%s\n' \
+              "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$TAG"
+          } > release-notes.md
 
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-
-          promotion_commit="$(
-            git commit-tree \
-              'HEAD^{tree}' \
-              -p origin/prod \
-              -p HEAD \
-              -m "Promote ${GITHUB_REF_NAME} to prod"
-          )"
-
-          echo "Promoting ${GITHUB_REF_NAME} after $(git rev-parse --short "$matching_prod_tree_commit")."
-          git push origin "${promotion_commit}:prod"
-
-      - name: Get version from tag
-        id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-
-      - name: Extract release notes from changelog
+      - name: Promote stable release to prod
+        id: promote
         run: |
-          VERSION="${GITHUB_REF#refs/tags/v}"
-          awk "/^## \\[$VERSION\\]/{found=1; next} /^## \\[/{if(found) exit} found{print}" CHANGELOG.md > release-notes.md
-          echo "" >> release-notes.md
-          echo "**Full Changelog**: https://github.com/ggfincke/fincke.dev-v2/commits/v$VERSION" >> release-notes.md
+          make_latest=false
+          push_rejected=false
+
+          # one promotion pass against the remote as it is right now; a
+          # rejected push sets push_rejected instead of failing the step
+          promote() {
+            # forced & pruned so a moved or deleted tag is seen, not the
+            # copy fetched at checkout
+            git fetch --prune origin \
+              '+refs/heads/main:refs/remotes/origin/main' \
+              '+refs/heads/prod:refs/remotes/origin/prod' \
+              '+refs/tags/*:refs/tags/*'
+
+            tag_commit="$(git rev-parse --verify --quiet "refs/tags/${TAG}^{commit}" || true)"
+            if [ "$tag_commit" != "$VERIFIED_SHA" ]; then
+              echo "::error::${TAG} now resolves to '${tag_commit:-nothing}', not verified ${VERIFIED_SHA}."
+              exit 1
+            fi
+
+            if ! git merge-base --is-ancestor "$VERIFIED_SHA" origin/main; then
+              echo "::error::${TAG} is not reachable from main."
+              exit 1
+            fi
+
+            make_latest=false
+            if [ "$PRERELEASE" = 'true' ]; then
+              echo "Prerelease ${TAG}: publishing without moving prod."
+              return 0
+            fi
+
+            latest_stable_tag="$(
+              git tag --merged origin/main --list 'v[0-9]*' --sort=v:refname |
+                { grep -E -e '^v[0-9]+\.[0-9]+\.[0-9]+$' || true; } |
+                tail -n 1
+            )"
+
+            if [ -z "$latest_stable_tag" ]; then
+              echo '::error::No stable release tags were found on main.'
+              exit 1
+            fi
+
+            if [ "$TAG" != "$latest_stable_tag" ]; then
+              echo "Skipping prod promotion for ${TAG}; latest stable tag is ${latest_stable_tag}."
+              return 0
+            fi
+
+            make_latest=true
+            prod_tree="$(git rev-parse 'origin/prod^{tree}')"
+            tag_tree="$(git rev-parse "${VERIFIED_SHA}^{tree}")"
+
+            if [ "$prod_tree" = "$tag_tree" ]; then
+              echo "prod already matches ${TAG}; no promotion needed."
+              return 0
+            fi
+
+            if git merge-base --is-ancestor "$VERIFIED_SHA" origin/prod; then
+              echo "prod already contains ${TAG}; no promotion needed."
+              return 0
+            fi
+
+            if git merge-base --is-ancestor origin/prod "$VERIFIED_SHA"; then
+              git push origin "${VERIFIED_SHA}:refs/heads/prod" || push_rejected=true
+              return 0
+            fi
+
+            # no early exit in awk: under pipefail that would SIGPIPE git log
+            matching_prod_tree_commit="$(
+              git log --format='%H %T' "$VERIFIED_SHA" |
+                awk -v t="$prod_tree" '$2 == t && !found { found = $1 } END { print found }'
+            )"
+
+            if [ -z "$matching_prod_tree_commit" ]; then
+              echo "::error::origin/prod does not match an ancestor of ${TAG}; refusing promotion."
+              exit 1
+            fi
+
+            promotion_commit="$(
+              git -c user.name='github-actions[bot]' \
+                -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+                commit-tree "$tag_tree" -p origin/prod -p "$VERIFIED_SHA" \
+                -m "Promote ${TAG} to prod"
+            )"
+
+            echo "Promoting ${TAG} after $(git rev-parse --short "$matching_prod_tree_commit")."
+            git push origin "${promotion_commit}:refs/heads/prod" || push_rejected=true
+          }
+
+          promote
+          if [ "$push_rejected" = 'true' ]; then
+            echo 'prod push was rejected; re-evaluating against the updated remote once.'
+            push_rejected=false
+            promote
+            if [ "$push_rejected" = 'true' ]; then
+              echo '::error::prod push was rejected twice; nothing was published.'
+              exit 1
+            fi
+          fi
+
+          printf 'make_latest=%s\n' "$make_latest" >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
         with:
-          name: v${{ steps.version.outputs.VERSION }}
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
           body_path: release-notes.md
           draft: false
           prerelease: ${{ contains(github.ref_name, '-') }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          make_latest: ${{ steps.promote.outputs.make_latest }}

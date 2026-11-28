@@ -3,8 +3,9 @@
 
 import { useEffect } from 'react'
 
-// must match the static <title> in index.html
-const DEFAULT_TITLE = 'Garrett Fincke | Software Engineer'
+import { HOME_HEAD } from '~/shared/routing/publicRoutes'
+
+const DEFAULT_TITLE = HOME_HEAD.title
 
 // set the document title for a route; restores the default on unmount
 export function usePageTitle(title?: string): void

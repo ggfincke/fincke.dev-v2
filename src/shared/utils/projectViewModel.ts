@@ -18,7 +18,8 @@ export interface ProjectViewModel
   detailsLabel: string
   imageAlt: string
   tagline?: string
-  releaseVersion?: string
+  // badge version: the fetched release, else the authored one
+  version?: string
 }
 
 // "Some sentence." + v1.2.3 -> "Some sentence (v1.2.3)."
@@ -47,7 +48,8 @@ export function getProjectViewModel(project: Project): ProjectViewModel
   const hasLinks = project.contentStatus.links.availability === 'available'
   const hasMedia = project.contentStatus.media.availability === 'available'
   const releaseVersion = getRepoRelease(project.repoUrl)
-  const taglineVersion = project.version && (releaseVersion ?? project.version)
+  // fetched release when the build resolved one, else the authored version
+  const version = releaseVersion ?? project.version
 
   const viewModel: ProjectViewModel = {
     primaryHref: hasLinks ? (project.liveUrl ?? project.repoUrl) : undefined,
@@ -60,10 +62,10 @@ export function getProjectViewModel(project: Project): ProjectViewModel
     detailsLabel: `Details for ${project.title}`,
     imageAlt: project.imageAlt ?? `${project.title} screenshot`,
     tagline:
-      project.tagline && taglineVersion
-        ? withVersion(project.tagline, taglineVersion)
+      project.tagline && project.version && version
+        ? withVersion(project.tagline, version)
         : project.tagline,
-    releaseVersion,
+    version,
   }
 
   VIEW_MODEL_CACHE.set(project, viewModel)

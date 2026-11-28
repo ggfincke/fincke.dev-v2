@@ -41,6 +41,7 @@ function PhoneRevealButton()
 {
   const [revealed, setRevealed] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() =>
   {
@@ -63,6 +64,11 @@ function PhoneRevealButton()
     {
       if (event.key === 'Escape')
       {
+        // the focused call link is about to unmount; keep focus on its trigger
+        if (containerRef.current?.contains(document.activeElement))
+        {
+          buttonRef.current?.focus()
+        }
         setRevealed(false)
       }
     }
@@ -79,6 +85,7 @@ function PhoneRevealButton()
   return (
     <div ref={containerRef} className="relative">
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => setRevealed((current) => !current)}
         aria-label={
@@ -117,7 +124,7 @@ export function SocialLinks()
   return (
     <nav
       aria-label={SOCIAL_LINKS_CONTENT.ariaLabel}
-      className="animate-slide-in-left flex gap-4 opacity-0"
+      className="animate-slide-in-left flex flex-wrap gap-4 opacity-0"
       style={{ animationDelay: ANIMATION_DELAYS.socialLinks }}
     >
       {SOCIAL_LINKS.map((link: SocialLink) =>

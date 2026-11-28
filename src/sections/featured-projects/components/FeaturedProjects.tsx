@@ -23,10 +23,11 @@ export function FeaturedProjects()
   const isStacked = useMediaQuery(BREAKPOINTS.stackedLayout)
   // compact cards sit side by side, so a third one fits the row
   const isShortDesktop = useMediaQuery(BREAKPOINTS.shortDesktop)
+  const isShortLandscape = useMediaQuery(BREAKPOINTS.shortLandscape)
   const showExpandedProjects = useMediaQuery(BREAKPOINTS.ultraWide)
   const showTallProjects = useMediaQuery(BREAKPOINTS.tallViewport)
   const featured = getFeaturedProjects(
-    isStacked || showExpandedProjects,
+    (isStacked && !isShortLandscape) || showExpandedProjects,
     isStacked || isShortDesktop || showTallProjects
   )
   const ctaStagger = getStaggerProps(
@@ -42,7 +43,7 @@ export function FeaturedProjects()
       </h2>
       {/* short desktops put the cards side by side, one column per project */}
       <div
-        className="space-y-3 min-[1728px]:space-y-4 short-desktop:grid short-desktop:grid-cols-[repeat(var(--featured-count),minmax(0,1fr))] short-desktop:gap-x-4 short-desktop:gap-y-3 short-desktop:space-y-0"
+        className="space-y-3 min-[1728px]:space-y-4 compact-projects:grid compact-projects:grid-cols-[repeat(var(--featured-count),minmax(0,1fr))] compact-projects:space-y-0 short-desktop:gap-x-4 short-desktop:gap-y-3 short-landscape:gap-2.5"
         style={{ '--featured-count': featured.length } as CSSProperties}
       >
         {featured.map((project, index) => (
@@ -61,7 +62,7 @@ export function FeaturedProjects()
           icon={<ArrowIcon />}
           className={cn(
             ctaStagger.className,
-            'short-desktop:col-span-full short-desktop:justify-self-start'
+            'compact-projects:col-span-full compact-projects:justify-self-start'
           )}
           style={ctaStagger.style}
         >

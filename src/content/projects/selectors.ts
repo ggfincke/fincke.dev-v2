@@ -56,14 +56,12 @@ const PROJECTS_BY_TECHNOLOGY: ReadonlyMap<TechnologyId, readonly Project[]> =
         bucket.push(project)
       }
     }
-    const readonlyIndex = new Map<TechnologyId, readonly Project[]>()
-
-    for (const [technologyId, projectList] of index)
+    for (const projectList of index.values())
     {
-      readonlyIndex.set(technologyId, Object.freeze(projectList))
+      Object.freeze(projectList)
     }
 
-    return readonlyIndex
+    return index
   })()
 
 const EMPTY_PROJECT_LIST: readonly Project[] = Object.freeze([])

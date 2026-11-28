@@ -4,19 +4,7 @@ Current maintainer reference for the consolidated `fincke.dev-v2` codebase. This
 
 ## Stack Snapshot
 
-Current `package.json` versions:
-
-| Technology       | Version |
-| ---------------- | ------- |
-| React            | 19.1.1  |
-| React DOM        | 19.1.1  |
-| React Router DOM | 7.9.3   |
-| TypeScript       | ~5.8.3  |
-| Vite             | ^7.1.7  |
-| Tailwind CSS     | ^4.0.0  |
-| Vitest           | ^4.1.2  |
-| Playwright       | ^1.58.2 |
-| Lighthouse       | ^12.8.2 |
+React, React DOM, and React Router DOM at runtime; TypeScript, Vite, Tailwind CSS, Vitest, Playwright, and Lighthouse for build and verification. `package.json` is the only source of truth for versions.
 
 ## Runtime Shape
 
@@ -33,7 +21,9 @@ Current `package.json` versions:
 - `vite.config.ts` (`githubReleases`)
   On production builds, resolves each GitHub-linked project's newest release via `scripts/lib/githubReleases.ts` (set `GITHUB_TOKEN` to raise API limits) and injects it as `__GITHUB_RELEASES__`; `src/shared/utils/githubReleases.ts` reads it for tagline versions and the archive's version badge, falling back to each project's authored `version`
 - `vite.config.ts` (`routeHeadPages`)
-  Emits `<slug>.html` (e.g. `projects.html`) from the built `index.html` for each route w/ `head` metadata, via `scripts/lib/routeHtml.ts`, so link previews and crawlers see route-specific title/description/canonical tags. Cloudflare and `vite preview` serve it at the bare path.
+  Writes each route's `head` metadata into the built HTML via `scripts/lib/routeHtml.ts`: home into `index.html` itself and every other route into `<slug>.html` (e.g. `projects.html`), so link previews and crawlers see route-specific title/description/canonical tags. Cloudflare and `vite preview` serve it at the bare path.
+- `src/shared/hooks/useRouteHead.ts`
+  Rewrites the same tags on client navigation. Both sides walk `ROUTE_HEAD_TAGS` in `publicRoutes.ts`, so the list of route-specific tags has one owner.
 
 ### Shared App Chrome
 
@@ -138,8 +128,9 @@ Typed contracts live under `src/shared/types/`.
   Shared title/collaborator block for featured and archive variants
 - `src/shared/components/projects/ProjectTechnologies.tsx`
   Shared technology rendering and related-project tooltip wiring. Technology
-  pills with related-project previews are tooltip-only text/focus triggers; they
-  should not expose button semantics unless a real press action is added.
+  pills with related-project previews are buttons: hover or keyboard focus shows
+  the preview, and a press (Enter, Space, tap) toggles it, so it can be reopened
+  after Escape. Pills without a preview stay plain text.
 - `src/shared/components/projects/ProjectCollaborators.tsx`
   Shared collaborator rendering
 - `src/shared/utils/projectViewModel.ts`
@@ -230,10 +221,12 @@ Typed contracts live under `src/shared/types/`.
 
 `ci:check` is the primary CI/release gate. It runs each expensive concern once: formatting, linting, type checking, tests, asset validation, and production bundling.
 
-`browser:check` is the browser route gate. CI runs it in a dedicated job after
-`ci:check` against a Vite preview server, so axe, Lighthouse, and smoke
-screenshots exercise production-built route output without slowing the main
-deterministic check job.
+`browser:check` is the browser route gate. CI runs it in the same job, right
+after `ci:check`, against a Vite preview of the bundle that `ci:check` built,
+so axe, Lighthouse, and smoke screenshots exercise the exact output that
+passed the deterministic checks. Each check first proves it is on the intended
+route (HTTP 200, final path, and the route's own `h1`) through
+`scripts/lib/routeIdentity.ts`.
 
 ### Live and Manual Checks
 
@@ -249,6 +242,8 @@ deterministic check job.
   Lightweight Playwright route/viewport capture for CI browser smoke coverage
 - `bun run lighthouse`
   Reduced-motion desktop Lighthouse audits against the preview server
+- `bun run thumbnails`
+  Regenerates the small WebP thumbnails under `public/assets/projects/thumbs/` that featured home cards load, from each featured project's `imagePath`
 - `bun run og-image`
   Regenerates `public/assets/images/og-card.png` (1200x630 social preview) from hero content and the profile photo
 
@@ -262,6 +257,10 @@ deterministic check job.
   Re-exported site origin and public route URL helpers for screenshots, Lighthouse, and sitemap validation
 - `scripts/lib/browserAudit.ts`
   Shared local browser-audit origins, output directories, and launch flags
+- `scripts/lib/routeIdentity.ts`
+  Expected heading per public route and the status/path/heading check shared by the browser gate scripts
+- `scripts/lib/changelog.ts`
+  Strict `CHANGELOG.md` section reader and release tag preflight, shared by the `version` hook (`scripts/check-changelog.ts`) and the release workflow (`scripts/release-preflight.ts`)
 - `scripts/lib/contentInventory.ts`
   Shared inventory of external URLs and local assets
 - `scripts/lib/assetValidation.ts`
@@ -296,9 +295,11 @@ Internal audits may reference public docs, but the maintained copy belongs in
 - `prod`
   Production branch for Cloudflare deployment
 - `v*` tags
-  Release intent; the release workflow validates the tag commit and opens `prod` promotion pull requests for stable tags
+  Release intent; the release workflow validates the tag and moves `prod` directly for the latest stable tag
 
-Release tags must point at commits already reachable from `main`. For stable tags, the release workflow refuses to open a `prod` promotion pull request unless the existing `prod` branch is an ancestor of the tagged commit, so production advances only by fast-forwardable pull requests. Prerelease tags create GitHub prereleases without moving `prod`.
+The release workflow has two jobs. `verify` holds a read-only token: it checks that the tag is reachable from `main`, runs the release preflight (`vX.Y.Z` or `vX.Y.Z-<prerelease>` syntax, tag equal to the `package.json` version, a `## [version]` changelog section with notes), then installs and runs `ci:check`. `publish` holds the write token and runs no installs or project scripts: it confirms the tag still resolves to the verified commit, promotes, and creates the GitHub release from the verified notes.
+
+Promotion applies only to the newest stable tag on `main`, read from the remote at decision time. If `prod` is an ancestor of the tag it fast-forwards. If `prod` has different history but its tree equals the tree of an ancestor of the tag, the workflow pushes a two-parent promotion commit carrying the tag's tree. Any other `prod` history is refused, and nothing is force-pushed. A rejected push is re-evaluated against the updated remote once. Older stable tags publish without moving `prod` or taking the Latest label; prerelease tags create GitHub prereleases without moving `prod`.
 
 ## Tests
 
@@ -310,6 +311,7 @@ The Vitest suite runs in Node and covers only high-signal contracts:
 - project selectors and view-model derivation
 - structured date and static-prose highlighting helpers
 - asset validation and external-link policy helpers
+- release preflight: literal changelog heading match, tag syntax, and tag/manifest agreement
 
 ## Current Directory Map
 

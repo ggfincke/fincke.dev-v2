@@ -25,7 +25,7 @@ export function JobCard({ job }: JobCardProps)
 
       <div className="mb-1 text-sm text-[var(--yellow)]">{job.title}</div>
 
-      <p className="text-sm leading-relaxed text-[var(--muted)] lg:line-clamp-3">
+      <p className="text-sm leading-relaxed text-[var(--muted)] lg:line-clamp-3 short-landscape:leading-snug">
         {job.description}
       </p>
 
@@ -34,7 +34,7 @@ export function JobCard({ job }: JobCardProps)
           technologies={job.technologies}
           size="sm"
           as="ul"
-          className="mt-2 flex flex-wrap gap-2"
+          className="mt-2 flex flex-wrap gap-2 short-landscape:hidden"
         />
       )}
     </InteractiveCard>

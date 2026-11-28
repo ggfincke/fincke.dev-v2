@@ -6,6 +6,7 @@ import App from '~/app/App'
 import { HomePage } from '~/sections/home/pages/HomePage'
 import { ErrorFallback } from '~/shared/components/feedback/ErrorFallback'
 import { NotFoundPage } from '~/shared/components/feedback/NotFoundPage'
+import { RouteLoadingFallback } from '~/shared/components/feedback/RouteLoadingFallback'
 import {
   PUBLIC_ROUTE_CHILD_PATHS,
   PUBLIC_ROUTE_PATHS,
@@ -17,6 +18,8 @@ export const appRoutes: RouteObject[] = [
     path: PUBLIC_ROUTE_PATHS.home,
     element: <App />,
     errorElement: <ErrorFallback />,
+    // a direct visit to a lazy child would otherwise render nothing
+    hydrateFallbackElement: <RouteLoadingFallback />,
     children: [
       {
         index: true,

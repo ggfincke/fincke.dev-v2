@@ -1,10 +1,11 @@
 // src/shared/components/ui/SkillPill.tsx
 // skill badge w/ optional tooltip showing related projects
 
-import { useEffect, useId, useRef, useState } from 'react'
+import { useId, useRef } from 'react'
 
 import { getTechnologyDisplay, type TechnologyId } from '~/content/technologies'
 import { SkillTooltip } from '~/shared/components/feedback/SkillTooltip'
+import { useTooltipTrigger } from '~/shared/hooks/useTooltipTrigger'
 import type { Project } from '~/shared/types'
 import { FOCUS_RING_CLASSES } from '~/shared/utils/classNames'
 
@@ -34,61 +35,25 @@ export function SkillPill({
   hoverDelay = DEFAULT_HOVER_DELAY,
 }: SkillPillProps)
 {
-  const [isTriggerActive, setIsTriggerActive] = useState(false)
-  const [isTooltipReady, setIsTooltipReady] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const tooltipId = useId()
   const { label, textColor, bgColor } = getTechnologyDisplay(technologyId)
 
   const hasTooltip = showProjectsOnHover && Boolean(getRelatedProjects)
+  const {
+    isActive: isTriggerActive,
+    isOpen: showTooltip,
+    triggerProps,
+    tooltipProps,
+  } = useTooltipTrigger({
+    enabled: hasTooltip,
+    showDelay: hoverDelay,
+    triggerRef,
+  })
   const relatedProjects =
-    hasTooltip && isTriggerActive && getRelatedProjects
+    isTriggerActive && getRelatedProjects
       ? getRelatedProjects(technologyId)
       : EMPTY_PROJECTS
-  const showTooltip = hasTooltip && isTriggerActive && isTooltipReady
-
-  // delay showing tooltip until hover sticks
-  useEffect(() =>
-  {
-    if (!hasTooltip || !isTriggerActive)
-    {
-      return
-    }
-
-    const timeoutId = setTimeout(() =>
-    {
-      setIsTooltipReady(true)
-    }, hoverDelay)
-
-    return () =>
-    {
-      clearTimeout(timeoutId)
-    }
-  }, [hasTooltip, hoverDelay, isTriggerActive])
-
-  // dismiss on Escape w/o moving pointer or focus (WCAG 1.4.13)
-  useEffect(() =>
-  {
-    if (!isTriggerActive)
-    {
-      return
-    }
-
-    function handleKey(event: KeyboardEvent)
-    {
-      if (event.key === 'Escape')
-      {
-        setIsTriggerActive(false)
-        setIsTooltipReady(false)
-      }
-    }
-
-    window.addEventListener('keydown', handleKey)
-    return () =>
-    {
-      window.removeEventListener('keydown', handleKey)
-    }
-  }, [isTriggerActive])
 
   const sizeClasses = {
     xs: 'px-2 py-1 text-xs',
@@ -100,13 +65,14 @@ export function SkillPill({
     ? `cursor-help ${isTriggerActive ? 'underline decoration-dotted underline-offset-2 brightness-125' : ''} hover:underline hover:decoration-dotted hover:underline-offset-2 hover:brightness-125 ${FOCUS_RING_CLASSES}`
     : 'hover:brightness-125'
   const pillStyle = { color: textColor, backgroundColor: bgColor }
-  const pillClasses = `inline-flex items-center justify-center whitespace-nowrap rounded-full transition-[background-color,color,filter,text-decoration-color] duration-200 ${interactiveClasses} ${sizeClasses[size]} ${className}`
+  // max-w-full + the truncating label keep a long name inside a narrow container
+  const pillClasses = `inline-flex max-w-full items-center justify-center whitespace-nowrap rounded-full transition-[background-color,color,filter,text-decoration-color] duration-200 ${interactiveClasses} ${sizeClasses[size]} ${className}`
 
   if (!hasTooltip)
   {
     return (
       <span style={pillStyle} className={pillClasses} aria-label={label}>
-        {label}
+        <span className="truncate">{label}</span>
       </span>
     )
   }
@@ -120,34 +86,16 @@ export function SkillPill({
         className={`appearance-none border-0 ${pillClasses}`}
         aria-label={label}
         aria-describedby={showTooltip ? tooltipId : undefined}
-        onMouseEnter={() =>
-        {
-          setIsTriggerActive(true)
-          setIsTooltipReady(false)
-        }}
-        onMouseLeave={() =>
-        {
-          setIsTriggerActive(false)
-          setIsTooltipReady(false)
-        }}
-        onFocus={() =>
-        {
-          setIsTriggerActive(true)
-          setIsTooltipReady(false)
-        }}
-        onBlur={() =>
-        {
-          setIsTriggerActive(false)
-          setIsTooltipReady(false)
-        }}
+        {...triggerProps}
       >
-        {label}
+        <span className="truncate">{label}</span>
       </button>
       <SkillTooltip
         id={tooltipId}
         projects={relatedProjects}
         isVisible={showTooltip}
         targetRef={triggerRef}
+        {...tooltipProps}
       />
     </>
   )

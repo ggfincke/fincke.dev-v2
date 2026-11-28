@@ -14,6 +14,7 @@ import {
 } from '~/scripts/lib/browserAudit'
 import { printDivider, printTable } from '~/scripts/lib/cliFormat'
 import { requireRunningServer } from '~/scripts/lib/devServer'
+import { getRouteIdentityFailures } from '~/scripts/lib/routeIdentity'
 import { PUBLIC_ROUTES, type PublicRoute } from '~/scripts/lib/siteManifest'
 
 const ROUTE_CONCURRENCY = 2
@@ -64,7 +65,7 @@ async function main()
 
     if (blockingMessages.length > 0)
     {
-      console.error('Blocking accessibility violations:')
+      console.error('Blocking accessibility gate failures:')
       for (const message of blockingMessages)
       {
         console.error(`- ${message}`)
@@ -92,8 +93,18 @@ async function auditRoute(
   try
   {
     const page = await context.newPage()
-    await page.goto(url, { waitUntil: 'networkidle' })
+    const response = await page.goto(url, { waitUntil: 'networkidle' })
     await page.locator('main').waitFor({ state: 'visible', timeout: 10_000 })
+
+    // a clean scan of the wrong page must not pass as this route
+    for (const failure of await getRouteIdentityFailures(
+      page,
+      response,
+      route
+    ))
+    {
+      blockingMessages.push(`${route.slug}: ${failure}`)
+    }
 
     const axeResults = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])

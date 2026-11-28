@@ -336,6 +336,7 @@ export const projects = deepFreeze([
       tier: 'default',
       order: 2,
       shortTagline: 'Local-first coding agent',
+      thumbnailPath: '/assets/projects/thumbs/coral.webp',
     },
     contentStatus: {
       links: { availability: 'available' },
@@ -388,6 +389,7 @@ export const projects = deepFreeze([
       tier: 'tall',
       order: 3,
       shortTagline: 'Tier list maker with sync',
+      thumbnailPath: '/assets/projects/thumbs/tierlistbuilder.webp',
       thumbnailFocus: 'top',
     },
     contentStatus: {
@@ -711,6 +713,7 @@ export const projects = deepFreeze([
       tier: 'default',
       order: 1,
       shortTagline: 'Swim training for iOS',
+      thumbnailPath: '/assets/projects/thumbs/swimmatev2.webp',
       thumbnailFocus: '30% 22%',
     },
     contentStatus: {

@@ -1,14 +1,14 @@
 # fincke.dev
 
-[![Vite](https://img.shields.io/badge/Vite-7.1.7-646CFF?style=flat-square&logo=vite)](https://vite.dev/)
-[![React](https://img.shields.io/badge/React-19.1.1-61DAFB?style=flat-square&logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![React Router](https://img.shields.io/badge/React_Router-7.9.3-CA4245?style=flat-square&logo=react-router)](https://reactrouter.com/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite)](https://vite.dev/)
+[![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![React Router](https://img.shields.io/badge/React_Router-CA4245?style=flat-square&logo=react-router)](https://reactrouter.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 [![Website](https://img.shields.io/badge/Website-Live_on_fincke.dev-14B8A6?style=flat-square)](https://fincke.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-Personal portfolio site built with Vite 7, React 19, TypeScript, and Tailwind CSS 4. The app has two public routes: a home page that combines intro content, work history, and featured projects, and a lazy-loaded `/projects` archive with responsive table/card layouts and expandable details.
+Personal portfolio site built with Vite, React, TypeScript, and Tailwind CSS. The app has two public routes: a home page that combines intro content, work history, and featured projects, and a lazy-loaded `/projects` archive with responsive table/card layouts and expandable details.
 
 ## Live Site
 
@@ -142,15 +142,17 @@ Project, work, and education IDs are contract-tested against their authored arra
 ## Automation Notes
 
 - CI and release workflows both run `bun run ci:check`
-- CI also runs a browser verification job after `ci:check`; it builds the app, serves Vite preview, then runs `bun run browser:check`
+- CI then serves the bundle `ci:check` just built with Vite preview and runs `bun run browser:check` in the same job; each browser check confirms the HTTP status, final path, and page heading of the route it inspects
 - A separate scheduled/manual GitHub Actions workflow runs `bun run content:health`
 - The full screenshot sweep remains manual review; CI only captures the lightweight smoke screenshot matrix
-- Release tags must be reachable from `main`
-- Stable release tags open a pull request that promotes the exact tagged commit to `prod`
+- Release tags must be `vX.Y.Z` or `vX.Y.Z-<prerelease>`, reachable from `main`, equal to the `package.json` version, and backed by a `## [version]` changelog section with notes; the release workflow checks all of that before it pushes or publishes anything
+- The release workflow verifies in a read-only job, then a separate write job promotes and publishes without installing dependencies
+- The latest stable release tag moves `prod` directly, with no pull request
+- Workflow actions are pinned to commit SHAs; Dependabot proposes updates monthly
 
 ## Deployment
 
-`main` is the integration branch. `prod` is the production branch and should be the Cloudflare production deployment source. Stable `v*` tags open a pull request to promote the tagged commit to `prod`; prerelease tags create GitHub prereleases without moving production. Generate a static bundle with `bun run build` and deploy the `dist/` output to the static host of your choice.
+`main` is the integration branch. `prod` is the production branch and should be the Cloudflare production deployment source. The latest stable `v*` tag moves `prod` to the tagged tree with no review step: a fast-forward when `prod` is an ancestor of the tag, otherwise a promotion merge commit when `prod`'s tree matches an ancestor of the tag. Any other `prod` history is refused. Older stable tags publish a release without moving `prod` or taking the Latest label, and prerelease tags create GitHub prereleases without moving production. Generate a static bundle with `bun run build` and deploy the `dist/` output to the static host of your choice.
 
 Cloudflare Pages must use `bun install --frozen-lockfile && bun run build` as the build command. The v3 build image installs Bun from `BUN_VERSION` / `packageManager`, but it does not automatically install dependencies from `bun.lock`, so the explicit install keeps devDependencies available for the TypeScript build.
 
